@@ -18,6 +18,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:url" content="https://pitwall-manager.github.io/">
+<link rel="canonical" href="https://pitwall-manager.github.io/">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1371,12 +1372,53 @@ html.v-contrast .muted, html.v-contrast .dim, html.v-contrast .note { color: var
   .pw-eng-g { grid-template-columns: minmax(0, 1fr); } .pw-pvl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .pw-tools { margin-left: 0; justify-content: flex-start; }
 }
+/* v23: the pit wall's projected order carries a 6th cell (remaining stops, ≈ = estimated) */
+.pw-po .po-row { grid-template-columns: 34px 3px 40px 1fr 30px auto; }
+.pw-po .po-row > span:last-child { text-align: right; font-size: 11px; }
+
+/* v23: safety-car decision card */
+.sc-car { border: 1px solid var(--line); border-radius: var(--r); padding: 10px 12px; margin-top: 10px; background: var(--ink-2); }
+.sc-car.boxing { border-color: var(--good); }
+.sc-car-h { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+.sc-tyre { margin-left: auto; font-size: 12px; color: var(--fg-2); display: inline-flex; gap: 4px; align-items: center; }
+.sc-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 8px; font-size: 13px; }
+.sc-big { font-family: var(--f-display); font-size: 24px; }
+.sc-near { display: flex; flex-wrap: wrap; gap: 4px 8px; }
+.sc-btns { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 10px; }
+.sc-btns .btn.on { border-color: var(--fg-2); }
+.sc-foot { display: flex; align-items: center; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+@media (max-width: 700px) { .sc-grid { grid-template-columns: 1fr; } .sc-tyre { margin-left: 0; } }
+/* v23: rival strategy widget */
+.pw-riv + .pw-riv { margin-top: 10px; }
+.pw-rt { width: 100%; border-collapse: collapse; font-size: 12px; }
+.pw-rt th { font-weight: 500; color: var(--fg-3); text-align: left; padding: 2px 4px; font-size: 11px; }
+.pw-rt td { padding: 3px 4px; border-top: 1px solid var(--line); vertical-align: top; }
+.pw-rt td.ps { width: 30px; color: var(--fg-2); } .pw-rt td.cd { white-space: nowrap; } .pw-rt td.cd i { display: inline-block; width: 3px; height: 11px; margin-right: 4px; vertical-align: -1px; }
+.pw-rt tr.cov td { background: color-mix(in srgb, var(--info) 10%, transparent); }
+/* v23 live qualifying */
+.qctl.ql { border: 1px solid var(--line); border-radius: var(--r); padding: 8px 10px; }
+.qctl.ql + .qctl.ql { margin-top: 8px; }
+.ql-act { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 8px; }
+.ql-act .seg { margin-left: auto; }
+.ql-hint { margin-top: 6px; }
+.ql-sess { display: flex; gap: 6px; align-items: center; }
+.chk.sm { font-size: 12px; }
+#q-clock.chq { color: var(--fg); background: #fff; color: #000; padding: 0 6px; border-radius: 3px; }
 
 </style>
 <script src="three-r128.min.js"></script>
-<script>window.PW_WEB = {"v": "22.1", "id": "c637601a2f72", "at": "2026-10-26T10:48Z"};</script>
+<script>window.PW_WEB = {"v": "23", "id": "9f8036e406ed", "at": "2026-11-01T07:34Z"};</script>
 </head><body>
-<div id="title" hidden></div>
+<div id="title"><div class="title-in">
+<h1 class="logo" style="margin:0">Pit<span>wall</span></h1><div class="logo-sub">모터스포츠 팀 매니저</div>
+<p style="max-width:640px;color:var(--fg-2);line-height:1.7;margin-top:28px">Pitwall Manager는 가상의 레이싱 팀 감독이 되어 드라이버 계약, 차량 개발, 예산과 시설을 운영하고, 레이스 주말에는 타이어와 피트 스톱 전략을 직접 지휘하는 무료 모터스포츠 매니지먼트 웹 게임입니다. 설치 없이 PC와 모바일 브라우저에서 바로 플레이할 수 있습니다.</p>
+<ul style="color:var(--fg-2);line-height:1.8">
+<li>팀 대표 모드: 드라이버 이적시장, 차량 개발, 시설 투자, 시즌 운영</li>
+<li>전문가 모드: 라이브 타이밍, 레이스 트레이스, 피트 윈도우를 한 화면에 띄우는 실시간 피트월</li>
+<li>데이터 센터: 연습·예선·결승 랩 데이터 분석과 엑셀 내보내기</li>
+</ul>
+<noscript><p>이 게임은 JavaScript가 켜진 브라우저에서 실행됩니다.</p></noscript>
+</div></div>
 <div id="app" hidden><aside id="side"></aside><div id="main"><header id="top"></header><main id="view"></main></div></div>
 <div id="modal" hidden></div>
 <div id="toast" aria-live="polite"></div>
@@ -1905,14 +1947,20 @@ const TRACKS = {};
 // tyres (compound offsets, wear) are ×f^-0.5 and the pit-lane loss is ×f^0.5 (a faster limiter). Tyre cost over the race and the
 // cost of a stop then both scale like √f, so 1- vs 2-stop dilemmas exist at 25% and 50% the way they do over a full distance.
 function passLogitAdj(frac) { return PASS_LOGIT - PASS_LEN_K * Math.log(1 / Math.min(1, Math.max(0.1, frac || 1))); }
+// v23: share of the green-flag pit loss a stop costs under a safety car / virtual safety car (one value for every screen)
+const PIT_SC_K = { G: 1, SC: 0.52, VSC: 0.62 };
+const EST_STOP_WEAR = 70;   // the wear a rival pit wall assumes a car is pitted at (the rival teams' own target)
 function tyreTimeK(frac) { return frac > 0 && frac < 0.999 ? Math.pow(frac, -0.5) : 1; }
 function pitLossK(frac) { return frac > 0 && frac < 0.999 ? Math.pow(frac, 0.5) : 1; }
 function pitLossNominal(track, frac) { return (track.d.pit - 2.5) * pitLossK(frac) + 2.5; }
+// lap time lost to tyre wear (s), by wear % of the set. v23: near-linear degradation from the first laps with a gentle
+// rise (a soft on a high-wear track drops ~2 s over a stint, as on Pirelli's long-run sheets), then the cliff past ~70%.
+// Before v23 the first 40% cost almost nothing and everything came at the end, so stints looked flat until they fell off.
 function wearDelta(w, frac) {
   const k = frac ? tyreTimeK(frac) : 1;
-  if (w <= 40) return w * 0.012 * k;
-  if (w <= 70) return (0.48 + (w - 40) * 0.03) * k;
-  return (1.38 + (w - 70) * 0.15) * k;
+  if (w <= 70) return (0.026 * w + 0.00006 * w * w) * k;
+  const x = w - 70;
+  return (2.114 + x * 0.16 + x * x * 0.006) * k;
 }
 function wetDelta(comp, w) {
   if (comp === 'I') return 1.5 + 14 * (w - 0.45) * (w - 0.45);
@@ -1952,6 +2000,10 @@ function estimateStrategies(track, laps, frac, tyreAttr, tyreEff, opt = {}) {
   const rate = c => wearRate(c, track, tyreAttr, tyreEff, 'normal', frac, 0) * (mul[c] || 1);
   const cands = [['M', 'H'], ['H', 'M'], ['S', 'H'], ['S', 'M'], ['M', 'S'], ['H', 'S'], ['S', 'M', 'M'], ['M', 'H', 'M'], ['S', 'H', 'S'], ['S', 'M', 'S'], ['M', 'M', 'H'], ['S', 'S', 'M'], ['S', 'H', 'H'], ['M', 'H', 'H'], ['S', 'M', 'M', 'S'], ['S', 'S', 'M', 'S']];
   const pitLoss = pitLossNominal(track, frac);
+  // v23: rival strategists also price track position — every extra stop drops the car into traffic it then has to pass,
+  // which costs more where overtaking is hard (Monaco ~8 s a stop, Monza ~4 s). Without it the field 2-3-stopped races
+  // that real teams 1-stop. Applied to the AI teams' choice and to the strategy model's guess of what they will do.
+  const posCost = opt.traffic ? (2 + 6 * (1 - (track.d.ovt ?? 0.5))) * pitLossK(frac) : 0;
   const out = [];
   for (const seq of cands) {
     // assign concrete sets (freshest first) and check availability
@@ -1975,7 +2027,7 @@ function estimateStrategies(track, laps, frac, tyreAttr, tyreEff, opt = {}) {
         if (w > 100) t += 30;
       }
       let warm = 0; for (let k = 1; k < seq.length; k++) warm += COMPOUNDS[seq[k]].warm * (startW[k] > 1 ? 0.6 : 1);
-      return t + (seq.length - 1) * pitLoss + warm;
+      return t + (seq.length - 1) * (pitLoss + posCost) + warm;
     };
     let best = evalT(alloc);
     for (let it = 0; it < 40; it++) {
@@ -2080,9 +2132,10 @@ class RaceSimCore {
         cross: new Float64Array((this.laps + 3) * NTP).fill(NaN), lastTp: -1,
         incident: null, posHist: [], lapTimes: [], lapsLed: 0, gridPos: g + 1,
         reaction: randf(0.15, 0.45) + (20 - (e.attrs.comp || 12)) * 0.01 + (chance(0.05) ? randf(0.4, 1.0) : 0),
+        launch: clamp(1 + randn() * 0.055 + ((e.attrs.comp || 12) - 12) * 0.004, 0.84, 1.12),   // v23: getaway off the line (wheelspin, clutch bite)
         stintStartLap: 0, wearWarned: 0, dirty: false, retiredAt: null,
         fuel, fuelStart: fuel, fuelMode: 'std', lift: false, soc: 72, ers: 'balanced',
-        autoPit: e.auto !== false, autoErs: e.autoErs !== false, puWear: e.puWear || 0, _ersT: 0, fuelWarned: false,
+        autoPit: e.auto !== false, autoErs: e.autoErs !== false, puWear: e.puWear || 0, _ersT: 0, fuelWarned: false, coverId: null,
         warmLeft: 0, warmF: 0, segG: [1, 1, 1], start0: { c: startSet.c, wear: startSet.wear }, secs: [], traps: [], _sT1: null, _sT2: null, _trap: 0,
         an: { passMade: 0, passLost: 0, pits: [], mistakeLoss: 0, mistakes: 0, contacts: 0, damageLoss: 0, liftLaps: 0, warmLoss: 0, scStops: 0, topV: 0 },
       });
@@ -2296,24 +2349,184 @@ class RaceSimCore {
 
   // time behind the leader estimated from track progress (robust for lapped cars and pit stops)
   timeBehind(c) { const l = this.order.find(o => !o.retired); if (!l) return 0; return (this.progress(l) - this.progress(c)) * this.lapRef; }
-  pitLossNow(c, comp) {
+  // v23: real time gap from the timing points (as a pit wall's timing screen measures it): + = o is behind c. Both cars'
+  // crossings of the latest point the rearmost of them has passed; the distance-based estimate only when one is missing
+  gapTime(c, o) {
+    const j = Math.min(c.lastTp, o.lastTp);
+    if (j >= 0) { const a = c.cross[j], b = o.cross[j]; if (!isNaN(a) && !isNaN(b)) return b - a + (o.lastTp < c.lastTp ? 0 : 0); }
+    return this.timeBehind(o) - this.timeBehind(c);
+  }
+  // ── pit loss: one source for every screen (v23). lane = time lost driving through the lane and standing in the box,
+  // scaled for SC/VSC (the field is slow, so a stop costs less); queue = waiting behind a team-mate (double stack);
+  // warm = the out-lap on cold tyres, lost after the car has rejoined (so it is not part of the rejoin position) ──
+  pitLossParts(c, comp) {
     comp = comp || c.boxRequest || (('SMH'.includes(c.compound)) ? this.pickDry(c, Math.max(1, this.laps - c.lap - 1)) : c.compound) || 'M';
     const set = bestSet(c.sets, comp);
-    let loss = this.track.d.pit - 2.5 + (c.pitMean || 2.4) + (COMPOUNDS[comp] ? COMPOUNDS[comp].warm * (set && set.wear > 1 ? 0.6 : 1) : 0.9);
-    if (this.sc && this.sc.type === 'SC') loss *= 0.52; else if (this.sc && this.sc.type === 'VSC') loss *= 0.62;
+    const green = this.track.d.pit - 2.5 + (c.pitMean || 2.4);
+    const kind = this.sc ? (this.sc.type === 'VSC' ? 'VSC' : 'SC') : 'G';
+    const factor = PIT_SC_K[kind];
     const mate = this.cars.find(o => o !== c && o.team === c.team && (o.inPit || o.boxRequest));
-    if (mate) loss += 3.5;
-    return loss;
+    const queue = mate ? 3.5 : 0;
+    const warm = COMPOUNDS[comp] ? COMPOUNDS[comp].warm * (set && set.wear > 1 ? 0.6 : 1) : 0.9;
+    return { comp, kind, green, factor, lane: green * factor, queue, mate: mate ? mate.id : null, warm, total: green * factor + queue,
+      alt: Object.fromEntries(Object.entries(PIT_SC_K).map(([k, f]) => [k, green * f + queue])) };
   }
-  // predicted rejoin position if the car pits at the next pit entry
-  predictPit(c) {
+  pitLossNow(c, comp) { return this.pitLossParts(c, comp).total; }
+  // ── what one pit wall can know about another car (v23): compound, laps on the set, stops made, compounds used and the
+  // timing screen. Not its plan, its wear, its tyre sets or its true pace — the projections used to read those ──
+  fieldAvg(k) { const m = this._fieldAvg || (this._fieldAvg = {}); return m[k] ?? (m[k] = avg(this.cars.map(c => k === 'attr' ? (c.attrs.tyre ?? 12) : k === 'eff' ? (c.tyreEff ?? 80) : (c.pitMean || 2.4)))); }
+  estRate(comp) { return wearRate(comp, this.track, this.fieldAvg('attr'), this.fieldAvg('eff'), 'normal', this.frac, this.wet); }
+  estWear(o) { return Math.min(100, (o.tyreAge || 0) * this.estRate(o.compound)); }
+  // the plans the field is likely running: the rival teams' own optimiser (with its track-position price), once per race
+  fieldPlans() { return this._fplans || (this._fplans = estimateStrategies(this.track, this.laps, this.frac, this.fieldAvg('attr'), this.fieldAvg('eff'), { traffic: true }).slice(0, 6)); }
+  // a rival's remaining stops, read from what is visible: its start tyre and its stops so far (compounds and laps) weigh
+  // the plans the field is likely on — the optimiser's first choice most often, the next ones less (that is how the rival
+  // teams pick) — and the stint lengths follow from when it actually stopped. Returns [{ stops, p }], most likely first;
+  // when no plan fits (an SC stop, a puncture), the tyre age decides
+  estStopsDist(o) {
+    const lapNow = Math.max(0, o.lap) + 1; if (this.laps - lapNow < 1 || !'SMH'.includes(o.compound) || this.wet > 0.3) return [{ stops: [], p: 1 }];
+    const key = o.id + ':' + o.stops + ':' + lapNow; const cache = this._estC || (this._estC = {}); if (cache[o.id] && cache[o.id].key === key) return cache[o.id].v;
+    const pits = (o.an.pits || []).filter(q => !q.red); const hist = [(o.start0 && o.start0.c) || o.compound].concat(pits.map(q => q.to));
+    const startLap = pits.length ? pits[pits.length - 1].lap : 0; const k = hist.length - 1;
+    const W = [0.55, 0.3, 0.1, 0.05, 0.03, 0.02]; const cands = [];
+    this.fieldPlans().forEach((pl, ri) => {
+      if (pl.seq.length <= k || !hist.every((x, i) => pl.seq[i] === x)) return;
+      let w = W[ri] || 0.02, lap = 0;
+      for (let i = 0; i < k; i++) { lap += pl.stints[i].laps; const d = pits[i].lap - lap; w *= Math.exp(-d * d / 18); lap = pits[i].lap; }
+      const out = []; let at = startLap;
+      for (let i = k; i < pl.seq.length - 1; i++) {
+        at += pl.stints[i].laps;
+        if (i === k) { at = Math.max(at, lapNow); if (this.estWear(o) > EST_STOP_WEAR + 8) at = lapNow; }
+        if (at >= this.laps) break;
+        out.push({ lap: at, c: pl.seq[i + 1] });
+      }
+      // a plan whose next stop the car's tyres plainly do not need is unlikely: rivals stretch a stint rather than stop again
+      const life = (EST_STOP_WEAR + 12 - this.estWear(o)) / this.estRate(o.compound); const need = this.ruleApplies(o) && new Set(hist).size < 2;
+      if (out.length && life >= this.laps - lapNow && !need) w *= 0.35;
+      const same = cands.find(c => JSON.stringify(c.stops) === JSON.stringify(out)); if (same) same.p += w; else cands.push({ stops: out, p: w });
+    });
+    // nobody stops in the last three laps unless forced; and a car whose tyres reach the flag may simply not stop again
+    const need = this.ruleApplies(o) && new Set(hist).size < 2;
+    if (!need) for (const c of cands) c.stops = c.stops.filter(x => x.lap <= this.laps - 3);
+    const reach = (EST_STOP_WEAR + 12 - this.estWear(o)) / this.estRate(o.compound) >= this.laps - lapNow;
+    if (cands.length && reach && !need && !cands.some(c => !c.stops.length)) cands.push({ stops: [], p: cands.reduce((a, c) => a + c.p, 0) * 0.8 });
+    for (let i = cands.length - 1; i > 0; i--) { const j = cands.findIndex(c => JSON.stringify(c.stops) === JSON.stringify(cands[i].stops)); if (j < i) { cands[j].p += cands[i].p; cands.splice(i, 1); } }
+    // honest about the uncertainty: the tyre-age reading always keeps a share (a rival may be off-plan after an SC stop)
+    if (cands.length) { const byAge = this.estStopsByAge(o); const tot0 = cands.reduce((a, c) => a + c.p, 0); const same = cands.find(c => JSON.stringify(c.stops) === JSON.stringify(byAge));
+      if (same) same.p += tot0 * 0.25; else cands.push({ stops: byAge, p: tot0 * 0.25 }); }
+    let v;
+    if (cands.length) { const tot = cands.reduce((a, c) => a + c.p, 0); cands.forEach(c => c.p /= tot); v = cands.sort((a, b) => b.p - a.p); }
+    else v = [{ stops: this.estStopsByAge(o), p: 1 }];
+    cache[o.id] = { key, v }; return v;
+  }
+  estStops(o) { return this.estStopsDist(o)[0].stops; }
+  estStopsByAge(o) {
+    const lapNow = Math.max(0, o.lap) + 1;
+    const used = new Set([...o.usedCompounds].filter(x => 'SMH'.includes(x))); const rule = this.ruleApplies(o);
+    const out = []; let comp = o.compound, w = this.estWear(o), lap = Math.max(0, o.lap) + (o.lap >= 0 ? o.s / this.track.L : 0);
+    for (let j = 0; j < 3; j++) {
+      const togo = this.laps - lap, life = Math.max(0, (EST_STOP_WEAR - w) / this.estRate(comp)), need = rule && used.size < 2;
+      if (!need && (EST_STOP_WEAR + 12 - w) / this.estRate(comp) >= togo - 0.5) break;   // its tyres reach the flag: no more stops
+      let at = Math.floor(lap + Math.max(1, Math.min(life, togo - 1)));
+      if (need && life >= togo - 0.5) at = Math.floor(lap + Math.max(1, Math.min(life, togo * 0.6)));   // still owes the second compound
+      at = Math.max(lapNow, at); if (at >= this.laps - (need ? 1 : 3)) break;
+      const rem = this.laps - at;
+      const next = ['S', 'M', 'H'].find(x => EST_STOP_WEAR / this.estRate(x) * 1.05 >= rem && !(need && used.has(x))) || ['H', 'M', 'S'].find(x => !(need && used.has(x))) || 'H';
+      out.push({ lap: at, c: next }); comp = next; w = 0; lap = at; used.add(next);
+    }
+    return out;
+  }
+  // a rival's pace as the timing screen shows it: its recent clean laps (no pit, SC or traffic laps — a car within a second
+  // of the one ahead is in dirty air) with fuel, tyre and compound taken out. What is kept is how far it runs from the
+  // pre-race read (practice long runs: the real pace plus a fixed per-car error) compared with the rest of the field —
+  // so a race-wide slowdown (traffic, engine modes) does not make every rival look slow next to our own cars
+  estResid(o) {
+    if (this.wet > 0.08 || this._wetSeen) return null;
+    const pl = (o.an.pits || []); const pits = new Set(pl.flatMap(p => [p.lap, p.lap + 1])); const sc = this.scHist || [];
+    // stints as the timing screen shows them: lap n is on the set fitted at the last stop before it (out-lap = lap L+1)
+    const T = o.lapTimes; const ages = [], comps = [];
+    for (let i = 0; i < T.length; i++) {
+      const n = i + 1; let j = -1; for (let q = 0; q < pl.length; q++) if (pl[q].lap < n) j = q;
+      if (j < 0) { comps[i] = (o.start0 && o.start0.c) || o.compound; ages[i] = n; }
+      else { comps[i] = pl[j].to; ages[i] = n - pl[j].lap; }
+    }
+    const fuel0 = this.consFull * this.laps * 1.01 + 0.4; const b = [];
+    for (let i = T.length - 1; i >= 1 && b.length < 8; i--) {
+      if (pits.has(i + 1) || sc[i] || sc[i - 1] || !(T[i] > 0)) continue;
+      const idx = (i + 1) * NTP; const mine = o.cross[idx];
+      if (isNaN(mine)) continue;
+      let gapAhead = Infinity; for (const x of this.cars) { if (x === o) continue; const tx = x.cross[idx]; if (!isNaN(tx) && tx < mine && mine - tx < gapAhead) gapAhead = mine - tx; }
+      if (gapAhead < 1.0) continue;
+      const comp = comps[i] || o.compound; const w = Math.max(0, (ages[i] ?? 0) - 0.5) * this.estRate(comp);
+      b.push(T[i] - (fuel0 - this.consFull * (i + 0.5)) * FUEL_KG_S - wearDelta(w, this.frac) - compoundPace(comp, this.wet, this.frac));
+    }
+    if (!b.length) return null;
+    b.sort((x, y) => x - y); return { r: b[Math.floor(b.length / 2)] - this.estPrior(o), n: b.length };
+  }
+  estPrior(o) { const h = Math.sin((o.num || 1) * 91.7 + this.laps * 3.3) * 43758.5453; return this.basePace(o, o.compound) - compoundPace(o.compound, this.wet, this.frac) + ((h - Math.floor(h)) * 2 - 1) * 0.3; }
+  estBase(o) {
+    const lap = this.leaderLap();
+    if (!this._resid || this._resid.lap !== lap) {
+      const m = {}; const rs = []; for (const c of this.cars) { if (c.retired) continue; const r = this.estResid(c); m[c.id] = r; if (r && r.n >= 3) rs.push(r.r); }
+      rs.sort((x, y) => x - y); this._resid = { lap, m, common: rs.length >= 4 ? rs[Math.floor(rs.length / 2)] : 0 };
+    }
+    const r = this._resid.m[o.id]; const prior = this.estPrior(o);
+    return r ? prior + (r.r - this._resid.common) * r.n / (r.n + 8) : prior;
+  }
+  projRemainingEst(o, stops) {
+    if (o.retired || o.finished) return 0;
+    const p0 = Math.max(0, this.progress(o)); const lapsLeft = Math.max(0, this.laps - p0); const base = this.estBase(o);
+    let t = 0, comp = o.compound, w = this.estWear(o), fuel = Math.max(0, this.consFull * (this.laps * 1.01 - p0) + 0.4), done = 0, si = 0;
+    const loss = this.track.d.pit - 2.5 + this.fieldAvg('pit');
+    if (o.inPit && o.pitStage !== 'out') t += Math.max(0, o.pitTimer);
+    while (done < lapsLeft - 1e-6) {
+      const lapNo = Math.floor(p0 + done) + 1;
+      if (si < stops.length && lapNo >= stops[si].lap) { const st = stops[si++]; t += loss * (lapNo <= Math.floor(p0) + 1 && this.sc ? PIT_SC_K[this.sc.type === 'VSC' ? 'VSC' : 'SC'] : 1) + COMPOUNDS[st.c].warm; comp = st.c; w = 0; continue; }
+      const f = Math.min(1, lapsLeft - done); const r = this.estRate(comp);
+      t += f * (base + compoundPace(comp, this.wet, this.frac) + wearDelta(w + r * f / 2, this.frac) + fuel * FUEL_KG_S + (w > 100 ? 4 : 0));
+      w += r * f; fuel = Math.max(0, fuel - this.consFull * f); done += f;
+    }
+    return t;
+  }
+  // which team is looking: the player's pit wall by default (an AI pit wall passes its own team)
+  viewerTeam() { if (this._viewer === undefined) { const p = this.cars.find(c => c.player); this._viewer = p ? p.team : null; } return this._viewer; }
+  // probability that another car stops before ours rejoins (what the pit wall reads from its tyres and the race state)
+  stopChance(o, lapNow) {
+    if (o.inPit) return 1;
+    // tyre crossover: on slicks on a wet track (or wets on a drying one) the whole field heads in within a lap or two
+    const slick = 'SMH'.includes(o.compound);
+    if (slick && this.wet > 0.25) return clamp(0.45 + (this.wet - 0.25) * 2, 0.45, 0.9);
+    if (!slick && this.wet < 0.2) return clamp(0.45 + (0.2 - this.wet) * 3, 0.45, 0.85);
+    let p = 0;
+    for (const d of this.estStopsDist(o)) {
+      const st = d.stops; if (!st.length) { p += d.p * (this.sc ? 0.08 : 0.02); continue; }
+      const due = st[0].lap - lapNow;
+      // under a neutralisation: the more worn its tyres look, the surer it comes in (fresh tyres stay out)
+      p += d.p * (this.sc ? (this.laps - lapNow >= 4 ? clamp(0.2 + (this.estWear(o) - 12) * 0.018 + (due <= 6 ? 0.15 : 0), 0.12, 0.92) : 0.12) : due <= 0 ? 0.5 : due === 1 ? 0.25 : 0.03);
+    }
+    return p;
+  }
+  // predicted rejoin position if the car pits at the next pit entry: the field as it stands, plus every car that is likely
+  // to stop in the same window (under a safety car most of the field does). pos = expected place; lo–hi = best/worst case
+  predictPit(c, viewer) {
     if (c.retired || c.finished) return null;
-    const my = this.timeBehind(c) + this.pitLossNow(c);
-    const others = this.cars.filter(o => o !== c && !o.retired && !o.finished).map(o => ({ o, tb: this.timeBehind(o) + (o.inPit ? 0 : 0) }));
-    others.sort((a, b) => a.tb - b.tb);
-    let pos = 1; let ahead = null, behind = null;
-    for (const x of others) { if (x.tb < my) { pos++; ahead = x; } else { behind = behind || x; } }
-    return { pos, loss: this.pitLossNow(c), ahead: ahead && { code: ahead.o.code, gap: my - ahead.tb, id: ahead.o.id }, behind: behind && { code: behind.o.code, gap: behind.tb - my, id: behind.o.id } };
+    viewer = viewer === undefined ? (c.player ? this.viewerTeam() : c.team) : viewer;
+    const P = this.pitLossParts(c); const my = P.total;
+    const lapNow = Math.max(0, c.lap) + 1; const oLoss = (this.track.d.pit - 2.5 + this.fieldAvg('pit')) * P.factor;
+    let exp = 1, lo = 1, hi = 1, ahead = null, behind = null;
+    for (const o of this.cars) {
+      if (o === c || o.retired || o.finished) continue;
+      let tb = this.gapTime(c, o);
+      if (o.inPit) tb += o.pitStage === 'out' ? 0 : Math.max(0, (o.pitTimer || 0)) + (o.pitStage === 'in' || o.pitStage === 'queue' ? oLoss * 0.5 : 0);
+      const p = o.inPit ? 0 : o.team === viewer ? (o.boxRequest ? 1 : 0) : this.stopChance(o, lapNow);
+      const aNo = tb < my, aStop = tb + oLoss < my;
+      exp += (1 - p) * aNo + p * aStop;
+      if (aNo && aStop) lo++;
+      if ((p < 0.99 && aNo) || (p > 0.1 && aStop)) hi++;
+      if (aNo) { if (!ahead || tb > ahead.tb) ahead = { o, tb }; } else if (!behind || tb < behind.tb) behind = { o, tb };
+    }
+    const pos = clamp(Math.round(exp), lo, hi);
+    return { pos, exp, lo, hi, loss: P.total, parts: P, ahead: ahead && { code: ahead.o.code, gap: my - ahead.tb, id: ahead.o.id }, behind: behind && { code: behind.o.code, gap: behind.tb - my, id: behind.o.id } };
   }
   // weather radar as the player's strategist reads it
   radar() {
@@ -2503,7 +2716,7 @@ class RaceSimCore {
       const lapNo = Math.floor(p0 + done) + 1;
       if (si < stops.length && lapNo >= stops[si].lap) {
         const st = stops[si++]; const set = take(st.c);
-        if (set) { t += loss + COMPOUNDS[st.c].warm * (set.wear > 1 ? 0.6 : 1); comp = st.c; w = set.wear; }
+        if (set) { t += loss * (lapNo <= Math.floor(p0) + 1 && this.sc ? PIT_SC_K[this.sc.type === 'VSC' ? 'VSC' : 'SC'] : 1) + COMPOUNDS[st.c].warm * (set.wear > 1 ? 0.6 : 1); comp = st.c; w = set.wear; }
         continue;
       }
       const f = Math.min(1, lapsLeft - done);
@@ -2531,13 +2744,25 @@ class RaceSimCore {
     return stops;
   }
   // projected finishing order: current deficit to the leader + projected time to the flag
-  projectOrder(override) {
+  // v23: the viewer's own cars use their real plan, tyres and pace; every other car is projected from what the timing
+  // screen shows (estStops / estBase). Under a safety car the queue closes up, so the gaps it will leave are used.
+  projectOrder(override, viewer) {
+    viewer = viewer === undefined ? this.viewerTeam() : viewer;
     const run = this.cars.filter(c => !c.retired);
-    const tot = run.map(c => ({ c, t: c.finished ? c.finishT - (this.finishOrder.length ? this.byId[this.finishOrder[0]].finishT : 0) - 1e6 + this.finishOrder.indexOf(c.id) : this.timeBehind(c) + this.projRemaining(c, override && override.id === c.id ? override.stops : this.expectedStops(c)) }));
+    const scQ = this.sc && this.sc.type === 'SC' && !this.sc.ending; const lead0 = this.finishOrder.length ? this.byId[this.finishOrder[0]].finishT : 0;
+    const tot = run.map(c => {
+      if (c.finished) return { c, t: c.finishT - lead0 - 1e6 + this.finishOrder.indexOf(c.id) };
+      let tb = this.timeBehind(c);
+      if (scQ) tb = Math.min(tb, this.order.indexOf(c) * 0.9 + this.lapsDown(c) * this.lapRef);
+      const own = viewer != null && c.team === viewer;
+      const stops = override && override.id === c.id ? override.stops : own ? this.expectedStops(c) : null;
+      if (own || (override && override.id === c.id)) return { c, t: tb + this.projRemaining(c, stops) };
+      return { c, t: tb + this.estStopsDist(c).reduce((a, d) => a + d.p * this.projRemainingEst(c, d.stops), 0) };
+    });
     tot.sort((a, b) => a.t - b.t);
     return tot;
   }
-  projectedPos(c, stops) { const o = this.projectOrder(stops ? { id: c.id, stops } : null); const i = o.findIndex(x => x.c === c); return { pos: i + 1, t: i >= 0 ? o[i].t : 0, order: o }; }
+  projectedPos(c, stops, viewer) { const o = this.projectOrder(stops ? { id: c.id, stops } : null, viewer); const i = o.findIndex(x => x.c === c); return { pos: i + 1, t: i >= 0 ? o[i].t : 0, order: o }; }
   // compare boxing now with following the current plan
   pitNowVsPlan(c, noiseSd = 0) {
     if (c.retired || c.finished || c.inPit || this.phase !== 'racing') return null;
@@ -2573,6 +2798,7 @@ class RaceSimCore {
     }
     const f = this.raceFrac();
     this.rain = rainAt(this.weather, f);
+    if (this.wet > 0.08) this._wetSeen = true;
     const prevWet = this.wet;
     if (this.rain > this.wet) this.wet += (this.rain - this.wet) * Math.min(1, dt / 45);
     else this.wet = Math.max(0, this.wet - dt * 0.0006 / Math.sqrt(this.frac) * Math.max(0, 1 - this.rain * 2));
@@ -2624,7 +2850,7 @@ class RaceSimCore {
       for (let m = 0; m < nOT; m++) {
         const c = onTrack[(startIdx - m + nOT) % nOT];
         const a = aheadOf.get(c);
-        if (c.vt > c.v) c.v = Math.min(c.vt, c.v + (this.t < 3 ? 11 : 13) * dt); else c.v = c.vt;
+        if (c.vt > c.v) c.v = Math.min(c.vt, c.v + (this.t < 3 ? 11 * (c.launch || 1) : 13) * dt); else c.v = c.vt;
         const ignore = a && (c.passing && c.passing.id === a.id || c.yieldTo === a.id || (c.ignoreUntil[a.id] || 0) > this.t || (a.ignoreUntil[c.id] || 0) > this.t || a === c || (c._unlap && this.progress(a) - this.progress(c) > 0.5));
         let ds = c.v * dt;
         if (a && !ignore) {
@@ -2745,8 +2971,16 @@ class RaceSimCore {
     const tr = this.track, L = tr.L;
     if (this.sc) return;
     for (const c of active) {
-      if (c.inPit || c.passing || c.retired || this.t < 4) continue;
-      const a = aheadOf.get(c); if (!a || a.inPit || a.passing || a.yieldTo) continue;
+      if (c.inPit || c.passing || c.retired) continue;
+      const a0 = aheadOf.get(c);
+      // v23 launch: the grid is two-wide, so a car that gets away better simply drives past a slow starter
+      if (this.t < 7) {
+        if (!a0 || a0.inPit || a0.passing || a0.yieldTo || c.team === a0.team && this.teamOrders[c.team] === 'hold') continue;
+        const g0 = (a0.s - c.s + L) % L, kk = 'L' + a0.id;
+        if (g0 < 16 && c.v > a0.v + 1.2 && !c.zoneTried[kk]) { c.zoneTried[kk] = true; if (chance(0.55 + 0.02 * ((c.attrs.ovt || 12) - (a0.attrs.def || 12)))) this.startPass(c, a0, false); }
+        continue;
+      }
+      const a = a0; if (!a || a.inPit || a.passing || a.yieldTo) continue;
       const gapM = (a.s - c.s + L) % L;
       const lapping = this.progress(c) > this.progress(a) + 0.5;
       if (gapM > (lapping ? 110 : 60)) continue;   // blue flags reach further back than a racing move
@@ -2762,7 +2996,24 @@ class RaceSimCore {
       for (let z = 0; z < tr.zones.length; z++) { const d = (tr.zones[z] - c.s + L) % L; if (d < 240 || d > L - 25) { zoneId = z; break; } }
       const ersAtt = c.soc > 5 ? (c.ers === 'ot' ? 0.6 : c.ers === 'deploy' ? 0.25 : c.ers === 'harvest' ? -0.3 : 0) : -0.25;
       const ersDef = a.soc > 5 ? (a.ers === 'ot' ? 0.45 : a.ers === 'deploy' ? 0.25 : a.ers === 'harvest' ? -0.2 : 0) : -0.2;
+      // v23 opening lap: cold tyres, a bunched pack and three-wide corners — places change on who brakes latest and who gets
+      // squeezed, not on race pace (real starts move each car ~1.5 places on average; Monaco far less)
+      const lap1 = c.lap <= 0 && !lapping;
+      const chaos = lap1 ? randn() * 0.42 + 0.18 : 0;
       if (zoneId < 0) {
+        if (lap1) {
+          const fr = c.s / L, slot = fr < 0.2 ? 1 : fr < 0.55 ? 2 : 3, kk1 = '1c' + slot;
+          if (c.zoneTried[kk1] || Math.abs(fr - [0, 0.12, 0.45, 0.78][slot]) > 0.025) continue;
+          c.zoneTried[kk1] = true;
+          const adv1 = (a.lapTarget - c.lapTarget) + chaos;
+          if (adv1 < 0.05) continue;
+          const x1 = -3.1 + 3.0 * tr.d.ovt + 2.2 * adv1 * (0.25 + tr.d.ovt) + 0.08 * (c.attrs.ovt - a.attrs.def) - this.wet * 0.3 + passLogitAdj(this.frac);
+          if (chance(sigmoid(x1))) {
+            if (chance(0.03 * (1 + (14 - c.attrs.comp) / 10) * MODES[c.mode].risk * (1 + this.wet * 1.5))) { this.contact(c, a); continue; }
+            this.startPass(c, a, false);
+          }
+          continue;
+        }
         const kk = c.lap + ':nz';
         if (c.zoneTried[kk]) continue;
         if (Math.abs(c.s / L - 0.5) > 0.02) continue;
@@ -2781,12 +3032,12 @@ class RaceSimCore {
       const mDef = a.mode === 'attack' ? 0.3 : a.mode === 'push' ? 0.12 : a.mode === 'save' ? -0.2 : 0;
       const tyreAdv = (a.wear - c.wear) * 0.008;
       const spdAdv = (c.segG[0] - a.segG[0]) * 9 + (a.warmLeft > 0 ? 0.25 : 0);   // straight-line speed (power) and a rival on cold tyres
-      const adv = pAdv + tyreAdv + (mAtt - mDef) * 0.3 + (ersAtt - ersDef) * 0.12 + spdAdv;
+      const adv = pAdv + tyreAdv + (mAtt - mDef) * 0.3 + (ersAtt - ersDef) * 0.12 + spdAdv + chaos;
       if (adv < 0.06) continue;
-      const x = -3.9 + 3.3 * tr.d.ovt + 2.6 * adv * (0.2 + tr.d.ovt) + 0.085 * (c.attrs.ovt - a.attrs.def) + (ersAtt - ersDef) * 0.6 + mAtt - mDef - this.wet * 0.3 + passLogitAdj(this.frac);
+      const x = -3.9 + 3.3 * tr.d.ovt + 2.6 * adv * (0.2 + tr.d.ovt) + 0.085 * (c.attrs.ovt - a.attrs.def) + (ersAtt - ersDef) * 0.6 + mAtt - mDef - this.wet * 0.3 + passLogitAdj(this.frac) + (lap1 ? 0.45 : 0);
       if (c.ers === 'ot') c.soc = Math.max(0, c.soc - 6);
       if (chance(sigmoid(x))) {
-        const pc = 0.012 * (1 + (14 - c.attrs.comp) / 10) * (1 + (14 - a.attrs.comp) / 14) * MODES[c.mode].risk * (1 + this.wet * 1.5);
+        const pc = 0.012 * (1 + (14 - c.attrs.comp) / 10) * (1 + (14 - a.attrs.comp) / 14) * MODES[c.mode].risk * (1 + this.wet * 1.5) * (lap1 ? 1.8 : 1);
         if (chance(pc)) { this.contact(c, a); continue; }
         this.startPass(c, a, false);
       } else {
@@ -2881,6 +3132,14 @@ class RaceSimCore {
   }
   enterPit(c) {
     c._pitIn = { t: this.t, pos: this.order.indexOf(c) + 1, lap: c.lap + 1, from: c.compound, wear: c.wear, sc: this.sc ? this.sc.type : null };
+    // v23 cover order: a car told to cover this one boxes at its next chance (same lap if it has not passed the pit entry)
+    for (const m of this.cars) {
+      if (m === c || m.coverId !== c.id || m.inPit || m.retired || m.finished) continue;
+      m.coverId = null; const left = this.laps - m.lap - 1; if (left < 1) continue;
+      const k = m.boxRequest || ('SMH'.includes(m.compound) ? this.pickDry(m, Math.max(1, left)) : m.compound);
+      if (k && bestSet(m.sets, k)) { m.boxRequest = k; m.manualBox = true; m.an.covers = (m.an.covers || 0) + 1;
+        this.emit('radio', `${m.short} 엔지니어: "${c.code || c.short} 피트인 확인 — 커버한다. 이번에 박스, ${COMPOUNDS[k].name}!"`, { cars: [m.id, c.id], player: !!m.player, important: true }); }
+    }
     // the car just ahead sees the stop and may cover it next lap (decided once, in undercutCall)
     if (!this.sc) { const i = this.order.indexOf(c); const a = i > 0 ? this.order[i - 1] : null; if (a && !a.inPit && !a.retired && a.stops <= c.stops) { const g = this.intervalTo(c, a); if (g != null && g < 3.5) a._cover = { by: c.id, lap: c.lap + 1 }; } }
     c.inPit = true; c.pitStage = 'in'; c.pitTimer = 0; c.lat = 0;
@@ -4052,11 +4311,18 @@ function applySetupValues(did, p) {
 function fpSimulateOthers(idx) {
   const w = S.weekend; const tr = TRACKS[w.track];
   const times = w.fp.best[idx];
-  for (const t of Object.values(S.teams)) for (const did of t.drivers) {
+  // v23 sandbagging: each team runs its own fuel load and engine mode, so the practice sheet hides real pace. The hidden
+  // amount is shared by both cars of a team (that is what makes it misleading) and shrinks towards FP3, when teams turn
+  // the engines up; it is kept so the data centre's long runs carry the same fuel-load uncertainty
+  const sb = (w.fp.sb = w.fp.sb || [])[idx] = {};
+  for (const t of Object.values(S.teams)) {
     if (t.id === S.playerTeam) continue;
-    const e = driverEntry(did, w.track, weekendSetupQ(did));
-    const evo = [0.8, 0.45, 0.15][idx];
-    times[did] = tr.d.ref + e.baseDelta + evo + randf(0.1, 0.9) + (idx === 2 ? -0.2 : 0) + randn() * 0.15 + (w.qWet > 0.3 && idx === 2 ? 6 : 0);
+    sb[t.id] = { lap: clamp([0.75, 0.6, 0.3][idx] + randn() * [0.35, 0.3, 0.18][idx], 0, 1.6), fuel: randn() * 0.28 };
+    for (const did of t.drivers) {
+      const e = driverEntry(did, w.track, weekendSetupQ(did));
+      const evo = [0.8, 0.45, 0.15][idx];
+      times[did] = tr.d.ref + e.baseDelta + evo + sb[t.id].lap + randf(0, 0.3) + (idx === 2 ? -0.2 : 0) + randn() * 0.15 + (w.qWet > 0.3 && idx === 2 ? 6 : 0);
+    }
   }
   for (const did of playerTeam().drivers) if (times[did] == null) times[did] = null;
 }
@@ -4166,6 +4432,132 @@ function runQualiSession(stage, ids) {
   const res = simulateQualiSession(entries, tr, wet, plans);
   dcSafe(() => dcQuali(stage, entries, res));
   return res;
+}
+// ── v23 live qualifying: the session runs on a clock and the player's cars go out when the player sends them ──
+// Every car cycles garage → out-lap → push lap(s) → cool-down/in-lap. A push lap is timed with the same model as the
+// pre-simulated session (simulateQualiSession: track evolution by when it starts, tyre wear, risk, mistakes) plus the
+// traffic actually on track at that moment — the late-session queue is real, so the timing call matters. The AI and the
+// strategist's cars follow their usual two-run pattern; the player's cars only move on a command.
+const QL_LEN = { Q1: 18, Q2: 15, Q3: 12, SQ1: 12, SQ2: 10, SQ3: 8 };
+function qlPrep(stage, ids) {
+  const w = S.weekend; const tr = TRACKS[w.track];
+  const all = qualiEntries(); const entries = all.filter(e => ids.includes(e.id));
+  const sq = stage.startsWith('SQ'); const base = sq ? stage.slice(1) : stage;
+  const wet = w.qWet * (base === 'Q1' ? 1 : base === 'Q2' ? 0.9 : 0.8);
+  const comp = wet > 0.25 ? (wet > 0.8 ? 'W' : 'I') : sq && base !== 'Q3' ? 'M' : 'S';
+  const rank = entries.slice().sort((a, b) => a.baseDelta - b.baseDelta).map(e => e.id);
+  const cut = base === 'Q1' ? qualiCuts()[0] : base === 'Q2' ? qualiCuts()[1] : 1;
+  return { w, tr, entries, sq, base, wet, comp, rank, cut };
+}
+class QualiLive {
+  constructor(stage, ids, live) {
+    const P = qlPrep(stage, ids); Object.assign(this, { stage, sq: P.sq, base: P.base, wet: P.wet, comp: P.comp, cut: P.cut, tr: P.tr });
+    this.len = QL_LEN[stage] * 60; this.t = 0; this.laps = []; this.events = []; this.done = false; this.ref = P.tr.d.ref;
+    this.cars = {};
+    const w = S.weekend;
+    for (const e of P.entries) {
+      const isLive = live.includes(e.id);
+      const auto = !isLive;
+      let risk = 'normal', timing = 0;
+      if (auto) { const amp = e.player ? 1.7 : 1; timing = ((12 - e.strat) * 0.012 + randn() * (20 - e.strat) * 0.01) * amp; risk = e.player ? stratQualiRisk(e, P.rank.indexOf(e.id) + 1, P.cut) : aiQualiRisk(e); }
+      else risk = w.qualiRisk[e.id] || 'normal';
+      const choice = P.sq ? 'new' : auto ? (stage === 'Q3' ? 'new' : 'mix') : (w.qualiTyres[e.id] || 'mix');
+      const nRuns = P.sq ? 1 : 2;
+      // the AI's runs: an early banker and a late run at the end of the session, as in the pre-simulated model
+      const sched = auto ? [randf(0.12, 0.5), randf(0.72, 0.97)].slice(0, nRuns).map(f => f * this.len) : [];
+      this.cars[e.id] = { e, id: e.id, live: isLive, auto, risk, timing, choice, sched, run: 0, nRuns, phase: 'garage', until: 0, pushLeft: 0, pushStart: 0, set: null, best: null,
+        prep: e.player ? w.qprep[e.id] : 0.6, know: e.know, lapsRun: 0, cmd: null, twoLap: false, note: '' };
+    }
+    this.lapT = { out: this.ref * 1.32, cool: this.ref * 1.25, in: this.ref * 1.2 };   // in = the slow lap back to the pit lane
+  }
+  pc(c) { return this.cars[c] || c; }
+  onTrack() { return Object.values(this.cars).filter(c => c.phase !== 'garage' && c.phase !== 'done'); }
+  // what the pit wall sees: cars on track now and cars leaving the garage within the next half minute
+  traffic(at = this.t) {
+    const now = Object.values(this.cars).filter(c => c.phase === 'out' || c.phase === 'push' || c.phase === 'cool');
+    const soon = Object.values(this.cars).filter(c => c.phase === 'garage' && c.sched[c.run] != null && c.sched[c.run] - this.lapT.out - at >= 0 && c.sched[c.run] - this.lapT.out - at < 30);
+    return { now: now.length, soon: soon.length, level: now.length + soon.length * 0.7 };
+  }
+  // the player's commands
+  send(id, o = {}) {
+    const c = this.cars[id]; if (!c || c.phase !== 'garage' || this.done) return false;
+    if (this.t + this.lapT.out > this.len) return false;   // would not start a lap before the flag
+    const set = takeQualiSet(id, o.fresh !== false, this.comp); if (!set) return false;
+    c.risk = o.risk || c.risk; c.twoLap = !!o.two; this.leave(c, set); return true;
+  }
+  // abort: on the out-lap or a cool-down the car comes in at the end of the lap; on a push lap it stops after this one
+  boxNow(id) { const c = this.cars[id]; if (!c) return; if (c.phase === 'cool' || c.phase === 'out') { c.pushLeft = 0; c.phase = 'in'; } else if (c.phase === 'push') c.pushLeft = Math.min(c.pushLeft, 1); }
+  // one more push on the same set: from the slow lap after a push, if the next flying lap starts before the flag
+  canPushAgain(id) { const c = this.cars[id]; return !!c && (c.phase === 'in' || c.phase === 'cool') && c.lapsRun > 0 && c.until <= this.len && c.set && c.lapsRun < 3; }
+  pushAgain(id) { const c = this.cars[id]; if (!this.canPushAgain(id)) return false; c.pushLeft = 1; c.phase = 'cool'; wearSet(c.set, 1, c.id, this.tr); return true; }
+  leave(c, set) {
+    c.set = set; c.wear0 = set.wear; wearSet(set, c.twoLap ? 3.4 : 2.4, c.id, this.tr); set.laps = Math.round(set.laps);
+    c.phase = 'out'; c.until = this.t + this.lapT.out * (0.97 + rand() * 0.06); c.pushLeft = c.twoLap ? 2 : 1; c.lapsRun = 0; c.again = false; c.run++;
+    if (c.e.player) this.events.push({ t: this.t, id: c.id, text: `${S.drivers[c.id].short} 출격 — ${set.wear > 1 ? '중고' : '새'} ${COMPOUNDS[set.c].name}${c.twoLap ? ' · 푸시 2랩' : ''}` });
+  }
+  pushLap(c) {
+    const e = c.e; const tr = this.tr; const tRun = Math.min(1, c.pushStart / this.len); const wet = this.wet;
+    let lap = tr.d.ref + e.baseDelta + 0.35 * (1 - tRun);
+    lap += wet * 7.5 * (1 + (12 - e.attrs.wet) * (WET_SKILL_K + 0.005) + (e.wetFeel || 0)) + (wet > 0.25 ? wetDelta('I', wet) : wetDelta('S', wet));
+    const wv = (c.wear0 || 0) + c.lapsRun * 1.2; lap += wearDelta(wv) * 1.1 - (c.prep || 0) * 0.06 + (c.timing || 0);
+    lap += randn() * Math.max(0.04, 0.2 - e.attrs.cons * 0.006 + wet * 0.35);
+    const rk = { safe: [0.12, 0.03], normal: [0, 0.065], max: [-0.11, 0.14] }[c.risk] || [0, 0.065]; lap += rk[0];
+    let valid = true, note = '';
+    // traffic: slow cars (out-laps, cool-downs) and other flying laps around this one — the late queue is where it bites
+    const others = Object.values(this.cars).filter(o => o !== c);
+    const slow = others.filter(o => o.phase === 'out' || o.phase === 'cool').length, fly = others.filter(o => o.phase === 'push' && Math.abs(o.pushStart - c.pushStart) < 25).length;
+    const pImp = (1 - Math.exp(-(0.05 * slow + 0.03 * fly))) * (c.auto ? clamp(1.25 - (e.strat || 12) * 0.03, 0.55, 1.1) : 1);
+    if (chance(pImp)) { const l = randf(0.15, 0.9); lap += l; note = `트래픽에 걸림 +${l.toFixed(1)}초`; }
+    const pm = rk[1] * (1.45 - e.attrs.cons * 0.03) * (1 + wet * 1.5) * (1.3 - (c.prep || 0) * 0.4) * (1 + (1 - (c.know ?? 0.85)) * 0.6);
+    if (chance(pm)) { if (chance(0.55)) { valid = false; note = '트랙 리밋 위반 — 랩타임 삭제'; } else { const l = randf(0.5, 2.2); lap += l; note = '실수로 시간 손실'; } }
+    return { lap, valid, note };
+  }
+  step(dt) {
+    if (this.done) return;
+    this.t += dt;
+    const ord = this.order(); const pos = id => ord.indexOf(id) + 1;
+    for (const c of Object.values(this.cars)) {
+      if (c.phase === 'garage') {
+        if (!c.auto || c.run >= c.nRuns || this.t > this.len - this.lapT.out) continue;
+        const go = c.sched[c.run] - this.lapT.out;
+        if (this.t >= go) {
+          // a banker already safely through skips its second run to save a set (not in the top-ten shoot-out)
+          if (c.run === 1 && this.base !== 'Q3' && c.best != null && pos(c.id) <= this.cut - 4 && !c.e.player && chance(0.35)) { c.run = c.nRuns; continue; }
+          const set = takeQualiSet(c.id, c.choice === 'new' || (c.choice === 'mix' && c.run === 1), this.comp);
+          if (set) this.leave(c, set); else c.run = c.nRuns;
+        }
+        continue;
+      }
+      if (this.t < c.until) continue;
+      if (c.phase === 'out') { if (c.pushLeft > 0 && this.t <= this.len + 0.5) { c.phase = 'push'; c.pushStart = c.until; c.lap = this.pushLap(c); c.until = c.pushStart + c.lap.lap; } else { c.phase = 'in'; c.until = this.t + this.lapT.in; } continue; }
+      if (c.phase === 'push') {
+        const L = c.lap; c.lapsRun++; c.pushLeft--;
+        this.laps.push({ t: Math.min(1, this.t / this.len), id: c.id, lap: L.lap, valid: L.valid, note: L.note, used: (c.wear0 || 0) > 1, run: c.run });
+        if (L.valid && (c.best == null || L.lap < c.best)) c.best = L.lap;
+        if (c.e.player) this.events.push({ t: this.t, id: c.id, text: `${S.drivers[c.id].short} ${L.valid ? fmtLap(L.lap) : '랩 삭제'}${L.note ? ' — ' + L.note : ''}` });
+        // a second push lap goes straight on (two-lap run) or after a cool-down lap
+        if (c.pushLeft > 0 && this.t <= this.len) { c.phase = 'cool'; c.coolLeft = this.lapT.cool; c.until = this.t + this.lapT.cool; }
+        else { c.phase = 'in'; c.until = this.t + this.lapT.in; }
+        continue;
+      }
+      if (c.phase === 'cool') { if (c.pushLeft > 0 && this.t <= this.len) { c.phase = 'push'; c.pushStart = this.t; c.lap = this.pushLap(c); c.until = this.t + c.lap.lap; } else { c.phase = 'in'; c.until = this.t + this.lapT.in; } continue; }
+      if (c.phase === 'in') { c.phase = c.run >= c.nRuns && c.auto ? 'done' : 'garage'; continue; }
+    }
+    if (this.t >= this.len && Object.values(this.cars).every(c => c.phase === 'garage' || c.phase === 'done' || c.phase === 'in')) this.done = true;
+  }
+  best() { const b = {}; for (const c of Object.values(this.cars)) if (c.best != null) b[c.id] = c.best; return b; }
+  order() { const b = this.best(); return Object.keys(this.cars).sort((x, y) => (b[x] ?? 999) - (b[y] ?? 999)); }
+  // finished laps plus the push laps under way (their time is decided when they start, so the timing screen can show the
+  // lap in progress and its sectors as it goes); best and order count finished laps only
+  result() {
+    const run = Object.values(this.cars).filter(c => c.phase === 'push' && c.lap).map(c => ({ t: Math.min(1.2, (c.pushStart + c.lap.lap) / this.len), id: c.id, lap: c.lap.lap, valid: c.lap.valid, note: c.lap.note, used: (c.wear0 || 0) > 1, live: true }));
+    return { laps: this.laps.concat(run).sort((a, b) => a.t - b.t), best: this.best(), order: this.order() };
+  }
+  // hand the rest to the strategist (skip / 맡기기): our cars get the AI's late-run pattern for what time is left
+  autoRest() {
+    for (const c of Object.values(this.cars)) if (c.live) { c.live = false; c.auto = true; const left = this.len - this.t; c.sched = c.run < c.nRuns ? [this.t + this.lapT.out + Math.max(0, left - this.lapT.out - this.ref * 1.6) * randf(0.2, 0.8)] : []; c.run = 0; c.nRuns = c.sched.length; c.choice = 'new'; }
+  }
+  runToEnd() { let g = 0; while (!this.done && g++ < 200000) this.step(0.5); }
 }
 // the whole qualifying (or sprint shoot-out) in one go: staff/AI path and the headless tests
 function runQualiFull() {
@@ -4324,7 +4716,7 @@ function stintsWithSets(did, stints) {
 function aiStrategy(e) {
   const w = S.weekend; const tr = TRACKS[w.track];
   const sc = stratErrScale(e.strat) * 0.35; const rateMul = { S: 1 + randn() * 0.18 * sc, M: 1 + randn() * 0.18 * sc, H: 1 + randn() * 0.18 * sc };
-  const opts = estimateStrategies(tr, w.laps, w.frac, e.attrs.tyre, e.tyreEff, { sets: w.tyres[e.id], rateMul });
+  const opts = estimateStrategies(tr, w.laps, w.frac, e.attrs.tyre, e.tyreEff, { sets: w.tyres[e.id], rateMul, traffic: true });
   let st = opts[0];
   if (opts[1] && chance(e.grid > 10 ? 0.45 : 0.25)) st = opts[1];
   if (opts[2] && chance(0.1)) st = opts[2];
@@ -5544,7 +5936,7 @@ function dcPractice(idx) {
       const quick = plan.filter(p => p[0] !== 'long'); const fastest = quick.reduce((a, p) => (COMPOUNDS[p[1]].pace || 0) < (COMPOUNDS[a[1]].pace || 0) ? p : a, quick[0]);
       for (const [prog, comp] of plan) {
         let lap1;
-        if (prog === 'long') lap1 = tr.d.ref + e.baseDelta + (e.raceAdj || 0) + evo + 1.7 + compoundPace(comp, 0) + wearDelta(1) + dcN(r) * 0.12;
+        if (prog === 'long') lap1 = tr.d.ref + e.baseDelta + (e.raceAdj || 0) + evo + 1.7 + ((((w.fp.sb || [])[idx] || {})[x.team] || {}).fuel || 0) + compoundPace(comp, 0) + wearDelta(1) + dcN(r) * 0.12;   // v23: each team's own fuel load
         else if (prog === fastest[0] && comp === fastest[1] && !runs.some(q => q._best)) lap1 = best;
         else lap1 = best + Math.max(0, (COMPOUNDS[comp].pace || 0) - (COMPOUNDS[fastest[1]].pace || 0)) + 0.15 + r() * 0.5;
         const run = dcRun(prog, comp, lap1, 0, e, tyreEff, r, tr, false);
@@ -6213,7 +6605,7 @@ const SA = (() => {
   // Field model: every car runs its own plan; a car closer than the follow gap to a slower car loses dirty-air time and must
   // pass (game passing formula per lap, expected value when deterministic, drawn when a random generator is supplied).
   function oppPlan(m, e) {
-    const opts = estimateStrategies(m.track, laps(m), fracOf(m), e.attrs.tyre, e.tyreEff, { sets: m.sets && m.sets[e.id] ? m.sets[e.id] : null });
+    const opts = estimateStrategies(m.track, laps(m), fracOf(m), e.attrs.tyre, e.tyreEff, { sets: m.sets && m.sets[e.id] ? m.sets[e.id] : null, traffic: true });   // v23: rivals price track position, as the AI does
     return opts.length ? opts : [{ stints: [{ c: 'M', laps: Math.ceil(laps(m) / 2) }, { c: 'H', laps: Math.floor(laps(m) / 2) }] }];
   }
   function passProb(m, att, def, adv) {
@@ -9749,6 +10141,8 @@ function openShortcuts() {
     ${K('Esc', '창 닫기')}
     ${K('Space', '레이스 중: 일시정지 / 재생')}
     ${K('A', '레이스 중: 실시간 전략 분석 (레이스가 멈추고, 닫으면 재개)')}
+    ${K('1 ~ 7', '레이스 중: 배속 1× · 2× · 4× · 8× · 16× · 32× · 64×')}
+    ${K('B · N', '레이스 중: 1번 · 2번 차 박스 (추천 타이어) / 다시 누르면 취소')}
     ${K('Tab', '차트로 이동한 뒤 ← → 로 랩을 옮기며 값 보기')}
     ${K('Enter', '차트에서: 그 랩을 자세히 (전략 분석실)')}
     ${K('Enter · Space', '표 머리글에서: 그 열로 정렬')}
@@ -11502,14 +11896,31 @@ function startQualiSession() {
   const q = ensureQuali();
   const stage = q.stages[q.idx];
   const ids = q.idx === 0 ? Object.values(S.teams).flatMap(t => t.drivers) : q.results[q.stages[q.idx - 1]].order.slice(0, qualiCuts()[q.idx - 1]);
-  q.cur = { stage, ids, res: runQualiSession(stage, ids), t: 0, running: true };
+  // v23 전문가 모드: our cars run live (sent out by the player); 일반 모드 and staff cars keep the pre-simulated session
+  const live = S.mode === 'sa' && !S.weekend.qDelegated ? playerTeam().drivers.filter(id => ids.includes(id) && !(typeof staffCars === 'function' && staffCars().includes(id))) : [];
+  if (live.length) { const ql = new QualiLive(stage, ids, live); q.cur = { stage, ids, ql, res: ql.result(), t: 0, running: true }; QUALI.paused = false; }
+  else q.cur = { stage, ids, res: runQualiSession(stage, ids), t: 0, running: true };
   render();
+}
+// a live session ends: the timing as it stands is the result; the data centre captures it like a pre-simulated one
+function qlFinish(c) {
+  c.res = c.ql.result(); c.res.laps = c.res.laps.filter(l => !l.live);
+  const entries = qualiEntries().filter(e => c.ids.includes(e.id)); dcSafe(() => dcQuali(c.stage, entries, c.res));
 }
 function startQualiAnim() {
   cancelAnimationFrame(QUALI.raf);
   let last = performance.now();
   const tick = now => {
     const q = QUALI.state; if (!q || !q.cur || !q.cur.running) return;
+    const c = q.cur;
+    if (c.ql) {   // live: the session clock runs at the chosen speed and stops while paused
+      const dt = QUALI.paused ? 0 : (now - last) / ((S.settings && S.settings.qLiveDur) || 60000) * c.ql.len; last = now;
+      for (let k = 0; k < dt; k += 0.5) c.ql.step(Math.min(0.5, dt - k));
+      c.t = Math.min(1, c.ql.t / c.ql.len); c.res = c.ql.result();
+      updateQualiTable(); qlCtlUpdate();
+      if (c.ql.done) { qlFinish(c); endQualiSession(); return; }
+      QUALI.raf = requestAnimationFrame(tick); return;
+    }
     q.cur.t = Math.min(1, q.cur.t + (now - last) / (S.mode === 'sa' ? (S.settings && S.settings.qDur) || 30000 : 9000)); last = now;   // 전문가 모드: a session lasts 30 s by default (10–60 s)
     updateQualiTable();
     if (q.cur.t >= 1) { endQualiSession(); return; }
@@ -11546,7 +11957,7 @@ function endQualiSession() {
 // hand the rest of qualifying to the pit wall: the strategist picks risk, tyres and run timing
 function qualiDelegateAll() {
   const q = ensureQuali(); S.weekend.qDelegated = true;
-  if (q.cur && q.cur.running) { cancelAnimationFrame(QUALI.raf); q.cur.t = 1; endQualiSession(); }
+  if (q.cur && q.cur.running) { cancelAnimationFrame(QUALI.raf); if (q.cur.ql) { q.cur.ql.autoRest(); q.cur.ql.runToEnd(); qlFinish(q.cur); } q.cur.t = 1; endQualiSession(); }
   let guard = 0;
   while (!q.finished && guard++ < 5) {
     const stage = q.stages[q.idx];
@@ -11555,7 +11966,7 @@ function qualiDelegateAll() {
     endQualiSession();
   }
 }
-function qualiSkip() { const q = QUALI.state; if (!q || !q.cur || !q.cur.running) return; cancelAnimationFrame(QUALI.raf); q.cur.t = 1; endQualiSession(); }
+function qualiSkip() { const q = QUALI.state; if (!q || !q.cur || !q.cur.running) return; cancelAnimationFrame(QUALI.raf); if (q.cur.ql) { q.cur.ql.autoRest(); q.cur.ql.runToEnd(); qlFinish(q.cur); } q.cur.t = 1; endQualiSession(); }
 function qualiRows() {
   const q = QUALI.state; const c = q && q.cur; if (!c) return '';
   const shown = c.res.laps.filter(l => l.t <= c.t);
@@ -11572,7 +11983,7 @@ function updateQualiTable() {
   const tb = document.getElementById('q-tbody'); if (tb) tb.innerHTML = qualiRows();
   if (typeof pwQualiUpdate === 'function') pwQualiUpdate();
   const clk = document.getElementById('q-clock'); const q = QUALI.state;
-  if (clk && q.cur) { const len = (q.sq ? [12, 10, 8] : [18, 15, 12])[Math.max(0, q.stages.indexOf(q.cur.stage))]; const rem = Math.max(0, len * 60 * (1 - q.cur.t)); clk.textContent = `${Math.floor(rem / 60)}:${String(Math.floor(rem % 60)).padStart(2, '0')}`; }
+  if (clk && q.cur) { const len = (q.sq ? [12, 10, 8] : [18, 15, 12])[Math.max(0, q.stages.indexOf(q.cur.stage))]; const rem = q.cur.ql ? Math.max(0, q.cur.ql.len - q.cur.ql.t) : Math.max(0, len * 60 * (1 - q.cur.t)); clk.textContent = rem > 0 ? `${Math.floor(rem / 60)}:${String(Math.floor(rem % 60)).padStart(2, '0')}` : '체커기'; clk.classList.toggle('chq', rem <= 0); }
 }
 function qualiView() {
   const q = ensureQuali(); const w = S.weekend; const t = playerTeam(); const c = q.cur; const sq = q.sq;
@@ -11585,6 +11996,7 @@ function qualiView() {
   const ctl = t.drivers.map(did => {
     const d = S.drivers[did]; const r = w.qualiRisk[did] || 'normal'; const tp = w.qualiTyres[did] || 'mix'; const inS = stillIn(did);
     const sm = setsSummary(w.tyres[did], comp);
+    if (c && c.ql && c.ql.cars[did] && c.running) return `<div class="qctl ql" id="qlc-${did}">${qlCtl(did)}</div>`;
     if (typeof staffCars === 'function' && staffCars().includes(did)) return `<div class="qctl"><b>${esc(d.kname)}</b> <span class="chip">전략가 담당 · ${staffRating(t, 'strat')}</span><div class="note">${q.finished ? `${sq ? '스프린트 ' : ''}그리드 P${grid.indexOf(did) + 1}` : inS ? '위험도·타이어·출격 타이밍을 수석 전략가가 정합니다' : '탈락'}</div></div>`;
     const status = q.finished ? `${sq ? '스프린트 ' : ''}그리드 P${grid.indexOf(did) + 1}` : inS ? '다음 세션 출전' : `P${fieldSize() - q.elim.length + q.elim.indexOf(did) + 1} — ${q.elim.indexOf(did) >= q.elim.length - (fieldSize() - qualiCuts()[0]) ? k1 : k2} 탈락`;
     return `<div class="qctl"><div class="flex between"><div><b>${esc(d.kname)}</b><div class="note">${status} · 새 ${COMPOUNDS[comp].name} ${sm.fresh}세트 남음 · 예선 준비도 ${Math.round(w.qprep[did] * 100)}%</div></div></div>
@@ -11603,16 +12015,53 @@ function qualiView() {
     : `${fieldSize()}대가 출전해 Q1(18분)에서 하위 ${fieldSize() - qualiCuts()[0]}명, Q2(15분)에서 다시 ${qualiCuts()[0] - qualiCuts()[1]}명이 탈락하고 Q3(12분) 상위 10명이 폴 포지션을 다툽니다. 세션 후반일수록 노면이 좋아집니다.${w.sprint ? ' 스프린트 결과는 결승 그리드와 상관없습니다.' : ''}`;
   const pwq = S.mode === 'sa' && c && !q.finished && typeof pwQualiPanels === 'function';
   const dur = (S.settings && S.settings.qDur) || 30000;
-  const main = pwq ? `<section class="panel pw-qpanel"><div class="panel-h"><h3>${title}</h3>${w.qWet > 0.15 ? `<span class="chip info">젖은 노면 — 인터미디엇</span>` : ''}<span class="rt"><span class="dim">세션 길이</span><div class="seg sm">${[[10000, '10초'], [30000, '30초'], [60000, '60초']].map(([v, l]) => `<button class="${dur === v ? 'on' : ''}" data-a="qdur" data-v="${v}">${l}</button>`).join('')}</div>${c.running ? '<button class="btn sm" data-a="qskip">세션 건너뛰기</button>' : ''}</span></div><div class="panel-b">${pwQualiPanels()}</div></section>` : '';
+  const main = pwq ? `<section class="panel pw-qpanel"><div class="panel-h"><h3>${title}</h3>${w.qWet > 0.15 ? `<span class="chip info">젖은 노면 — 인터미디엇</span>` : ''}<span class="rt">${c.ql ? qlSessHtml() : `<span class="dim">세션 길이</span><div class="seg sm">${[[10000, '10초'], [30000, '30초'], [60000, '60초']].map(([v, l]) => `<button class="${dur === v ? 'on' : ''}" data-a="qdur" data-v="${v}">${l}</button>`).join('')}</div>`}${c.running ? '<button class="btn sm" data-a="qskip">세션 건너뛰기</button>' : ''}</span></div><div class="panel-b">${pwQualiPanels()}</div></section>` : '';
   return `${spRes}${main}<div class="grid ${pwq ? 'g2 mt' : 'g-main-side'}">
     <section class="panel" ${pwq ? 'hidden' : ''}><div class="panel-h"><h3>${title}</h3>${w.qWet > 0.15 ? `<span class="chip info">젖은 노면 — 인터미디엇</span>` : ''}<span class="rt">${c && c.running && !pwq ? `<span class="disp" style="font-size:20px;color:var(--fg)" id="q-clock">—</span><button class="btn sm" data-a="qskip">세션 건너뛰기</button>` : ''}</span></div><div class="panel-b flush scroll-x"><table class="tbl compact"><thead><tr><th>순위</th><th>드라이버</th><th>팀</th><th class="r">베스트</th><th class="r"></th><th></th></tr></thead><tbody id="q-tbody">${table}</tbody></table></div></section>
     <div class="grid" style="align-content:start;${pwq ? 'display:contents' : ''}">
-      <section class="panel"><div class="panel-h"><h3>${sq ? '스프린트 예선 운영' : '예선 운영'}</h3></div><div class="panel-b">${S.mode === 'sa' && typeof pwAssignBar === 'function' && !(c && c.running) && !q.finished ? pwAssignBar('quali') : ''}${ctl}
+      <section class="panel"><div class="panel-h"><h3>${sq ? '스프린트 예선 운영' : '예선 운영'}</h3>${c && c.ql && c.running && !pwq ? qlSessHtml() : ''}</div><div class="panel-b">${S.mode === 'sa' && typeof pwAssignBar === 'function' && !(c && c.running) && !q.finished ? pwAssignBar('quali') : ''}${ctl}
         <p class="note mt">한계: 0.1초 빠르지만 실수 위험이 두 배. 중고 타이어는 사용한 만큼 느립니다.${sq ? '' : ' 새 소프트를 아끼면 결승에서 더 좋은 세트를 쓸 수 있습니다.'}</p>
         ${q.finished ? `<button class="btn pri mt" data-a="toprerace">${sq ? '스프린트 준비로' : '결승 준비로'}</button>` : `<div class="flex wrap mt" style="gap:8px">${c && c.running ? '' : `<button class="btn pri" data-a="qstart">${q.next} 시작</button>`}<button class="btn" data-a="qauto" title="위험도·타이어·출격 타이밍을 수석 전략가(능력치 ${staffRating(t, 'strat')})가 정합니다. 능력치에 따라 결과 차이가 큽니다.">남은 예선 맡기기</button></div>`}${w.qDelegated && !sq ? '<p class="note">예선을 전략가에게 맡겼습니다.</p>' : ''}</div></section>
       ${q.finished && !sq && w.penalties.length ? `<section class="panel"><div class="panel-h"><h3>그리드 페널티</h3></div><div class="panel-b" style="font-size:12.5px">${w.penalties.map(p => `<div>${esc(S.drivers[p.id].kname)} — ${esc(p.why)}, ${p.places}계단 강등</div>`).join('')}</div></section>` : ''}
       <section class="panel"><div class="panel-h"><h3>${sq ? '스프린트 예선 방식' : '예선 방식'}</h3></div><div class="panel-b note">${how}</div></section>
     </div></div>`;
+}
+// ── v23 live qualifying: the player's controls for each car (status, timing call, tyres, push laps) ──
+const QL_PH = { garage: '가라지', out: '아웃랩', push: '푸시 랩', cool: '쿨다운 랩', in: '피트로 복귀', done: '세션 종료' };
+function qlSessHtml() {
+  const dur = (S.settings && S.settings.qLiveDur) || 60000;
+  return `<span class="rt ql-sess"><button class="btn sm ${QUALI.paused ? 'pri' : ''}" data-a="qlpause">${QUALI.paused ? '▶ 재개' : '❚❚ 일시정지'}</button><div class="seg sm" title="세션 전체를 실제로 몇 초에 진행할지">${[[30000, '30초'], [60000, '1분'], [120000, '2분'], [240000, '4분']].map(([v, l]) => `<button class="${dur === v ? 'on' : ''}" data-a="qlspeed" data-v="${v}">${l}</button>`).join('')}</div></span>`;
+}
+function qlFmt(sec) { sec = Math.max(0, sec); return `${Math.floor(sec / 60)}:${String(Math.floor(sec % 60)).padStart(2, '0')}`; }
+function qlCtl(did) {
+  const q = QUALI.state; const c = q && q.cur; const ql = c && c.ql; const x = ql && ql.cars[did]; if (!x) return '';
+  const w = S.weekend; const d = S.drivers[did]; const ord = ql.order(); const bests = ql.best();
+  const timed = ord.filter(id => bests[id] != null); const pos = bests[did] != null ? timed.indexOf(did) + 1 : null;
+  const cutN = ql.base === 'Q3' ? 1 : ql.cut; const cutT = timed[cutN - 1] ? bests[timed[cutN - 1]] : null;
+  const lineTxt = x.best == null ? '<span class="dim">기록 없음</span>' : ql.base === 'Q3' ? (pos === 1 ? '<b class="good">폴 포지션</b>' : `폴까지 <b>+${(x.best - bests[timed[0]]).toFixed(3)}</b>`)
+    : pos <= cutN ? `<span class="good">통과권</span> · ${timed[cutN] ? `${cutN + 1}위와 ${(bests[timed[cutN]] - x.best).toFixed(3)}초 차` : ''}` : `<span class="bad">탈락권</span> · 컷까지 <b>+${(x.best - cutT).toFixed(3)}</b>`;
+  const sets = w.tyres[did].filter(st => st.c === ql.comp); const fresh = sets.filter(st => st.wear < 0.5).length, used = sets.length - fresh;
+  const tf = ql.traffic(); const lvl = tf.level < 4 ? ['한산', 'good'] : tf.level < 8 ? ['보통', ''] : ['혼잡', 'bad'];
+  const left = ql.len - ql.t; const canGo = left > ql.lapT.out;
+  const evo = 0.35 * (1 - Math.min(1, (ql.t + ql.lapT.out) / ql.len));
+  const last = [...ql.events].reverse().find(e => e.id === did);
+  let act = '', st = QL_PH[x.phase];
+  if (x.phase === 'garage') {
+    st += x.run ? ` · 출격 ${x.run}회 완료` : '';
+    act = canGo ? `<button class="btn sm pri" data-a="qlsend" data-id="${did}" data-f="1" ${fresh ? '' : 'disabled'}>${tyreIcon(ql.comp)} 새 세트로 출격 <span class="dim">${fresh}</span></button>${ql.sq ? '' : `<button class="btn sm" data-a="qlsend" data-id="${did}" data-f="0" ${used ? '' : 'disabled'}>중고 세트로 <span class="dim">${used}</span></button>`}
+      <label class="chk sm"><input type="checkbox" data-a="qltwo" data-id="${did}" ${UI.qlTwo && UI.qlTwo[did] ? 'checked' : ''}> 푸시 2랩</label>` : '<span class="dim">남은 시간에 랩을 시작할 수 없습니다</span>';
+  } else if (x.phase === 'out') { st += ` · 푸시 시작까지 ${Math.max(0, Math.ceil(x.until - ql.t))}초`; act = `<button class="btn sm" data-a="qlbox" data-id="${did}">이번 랩 끝나고 들어와</button>`; }
+  else if (x.phase === 'push') { st += ` · ${Math.max(0, Math.ceil(x.until - ql.t))}초 남음${x.pushLeft > 1 ? ' · 다음 랩도 푸시' : ''}`; act = x.pushLeft > 1 ? `<button class="btn sm" data-a="qlbox" data-id="${did}">이 랩만 하고 들어와</button>` : ''; }
+  else if (x.phase === 'cool' || x.phase === 'in') { st += ` · ${Math.max(0, Math.ceil(x.until - ql.t))}초`; act = ql.canPushAgain(did) && x.phase === 'in' ? `<button class="btn sm" data-a="qlagain" data-id="${did}" title="같은 세트로 한 바퀴 식히고 한 번 더 (타이어 마모 +1랩)">한 번 더 푸시</button>` : ''; }
+  return `<div class="flex between"><div><b>${esc(d.kname)}</b> <span class="dim">${esc(d.code)}</span> <span class="chip ${x.phase === 'push' ? 'warn' : x.phase === 'garage' ? '' : 'info'}">${st}</span></div><div class="mono">${x.best != null ? fmtLap(x.best) : '—'}${pos ? ` <span class="dim">P${pos}</span>` : ''}</div></div>
+    <div class="note">${lineTxt}${last ? ` · <span class="dim">${esc(last.text)}</span>` : ''}</div>
+    ${x.live ? `<div class="ql-act">${act}<div class="seg sm" title="위험도">${[['safe', '안전'], ['normal', '표준'], ['max', '한계']].map(([k, l]) => `<button class="${x.risk === k ? 'on' : ''}" data-a="qrisk" data-id="${did}" data-r="${k}">${l}</button>`).join('')}</div></div>
+    ${x.phase === 'garage' && canGo ? `<div class="note ql-hint">트랙 <b class="${lvl[1]}">${lvl[0]}</b> (지금 ${tf.now}대 · 30초 안에 ${tf.soon}대 출격) · 지금 나가면 노면 손해 약 +${evo.toFixed(2)}초 · 남은 ${qlFmt(left)}</div>` : ''}` : '<div class="note">수석 전략가가 남은 세션을 운영합니다</div>'}`;
+}
+function qlCtlUpdate(force) {
+  const now = performance.now(); if (!force && now - (QUALI.ctlT || 0) < 250) return; QUALI.ctlT = now;
+  const q = QUALI.state; const c = q && q.cur; if (!c || !c.ql) return;
+  for (const did of playerTeam().drivers) { const el = document.getElementById('qlc-' + did); if (!el) continue; const h = qlCtl(did); if (el._h !== h) { el.innerHTML = h; el._h = h; } }
 }
 // the sprint's result, shown above the race qualifying and in the weekend's report
 function sprintResultPanel() {
@@ -11748,7 +12197,7 @@ function startRace() {
   if (!sp) mediaHook('predictRace', entries);
   // the resume record: seed, starting entries and options — with the logged inputs the race replays exactly after a reload
   const seed = ((Math.random() * 4294967296) >>> 0) || 1; const opts = sp ? sprintSimOpts() : { laps: w.laps, frac: w.frac, weather: w.weather, playerStrat: staffRating(playerTeam(), 'strat') };
-  w.raceRun = { v: 1, track: w.track, seed, opts: JSON.parse(JSON.stringify(opts)), entries: JSON.parse(JSON.stringify(entries)), log: [], n: 0 };
+  w.raceRun = { v: 2, track: w.track, seed, opts: JSON.parse(JSON.stringify(opts)), entries: JSON.parse(JSON.stringify(entries)), log: [], n: 0 };
   RACE.resuming = null; RACE._resumed = null;
   RACE.sim = new RaceSim(Object.assign({ track: tr, entries, seed }, opts)); RACE.acc = 0; RACE.savedLap = -1;
   RACE.running = true; RACE.lastSeq = 0; RACE.lastToastSeq = 0; RACE.layout = null; RACE.staticCv = null; RACE._finTop = false; RACE._finToast = false;
@@ -11975,6 +12424,7 @@ function updateRaceUI() {
   if (!el('r-lap')) return;
   if (typeof liveNudge === 'function') liveNudge(sim);
   if (typeof redCheck === 'function') redCheck(sim);
+  if (typeof scCheck === 'function') scCheck(sim);
   const lm = el('live-mini'); if (lm) lm.textContent = liveMiniText();
   const lead = sim.order[0];
   const lapNow = sim.phase === 'grid' ? 0 : Math.min(sim.laps, Math.max(1, (lead ? lead.lap : 0) + 1));
@@ -12024,7 +12474,7 @@ function updateRaceUI() {
     const auto = card.querySelector('[data-a="rauto"]'); if (auto) auto.checked = !!c.autoPit;
     const ae = card.querySelector('[data-a="rautoe"]'); if (ae) ae.checked = !!c.autoErs;
     const pr = !c.retired && !c.finished && !c.inPit ? sim.predictPit(c) : null;
-    f('pred').innerHTML = c.inPit && !c.retired && (c.pitStage === 'red' || c.pitStage === 'parked') ? `<b class="bad">레드 플래그</b> · ${c.pitStage === 'red' ? '피트레인 정렬 중' : `${c._redPos || '?'}번째로 정렬`}` : c.inPit && !c.retired ? `<b class="warn">피트 진행 중</b>${c.pitStage === 'stop' ? ` · 정지 ${Math.max(0, (c.lastStop || 0) - c.pitTimer).toFixed(1)}초` : ''}` : pr ? `지금 박스 → <b>P${pr.pos}</b> 복귀${pr.ahead ? ` · 앞 ${esc(pr.ahead.code)} <span class="${pr.ahead.gap < 1 ? 'warn' : ''}">+${pr.ahead.gap.toFixed(1)}</span>` : ''}${pr.behind ? ` · 뒤 ${esc(pr.behind.code)} −${pr.behind.gap.toFixed(1)}` : ''} <span class="dim">(손실 ${pr.loss.toFixed(1)}s${sim.sc ? ', ' + sim.sc.type + ' 효과' : ''})</span>` : '';
+    f('pred').innerHTML = c.inPit && !c.retired && (c.pitStage === 'red' || c.pitStage === 'parked') ? `<b class="bad">레드 플래그</b> · ${c.pitStage === 'red' ? '피트레인 정렬 중' : `${c._redPos || '?'}번째로 정렬`}` : c.inPit && !c.retired ? `<b class="warn">피트 진행 중</b>${c.pitStage === 'stop' ? ` · 정지 ${Math.max(0, (c.lastStop || 0) - c.pitTimer).toFixed(1)}초` : ''}` : pr ? `지금 박스 → <b>P${pr.pos}</b>${pitRangeTxt(pr)} 복귀${pr.ahead ? ` · 앞 ${esc(pr.ahead.code)} <span class="${pr.ahead.gap < 1 ? 'warn' : ''}">+${pr.ahead.gap.toFixed(1)}</span>` : ''}${pr.behind ? ` · 뒤 ${esc(pr.behind.code)} −${pr.behind.gap.toFixed(1)}` : ''} <span class="dim">(${pitLossTxt(pr)})</span>` : '';
     // projected finish and the value of stopping now (refreshed about once a second; deterministic model, shown as an estimate)
     const now = performance.now();
     if (!RACE.projCache || RACE.projSim !== sim || now - RACE.projT > 900) { RACE.projCache = {}; RACE.projT = now; RACE.projSim = sim; }
@@ -12074,6 +12524,13 @@ function renderStratPane() {
   }
   if (box.contains(document.activeElement) && document.activeElement.tagName === 'BUTTON' && performance.now() - (RACE._stratEdit || 0) < 600) return;
   box.innerHTML = stratPaneHtml(playerTeam().drivers);
+}
+// v23: one wording for the pit numbers on every screen (console, pit wall, classic view) — all from sim.predictPit()
+function pitRangeTxt(pr) { return pr && pr.lo !== pr.hi ? ` <span class="dim" title="같은 시점에 다른 차들이 피트에 들어오는지에 따라 달라지는 범위">(P${pr.lo}–${pr.hi})</span>` : ''; }
+function pitLossTxt(pr) {
+  if (!pr) return '';
+  const P = pr.parts; const k = P.kind === 'G' ? '' : `${P.kind} 중 `;
+  return `${k}손실 ${pr.loss.toFixed(1)}s${P.queue ? ' · 더블스택 대기 포함' : ''}${P.kind === 'G' ? ` · SC면 ${P.alt.SC.toFixed(1)}s` : ` · 그린이면 ${P.alt.G.toFixed(1)}s`}`;
 }
 function stratPaneHtml(ids) {
   const sim = RACE.sim;
@@ -12238,7 +12695,7 @@ const WACT = {
   pauto: d => { applySetupValues(d.id, engineerSuggest(d.id)); render(); toast(S.weekend.setup[d.id].est ? '피드백 기반 추천값을 적용했습니다' : '엔지니어 경험치 기반 추천값을 적용했습니다 (피드백 없음)'); },
   pnext: () => weekendContinue(),
   pautoall: () => { autoPractice(); QUALI.state = null; saveGame(); render(); toast('엔지니어가 남은 연습 주행을 진행했습니다'); },
-  qrisk: d => { S.weekend.qualiRisk[d.id] = d.r; render(); },
+  qrisk: d => { S.weekend.qualiRisk[d.id] = d.r; const c = QUALI.state && QUALI.state.cur; if (c && c.ql && c.running && c.ql.cars[d.id]) { c.ql.cars[d.id].risk = d.r; qlCtlUpdate(true); } else render(); },
   qtyre: d => { S.weekend.qualiTyres[d.id] = d.t; render(); },
   qstart: () => weekendContinue(),
   qskip: () => qualiSkip(),
@@ -12763,6 +13220,111 @@ Object.assign(ACT, {
   },
 });
 
+// ── v23: safety car / VSC call — the race stops and the pit wall decides box or stay for each car it runs ──
+// Shown once per neutralisation (setting: S.settings.scPause, on by default). Every number on the card comes from the same
+// engine calls as the console and the pit wall (predictPit / pitNowVsPlan / stopChance), so they agree.
+function scCalls() { return (RACE.sim && (RACE.sim.scCount || 0) + (RACE.sim.vscCount || 0)) || 0; }
+function scCheck(sim) {
+  if (!sim || RACE.skipping || RACE.replaying || sim.phase !== 'racing' || !sim.sc || sim.sc.ending || sim.sc.red) return;
+  const n = scCalls(); if (n <= (sim._scModal || 0)) return;
+  sim._scModal = n;
+  if ((S.settings || {}).scPause === false || sim.sprint && sim.laps - sim.leaderLap() < 3) return;
+  const mine = scMine(sim); if (!mine.length) return;
+  if (!$('#modal').hidden) return;
+  if (!UI.livePaused) { UI.livePrevRunning = RACE.running; UI.livePaused = true; }
+  RACE.running = false; if (typeof updateSpeedSeg === 'function') updateSpeedSeg();
+  modal(scHtml(), true);
+}
+function scMine(sim) { const ids = typeof myCars === 'function' ? myCars() : playerTeam().drivers; return ids.map(id => sim.byId[id]).filter(c => c && !c.retired && !c.finished && !c.inPit && sim.laps - c.lap > 2); }
+function scHtml() {
+  const sim = RACE.sim; if (!sim || !sim.sc) return '';
+  const kind = sim.sc.type === 'VSC' ? 'VSC' : 'SC';
+  const ev = [...sim.events].reverse().find(e => e.type === 'sc');
+  const lapNow = Math.max(1, sim.leaderLap() + 1);
+  const cars = scMine(sim);
+  const staff = typeof staffCars === 'function' ? staffCars().map(id => sim.byId[id]).filter(c => c && !c.retired) : [];
+  const rows = cars.map(c => {
+    const pr = sim.predictPit(c); const cmp = sim.pitNowVsPlan(c, (20 - staffRating(playerTeam(), 'strat')) * 0.25);
+    const i = sim.order.indexOf(c); const near = [sim.order[i - 2], sim.order[i - 1], sim.order[i + 1], sim.order[i + 2]].filter(o => o && !o.retired && o.team !== c.team);
+    const nearTxt = near.map(o => { const p = Math.round(sim.stopChance(o, lapNow) * 100); return `<span class="${p >= 60 ? 'warn' : 'dim'}">${esc(o.code)} ${p}%</span>`; }).join(' · ');
+    const boxBetter = cmp && cmp.gain > 0.5;
+    const comps = ['S', 'M', 'H', 'I', 'W'].filter(k => c.sets.some(s => s.c === k) && ('SMH'.includes(k) ? sim.wet < 0.3 : sim.wet > 0.15));
+    const rec = pr ? pr.parts.comp : null;
+    const btns = comps.map(k => `<button class="btn sm ${c.boxRequest === k ? 'pri' : ''}" data-a="rbox" data-id="${c.id}" data-c="${k}" title="${COMPOUNDS[k].name} — 남은 세트 ${c.sets.filter(s => s.c === k).length}">${tyreIcon(k)} 박스${k === rec ? ' <span class="dim">추천</span>' : ''}</button>`).join('');
+    const life = sim.stintLapsLeft(c); const left = sim.laps - c.lap - 1;
+    return `<div class="sc-car ${c.boxRequest ? 'boxing' : ''}">
+      <div class="sc-car-h"><b>P${i + 1} ${esc(c.code)}</b> <span class="dim">${esc(S.drivers[c.id].kname)}</span> <span class="sc-tyre">${tyreIcon(c.compound)} ${c.tyreAge}랩 · 마모 ${Math.round(c.wear)}% · 이 타이어로 약 ${Math.max(0, Math.round(life))}랩 / 남은 ${left}랩</span></div>
+      <div class="sc-grid">
+        <div><div class="dim">지금 박스</div><b class="sc-big">P${pr ? pr.pos : '?'}</b>${pitRangeTxt(pr)} 복귀<div class="note">${pitLossTxt(pr)}</div></div>
+        <div><div class="dim">예상 피니시</div>${cmp ? `박스 <b>P${cmp.now.pos}</b> · 스테이 <b>P${cmp.plan.pos}</b><div class="note ${boxBetter ? 'good' : ''}">${cmp.gain > 0 ? `박스가 ${cmp.gain.toFixed(1)}초 유리` : `스테이가 ${(-cmp.gain).toFixed(1)}초 유리`} · 전략가 추천: <b>${boxBetter ? '박스' : '스테이'}</b></div>` : '<span class="dim">계산 불가</span>'}</div>
+        <div><div class="dim">주변 차 박스 예상</div><div class="sc-near">${nearTxt || '<span class="dim">—</span>'}</div></div>
+      </div>
+      <div class="sc-btns">${btns}<button class="btn sm ${!c.boxRequest ? 'on' : ''}" data-a="rstay" data-id="${c.id}">스테이 아웃</button>${c.boxRequest ? `<span class="good">→ ${COMPOUNDS[c.boxRequest].name}로 박스</span>` : '<span class="dim">→ 코스에 남음</span>'}</div>
+    </div>`;
+  }).join('');
+  const both = cars.length === 2 && cars.every(c => c.boxRequest);
+  const dbl = both ? `<p class="note warn">더블스택: 두 대 모두 박스 — 뒤에 들어오는 차는 앞 차 작업이 끝날 때까지 약 3.5초 기다립니다 (복귀 예측에 포함).</p>` : '';
+  const st = staff.length ? `<p class="note">${staff.map(c => esc(c.code)).join(', ')}는 수석 전략가가 판단합니다.</p>` : '';
+  return `<div class="modal-h"><h3><span class="flag ${kind === 'SC' ? 'sc' : 'vsc'}">${kind === 'SC' ? 'SAFETY CAR' : 'VIRTUAL SC'}</span> ${kind === 'SC' ? '세이프티카' : '버추얼 세이프티카'} — 박스할까?</h3><span class="rt2 dim" style="margin-left:auto">${lapNow}랩 · 레이스 일시정지</span></div>
+    <div class="modal-b">${ev ? `<p class="muted" style="margin-top:0">${esc(ev.text)}</p>` : ''}<p class="note">${kind === 'SC' ? 'SC 중 피트 손실은 그린의 약 절반입니다. 다만 다른 차들도 대부분 들어오므로 순위 이득은 생각보다 작을 수 있습니다.' : 'VSC는 모두가 같은 비율로 느려집니다 — 피트 손실은 그린의 약 60%이고 간격은 그대로 유지됩니다.'}</p>
+      ${rows}${dbl}${st}
+      <div class="sc-foot"><label class="chk"><input type="checkbox" data-a="scpausetoggle" ${(S.settings || {}).scPause === false ? '' : 'checked'}> SC·VSC 때마다 이 창 띄우기</label><button class="btn pri" data-a="scgo" style="margin-left:auto">결정하고 재개 <kbd class="k">Esc</kbd></button></div></div>`;
+}
+
+// ── v23: rival strategy as the pit wall reads it (timing screen only), with a cover order ──
+function rivalRowsHtml(sim, me) {
+  const lapNow = Math.max(1, sim.leaderLap() + 1); const i = sim.order.indexOf(me);
+  const near = []; for (let d = -3; d <= 3; d++) { const o = sim.order[i + d]; if (d && o && !o.retired && !o.finished && o.team !== me.team) near.push(o); }
+  return near.map(o => {
+    const dist = sim.estStopsDist(o); const top = dist[0]; const alt = dist[1];
+    const planTxt = st => st.stops.length ? st.stops.map(x => `L${x.lap} ${COMPOUNDS[x.c].short}`).join(' → ') : '스톱 없음';
+    const pNow = Math.round(sim.stopChance(o, lapNow) * 100); const g = sim.gapTime(me, o); const covering = me.coverId === o.id;
+    return `<tr class="${covering ? 'cov' : ''}"><td class="ps">P${sim.order.indexOf(o) + 1}</td><td class="cd"><i style="background:${o.color}"></i>${esc(o.code)}</td><td class="r mono">${g > 0 ? '+' : '−'}${Math.abs(g).toFixed(1)}</td>
+      <td>${tyreIcon(o.compound)}<span class="pw-age">${o.tyreAge}</span> <span class="dim">≈${Math.round(sim.estWear(o))}%</span></td>
+      <td><b>${planTxt(top)}</b> <span class="dim">${Math.round(top.p * 100)}%</span>${alt ? `<div class="dim" style="font-size:11px">또는 ${planTxt(alt)} ${Math.round(alt.p * 100)}%</div>` : ''}</td>
+      <td class="r"><span class="${pNow >= 40 ? 'warn' : 'dim'}">${pNow}%</span></td>
+      <td><button class="btn sm ${covering ? 'pri' : 'ghost'}" data-a="rcover" data-id="${me.id}" data-r="${o.id}" title="${esc(o.code)}가 피트인하면 ${esc(me.code)}도 다음 기회에 바로 박스">${covering ? '커버 중' : '커버'}</button></td></tr>`;
+  }).join('');
+}
+
+Object.assign(WACT, {
+  rcover: d => { const sim = RACE.sim; const c = sim && sim.byId[d.id]; if (!c || c.retired) return; c.coverId = c.coverId === d.r ? null : d.r;
+    toast(c.coverId ? `커버 지시: ${sim.byId[d.r].code}가 피트인하면 ${c.code}도 바로 박스합니다` : `${c.code} 커버 지시 해제`); if (typeof pwUpdate === 'function') pwUpdate(true); },
+  rstay: d => { const sim = RACE.sim; if (!sim) return; sim.cancelBox(d.id); scRefreshSoon(); updateRaceUI(); },
+  // hotkey box: the recommended compound, or cancel a call already made
+  rboxkey: d => { const sim = RACE.sim; const c = sim && sim.byId[d.id]; if (!c || c.retired || c.finished) return;
+    if (c.boxRequest) { sim.cancelBox(d.id); toast(`${c.code} 박스 취소`); }
+    else { const k = sim.pitLossParts(c).comp; if (sim.requestBox(d.id, k)) toast(`${c.code} 박스 — ${COMPOUNDS[k].name}`); else toast('남은 세트가 없습니다', true); }
+    updateRaceUI(); },
+});
+Object.assign(ACT, {
+  scgo: () => closeModal(),
+  scpausetoggle: (d, el) => { S.settings = S.settings || {}; S.settings.scPause = !!el.checked; saveGame(); },
+});
+function scRefreshSoon() { setTimeout(() => { const m = $('#modal'); if (m && !m.hidden && m.querySelector('[data-a="scgo"]')) modal(scHtml(), true); }, 0); }
+// the box buttons on the card re-draw it (and warn about a double stack the moment the second car is called in)
+(() => {
+  const rb = WACT.rbox;
+  WACT.rbox = function (d) {
+    const out = rb.apply(this, arguments);
+    const sim = RACE.sim; const c = sim && sim.byId[d.id];
+    if (c && c.boxRequest) { const mate = sim.cars.find(o => o !== c && o.team === c.team && !o.retired && (o.boxRequest || o.inPit));
+      if (mate && Math.abs(sim.gapTime(mate, c)) < 12) toast(`더블스택 주의: ${c.code}는 ${mate.code} 작업이 끝날 때까지 약 3.5초 대기합니다`, true); }
+    scRefreshSoon();
+    return out;
+  };
+})();
+// race hotkeys: 1–7 speed, B / N box (or cancel) car 1 / car 2 with the recommended tyre
+document.addEventListener('keydown', e => {
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (!S || UI.view !== 'weekend' || !S.weekend || S.weekend.stage !== 'race' || !RACE.sim) return;
+  if (/INPUT|TEXTAREA|SELECT/.test((document.activeElement || {}).tagName || '') || !$('#modal').hidden) return;
+  const sp = { 1: 1, 2: 2, 3: 4, 4: 8, 5: 16, 6: 32, 7: 64 }[e.key];
+  if (sp) { e.preventDefault(); WACT.rspeed({ s: sp }); return; }
+  const k = e.key.toLowerCase(); const ids = playerTeam().drivers;
+  if (k === 'b' || k === 'n') { const id = ids[k === 'b' ? 0 : 1]; if (id && (typeof myCars !== 'function' || myCars().includes(id))) { e.preventDefault(); WACT.rboxkey({ id }); } }
+});
+
 // ───────── pitwall.js — 전문가 모드 (Strategy Analysis): the strategy room ─────────
 // Race and sprint: a multi-screen pit wall — the player lays out the screens (timing with sector colours, race trace with
 // forecast lines, pit-window slice with rejoin, tyres and stints, lap times, battles, projected order, the plan, the map,
@@ -12773,7 +13335,7 @@ Object.assign(ACT, {
 
 const PW = { t: {}, keys: {}, html: {} };
 const PW_LAYOUTS = { s6: { name: '6분할', n: 6 }, q4: { name: '4분할', n: 4 }, f4: { name: '집중 1+3', n: 4 }, w3: { name: '3열', n: 3 } };
-const PW_DEF = ['timing', 'trace', 'window', 'map', 'tyres', 'battle'];
+const PW_DEF = ['timing', 'trace', 'window', 'map', 'rivals', 'battle'];   // v23: rival estimates in place of the stint chart (still selectable)
 function pwOn() { return !!(S && S.mode === 'sa' && !(S.settings && S.settings.pwClassic)); }
 function pwConf() {
   S.settings = S.settings || {};
@@ -12846,7 +13408,7 @@ function pwSecCell(v, k, c, sb) { if (v == null || !(v > 0)) return '<td class="
 const pwT = c => c.lineT || [];
 function pwPitLaps(c) { return ((c.an && c.an.pits) || []).map(p => p.lap); }
 function pwScBands(sim) { const out = []; (sim.scHist || []).forEach((t, i) => { if (!t) return; const lap = i + 1; const l = out[out.length - 1]; const tt = t === 'RED' ? 'SC' : t; if (l && l.t === tt && l.x1 === lap - 1) l.x1 = lap; else out.push({ t: tt, x0: lap, x1: lap }); }); return out; }
-function pwAvgLast(c, n = 3) { const pits = new Set(pwPitLaps(c).flatMap(l => [l, l + 1])); const v = c.lapTimes.map((t, i) => ({ t, lap: i + 1 })).filter(x => x.lap > 1 && !pits.has(x.lap)).slice(-n).map(x => x.t); return v.length ? avg(v) : null; }
+function pwAvgLast(c, n = 3) { const pits = new Set(pwPitLaps(c).flatMap(l => [l, l + 1])); const sc = (RACE.sim && RACE.sim.scHist) || []; const v = c.lapTimes.map((t, i) => ({ t, lap: i + 1 })).filter(x => x.lap > 1 && !pits.has(x.lap) && !sc[x.lap - 1]).slice(-n).map(x => x.t); return v.length ? avg(v) : null; }
 // which cars a chart follows: our cars and the ones around them, the top ten, or everyone
 function pwPick(sim, set) {
   const run = sim.order.filter(c => !c.retired);
@@ -12885,7 +13447,17 @@ const PW_WIDGETS = {
       let ymax = 0; const series = cars.map(c => {
         const T = pwT(c); const pts = T.map((t, k) => [k + 1, t - ref(k)]); const lastG = pts.length ? pts[pts.length - 1][1] : 0;
         for (const p of pts) if (p[1] < 150) ymax = Math.max(ymax, p[1]);
-        const a = pwAvgLast(c); const fore = a && !c.inPit && pts.length ? [1, 2, 3].map(j => [pts.length + j, lastG + j * (a - refAvg)]) : [];
+        // forecast: green = recent pace; v23 under a safety car the queue closes up (gaps to the leader shrink to ~0.9 s a
+        // place), under a VSC everyone slows by the same share (gaps hold) — instead of running on at green-flag pace
+        const a = pwAvgLast(c); let fore = [];
+        if (a && !c.inPit && pts.length) {
+          const neut = sim.sc && !sim.sc.ending ? sim.sc.type : null; const L0 = pts.length;
+          if (neut === 'SC') { const q = sim.order.indexOf(c) * 0.9 + sim.lapsDown(c) * sim.lapRef; const slow = o.ref === 'avg' ? 0.45 * refLap : 0;
+            const leadG = o.ref === 'avg' ? (pwT(lead)[L0 - 1] ?? 0) - L0 * refLap : 0; const tgt = j => leadG + j * slow + q;
+            fore = [1, 2, 3].map(j => [L0 + j, j === 1 ? lastG + (tgt(1) - lastG) * 0.6 : tgt(j)]); }
+          else if (neut === 'VSC') fore = [1, 2, 3].map(j => [L0 + j, lastG + (o.ref === 'avg' ? j * 0.35 * refLap : 0)]);
+          else fore = [1, 2, 3].map(j => [L0 + j, lastG + j * (a - refAvg)]);
+        }
         return { c: pwCol(c), w: c.player ? 2.6 : 1.3, op: c.player ? 1 : 0.85, pts: pts.map(p => [p[0], p[1] > 150 ? NaN : p[1]]), fore, lab: c.code };
       });
       const marks = cars.flatMap(c => pwPitLaps(c).filter(l => pwT(c)[l - 1] != null).map(l => ({ x: l, y: pwT(c)[l - 1] - ref(l - 1), c: (COMPOUNDS[(c.an.pits.find(p => p.lap === l) || {}).to] || COMPOUNDS.M).color })));
@@ -12897,15 +13469,16 @@ const PW_WIDGETS = {
       const mine = pwMine().map(id => sim.byId[id]).filter(c => c && !c.retired && !c.finished);
       if (!mine.length || sim.phase === 'grid') return '<div class="pw-empty">출발하면 계산합니다</div>';
       return mine.map(me => {
-        const loss = sim.pitLossNow(me); const tbMe = sim.timeBehind(me); const pr = sim.predictPit(me);
-        const others = sim.cars.filter(o => o !== me && !o.retired && !o.finished).map(o => ({ o, d: sim.timeBehind(o) - tbMe }));
-        const lo = -8, hi = Math.max(loss + 10, 30); const L = 10, R = 10, H = 92, ax = 46;
+        const pr = sim.predictPit(me); const loss = pr ? pr.loss : sim.pitLossNow(me); const P = pr ? pr.parts : sim.pitLossParts(me);
+        const others = sim.cars.filter(o => o !== me && !o.retired && !o.finished).map(o => ({ o, d: sim.gapTime(me, o) }));
+        const lo = -8, hi = Math.max(loss + 10, P.alt.G + 4, 30); const L = 10, R = 10, H = 92, ax = 46;
         const X = v => L + (Math.max(lo, Math.min(hi, v)) - lo) / (hi - lo) * (W - L - R);
         let g = `<line x1="${L}" x2="${W - R}" y1="${ax}" y2="${ax}" class="pw-axis"/>`;
         for (let v = Math.ceil(lo / 5) * 5; v <= hi; v += 5) g += `<line x1="${X(v)}" x2="${X(v)}" y1="${ax - 3}" y2="${ax + 3}" class="pw-axis"/><text x="${X(v)}" y="${H - 2}" class="pw-xt">${v > 0 ? '+' + v : v}</text>`;
         g += `<rect x="${X(0)}" y="${ax - 15}" width="${X(loss) - X(0)}" height="30" class="pw-loss"/>`;
-        const scLoss = (sim.sc && sim.sc.type === 'SC') ? null : loss * 0.52;
-        if (scLoss) g += `<line x1="${X(scLoss)}" x2="${X(scLoss)}" y1="${ax - 22}" y2="${ax + 22}" class="pw-scl"/><text x="${X(scLoss) + 3}" y="${ax - 27}" class="pw-xt" text-anchor="start">SC 시</text>`;
+        // the same stop under the other race states (one table of factors: sim.pitLossParts), so the panels never disagree
+        const alts = P.kind === 'G' ? [['SC', P.alt.SC], ['VSC', P.alt.VSC]] : [['그린', P.alt.G]];
+        alts.forEach(([lbl, v]) => { g += `<line x1="${X(v)}" x2="${X(v)}" y1="${ax - 22}" y2="${ax + 22}" class="pw-scl"><title>${lbl}였다면 손실 ${v.toFixed(1)}초</title></line>`; });
         g += `<line x1="${X(loss)}" x2="${X(loss)}" y1="${ax - 24}" y2="${ax + 24}" class="pw-rej"/><text x="${Math.min(X(loss) + 3, W - 60)}" y="${ax - 27}" class="pw-rt" text-anchor="start">복귀 P${pr ? pr.pos : '?'}</text>`;
         // codes on two rows above and two below; a code that would sit on another is left to the dot's tooltip
         const rows = [[], [], [], []]; const ry = [ax - 9, ax + 17, ax - 19, ax + 27];
@@ -12917,7 +13490,7 @@ const PW_WIDGETS = {
         // undercut threats: right behind us; chances: right ahead of us (tyre age tells who is due a stop)
         const near = others.filter(x => x.d < 0 && x.d > -4).sort((a, b) => b.d - a.d).slice(0, 2).reverse().concat(others.filter(x => x.d >= 0 && x.d < 4).sort((a, b) => a.d - b.d).slice(0, 2));
         const tip = near.map(x => `<span class="${x.d > 0 ? 'bad' : 'good'}">${x.d > 0 ? '뒤' : '앞'} ${esc(x.o.code)} ${Math.abs(x.d).toFixed(1)}s</span> <span class="dim">${COMPOUNDS[x.o.compound].short}${x.o.tyreAge}</span>`).join(' · ');
-        return `<div class="pw-win"><div class="pw-win-h"><b>${esc(me.code)}</b> <span class="dim">P${sim.order.indexOf(me) + 1} · ${COMPOUNDS[me.compound].short}${me.tyreAge}랩 · 마모 ${Math.round(me.wear)}%</span><span class="pw-win-r">지금 박스 → <b>P${pr ? pr.pos : '?'}</b> <span class="dim">(손실 ${loss.toFixed(1)}s${sim.sc ? ' · ' + sim.sc.type : ''})</span></span></div>
+        return `<div class="pw-win"><div class="pw-win-h"><b>${esc(me.code)}</b> <span class="dim">P${sim.order.indexOf(me) + 1} · ${COMPOUNDS[me.compound].short}${me.tyreAge}랩 · 마모 ${Math.round(me.wear)}%</span><span class="pw-win-r">지금 박스 → <b>P${pr ? pr.pos : '?'}</b>${pitRangeTxt(pr)} <span class="dim">(${pitLossTxt(pr)})</span></span></div>
           <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(me.code)} 피트 복귀 예측">${g}</svg>
           <div class="pw-win-f">${pr ? `${pr.ahead ? `복귀 시 앞 <b>${esc(pr.ahead.code)}</b> ${pr.ahead.gap.toFixed(1)}s` : '복귀 시 선두'}${pr.behind ? ` · 뒤 <b>${esc(pr.behind.code)}</b> ${pr.behind.gap.toFixed(1)}s` : ''}` : ''}${tip ? ` <span class="pw-sep">|</span> ${tip}` : ''}</div></div>`;
       }).join('');
@@ -12958,13 +13531,18 @@ const PW_WIDGETS = {
         if (!o || o.retired) return `<div class="pw-bt0">${side === 'a' ? '선두' : '뒤에 차 없음'}</div>`;
         const A = side === 'a' ? o : me, B = side === 'a' ? me : o;   // interval = B behind A
         const TA = pwT(A), TB = pwT(B); const n = Math.min(TA.length, TB.length);
-        const hist = []; for (let k = Math.max(0, n - 8); k < n; k++) hist.push(TB[k] - TA[k]);
+        // v23: the trend only uses laps since the last stop of either car and the last neutralisation — a pit stop or a
+        // safety car moves the gap in one jump (it read as "+5.25 s/lap" before), which is not a rate
+        const sc = sim.scHist || []; let from = Math.max(0, ...pwPitLaps(A), ...pwPitLaps(B)) + 1;   // lap after the out-lap (index = lap − 1)
+        for (let k = 0; k < n; k++) if (sc[k]) from = Math.max(from, k + 2);
+        const hist = [], xs = []; for (let k = Math.max(from, n - 8); k < n; k++) { hist.push(TB[k] - TA[k]); xs.push(k); }
         const now = side === 'a' ? sim.intervalTo(me, o) : sim.intervalTo(o, me);
-        const fit = hist.length >= 3 ? dcFit(hist.slice(-5).map((_, i) => i), hist.slice(-5)) : null; const rate = fit ? fit.slope : null;   // s/lap (+ = gap growing)
+        const fit = hist.length >= 3 ? dcFit(xs.slice(-5), hist.slice(-5)) : null; const rate = fit ? fit.slope : null;   // s/lap (+ = gap growing)
         const lapsTo = rate != null && now != null && now > 1 && rate < -0.02 ? Math.ceil((now - 1) / -rate) : null;
         const w = 120, h = 28; const mx = Math.max(1.2, ...hist.map(Math.abs)); const sp = hist.length > 1 ? hist.map((v, i) => `${(i / (hist.length - 1) * (w - 4) + 2).toFixed(1)},${(h - 2 - Math.min(v, mx) / mx * (h - 4)).toFixed(1)}`).join(' ') : '';
         const closing = rate != null && rate < -0.05, opening = rate != null && rate > 0.05;
-        const msg = side === 'a' ? (closing ? `따라잡는 중 ${(-rate).toFixed(2)}s/랩${lapsTo ? ` · ${lapsTo}랩 뒤 1초 이내` : ''}` : opening ? `멀어지는 중 +${rate.toFixed(2)}s/랩` : '간격 유지')
+        const fresh = hist.length < 3 ? `<span class="dim">${from > 1 && from >= n - 2 ? '피트·SC 이후 랩이 쌓이는 중' : '랩이 쌓이는 중'}</span>` : null;
+        const msg = fresh ? fresh : side === 'a' ? (closing ? `따라잡는 중 ${(-rate).toFixed(2)}s/랩${lapsTo ? ` · ${lapsTo}랩 뒤 1초 이내` : ''}` : opening ? `멀어지는 중 +${rate.toFixed(2)}s/랩` : '간격 유지')
           : (closing ? `<span class="bad">추격당하는 중 ${(-rate).toFixed(2)}s/랩${lapsTo ? ` · ${lapsTo}랩 뒤 1초 이내` : ''}</span>` : opening ? `<span class="good">벌리는 중 +${rate.toFixed(2)}s/랩</span>` : '간격 유지');
         const pa = pwAvgLast(o), pm = pwAvgLast(me);
         return `<div class="pw-bt1"><div class="pw-bt-h"><span class="dim">${side === 'a' ? '앞' : '뒤'}</span> <b style="color:${pwCol(o)}">${esc(o.code)}</b> <b class="mono pw-big">${now != null ? now.toFixed(1) : '—'}</b><span class="dim">s</span> ${tyreIcon(o.compound)}<span class="dim">${o.tyreAge}랩</span></div>
@@ -12977,8 +13555,11 @@ const PW_WIDGETS = {
     draw(sim) {
       if (sim.phase !== 'racing') return '<div class="pw-empty">레이스가 시작되면 계산합니다</div>';
       const po = sim.projectOrder(); const cur = c => sim.order.indexOf(c) + 1;
-      const rows = po.map((x, i) => { const d = cur(x.c) - (i + 1); return `<div class="po-row ${x.c.player ? 'me' : ''}"><b>P${i + 1}</b><span style="width:3px;height:12px;background:${x.c.color}"></span><span>${esc(x.c.code)}</span><span class="dim">지금 P${cur(x.c)}</span><span class="${d > 0 ? 'good' : d < 0 ? 'bad' : 'dim'}">${d > 0 ? '▲' + d : d < 0 ? '▼' + (-d) : '–'}</span></div>`; }).join('');
-      return `<div class="pw-po">${rows}</div><div class="pw-foot">현재 페이스 · 마모 · 남은 스톱 기준 추정. 추월 난이도·사고는 반영하지 않습니다</div>`;
+      const vt = sim.viewerTeam();
+      const rows = po.map((x, i) => { const d = cur(x.c) - (i + 1); const own = x.c.team === vt; const st = own ? sim.expectedStops(x.c) : sim.estStops(x.c);
+        const stx = x.c.finished || x.c.retired ? '' : st.length ? `<span class="dim" title="${own ? '우리 계획' : '보이는 정보로 추정한 남은 스톱'}">${own ? '' : '≈'}${st.length}스톱 남음</span>` : '<span class="dim">스톱 없음</span>';
+        return `<div class="po-row ${x.c.player ? 'me' : ''}"><b>P${i + 1}</b><span style="width:3px;height:12px;background:${x.c.color}"></span><span>${esc(x.c.code)}</span><span class="dim">지금 P${cur(x.c)}</span><span class="${d > 0 ? 'good' : d < 0 ? 'bad' : 'dim'}">${d > 0 ? '▲' + d : d < 0 ? '▼' + (-d) : '–'}</span>${stx}</div>`; }).join('');
+      return `<div class="pw-po">${rows}</div><div class="pw-foot">우리 차는 실제 계획·마모로, 다른 팀은 타이밍 화면에 보이는 정보(출발 타이어·스톱 기록·타이어 사용 랩·랩타임)로 추정합니다. ≈ = 추정 · SC 중이면 대열이 좁혀지는 것까지 반영</div>`;
     } },
   plan: { name: '전략 · 피트 계획', every: 1000, key: sim => Math.floor(sim.t) + ':' + pwMine().map(id => JSON.stringify((sim.byId[id] || {}).plan || [])).join(),
     draw() { return typeof stratPaneHtml === 'function' ? `<div class="strat-pane pw-plan">${stratPaneHtml(pwMine())}</div>` : ''; } },
@@ -12987,6 +13568,15 @@ const PW_WIDGETS = {
       const tr = RACE.sim.track;
       return `<div class="map-wrap pw-map" id="mapwrap"><canvas id="mapcv" role="img" aria-label="서킷 위 차량 위치 지도"></canvas><div id="v3d" style="position:absolute;inset:0" ${RACE.view === '3d' ? '' : 'hidden'}></div>
         <div class="map-ui"><div class="seg sm"><button data-a="rview" data-v="2d" class="${RACE.view === '2d' ? 'on' : ''}">2D</button><button data-a="rview" data-v="3d" class="${RACE.view === '3d' ? 'on' : ''}">3D</button></div><button class="btn sm ghost" data-a="rlabels" ${RACE.view === '3d' ? 'hidden' : ''}>${RACE.labels === 'all' ? '라벨 줄이기' : '모든 라벨'}</button><span id="r-cam" ${RACE.view === '3d' ? '' : 'hidden'} class="seg sm"><button data-a="rcam" data-c="tv">TV</button><button data-a="rcam" data-c="chase">추적</button><button data-a="rcam" data-c="onboard">온보드</button><button data-a="rcam" data-c="heli">헬기</button></span></div></div>`;
+    } },
+  rivals: { name: '상대 전략 추정 · 커버', every: 1000,
+    key: sim => Math.floor(sim.t / 2) + ':' + sim.order.map(c => c.id + c.stops + (c.coverId || '')).join(),
+    draw(sim) {
+      const mine = pwMine().map(id => sim.byId[id]).filter(c => c && !c.retired && !c.finished);
+      if (!mine.length || sim.phase === 'grid') return '<div class="pw-empty">출발하면 계산합니다</div>';
+      return mine.map(me => `<div class="pw-riv"><div class="pw-win-h"><b>${esc(me.code)}</b> <span class="dim">P${sim.order.indexOf(me) + 1} 앞뒤 3대</span>${me.coverId && sim.byId[me.coverId] ? ` <span class="chip info">${esc(sim.byId[me.coverId].code)} 커버 중</span>` : ''}</div>
+        <table class="pw-rt"><thead><tr><th></th><th></th><th class="r">간격</th><th>타이어</th><th>추정 계획</th><th class="r" title="이번 랩 피트인 확률">박스</th><th></th></tr></thead><tbody>${rivalRowsHtml(sim, me)}</tbody></table></div>`).join('')
+        + '<div class="pw-foot">다른 팀의 계획·마모는 보이지 않습니다 — 출발 타이어·스톱 기록·타이어 사용 랩으로 추정 (≈). 커버 = 그 차가 들어가면 우리도 바로 박스</div>';
     } },
   feed: { name: '레이스 피드 · 무전', every: 0, single: true,
     draw() { return `<div class="pw-feedh"><div class="seg sm"><button data-a="revf" data-f="all" class="${RACE.evFilter === 'all' ? 'on' : ''}">전체</button><button data-a="revf" data-f="imp" class="${RACE.evFilter === 'imp' ? 'on' : ''}">주요</button><button data-a="revf" data-f="me" class="${RACE.evFilter === 'me' ? 'on' : ''}">우리 팀</button></div></div><div class="events" id="r-events"></div>`; } },
@@ -13078,7 +13668,12 @@ function pwQState() {
   const q = QUALI.state; const c = q && q.cur; const w = S.weekend; if (!c || !w) return null;
   const si = Math.max(0, q.stages.indexOf(c.stage)); const len = (q.sq ? [12, 10, 8] : [18, 15, 12])[si] * 60;
   const sp = w.dc && w.dc.q ? w.dc.q[c.stage] : null; const T = c.t;
-  const laps = c.res.laps.map((l, i) => { const s = sp && sp[i] && sp[i][0] === l.id ? sp[i] : null; const d = l.lap / len; return { id: l.id, te: l.t, ts: l.t - d, d, lap: l.lap, valid: l.valid, used: l.used, note: l.note, s1: s ? s[3] : l.lap * 333, s2: s ? s[4] : l.lap * 333, trap: s ? s[5] : null }; });
+  // sector splits: the data centre's capture when the session has one; v23 live laps get theirs from the same model as they
+  // are timed (car strengths by sector, a fixed per-lap draw), so the sector board means something during the session
+  const G = c.ql ? (c._segG || (c._segG = dcSegG(c.ids.map(id => ({ id, car: S.teams[S.drivers[id].team].car })), TRACKS[w.track]))) : null;
+  const split = l => { const k = l.id + ':' + l.lap.toFixed(3); const cache = c._spl || (c._spl = {}); if (!cache[k]) cache[k] = dcSplit(l.lap, G[l.id] || [1, 1, 1], TRACKS[w.track], dcRng(k)); return cache[k]; };
+  const laps = c.res.laps.map((l, i) => { const s = sp && sp[i] && sp[i][0] === l.id ? sp[i] : null; const g = !s && G ? split(l) : null; const d = l.lap / len;
+    return { id: l.id, te: l.t, ts: l.t - d, d, lap: l.lap, valid: l.valid, used: l.used, note: l.note, s1: s ? s[3] : g ? g[0] : l.lap * 333, s2: s ? s[4] : g ? g[1] : l.lap * 333, trap: s ? s[5] : g ? g[2] : null }; });
   laps.forEach(l => { l.s3 = Math.round(l.lap * 1000) - l.s1 - l.s2; });
   const done = laps.filter(l => l.te <= T); const run = laps.filter(l => l.ts < T && l.te > T);
   const best = { s: [Infinity, Infinity, Infinity] }; const pb = {}; const bestLap = {};
@@ -13100,7 +13695,11 @@ function pwQTiming(st, W) {
     const next = laps.find(l => l.id === id && l.ts >= T);
     const show = cur || last; const sv = show ? secs(show, T) : [null, null, null];
     const cell = (v, k) => { if (v == null) return '<td class="pw-s">—</td>'; const cls = v <= best.s[k] ? 'p' : v <= pb[id][k] ? 'g' : 'y'; return `<td class="pw-s ${cls}">${(v / 1000).toFixed(3)}</td>`; };
-    const status = cur ? '<span class="pw-fly">플라잉 랩</span>' : next && next.ts - T < next.d * 1.1 ? '<span class="dim">아웃 랩</span>' : last && last.note ? `<span class="chip bad">${esc(last.note.includes('삭제') ? '랩 삭제' : '실수')}</span>` : next ? '<span class="dim">피트</span>' : '<span class="dim">종료</span>';
+    // v23 live session: the car's real state (garage / out-lap / flying / cool-down); the replay keeps its reading of the lap list
+    const qx = c.ql && c.ql.cars[id];
+    const noteChip = last && last.note ? `<span class="chip ${last.note.includes('트래픽') ? 'warn' : 'bad'}">${esc(last.note.includes('삭제') ? '랩 삭제' : last.note.includes('트래픽') ? '트래픽' : '실수')}</span>` : '';
+    const status = qx ? (qx.phase === 'push' ? '<span class="pw-fly">플라잉 랩</span>' : qx.phase === 'out' ? '<span class="dim">아웃 랩</span>' : qx.phase === 'cool' || qx.phase === 'in' ? (noteChip || '<span class="dim">쿨다운</span>') : qx.phase === 'done' ? (noteChip || '<span class="dim">종료</span>') : (noteChip || '<span class="dim">피트</span>'))
+      : cur ? '<span class="pw-fly">플라잉 랩</span>' : next && next.ts - T < next.d * 1.1 ? '<span class="dim">아웃 랩</span>' : last && last.note ? `<span class="chip bad">${esc(last.note.includes('삭제') ? '랩 삭제' : '실수')}</span>` : next ? '<span class="dim">피트</span>' : '<span class="dim">종료</span>';
     const out = i >= cut && si < 2 && T > 0.05;
     return `<tr class="${mine.has(id) ? 'me' : ''} ${out ? 'pw-elim' : ''} ${i === cut - 1 && si < 2 ? 'pw-cutrow' : ''}"><td class="ps">${i + 1}</td><td class="cb"><i style="background:${tm.color}"></i></td><td class="cd">${esc(d.code)}</td><td class="mono pw-l ${i === 0 && b ? 'p' : ''}">${b ? fmtLap(b.lap) : '—'}</td><td class="gp">${b && i && top ? '+' + (b.lap - top).toFixed(3) : ''}</td>${wide ? [0, 1, 2].map(k => cell(sv[k], k)).join('') : ''}<td>${status}</td></tr>`;
   }).join('');
@@ -13119,8 +13718,10 @@ function pwQCut(st, W) {
   const series = [{ c: '#8690a5', w: 2, dash: '5 3', pts: cutPts, lab: si < 2 ? `P${cut}` : 'POLE' }].concat(mine.map(id => ({ c: uiAccent(S.teams[S.drivers[id].team].color), w: 2.4, pts: minePts[id], lab: S.drivers[id].code })));
   const sorted = Object.entries(bestLap).sort((a, b) => a[1].lap - b[1].lap); const cutT = sorted[cut - 1] ? sorted[cut - 1][1].lap : null;
   const left = id => st.laps.filter(l => l.id === id && l.te > T).length;
+  const qx = id => c.ql && c.ql.cars[id];
+  const tail = id => { const x = qx(id); if (!x) return `<span class="dim">· 남은 플라잉 랩 ${left(id)}</span>`; const rem = c.ql.len - c.ql.t; return `<span class="dim">· ${x.phase === 'garage' ? (rem > c.ql.lapT.out ? `가라지 — 남은 ${qlFmt(rem)}, 한 번 더 출격 가능` : '가라지 — 더 나갈 시간 없음') : x.phase === 'push' ? '플라잉 랩 중' : x.phase === 'out' ? '아웃랩' : '복귀 중'}</span>`; };
   const lines = mine.map(id => { const b = bestLap[id]; const pos = sorted.findIndex(x => x[0] === id) + 1; const m = b && cutT ? (si < 2 ? cutT - b.lap : b.lap - (sorted[0] ? sorted[0][1].lap : b.lap)) : null;
-    return `<div class="pw-cut"><b>${esc(S.drivers[id].code)}</b> ${pos ? `P${pos}` : '기록 없음'} ${m != null ? (si < 2 ? `<span class="${pos <= cut ? 'good' : 'bad'}">${pos <= cut ? '컷 안쪽' : '탈락권'} ${pwFmtS(pos <= cut ? m : -Math.abs(m), 3)}</span>` : `<span class="${pos === 1 ? 'good' : ''}">${pos === 1 ? '폴 포지션' : '폴과 +' + m.toFixed(3)}</span>`) : ''} <span class="dim">· 남은 플라잉 랩 ${left(id)}</span></div>`; }).join('');
+    return `<div class="pw-cut"><b>${esc(S.drivers[id].code)}</b> ${pos ? `P${pos}` : '기록 없음'} ${m != null ? (si < 2 ? `<span class="${pos <= cut ? 'good' : 'bad'}">${pos <= cut ? `컷 안쪽 · 여유 ${Math.abs(m).toFixed(3)}초` : `탈락권 · 컷까지 ${Math.abs(m).toFixed(3)}초`}</span>` : `<span class="${pos === 1 ? 'good' : ''}">${pos === 1 ? '폴 포지션' : '폴과 +' + m.toFixed(3)}</span>`) : ''} ${tail(id)}</div>`; }).join('');
   const H = 150; const chart = cutPts.length + mine.reduce((n, id) => n + minePts[id].length, 0) > 1 ? pwLines(W, H, { series, yInv: true, x0: 0, x1: len / 60, labels: true, yFmt: pwLapF, xFmt: v => v + '분', aria: '컷 라인' }) : '<div class="pw-empty" style="height:120px">첫 랩이 들어오면 그립니다</div>';
   return `${lines || '<div class="dim">이 세션에 우리 차가 없습니다</div>'}${chart}<div class="pw-foot">${si < 2 ? `점선 = ${cut}위(컷) 기록의 변화` : '점선 = 폴 기록의 변화'} · 실선 = 우리 드라이버 베스트</div>`;
 }
@@ -13216,6 +13817,17 @@ Object.assign(ACT, {
   qdur: d => { S.settings.qDur = +d.v; document.querySelectorAll('[data-a="qdur"]').forEach(b => b.classList.toggle('on', b.dataset.v === d.v)); },
 });
 CHG.pwslot = el => { const cf = pwConf(); cf.slots[+el.dataset.i] = el.value; saveGame(); render(); };
+
+// v23 live qualifying actions (WACT is defined in weekend.js, which loads before this file)
+Object.assign(WACT, {
+  qlsend: d => { const c = QUALI.state && QUALI.state.cur; if (!c || !c.ql) return; const ok = c.ql.send(d.id, { fresh: d.f === '1', two: !!(UI.qlTwo && UI.qlTwo[d.id]), risk: (c.ql.cars[d.id] || {}).risk });
+    if (!ok) toast('지금은 출격할 수 없습니다 (세트가 없거나 남은 시간이 부족합니다)', true); qlCtlUpdate(true); },
+  qltwo: (d, el) => { UI.qlTwo = UI.qlTwo || {}; UI.qlTwo[d.id] = !!el.checked; },
+  qlbox: d => { const c = QUALI.state && QUALI.state.cur; if (c && c.ql) { c.ql.boxNow(d.id); qlCtlUpdate(true); } },
+  qlagain: d => { const c = QUALI.state && QUALI.state.cur; if (c && c.ql && !c.ql.pushAgain(d.id)) toast('이번에는 한 번 더 갈 수 없습니다', true); qlCtlUpdate(true); },
+  qlpause: (d, el) => { QUALI.paused = !QUALI.paused; if (el) { el.textContent = QUALI.paused ? '▶ 재개' : '❚❚ 일시정지'; el.classList.toggle('pri', QUALI.paused); } },
+  qlspeed: d => { S.settings.qLiveDur = +d.v; document.querySelectorAll('[data-a="qlspeed"]').forEach(b => b.classList.toggle('on', b.dataset.v === d.v)); },
+});
 
 // ───────── report.js — race reports: captured at the flag, kept on the race entry, archived across seasons, readable any time ─────────
 // Every number on the report comes from the race record (실측) or from a labelled model calculation (추정).
@@ -14785,7 +15397,7 @@ MOUNTS.review = bkMount; MOUNTS.book = bkMount;
 // The race runs on its own seeded random stream in fixed 0.1 s steps (sim.js / weekend.js), so the starting entries, the
 // seed and these inputs reproduce it exactly. What is logged is the resulting control state of our cars (mode, ERS, fuel,
 // box call, plan, auto flags, team orders), not the click, so a replay does not depend on what was on screen.
-const RR_CTRL = ['mode', 'ers', 'autoErs', 'fuelMode', 'boxRequest', 'manualBox', 'autoPit', 'delegated'];
+const RR_CTRL = ['mode', 'ers', 'autoErs', 'fuelMode', 'boxRequest', 'manualBox', 'autoPit', 'delegated', 'coverId'];
 function rrSnap(sim) {
   const t = playerTeam(); const cars = {};
   for (const id of t.drivers) { const c = sim.byId[id]; if (!c) continue; const o = {}; for (const k of RR_CTRL) o[k] = c[k] ?? null; o.plan = (c.plan || []).map(p => ({ lap: p.lap, c: p.c })); cars[id] = o; }
@@ -14796,7 +15408,7 @@ function rrApply(sim, e) {
   if (e.cars) for (const [id, o] of Object.entries(e.cars)) {
     const c = sim.byId[id]; if (!c || c.retired || c.finished) continue;
     sim.setMode(id, o.mode); sim.setErs(id, o.ers, false); sim.setFuel(id, o.fuelMode, false);
-    for (const k of ['autoErs', 'boxRequest', 'manualBox', 'autoPit', 'delegated']) c[k] = o[k];
+    for (const k of ['autoErs', 'boxRequest', 'manualBox', 'autoPit', 'delegated', 'coverId']) c[k] = o[k] ?? null;
     c.plan = o.plan.map(p => ({ lap: p.lap, c: p.c }));
   }
   if ('orders' in e) { const tid = playerTeam().id; if (e.orders) sim.teamOrders[tid] = JSON.parse(JSON.stringify(e.orders)); else delete sim.teamOrders[tid]; }
@@ -14827,7 +15439,7 @@ function rrLog(entry) {
       return out;
     };
   };
-  for (const k of ['rmode', 'rers', 'rfuel', 'rbox', 'rauto', 'rautoe', 'rplanlap', 'rplanc', 'rplandel', 'rplanadd', 'rorder', 'rskip', 'rassign']) wrap(WACT, k);
+  for (const k of ['rmode', 'rers', 'rfuel', 'rbox', 'rauto', 'rautoe', 'rplanlap', 'rplanc', 'rplandel', 'rplanadd', 'rorder', 'rskip', 'rassign', 'rcover', 'rstay', 'rboxkey']) wrap(WACT, k);
   wrap(ACT, 'liveapply');
   // the red-flag tyre call changes more than controls: log the call itself
   const rs = ACT.redswap;
@@ -14840,7 +15452,7 @@ function rrLog(entry) {
 })();
 // rebuild the race from its record and replay to where it was; the race stays paused. Returns false when it cannot.
 function resumeRace() {
-  const w = S.weekend; const R = w && w.raceRun; if (!R || R.v !== 1 || !TRACKS[R.track]) return false;
+  const w = S.weekend; const R = w && w.raceRun; if (!R || R.v !== 2 || !TRACKS[R.track]) return false;   // v23 changed the race engine: a race saved by an older version replays differently, so it restarts from the grid
   // loading runs the weekend repair twice (load, then the first render): replay once, hand the same race back the second time
   const key = R.seed + ':' + R.n + ':' + R.log.length;
   if (RACE._resumed && RACE._resumed.key === key) { RACE.sim = RACE._resumed.sim; RACE.running = false; RACE.acc = 0; return true; }
