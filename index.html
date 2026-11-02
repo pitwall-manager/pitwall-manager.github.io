@@ -64,7 +64,7 @@ a { color: var(--info); }
 .mono { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
 .disp { font-family: var(--f-display); letter-spacing: .02em; }
 .muted { color: var(--fg-2); } .dim { color: var(--fg-3); }
-.good { color: var(--good); } .bad { color: var(--bad); } .warn { color: var(--warn); } .purple { color: var(--purple); }
+.good { color: var(--good); } .bad { color: var(--bad); } .warn { color: var(--warn); } .purple { color: var(--purple); } .info { color: var(--info); }
 h1, h2, h3, h4 { margin: 0; font-weight: 600; text-wrap: balance; }
 p { margin: 0 0 .7em; }
 [hidden] { display: none !important; }
@@ -1405,9 +1405,78 @@ html.v-contrast .muted, html.v-contrast .dim, html.v-contrast .note { color: var
 .chk.sm { font-size: 12px; }
 #q-clock.chq { color: var(--fg); background: #fff; color: #000; padding: 0 6px; border-radius: 3px; }
 
+/* v24 tyre temperatures and conditions */
+.tg { position: relative; display: inline-block; width: 92px; height: 8px; border-radius: 4px; background: var(--ink-4); vertical-align: middle; flex: none; }
+.tg .win { position: absolute; top: 0; bottom: 0; background: color-mix(in srgb, var(--good) 34%, transparent); border-radius: 4px; }
+.tg .ms, .tg .mk { position: absolute; top: 50%; width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px; border-radius: 50%; }
+.tg .ms { background: var(--fg); box-shadow: 0 0 0 1.5px var(--ink-2); }
+.tg .mk { border: 1.5px solid var(--fg-2); background: var(--ink-2); }
+.tg.hot .ms { background: var(--bad); } .tg.cold .ms { background: var(--info); }
+.thrm .thv { display: flex; align-items: center; gap: 6px; min-width: 0; flex: 1; flex-wrap: wrap; font-size: 11.5px; }
+.thrm .thv .thw { display: inline-flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+.thrm .chip { font-size: 10px; padding: 0 5px; }
+.ot-st { font-size: 11px; font-weight: 700; margin-left: 2px; white-space: nowrap; }
+.ot-st .otm { color: var(--purple); }
+.seg button:disabled { opacity: .38; cursor: not-allowed; }
+.pw-env { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 11.5px; color: var(--fg-2); padding: 6px 8px 4px; border-bottom: 1px solid color-mix(in srgb, var(--line) 60%, transparent); }
+.pw-env b { color: var(--fg); font-family: var(--f-mono); font-weight: 600; }
+.pw-th { padding: 6px 8px; border-bottom: 1px solid color-mix(in srgb, var(--line) 60%, transparent); }
+.pw-th .pw-win-r { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; font-size: 11.5px; }
+.pw-thg { margin: 4px 0 2px; position: relative; }
+.pw-thax { position: absolute; right: 4px; top: 0; height: 56px; display: flex; flex-direction: column; justify-content: space-between; font: 9.5px var(--f-mono); color: var(--fg-3); pointer-events: none; }
+.pw-thsvg { width: 100%; height: 56px; display: block; background: var(--ink-1); border-radius: 3px; }
+.pw-thwin { fill: color-mix(in srgb, var(--good) 16%, transparent); }
+.pw-ths { fill: none; stroke: var(--fg); stroke-width: 1.8; vector-effect: non-scaling-stroke; }
+.pw-thk { fill: none; stroke: var(--fg-3); stroke-width: 1.3; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; }
+.pw-thl { display: flex; flex-wrap: wrap; gap: 2px 12px; font-size: 10.5px; color: var(--fg-2); margin-top: 3px; }
+.pw-thl .ln { display: inline-block; width: 14px; height: 0; border-top: 2px solid var(--fg); vertical-align: middle; margin-right: 4px; }
+.pw-thl .ln.k { border-top: 1.5px dashed var(--fg-3); } .pw-thl .ln.w { height: 8px; border: 0; background: color-mix(in srgb, var(--good) 22%, transparent); }
+.pw-thbs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin: 4px 0; }
+.pw-thb { position: relative; height: 16px; background: var(--ink-3); border-radius: 2px; overflow: hidden; font-size: 10.5px; }
+.pw-thb i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--ink-4); }
+.pw-thb.warn i { background: color-mix(in srgb, var(--warn) 45%, transparent); } .pw-thb.bad i { background: color-mix(in srgb, var(--bad) 50%, transparent); }
+.pw-thb em { position: relative; font-style: normal; padding: 0 5px; line-height: 16px; color: var(--fg-2); white-space: nowrap; }
+.pw-thr { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 11px; margin-top: 4px; color: var(--fg-2); }
+
+/* v25 */
+.flag.yel { background: #ffd600; color: #111; }
+.btn.tgl.on { background: color-mix(in srgb, var(--info) 22%, var(--ink-3)); border-color: var(--info); color: var(--fg); }
+.pw-sysg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; font-size: 10.5px; }
+.pw-sysv { width: 100%; height: 34px; display: block; background: var(--ink-1); border-radius: 3px; margin-top: 2px; }
+.pw-sylim { stroke: var(--bad); stroke-width: 1; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; opacity: .7; }
+.pw-syb, .pw-syw { fill: none; stroke-width: 1.6; vector-effect: non-scaling-stroke; } .pw-syb { stroke: #ff8a4c; } .pw-syw { stroke: var(--info); }
+.pw-tel { display: flex; flex-direction: column; gap: 3px; padding: 2px 6px 0; }
+.pw-tl { display: grid; grid-template-columns: 52px minmax(0, 1fr); align-items: center; gap: 4px; }
+.pw-tl svg { width: 100%; display: block; background: var(--ink-1); border-radius: 2px; }
+.pw-tln { font-size: 10px; color: var(--fg-3); text-align: right; line-height: 1.1; }
+.pw-tla, .pw-tlb, .pw-tld, .pw-tlt, .pw-tlr, .pw-tlg, .pw-tle, .pw-tll { fill: none; stroke-width: 1.4; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+.pw-tla { stroke: #fff; } .pw-tlb { opacity: .85; } .pw-tld { stroke: var(--warn); } .pw-tlt { stroke: var(--good); } .pw-tlr { stroke: var(--bad); }
+.pw-tlg { stroke: var(--fg-2); } .pw-tlrpm { fill: none; stroke: var(--fg-3); stroke-width: 1; opacity: .6; vector-effect: non-scaling-stroke; } .pw-tlst { fill: none; stroke: var(--warn); stroke-width: 1; opacity: .7; vector-effect: non-scaling-stroke; } .pw-tlrh { fill: none; stroke: #6ad4c8; stroke-width: 1.3; vector-effect: non-scaling-stroke; } .pw-tle { stroke: var(--info); } .pw-tll { stroke: var(--purple); }
+.pw-tax { fill: color-mix(in srgb, var(--good) 14%, transparent); }
+.pw-tz { stroke: var(--line-2); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.pw-tsec { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 3; vector-effect: non-scaling-stroke; }
+.pw-tleg { display: flex; flex-wrap: wrap; gap: 3px 12px; font-size: 11px; padding: 5px 8px 3px; align-items: center; }
+.pw-tleg i { display: inline-block; width: 12px; height: 3px; vertical-align: middle; margin-right: 4px; border-radius: 1px; }
+.pw-tleg .pw-axk { height: 8px; background: color-mix(in srgb, var(--good) 22%, transparent); }
+.pw-ms { display: flex; gap: 10px; padding: 6px 8px; align-items: flex-start; flex-wrap: wrap; }
+.pw-msmap { display: block; } .pw-mss { fill: none; stroke-width: 5; stroke-linecap: round; }
+.pw-msr { flex: 1; min-width: 180px; } .pw-msbar { width: 100%; height: 70px; display: block; background: var(--ink-1); border-radius: 3px; margin: 6px 0 4px; }
+/* v26 */
+.vt { display: inline-block; white-space: nowrap; font-size: 9.5px; font-weight: 700; letter-spacing: .02em; padding: 0 4px; border-radius: 3px; line-height: 15px; vertical-align: 1px; font-family: var(--f-body); }
+.vt-a { background: rgba(61,186,92,.16); color: #7fd897; } .vt-e { background: rgba(245,196,49,.14); color: #f0cf6a; }
+.vt-p { background: rgba(87,168,255,.16); color: #8cc2ff; } .vt-d { background: rgba(178,108,255,.18); color: #c9a2ff; }
+.rule-list { display: flex; flex-direction: column; gap: 4px; margin: 8px 0; }
+.rule-row { display: grid; grid-template-columns: 18px minmax(0, 1fr) auto auto; gap: 8px; align-items: center; font-size: 12.5px; padding: 4px 6px; background: var(--ink-2); border-radius: 3px; }
+.rule-row.done { opacity: .6; }
+.rule-add { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.rule-add select, .rule-add input { background: var(--ink-2); color: var(--fg); border: 1px solid var(--line); border-radius: 3px; padding: 4px 6px; font: inherit; font-size: 12.5px; }
+.pw-num { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+.pw-num td { padding: 3px 6px; border-bottom: 1px solid color-mix(in srgb, var(--line) 50%, transparent); vertical-align: top; }
+.pw-num td:nth-child(1) { width: 38px; white-space: nowrap; } .pw-num td:nth-child(2) { white-space: nowrap; } .pw-num td:nth-child(4) { font-size: 10.5px; }
+
 </style>
 <script src="three-r128.min.js"></script>
-<script>window.PW_WEB = {"v": "23", "id": "9f8036e406ed", "at": "2026-11-01T07:34Z"};</script>
+<script>window.PW_WEB = {"v": "26", "id": "0677cbbc0614", "at": "2026-11-02T00:38Z"};</script>
 </head><body>
 <div id="title"><div class="title-in">
 <h1 class="logo" style="margin:0">Pit<span>wall</span></h1><div class="logo-sub">모터스포츠 팀 매니저</div>
@@ -1741,6 +1810,34 @@ const FUEL_MODES = {
 const FUEL_FULL = 70;      // kg for a full-distance race
 const FUEL_KG_S = 0.03;    // lap time per kg
 const TYRE_ALLOC = { S: 8, M: 3, H: 2, I: 4, W: 3 }; // sets per driver per weekend
+// ── v24 environment and tyre thermal model ──
+// race-time climate by circuit (approximate values for the usual date and start time: air °C, relative humidity %, mean
+// wind m/s; night = a night or twilight race, so the track barely heats above the air). Each weekend draws its own day.
+const TRACK_CLIMATE = {
+  bhr: { air: 27, hum: 50, wind: 4, night: 1 }, sau: { air: 28, hum: 60, wind: 3, night: 1 }, aus: { air: 22, hum: 55, wind: 4 }, jpn: { air: 20, hum: 65, wind: 3 },
+  chn: { air: 21, hum: 60, wind: 3 }, mia: { air: 30, hum: 65, wind: 4 }, mon: { air: 22, hum: 65, wind: 2 }, esp: { air: 26, hum: 50, wind: 3 },
+  can: { air: 22, hum: 55, wind: 3 }, aut: { air: 25, hum: 50, wind: 3 }, gbr: { air: 20, hum: 60, wind: 5 }, bel: { air: 18, hum: 70, wind: 3 },
+  hun: { air: 30, hum: 45, wind: 2 }, ned: { air: 19, hum: 70, wind: 6 }, ita: { air: 26, hum: 50, wind: 2 }, aze: { air: 24, hum: 55, wind: 6 },
+  sgp: { air: 30, hum: 78, wind: 2, night: 1 }, usa: { air: 26, hum: 55, wind: 4 }, mex: { air: 22, hum: 45, wind: 3, alt: 2240 }, bra: { air: 24, hum: 65, wind: 3, alt: 760 },
+  lvg: { air: 14, hum: 35, wind: 3, night: 1 }, qat: { air: 27, hum: 60, wind: 4, night: 1 }, abu: { air: 27, hum: 55, wind: 3, night: 1 },
+};
+// tyre operating windows, surface °C (approximate: softer compounds work cooler; full wets coolest) and blanket temperatures
+// (Pirelli: 70 °C slicks, 60 °C intermediates, 40 °C full wets)
+const TYRE_WIN = { S: [90, 112], M: [98, 122], H: [105, 130], I: [55, 85], W: [40, 70] };
+const TYRE_BLANKET = { S: 70, M: 70, H: 70, I: 60, W: 40 };
+const TYRE_GEN = { S: 4, M: 0, H: -3, I: 0, W: 0 };       // softer rubber works harder and runs a little hotter
+const MODE_HEAT = { save: -8, normal: 0, push: 6, attack: 11 };
+// ── v25 car systems ──
+// cooling set-up before the race (brake ducts and bodywork louvres): more opening runs cooler but costs drag
+const COOLING = {
+  open: { name: '개방', pace: 0.05, brk: 1.15, h2o: -7, desc: '브레이크·라디에이터 냉각 최대 · 랩당 약 +0.05초 (항력)' },
+  std: { name: '표준', pace: 0, brk: 1, h2o: 0, desc: '기본 냉각' },
+  closed: { name: '밀폐', pace: -0.04, brk: 0.88, h2o: 6, desc: '항력 감소로 랩당 약 −0.04초 · 브레이크·냉각수가 뜨거워짐' },
+};
+const H2O_LIMIT = 118, BRK_FADE = 850;   // coolant: the power unit is derated above this (°C); brakes: lap-average disc °C where fade starts
+const N_MS = 20;                          // marshal / mini-sectors per lap (the timing points)
+// VSC delta: how far above the minimum time each style runs (share of the reference speed given away)
+const VSC_STYLE = { tight: { name: '공격적', slack: 0.002, sd: 0.004 }, normal: { name: '표준', slack: 0.006, sd: 0.003 }, safe: { name: '보수적', slack: 0.012, sd: 0.002 } };
 const PRACTICE_PROGRAMS = {
   setup: { name: '세팅 런', laps: 3, min: 8, desc: '세팅 피드백 수집 (정확도 높음)' },
   long: { name: '롱런', laps: 10, min: 22, desc: '타이어 마모 데이터 · 레이스 페이스 확인' },
@@ -1873,6 +1970,14 @@ function Track(d) {
   for (let i = 0; i < n; i++) this.secCls[Math.min(2, Math.floor(i * 3 / n))][this.cls[i]] += this.ds / this.v[i] / pl;
   let im = 0; for (let i = 1; i < n; i++) if (this.v[i] > this.v[im]) im = i;
   this.trapS = Math.max(1, im * this.ds - 1);
+  // v25 telemetry geometry: signed curvature per sample (1/m), and the lap's average speed (cooling airflow)
+  this.curv = new Float32Array(n);
+  for (let i = 0; i < n; i++) {
+    const a = (i - 2 + n) % n, b = (i + 2) % n, h0 = Math.atan2(this.y[i] - this.y[a], this.x[i] - this.x[a]), h1 = Math.atan2(this.y[b] - this.y[i], this.x[b] - this.x[i]);
+    let dh = h1 - h0; while (dh > Math.PI) dh -= 2 * Math.PI; while (dh < -Math.PI) dh += 2 * Math.PI;
+    this.curv[i] = dh / (2 * this.ds);
+  }
+  this.avgV = L / pl;
 }
 // pit-lane limiter for a race of this length: the drive-through loss shrinks by pitLossK, but never below the safety-car case
 Track.prototype.pitSpeedFor = function (frac) {
@@ -1967,7 +2072,12 @@ function wetDelta(comp, w) {
   if (comp === 'W') return w >= 0.85 ? 3.0 + (w - 0.85) * 1.5 : 3.0 + 10 * (w - 0.85) * (w - 0.85);
   return w * w * 25 + (w > 0.15 ? (w - 0.15) * 14 : 0);
 }
-function compoundPace(comp, w, frac) { return (COMPOUNDS[comp].pace || 0) * (frac ? tyreTimeK(frac) : 1) + wetDelta(comp, w); }
+// v24: with a track, the weekend's tyre-temperature picture is added (a soft that overheats on a hot day, a hard that will
+// not switch on in the cold) — the steady state a strategist plans with; the race adds what each car actually sees
+function compoundPace(comp, w, frac, track) {
+  const K = track && track.envK; const th = K && K.pace[comp] ? K.pace[comp] * Math.max(0, 1 - (w || 0) / 0.15) : 0;
+  return ((COMPOUNDS[comp].pace || 0) + th) * (frac ? tyreTimeK(frac) : 1) + wetDelta(comp, w);
+}
 function wearRate(comp, track, tyreAttr, tyreEff, mode, frac, w) {
   let r = COMPOUNDS[comp].wear * track.d.tyre;
   r *= 1.15 - tyreAttr * 0.0155;
@@ -1976,6 +2086,7 @@ function wearRate(comp, track, tyreAttr, tyreEff, mode, frac, w) {
   if (comp === 'I' && w < 0.25) r *= 1 + (0.25 - w) * 9;
   if (comp === 'W' && w < 0.6) r *= 1 + (0.6 - w) * 5;
   if ((comp === 'S' || comp === 'M' || comp === 'H') && w > 0.3) r *= 0.6;
+  if (track.envK && track.envK.wear[comp]) r *= track.envK.wear[comp];   // v24: track temperature and the expected tyre state
   // shortened races: a stint covers the same share of the race as over a full distance (see tyreTimeK / pitLossK)
   return r / frac;
 }
@@ -2023,7 +2134,7 @@ function estimateStrategies(track, laps, frac, tyreAttr, tyreEff, opt = {}) {
       let t = 0;
       for (let k = 0; k < seq.length; k++) {
         const r = rate(seq[k]); let w = startW[k];
-        for (let i = 0; i < al[k]; i++) { t += compoundPace(seq[k], 0, frac) + wearDelta(w + r / 2, frac); w += r; }
+        for (let i = 0; i < al[k]; i++) { t += compoundPace(seq[k], 0, frac, track) + wearDelta(w + r / 2, frac); w += r; }
         if (w > 100) t += 30;
       }
       let warm = 0; for (let k = 1; k < seq.length; k++) warm += COMPOUNDS[seq[k]].warm * (startW[k] > 1 ? 0.6 : 1);
@@ -2055,7 +2166,7 @@ function evalPlan(track, frac, tyreAttr, tyreEff, stints, rateMul = {}) {
   let t = 0; let maxW = 0;
   stints.forEach((st, k) => {
     const r = wearRate(st.c, track, tyreAttr, tyreEff, 'normal', frac, 0) * (rateMul[st.c] || 1); let w = st.startWear || 0;
-    for (let i = 0; i < st.laps; i++) { t += compoundPace(st.c, 0, frac) + wearDelta(w + r / 2, frac); w += r; }
+    for (let i = 0; i < st.laps; i++) { t += compoundPace(st.c, 0, frac, track) + wearDelta(w + r / 2, frac); w += r; }
     st.endWear = Math.round(w); maxW = Math.max(maxW, w);
     if (w > 100) t += 30;
   });
@@ -2094,12 +2205,160 @@ function weatherLabel(rain, wet) {
 }
 function rainWord(p) { return p > 0.7 ? '폭우' : p > 0.4 ? '비' : '약한 비'; }
 
+// ── v24 environment: air, track surface, humidity, wind ──
+// The climate table gives the usual race-time air temperature, humidity and wind per circuit; each weekend draws its own day
+// around it. The track surface sits above the air by the sun's heating (day races) or a few degrees (night races).
+function envBase(trackId) {
+  const cl = TRACK_CLIMATE[trackId] || { air: 24, hum: 55, wind: 3 };
+  return { air: cl.air, hum: cl.hum, wind: cl.wind, dir: 90, solar: cl.night ? 6 : 15, night: !!cl.night, qOff: 0, base: true };
+}
+function makeEnv(trackId, weather) {
+  const cl = TRACK_CLIMATE[trackId] || { air: 24, hum: 55, wind: 3 };
+  const wetDay = !!(weather && weather.events && weather.events.length); const r1 = x => Math.round(x * 10) / 10;
+  return { air: r1(cl.air + randn() * 3), hum: Math.round(clamp(cl.hum + randn() * 8 + (wetDay ? 14 : 0), 20, 97)),
+    wind: r1(clamp(cl.wind * randf(0.45, 1.6), 0.3, 12)), dir: Math.round(rand() * 360),
+    solar: r1(cl.night ? randf(3.5, 8) : randf(9, 21) * (wetDay ? 0.55 : 1)), night: !!cl.night, qOff: r1(randn() * 2.2) };
+}
+// surface temperature through the race (f = race fraction): the sun gets lower (day) or the track gives up its heat (night);
+// a wet track sits close to the air temperature
+function trackTempAt(env, f, wet) {
+  const drift = env.night ? 0.4 : 0.22; const w = Math.min(1, (wet || 0) * 1.6);
+  return env.air + env.solar * (1 - drift * clamp(f || 0, 0, 1)) * (1 - w) - 2 * w;
+}
+function qualiTrackTemp(env) { return env.air + env.solar * 1.04 + (env.qOff || 0); }
+// the wind against the main straight (track maps are not drawn north-up, so a compass point would mean nothing on screen)
+function windDirTxt(env, track) {
+  if (!env || !track || env.wind < 0.3) return '';
+  const k = Math.cos(track.heading(track.trapS) - (env.dir || 0) * Math.PI / 180);
+  return k > 0.5 ? '직선 뒷바람' : k < -0.5 ? '직선 맞바람' : '옆바람';
+}
+// air density: hot, humid air makes less power and downforce — the same for every car, so it moves lap times, not order
+function envPaceAir(env) { return env ? 0.012 * (env.air - 24) + 0.0015 * (env.hum - 55) : 0; }
+
+// ── v24 tyre temperature model ──
+// Each car's tread (surface) and carcass (core) temperatures relax toward an equilibrium set by the track temperature, the
+// circuit's tyre energy, the compound, the pace, dirty air, fuel load and the safety car. Out of the compound's window a tyre
+// loses grip (cold: no bite; hot: the tread goes greasy); run cold and sliding it grains (recovers once back in the window);
+// a carcass far too hot blisters (permanent); a lock-up flat-spots it. Pressure follows the carcass temperature.
+const TYRE_SOFT_K = { S: 1, M: 0.8, H: 0.55, I: 0, W: 0 };   // how readily a compound grains when run cold
+const TYRE_PSI = { S: 21.5, M: 21.5, H: 21.5, I: 20, W: 19 };  // set pressure at blanket temperature (psi)
+const TH_TAU_S = 18, TH_TAU_K = 75;                           // response times, seconds (tread, carcass)
+const OT_GAP = 1.0, OT_BONUS = 12;
+const MODE_BRK = { save: 0.93, normal: 1, push: 1.04, attack: 1.08 };      // v25: later, harder braking heats the discs more
+const ERS_KW = { harvest: 120, balanced: 250, deploy: 350, ot: 350 };                             // 2026 Overtake Mode: detection gap (s), extra energy (soc %)
+function tyreEqBase(comp, T, track, wet) {
+  let t = 58 + 0.75 * T + 20 * track.d.tyre + (TYRE_GEN[comp] || 0);
+  if (comp === 'I') t -= 22 + 45 * Math.max(0, (wet || 0) - 0.1);        // water on the track cools the tread
+  else if (comp === 'W') t -= 34 + 30 * Math.max(0, (wet || 0) - 0.4);
+  else t -= 70 * (wet || 0);
+  return t;
+}
+function tyrePsi(comp, core) { return TYRE_PSI[comp] * (273 + core) / (273 + TYRE_BLANKET[comp]); }
+// lap time lost to the tyre's state (s/lap, before the short-race scaling)
+function tyreThermalPen(comp, s, k, gr, bl, fs, psi) {
+  const W = TYRE_WIN[comp]; if (!W) return 0;
+  return Math.min(2.5, 0.015 * Math.max(0, W[0] - s) + 0.025 * Math.max(0, s - W[1]) + 0.45 * gr + 0.5 * bl + 0.28 * fs + 0.06 * Math.max(0, psi - 25.2));
+}
+function tyreThermalWear(comp, s, gr, bl, fs) { const W = TYRE_WIN[comp]; if (!W) return 1; return 1 + 0.022 * Math.max(0, s - W[1]) + 0.3 * gr + 1.0 * bl + 0.12 * fs; }
+function grainTarget(comp, s, track) { const W = TYRE_WIN[comp]; if (!W || !TYRE_SOFT_K[comp]) return 0; return clamp((W[0] - 4 - s) / 25, 0, 0.7) * TYRE_SOFT_K[comp] * (0.6 + 0.4 * track.d.tyre); }
+function trackTempWearK(T) { return clamp(1 + 0.005 * (T - 38), 0.88, 1.15); }
+function tyreThermalState(comp, wear) { const b = TYRE_BLANKET[comp] || 70; return { s: b, k: b - 2, gr: 0, bl: 0, fs: 0, p: TYRE_PSI[comp] || 21.5, pen: 0, d: 0, wk: 1 }; }
+// the weekend's conditions on the track object: the steady-state tyre picture a strategist plans with (normal pace, clean
+// air, half fuel, mid-race track temperature). wearRate / compoundPace add it; the race applies the difference it sees.
+function envSetTrack(track, env) {
+  if (!track) return null;
+  if (!env) { track.env = null; track.envK = null; return null; }
+  if (track.env === env && track.envK) return track.envK;
+  const key = [env.air, env.solar, env.hum, env.wind, env.dir, env.night ? 1 : 0].join('|');
+  if (track.envK && track.envK.key === key) { track.env = env; return track.envK; }   // the same conditions in another copy (a resumed race)
+  const T = trackTempAt(env, 0.5, 0); const K = { T, key, eq: {}, pace: {}, wear: {}, gr: {} };
+  // averaged over a stint's fuel loads (+4 °C full, +2, empty), with the engineers managing a tread that runs 3° past its
+  // window (−6 °C for +0.15 s a lap, 5% less wear) — the penalty is convex, so the average is not the penalty at the average
+  for (const c of ['S', 'M', 'H']) {
+    const W = TYRE_WIN[c]; let pace = 0, wear = 0, grs = 0;
+    for (const fu of [4, 2, 0]) {
+      const s0 = tyreEqBase(c, T, track, 0) + fu; const man = s0 > W[1] + 3; const s = man ? s0 - 6 : s0, k = s - 4, gr = grainTarget(c, s, track);
+      pace += tyreThermalPen(c, s, k, gr, 0, 0, tyrePsi(c, k)) + (man ? 0.15 : 0); wear += tyreThermalWear(c, s, gr, 0, 0) * (man ? 0.95 : 1); grs += gr;
+    }
+    K.eq[c] = tyreEqBase(c, T, track, 0) + 2; K.gr[c] = grs / 3; K.pace[c] = pace / 3; K.wear[c] = wear / 3 * trackTempWearK(T);
+  }
+  track.env = env; track.envK = K; return K;
+}
+// v24: the extra a lap costs in dirty air from the tyre heating up (+7 °C on the tread): the window penalty, or the cost of
+// managing it back down when it runs well past the window — the strategy model adds it while following
+function dirtyHeatCost(track, comp, frac) {
+  const K = track && track.envK; const W = TYRE_WIN[comp]; if (!K || !K.eq[comp] || !W) return 0;
+  const s = K.eq[comp], p0 = K.pace[comp]; const pen = x => tyreThermalPen(comp, x, x - 4, grainTarget(comp, x, track), 0, 0, tyrePsi(comp, x - 4));
+  let hot = pen(s + 7); if (s + 7 > W[1] + 3) hot = Math.min(hot, pen(s + 1) + 0.15);
+  return Math.max(0, hot - p0) * (frac ? tyreTimeK(frac) : 1);
+}
+// v25: what a cooling set-up will run at on this circuit in these conditions — lap-average brake disc and coolant
+// temperatures in clean air and following another car (the same equations as the race, over a few laps of the circuit's
+// speed profile), and what each costs per lap: drag, brake fade, the power unit derate. The pre-race choice and the AI use it.
+function coolingForecast(track, env, cool, frac) {
+  env = env || envBase(track.id); const cl = COOLING[cool] || COOLING.std;
+  const key = [track.id, env.air, env.hum, cool].join('|'); track._coolF = track._coolF || {}; if (track._coolF[key]) return track._coolF[key];
+  const altK = 1 - Math.min(0.3, ((TRACK_CLIMATE[track.id] || {}).alt || 0) / 10000);
+  const vk = track.profLap / (track.d.ref * 1.03 + 1);   // race pace runs a little under the reference speed profile
+  const run = dirty => { let T = 450, avg = 0, n = 0, vPrev = track.v[0] * vk, s = 0; const dt = 0.1;
+    for (let lap = 0; lap < 6; lap++) for (let tt = 0; tt < track.profLap / vk; tt += dt) { const v = track.vAt(s) * vk; const dv = (v - vPrev) / dt; vPrev = v; s = (s + v * dt) % track.L;
+      const P = dv < 0 ? 0.8 * v * Math.min(60, -dv) / 1000 : 0; T += (200 * P - 0.00085 * altK * cl.brk * (dirty ? 0.88 : 1) * (T - env.air) * (v + 20)) * dt; if (lap >= 4) { avg += T; n++; } }
+    return avg / n; };
+  const h2o0 = 95 + (env.air - 25) + 55 * (1 - altK) + cl.h2o + Math.max(-4, (220 - track.avgV * 3.6) / 10);
+  const out = { cool, brk: run(false), brkD: run(true), h2o: h2o0, h2oD: h2o0 + 8 };
+  const tk = tyreTimeK(frac || 1); const fade = b => b > BRK_FADE ? Math.min(0.8, 0.003 * (b - BRK_FADE)) * tk : 0;
+  const derate = h => h > H2O_LIMIT ? Math.min(0.04, 0.004 * (h - H2O_LIMIT)) * track.clsT[0] * track.d.ref : 0;
+  // a race spends roughly a third of its laps within a second of another car; pushing, long trains and restarts spread
+  // the temperatures upward (+40 / +70 °C on the brakes, +3 / +5 °C on the coolant), so the engineers price that tail
+  out.cost = cl.pace + 0.67 * (fade(out.brk + 40) + derate(out.h2o + 3)) + 0.33 * (fade(out.brkD + 70) + derate(out.h2oD + 5)) + 0.04 * Math.max(0, out.h2oD + 5 - H2O_LIMIT);
+  return (track._coolF[key] = out);
+}
+// v26 conditional orders in words
+const RULE_K = { sc: '세이프티카가 나오면', vsc: 'VSC가 나오면', wear: '타이어 마모가 N% 이상이면', wet: '노면 수분이 N% 이상이면', dry: '노면 수분이 N% 이하로 마르면', lap: 'N랩이 되면', gapB: '뒤차와 N초 이상 벌어지면', gapA: '앞차와 N초 이내면', hot: '타이어 표면이 창보다 N° 넘게 뜨거우면' };
+const RULE_A = { box: '박스', mode: '페이스 모드', backoff: '간격 두기', tman: '타이어 관리' };
+function ruleText(r) {
+  const k = (RULE_K[r.k] || r.k).replace('N', r.v != null ? String(r.v) : 'N');
+  const a = r.a === 'box' ? `박스${r.c && COMPOUNDS[r.c] ? ' → ' + COMPOUNDS[r.c].name : ''}` : r.a === 'mode' ? `페이스 ${MODES[r.m] ? MODES[r.m].name : r.m}` : r.a === 'backoff' ? (r.m === 'off' ? '간격 두기 해제' : '간격 두기') : r.a === 'tman' ? '타이어 관리' : r.a;
+  return `${k} ${a}`;
+}
+function bestCooling(track, env, frac) { return ['open', 'std', 'closed'].map(k => coolingForecast(track, env, k, frac)).sort((a, b) => a.cost - b.cost)[0].cool; }
+// what a compound will do in these conditions, in words (weekend screens and the strategy room)
+function envTyreNote(track, comp) {
+  const K = track && track.envK; if (!K || !K.eq[comp]) return null; const W = TYRE_WIN[comp]; const s = K.eq[comp];
+  if (s > W[1] + 1) return { kind: 'hot', txt: `과열 예상 (${Math.round(s)}°C, 창 ${W[0]}–${W[1]}) · +${K.pace[comp].toFixed(2)}초/랩`, s };
+  if (s < W[0] - 1) return { kind: 'cold', txt: `온도 부족 예상 (${Math.round(s)}°C, 창 ${W[0]}–${W[1]})${K.gr[comp] > 0.05 ? ' · 그레이닝 위험' : ''} · +${K.pace[comp].toFixed(2)}초/랩`, s };
+  return { kind: 'ok', txt: `작동 온도 안 (${Math.round(s)}°C, 창 ${W[0]}–${W[1]})`, s };
+}
+// wind on the lap: a tailwind on a straight adds top speed and a headwind takes it (~0.7 m/s per m/s of wind); in the corners a
+// headwind adds a little downforce. Normalised so the whole lap costs only a little more in a strong wind (~0.015 s per m/s).
+Track.prototype.windK = function (env) {
+  const key = env ? env.wind + ':' + env.dir : '0'; if (this._windKey === key) return this._windArr;
+  const n = this.n, out = new Float32Array(n).fill(1);
+  if (env && env.wind > 0.05) {
+    const a = (env.dir || 0) * Math.PI / 180; let T0 = 0, T1 = 0;
+    for (let i = 0; i < n; i++) {
+      const s = i * this.ds; const tail = env.wind * Math.cos(this.heading(s) - a); const v = this.v[i];
+      const m = this.cls[i] === 0 ? 1 + 0.7 * tail / v : 1 - 0.12 * tail / v; out[i] = m;
+      T0 += this.ds / v; T1 += this.ds / (v * m);
+    }
+    const k = T1 / (T0 + 0.015 * env.wind); for (let i = 0; i < n; i++) out[i] *= k;
+  }
+  this._windKey = key; this._windArr = out; return out;
+};
+Track.prototype.windAt = function (s, env) { return env && env.wind > 0.05 ? env.wind * Math.cos(this.heading(s) - (env.dir || 0) * Math.PI / 180) : 0; };
+
 // ── Race simulation ──
 class RaceSimCore {
   constructor(opt) {
     this.track = opt.track; this.laps = opt.laps; this.frac = opt.frac; this.sprint = !!opt.sprint;   // a sprint: no mandatory stop, sprint points
     this.boxN = Math.max(10, ...(opt.entries || []).map(e => (e.teamIdx ?? 0) + 1));   // v19: pit boxes spread over the lane for 10-12 teams
     this.weather = opt.weather; this.wet = opt.weather.initialWet; this.rain = 0;
+    // v24 conditions: the weekend's environment (a neutral climate day when a caller passes none), surface temperature,
+    // race rubber laid down on the line (washed off by rain), the wind's speed profile
+    this.env = opt.env || this.track.env || envBase(this.track.id); envSetTrack(this.track, this.env);
+    this.trackT = trackTempAt(this.env, 0, this.wet); this.rub = 0; this.wind = this.track.windK(this.env); this.otOff = false; this._restartLap = 0;
+    this.altK = 1 - Math.min(0.3, ((TRACK_CLIMATE[this.track.id] || {}).alt || 0) / 10000);   // v25: thin air at altitude cools less
+    this.flags = []; this.flagN = 0; this.nb = Math.ceil(this.track.L / 10);                       // v25: local yellow flags; telemetry bins (10 m)
     this.t = -(6 + randf(0.3, 2.2)); this.t0 = this.t;
     this.phase = 'grid';
     this.events = []; this.eventSeq = 0;
@@ -2136,6 +2395,8 @@ class RaceSimCore {
         stintStartLap: 0, wearWarned: 0, dirty: false, retiredAt: null,
         fuel, fuelStart: fuel, fuelMode: 'std', lift: false, soc: 72, ers: 'balanced',
         autoPit: e.auto !== false, autoErs: e.autoErs !== false, puWear: e.puWear || 0, _ersT: 0, fuelWarned: false, coverId: null,
+        sys: { brk: 420, brkAvg: 420, h2o: 88, oil: 98, cool: COOLING[e.cooling] ? e.cooling : 'std', fade: 0 }, backoff: false, vscStyle: VSC_STYLE[e.vscStyle] ? e.vscStyle : 'normal', vscSlack: 0, vscD: 0, _vPrev: 0,
+        th: tyreThermalState(startSet.c), tyreMan: false, autoTyre: e.autoTyre !== false, otLap: -9, otE: 0, otUsed: 0, otLaps: 0,
         warmLeft: 0, warmF: 0, segG: [1, 1, 1], start0: { c: startSet.c, wear: startSet.wear }, secs: [], traps: [], _sT1: null, _sT2: null, _trap: 0,
         an: { passMade: 0, passLost: 0, pits: [], mistakeLoss: 0, mistakes: 0, contacts: 0, damageLoss: 0, liftLaps: 0, warmLoss: 0, scStops: 0, topV: 0 },
       });
@@ -2157,6 +2418,9 @@ class RaceSimCore {
     this.cars.slice().sort((a, b) => a.baseDelta - b.baseDelta).forEach((c, i) => { c.paceRank = i + 1; });
     this.carMean = avg(this.cars.map(c => c.parts ? c.parts.car : 0));   // rain shrinks each car's gap to this
     this.cars.forEach(c => { c.lapTarget = this.computeLapTarget(c); });
+    // v24 the formation lap: weaving and practice starts bring the tread ~60% of the way from blanket temperature to its
+    // running temperature (a hard still starts below its window, a soft is about ready)
+    this.cars.forEach(c => { const b = TYRE_BLANKET[c.compound] || 70; const eq = tyreEqBase(c.compound, this.trackT, this.track, this.wet) + 4; c.th.s = b + 0.6 * Math.max(0, eq - b); c.th.k = b + 0.35 * Math.max(0, eq - b); c.th.p = tyrePsi(c.compound, c.th.k); });
     this.order = this.cars.slice().sort((a, b) => a.grid - b.grid);
     this.debrisP = this.track.d.sc * 0.25;
     this.emit('info', `${this.track.d.circuit} — ${this.laps}랩 레이스. 포메이션 랩을 마치고 그리드에 정렬합니다.`);
@@ -2171,23 +2435,32 @@ class RaceSimCore {
   raceFrac() { const l = this.order[0]; return l ? clamp((l.lap + l.s / this.track.L) / this.laps, 0, 1) : 0; }
   lightsOn() { return this.phase === 'grid' ? clamp(Math.floor(this.t - this.t0), 0, 5) : 0; }
 
-  ersPace(c) { return (c.soc <= 0.5 && (c.ers === 'deploy' || c.ers === 'ot')) ? 0 : ERS_MODES[c.ers].pace; }
+  ersPace(c) { return (c.soc <= 0.5 && c.otE <= 0 && (c.ers === 'deploy' || c.ers === 'ot')) ? 0 : ERS_MODES[c.ers].pace; }
+  // v24: the same for every car — air density and the rubber laid down in the race (up to ~0.3 s on a 90 s lap)
+  envPace() { return envPaceAir(this.env) - 0.3 * this.rub * this.track.d.ref / 90; }
+  // the expected tyre-state cost already in the lap target (compoundPace with the track) — the race applies the difference
+  thExpPen(c) { const K = this.track.envK; return K && K.pace[c.compound] ? K.pace[c.compound] * Math.max(0, 1 - this.wet / 0.15) : 0; }
+  thExpWear(c) { const K = this.track.envK; return K && K.wear[c.compound] ? K.wear[c.compound] : 1; }
+  otEligible(c) { return c.otLap === c.lap && !this.sc && !this.otOff; }
   computeLapTarget(c) {
     const tr = this.track; const ref = tr.d.ref;
     let t = ref * 1.03 + c.baseDelta + (c.raceAdj || 0) * (1 - WET_CAR_COMPRESS * this.wet);   // race trim spreads the cars (RACE_CAR_K), less in the rain
-    t += compoundPace(c.compound, this.wet, this.frac);
+    t += compoundPace(c.compound, this.wet, this.frac, tr);
     t += wearDelta(c.wear + 0.5 * wearRate(c.compound, tr, c.attrs.tyre, c.tyreEff, c.mode, this.frac, this.wet), this.frac);
     t += c.fuel * FUEL_KG_S;
     t += MODES[c.mode].pace + this.ersPace(c) + FUEL_MODES[c.fuelMode].pace + (c.lift ? 0.55 : 0);
     t += wetLapPenalty(c, this.wet) - this.wet * WET_CAR_COMPRESS * ((c.parts ? c.parts.car : 0) - this.carMean);
     t += c.damage + c.puWear * 0.0012;
+    t += this.envPace() + (COOLING[c.sys.cool] || COOLING.std).pace;
     const sd = 0.32 - c.attrs.cons * 0.012 + this.wet * 0.4;
     t += randn() * Math.max(0.05, sd);
     return t;
   }
   setMode(id, mode) { const c = this.byId[id]; if (c && MODES[mode] && c.mode !== mode) { c.lapTarget += MODES[mode].pace - MODES[c.mode].pace; c.mode = mode; } }
+  setTyreMan(id, v) { const c = this.byId[id]; if (!c) return; if (v === 'auto') { c.autoTyre = true; this.manageTyre(c); } else { c.autoTyre = false; c.tyreMan = v === 'on'; } }
   setErs(id, m, manual = true) {
     const c = this.byId[id]; if (!c || !ERS_MODES[m] || c.ers === m) { if (c && manual) c.autoErs = false; return; }
+    if (m === 'ot' && !this.otEligible(c)) { if (manual) c.autoErs = false; m = 'deploy'; if (c.ers === m) return false; }   // 2026: only within a second at the detection point
     const before = this.ersPace(c); c.ers = m; c.lapTarget += this.ersPace(c) - before; if (manual) c.autoErs = false;
   }
   setFuel(id, m, manual = true) {
@@ -2205,14 +2478,17 @@ class RaceSimCore {
     const firstLap = c.lap === 0 ? 3.5 : 1;
     const wetM = 1 + this.wet * 5;
     const puM = 1 + Math.max(0, c.puWear - 60) / 40 * 1.5;
-    const pMech = Math.max(0.00004, (100 - c.rel) * 0.000045) * (mode.risk > 1 ? 1.25 : 1) * puM / fr;
-    if (chance(pMech)) { c.incident = { s: rand() * this.track.L, kind: c.puWear > 70 && chance(0.6) ? 'pu' : 'mech' }; return; }
+    const brkM = 1 + Math.max(0, c.sys.brkAvg - 900) / 120, h2oM = 1 + Math.max(0, c.sys.h2o - H2O_LIMIT - 4) / 4;   // v25
+    const pMech = Math.max(0.00004, (100 - c.rel) * 0.000045) * (mode.risk > 1 ? 1.25 : 1) * puM * brkM * h2oM / fr;
+    if (chance(pMech)) { c.incident = { s: rand() * this.track.L, kind: c.puWear > 70 && chance(0.6) ? 'pu' : 'mech', why: brkM > 1.4 && chance(0.6) ? '브레이크 과열' : h2oM > 1.4 && chance(0.6) ? '냉각 계통 문제' : null }; return; }
     const knowM = 1 + (1 - (c.know ?? 0.85)) * 0.8;
     const pCrash = 0.00022 * (1 + (20 - c.attrs.cons) / 8) * mode.risk * wetM * firstLap * knowM / fr;
     if (chance(pCrash)) { c.incident = { s: rand() * this.track.L, kind: 'crash' }; return; }
-    const pMist = 0.012 * (1 + (20 - c.attrs.cons) / 8) * mode.risk * wetM * knowM / Math.sqrt(fr);
+    const windM = 1 + 0.04 * Math.max(0, (this.env.wind || 0) - 5);   // v24: gusts catch drivers out
+    const pMist = 0.012 * (1 + (20 - c.attrs.cons) / 8) * mode.risk * wetM * knowM * windM / Math.sqrt(fr);
     if (chance(pMist)) c.incident = { s: rand() * this.track.L, kind: 'mistake' };
     if (c.wear > 95 && chance(0.25)) c.incident = { s: rand() * this.track.L, kind: 'puncture' };
+    else if (c.th.fs > 0.7 && chance((c.th.fs - 0.7) * 0.25 / Math.sqrt(fr))) c.incident = { s: rand() * this.track.L, kind: 'puncture' };   // a deep flat spot vibrates the tyre apart
   }
 
   retire(c, reason, onTrack = true) {
@@ -2227,6 +2503,7 @@ class RaceSimCore {
       if (crash && r < pRed && this.redFlag(`${c.short}의 사고 — 방호벽 수리`)) return;
       if (crash ? r < 0.62 : r < 0.12) this.deploySC('SC', `${c.short}의 사고 차량 수습`);
       else if (crash ? r < 0.88 : r < 0.4) this.deploySC('VSC', `${c.short} 차량 회수`);
+      else this.raiseFlag(c.s, crash ? 'YY' : 'Y', crash ? randf(60, 110) : randf(35, 75), `${c.code || c.short} 정지 차량`, c);
     }
   }
   deploySC(type, why) {
@@ -2238,9 +2515,12 @@ class RaceSimCore {
       this.sc = { type, endLap: Math.min(this.laps - 1, this.leaderLap() + dur), ending: false, since: this.t };
       this.scCount++;
       this.emit('sc', `세이프티카 출동! (${why})`, { important: true });
+      for (const c of this.cars) if (c.rules && c.rules.length && !c.retired && !c.finished) this.ruleCheck(c, 'sc');
     } else {
       this.sc = { type, endT: this.t + randf(50, 110) * Math.max(0.6, this.frac), ending: false, since: this.t };
       this.vscCount++;
+      for (const c of this.cars) if (c.rules && c.rules.length && !c.retired && !c.finished) this.ruleCheck(c, 'vsc');
+      for (const c of this.cars) { const st = VSC_STYLE[c.vscStyle] || VSC_STYLE.normal; c.vscSlack = Math.max(-0.006, st.slack + randn() * st.sd * (1 + (12 - (c.attrs.comp || 12)) * 0.05) - ((c.attrs.comp || 12) - 12) * 0.0002); c.vscD = 0; c._vscPen = false; }
       this.emit('sc', `버추얼 세이프티카 (${why})`, { important: true });
     }
   }
@@ -2303,13 +2583,14 @@ class RaceSimCore {
       fit.prevComp = c.compound; fit.prevWear = c.wear; fit.prevAge = c.tyreAge; fit.prevStops = c.stops;
       if (set && (set.wear < c.wear - 3 || comp !== c.compound)) {
         const from = c.compound; c.sets.splice(c.sets.indexOf(set), 1); fit.set = set; fit.addedUsed = !c.usedCompounds.has(comp);
-        c.compound = comp; c.wear = set.wear; c.tyreAge = Math.round(set.laps || 0); c.stops++; c.usedCompounds.add(comp); c.stintStartLap = c.lap + 1; c.wearWarned = 0;
+        c.compound = comp; c.wear = set.wear; c.tyreAge = Math.round(set.laps || 0); c.stops++; c.usedCompounds.add(comp); c.stintStartLap = c.lap + 1; c.wearWarned = 0; this.fitTyres(c, comp, set);
         if (c.stintModes && MODES[c.stintModes[c.stops]]) c.mode = c.stintModes[c.stops];
         if (c.plan && c.plan.length && (planned || c.plan[0].lap - (c.lap + 1) < lapsLeft * 0.5)) fit.planShifted = c.plan.shift();   // the change replaces the next planned stop
         c.warmLeft = L * 0.55; c.warmF = COMPOUNDS[comp].warm * (set.wear > 1 ? 0.6 : 1) / (0.55 * this.lapRef);
         fit.pitRec = { lap: c.lap + 1, from, to: comp, wearIn: 0, newWear: Math.round(set.wear), stationary: 0, lane: 0, posBefore: i + 1, posAfter: i + 1, sc: 'RED', red: true };
         c.an.pits.push(fit.pitRec);
       }
+      if (!fit.set) this.fitTyres(c, c.compound, null, true);   // blankets back on the same set in the lane
       c._redFit = fit; this.lastRed.changes[c.id] = { from: fit.prevComp, fromWear: Math.round(fit.prevWear), to: c.compound, toWear: Math.round(c.wear), changed: !!fit.set, repaired: (c.damage || 0) > 0.05 };
       c.boxRequest = null; c.manualBox = false; c.damage = 0; c.passing = null; c.yieldTo = null;
       c.v = 0; c.lapTarget = this.computeLapTarget(c);
@@ -2331,12 +2612,12 @@ class RaceSimCore {
     const c = this.byId[id]; const r = c && c._redFit; if (!r || c.retired || c.finished || this.phase !== 'racing' || !this.redIn || this.redIn.phase === 'in' || !c.inPit || c.pitStage !== 'parked') return false;
     if (comp && comp !== 'keep' && !bestSet(c.sets, comp) && !(r.set && r.set.c === comp)) return false;
     if (r.set) { c.sets.push(r.set); if (r.addedUsed) c.usedCompounds.delete(c.compound); if (r.planShifted) c.plan.unshift(r.planShifted); if (r.pitRec) c.an.pits.splice(c.an.pits.indexOf(r.pitRec), 1); }
-    c.compound = r.prevComp; c.wear = r.prevWear; c.tyreAge = r.prevAge; c.stops = r.prevStops; c.warmLeft = 0;
+    c.compound = r.prevComp; c.wear = r.prevWear; c.tyreAge = r.prevAge; c.stops = r.prevStops; c.warmLeft = 0; this.fitTyres(c, c.compound, null, true);
     Object.assign(r, { set: null, addedUsed: false, planShifted: null, pitRec: null });
     if (comp && comp !== 'keep') {
       const set = bestSet(c.sets, comp); c.sets.splice(c.sets.indexOf(set), 1);
       r.set = set; r.addedUsed = !c.usedCompounds.has(comp);
-      c.compound = comp; c.wear = set.wear; c.tyreAge = Math.round(set.laps || 0); c.usedCompounds.add(comp); c.stops = r.prevStops + 1; c.stintStartLap = c.lap + 1;
+      c.compound = comp; c.wear = set.wear; c.tyreAge = Math.round(set.laps || 0); c.usedCompounds.add(comp); c.stops = r.prevStops + 1; c.stintStartLap = c.lap + 1; this.fitTyres(c, comp, set);
       const lapsLeft = Math.max(1, this.laps - (c.lap + 1));
       if (c.plan && c.plan.length && c.plan[0].lap - (c.lap + 1) < lapsLeft * 0.5) r.planShifted = c.plan.shift();
       c.warmLeft = this.track.L * 0.55; c.warmF = COMPOUNDS[comp].warm * (set.wear > 1 ? 0.6 : 1) / (0.55 * this.lapRef);
@@ -2458,12 +2739,12 @@ class RaceSimCore {
       let gapAhead = Infinity; for (const x of this.cars) { if (x === o) continue; const tx = x.cross[idx]; if (!isNaN(tx) && tx < mine && mine - tx < gapAhead) gapAhead = mine - tx; }
       if (gapAhead < 1.0) continue;
       const comp = comps[i] || o.compound; const w = Math.max(0, (ages[i] ?? 0) - 0.5) * this.estRate(comp);
-      b.push(T[i] - (fuel0 - this.consFull * (i + 0.5)) * FUEL_KG_S - wearDelta(w, this.frac) - compoundPace(comp, this.wet, this.frac));
+      b.push(T[i] - (fuel0 - this.consFull * (i + 0.5)) * FUEL_KG_S - wearDelta(w, this.frac) - compoundPace(comp, this.wet, this.frac, this.track));
     }
     if (!b.length) return null;
     b.sort((x, y) => x - y); return { r: b[Math.floor(b.length / 2)] - this.estPrior(o), n: b.length };
   }
-  estPrior(o) { const h = Math.sin((o.num || 1) * 91.7 + this.laps * 3.3) * 43758.5453; return this.basePace(o, o.compound) - compoundPace(o.compound, this.wet, this.frac) + ((h - Math.floor(h)) * 2 - 1) * 0.3; }
+  estPrior(o) { const h = Math.sin((o.num || 1) * 91.7 + this.laps * 3.3) * 43758.5453; return this.basePace(o, o.compound) - compoundPace(o.compound, this.wet, this.frac, this.track) + ((h - Math.floor(h)) * 2 - 1) * 0.3; }
   estBase(o) {
     const lap = this.leaderLap();
     if (!this._resid || this._resid.lap !== lap) {
@@ -2483,7 +2764,7 @@ class RaceSimCore {
       const lapNo = Math.floor(p0 + done) + 1;
       if (si < stops.length && lapNo >= stops[si].lap) { const st = stops[si++]; t += loss * (lapNo <= Math.floor(p0) + 1 && this.sc ? PIT_SC_K[this.sc.type === 'VSC' ? 'VSC' : 'SC'] : 1) + COMPOUNDS[st.c].warm; comp = st.c; w = 0; continue; }
       const f = Math.min(1, lapsLeft - done); const r = this.estRate(comp);
-      t += f * (base + compoundPace(comp, this.wet, this.frac) + wearDelta(w + r * f / 2, this.frac) + fuel * FUEL_KG_S + (w > 100 ? 4 : 0));
+      t += f * (base + compoundPace(comp, this.wet, this.frac, this.track) + wearDelta(w + r * f / 2, this.frac) + fuel * FUEL_KG_S + (w > 100 ? 4 : 0));
       w += r * f; fuel = Math.max(0, fuel - this.consFull * f); done += f;
     }
     return t;
@@ -2590,6 +2871,7 @@ class RaceSimCore {
     if (lapsLeft <= 2 && !needRule && c.wear < 92) return null;
     if (needRule && lapsLeft <= 2) return this.pickDry(c, lapsLeft);
     if (c.wear >= 90) return this.pickDry(c, lapsLeft);
+    if (lapsLeft > 4 && (c.th.fs > 0.65 || c.th.bl > 0.55)) { c.an.thStops = (c.an.thStops || 0) + 1; return this.pickDry(c, lapsLeft); }   // v24: flat spot / blisters
     const target = c.pitWear || 70;
     // cover: the car that was within 3.5 s behind has just stopped — answer it on the next lap (60%, decided once),
     // but only when a stop is still to come (no extra stop just to cover)
@@ -2619,7 +2901,7 @@ class RaceSimCore {
     const lapsLeft = this.laps - (c.lap + 1);
     if (lapsLeft < 1) return null;
     const slick = 'SMH'.includes(c.compound);
-    if (slick && c.wear >= 94 && lapsLeft > 1) return this.pickDry(c, lapsLeft);
+    if (slick && (c.wear >= 94 || c.th.fs > 0.85) && lapsLeft > 1) return this.pickDry(c, lapsLeft);
     if (!c.plan || !c.plan.length) return null;
     const next = c.plan[0];
     if (c.lap + 1 < next.lap) return null;
@@ -2670,7 +2952,8 @@ class RaceSimCore {
     const ga = a && !a.retired ? this.intervalTo(c, a) : null; const gb = b && !b.retired ? this.intervalTo(b, c) : null;
     let m = 'balanced';
     if (this.sc) m = c.soc < 95 ? 'harvest' : 'balanced';
-    else if (ga != null && ga < 0.7 && c.soc > 35) m = c.soc > 65 && ga < 0.5 ? 'ot' : 'deploy';
+    else if (this.otEligible(c) && ga != null && ga < 1.2 && (c.otE > 0 || c.soc > 40)) m = 'ot';
+    else if (ga != null && ga < 0.7 && c.soc > 35) m = 'deploy';
     else if (gb != null && gb < 0.6 && c.soc > 30) m = 'deploy';
     else if (c.soc < 30) m = 'harvest';
     else if (c.soc > 92) m = 'deploy';
@@ -2682,6 +2965,16 @@ class RaceSimCore {
     const fm = margin < 0.05 ? 'lean' : margin > 0.7 ? 'rich' : 'std';
     this.setFuel(c.id, fm, false);
     this.setLift(c, margin < -0.35);
+  }
+  // v24 tyre temperature (engineers' cars and our cars on 자동): back off in the corners when the tread runs past its window,
+  // give it back once cooled
+  manageTyre(c) {
+    if (c.autoErs && !this.sc && (c.sys.h2o > H2O_LIMIT - 2 || c.sys.brkAvg > BRK_FADE + 10) && c.dirty && !(c._manage > this.t) && this.laps - c.lap > 3) { c._manage = this.t + this.lapRef * 1.2; c.an.coolManage = (c.an.coolManage || 0) + 1; }   // v25
+    if (c.autoTyre === false) return;
+    const W = TYRE_WIN[c.compound]; const lapsLeft = this.laps - Math.max(0, c.lap) - c.s / this.track.L;
+    if (!W || this.wet > 0.15 || this.sc || !'SMH'.includes(c.compound)) c.tyreMan = false;
+    else if (!c.tyreMan && c.th.s > W[1] + 3 && lapsLeft > 3) c.tyreMan = true;
+    else if (c.tyreMan && (c.th.s < W[1] - 5 || lapsLeft <= 2)) c.tyreMan = false;
   }
 
   carAheadInRace(c) { const i = this.order.indexOf(c); return i > 0 ? this.order[i - 1] : null; }
@@ -2702,7 +2995,7 @@ class RaceSimCore {
 
   // ── projections (deterministic, no noise; standard engine modes assumed) ──
   basePace(c, comp) {
-    return this.track.d.ref * 1.03 + c.baseDelta + (c.raceAdj || 0) * (1 - WET_CAR_COMPRESS * this.wet) + compoundPace(comp, this.wet, this.frac) + c.damage + c.puWear * 0.0012 + wetLapPenalty(c, this.wet) - this.wet * WET_CAR_COMPRESS * ((c.parts ? c.parts.car : 0) - this.carMean);
+    return this.track.d.ref * 1.03 + c.baseDelta + (c.raceAdj || 0) * (1 - WET_CAR_COMPRESS * this.wet) + compoundPace(comp, this.wet, this.frac, this.track) + c.damage + c.puWear * 0.0012 + wetLapPenalty(c, this.wet) - this.wet * WET_CAR_COMPRESS * ((c.parts ? c.parts.car : 0) - this.carMean) + this.envPace();
   }
   // time from now to the flag for a list of future stops [{lap, c}]
   projRemaining(c, stops) {
@@ -2786,6 +3079,200 @@ class RaceSimCore {
     return { plan: { pos: a.pos, t: a.t, stops: plan }, now: { pos: b.pos, t: b.t, stops: now }, gain: a.t - b.t };
   }
 
+  // v24 tyre temperatures for one car over one step (see the model notes by tyreEqBase)
+  tyreHeat(c, dt, lapFrac) {
+    const th = c.th, comp = c.compound, W = TYRE_WIN[comp];
+    if (c.inPit) { th.s += (this.trackT + 15 - th.s) * Math.min(1, dt / 60); th.k += (th.s - th.k) * Math.min(1, dt / 150); th.p = tyrePsi(comp, th.k); th.d = 0; th.wk = 1; return; }
+    let eq = tyreEqBase(comp, this.trackT, this.track, this.wet) + MODE_HEAT[c.mode] + (c.dirty ? 7 : 0) + (c.passing ? 4 : 0) + 4 * c.fuel / (c.fuelStart || 1) - (c.lift ? 4 : 0) - (c.tyreMan ? 6 : 0) - (c._manage > this.t ? 3 : 0);
+    if (this.sc) eq -= this.sc.type === 'SC' ? 28 : 18;   // safety-car pace puts little energy into the tyres
+    if (c.v < 15 && this.t > 1) eq = Math.min(eq, this.trackT + 20);
+    th.s += (eq - th.s) * Math.min(1, dt / TH_TAU_S); th.k += (th.s - 4 - th.k) * Math.min(1, dt / TH_TAU_K);
+    th.p = tyrePsi(comp, th.k);
+    const dry = Math.max(0, 1 - this.wet / 0.15);
+    if (W && dry > 0 && 'SMH'.includes(comp) && !this.sc && c.warmLeft <= 0 && c.v > 30) {
+      const gt = grainTarget(comp, th.s, this.track);
+      if (gt > th.gr) th.gr += (gt - th.gr) * Math.min(1, lapFrac / 2.5 / this.frac);
+      else th.gr = Math.max(0, th.gr - 0.18 * lapFrac / this.frac * (th.s >= W[0] ? 1 : 0.3));
+      if (th.k > W[1] + 6) th.bl = Math.min(1, th.bl + 0.012 * (th.k - W[1] - 6) * lapFrac / this.frac);
+    }
+    // cost vs the plan: the cold part of an out-lap is the warm-up already counted (warmLeft)
+    let pen = 0, wk = 1;
+    if (W && 'SMH'.includes(comp)) {
+      pen = tyreThermalPen(comp, c.warmLeft > 0 ? Math.max(th.s, W[0]) : th.s, th.k, th.gr, th.bl, th.fs, th.p);
+      wk = tyreThermalWear(comp, th.s, th.gr, th.bl, th.fs) * trackTempWearK(this.trackT) / this.thExpWear(c) * (c.tyreMan ? 0.95 : 1) * (1 - 0.05 * this.rub);
+    }
+    th.pen = pen;
+    if (c.player && this.t - (c._thT || -9) >= 1) { c._thT = this.t; const H = c._thH || (c._thH = []); H.push([this.t, th.s, th.k]); if (H.length > 240) H.splice(0, H.length - 240); }
+    th.d = (pen * dry - this.thExpPen(c) + (c.tyreMan ? 0.15 : 0)) * tyreTimeK(this.frac);
+    th.wk = wk;
+    // the race report: time against the plan from the tyre state, laps spent managing temperature, peaks of the damage
+    if (!this.sc) { c.an.thLoss = (c.an.thLoss || 0) + th.d * lapFrac; if (c.tyreMan) c.an.manLaps = (c.an.manLaps || 0) + lapFrac; if (W && th.s > W[1]) c.an.hotLaps = (c.an.hotLaps || 0) + lapFrac; }
+    if (th.gr > (c.an.grMax || 0)) c.an.grMax = th.gr; if (th.bl > (c.an.blMax || 0)) c.an.blMax = th.bl; if (th.fs > (c.an.fsMax || 0)) c.an.fsMax = th.fs;
+  }
+  // ── v25 car systems: brake discs, coolant and oil ──
+  // Disc temperature from the braking power the car actually puts in (its own speed changes) against cooling that grows
+  // with speed and the duct opening (less in dirty air, less in thin air). The lap average drives brake fade; the coolant
+  // follows the air temperature, dirty air, the safety car's low airflow, the engine mode and the cooling set-up — past the
+  // limit the power unit is derated on the straights and wears faster.
+  sysStep(c, dt) {   // per step: the car's acceleration and the braking energy it puts into the discs
+    const v = c.v; const dv = (v - (c._vPrev ?? v)) / Math.max(dt, 1e-3); c._vPrev = v; c._dv = dv;
+    if (dv < 0 && !c.inPit) c._bE = (c._bE || 0) + 0.8 * v * Math.min(60, -dv) / 1000 * (MODE_BRK[c.mode] || 1) * dt;
+    c._vdt = (c._vdt || 0) + v * dt;
+  }
+  sysHeat(c, dt, lapFrac) {
+    const y = c.sys, env = this.env, cl = COOLING[y.cool] || COOLING.std;
+    const vAvg = dt > 0 ? (c._vdt || 0) / dt : c.v; const E = c._bE || 0; c._bE = 0; c._vdt = 0;
+    const nSub = Math.max(1, Math.round(dt / 0.1)), h = dt / nSub, kc = 0.00085 * this.altK * cl.brk * (c.dirty ? 0.88 : 1) * (vAvg + 20);
+    for (let k = 0; k < nSub; k++) y.brk += 200 * E / nSub - kc * (y.brk - env.air) * h;
+    y.brkAvg += (y.brk - y.brkAvg) * Math.min(1, dt / 40);
+    let eq = 95 + (env.air - 25) + 55 * (1 - this.altK) + cl.h2o + Math.max(-4, (220 - this.track.avgV * 3.6) / 10);
+    eq += (c.dirty ? 8 : 0) + (this.sc && !c.inPit ? 6 : 0) + (c.inPit ? 5 : 0) + (c.fuelMode === 'rich' ? 2 : c.fuelMode === 'lean' ? -2 : 0) + (c.ers === 'ot' || c.ers === 'deploy' ? 1 : 0) - (c.lift ? 4 : 0) - (c.backoff ? 2 : 0) - 3 * this.wet;
+    y.h2o += (eq - y.h2o) * Math.min(1, dt / 45); y.oil += (y.h2o + 12 - y.oil) * Math.min(1, dt / 90);
+    y.fade = y.brkAvg > BRK_FADE ? Math.min(0.8, 0.003 * (y.brkAvg - BRK_FADE)) * tyreTimeK(this.frac) : 0;
+    if (y.h2o > H2O_LIMIT) { c.puWear += 0.02 * (y.h2o - H2O_LIMIT) * lapFrac; c.an.derate = (c.an.derate || 0) + lapFrac; }
+    if (y.brkAvg > BRK_FADE) c.an.fadeLaps = (c.an.fadeLaps || 0) + lapFrac;
+    if (y.brkAvg > (c.an.brkMax || 0)) c.an.brkMax = y.brkAvg; if (y.h2o > (c.an.h2oMax || 0)) c.an.h2oMax = y.h2o;
+    if (c.player && this.t - (c._syT || -9) >= 1.5) { c._syT = this.t; const H = c._syH || (c._syH = []); H.push([this.t, y.brkAvg, y.h2o]); if (H.length > 160) H.splice(0, H.length - 160); }
+  }
+  // ── v25 telemetry: what our cars' loggers record every 10 m (speed for every car, from the timing GPS) ──
+  // Throttle and brake come from the car's own acceleration against drag; gear and rpm from the speed; lateral G and steering
+  // from the track curvature; ride height from aero load; the active-aero mode and the hybrid's deploy / harvest power.
+  telRec(c, s0, ds, dt) {
+    const nb = this.nb; const b = Math.min(nb - 1, Math.floor(c.s / 10)); if (c._telB === b) return;
+    const T = c.tel || (c.tel = { cur: this.telNew(c.player), last: null, best: null, curLap: c.lap + 1 });
+    const v = c.v, kph = v * 3.6, dv = c._dv || 0, drag = 0.00055 * v * v;
+    let thr = 0, brk = 0;
+    if (dv < -2) brk = clamp((-dv - drag) / 40, 0, 1); else if (dv > -0.5) thr = clamp((dv + drag) / (drag + Math.max(1.5, 13 - 0.12 * v)), 0, 1);
+    if (c.inPit) { thr = 0.3; brk = 0; }
+    const cur = T.cur; const tLap = this.t - c.lapStartT; if (c.inPit || this.sc) cur.dirty = true;
+    let k = c._telB == null || c._telB > b ? b : c._telB + 1;   // fill the bins this step skipped (never across the line)
+    for (; k <= b; k++) {
+      cur.v[k] = kph; if (!cur.full) continue;
+      const i = Math.floor(k * 10 / this.track.ds) % this.track.n; const kap = this.track.curv[i];
+      const gear = kph < 95 ? 1 + kph / 95 : kph < 300 ? 2 + (kph - 95) / 35 : 8 - 0.001;
+      cur.thr[k] = thr * 100; cur.brk[k] = brk * 100; cur.gear[k] = Math.min(8, Math.floor(gear)); cur.rpm[k] = 10500 + 1500 * (gear - Math.floor(gear));
+      cur.lat[k] = clamp(Math.sign(kap) * v * v * Math.abs(kap) / 9.81, -5.5, 5.5); cur.steer[k] = clamp(Math.sign(kap) * Math.atan(3.6 * Math.abs(kap)) * 180 / Math.PI * 12, -180, 180);
+      cur.rh[k] = 35 - 0.0018 * v * v - 3 * brk;
+      cur.aero[k] = this.track.cls[i] === 0 && brk === 0 && !this.sc && this.wet < 0.4 ? 1 : 0;
+      const taper = c.ers === 'ot' && this.otEligible(c) ? clamp((360 - kph) / 23, 0, 1) : clamp((355 - kph) / 65, 0, 1);
+      cur.ers[k] = brk > 0.05 ? -350 * Math.min(1, brk * 2) : thr > 0.95 && (c.soc > 0.5 || c.otE > 0) ? (ERS_KW[c.ers] || 250) * taper : thr < 0.05 ? -100 : 0;
+      cur.soc[k] = c.soc; cur.bt[k] = c.sys.brk; cur.t[k] = tLap;
+    }
+    c._telB = b;
+  }
+  telNew(full) {
+    const nb = this.nb, f = () => new Float32Array(nb).fill(NaN);
+    return full ? { full: true, v: f(), thr: f(), brk: f(), gear: f(), rpm: f(), lat: f(), steer: f(), rh: f(), aero: f(), ers: f(), soc: f(), bt: f(), t: f() } : { v: f() };
+  }
+  telLap(c, lapNo, lt) {   // the line: the lap just completed becomes "last" (and "best" when it is)
+    const T = c.tel; if (!T) return; T.cur.lap = lapNo; T.cur.lt = lt; T.cur.comp = c.compound; if (lapNo <= 1) T.cur.dirty = true;   // the standing start is not a comparable lap
+    if (T.cur.full) { let dep = 0, har = 0; const t = T.cur.t, e = T.cur.ers; for (let k = 1; k < this.nb; k++) { const dtk = t[k] - t[k - 1]; if (!(dtk > 0) || dtk > 5 || isNaN(e[k])) continue; if (e[k] > 0) dep += e[k] * dtk; else har -= e[k] * dtk; } T.cur.mjDep = dep / 1000; T.cur.mjHar = har / 1000; T.cur.soc1 = c.soc; T.cur.soc0 = T.lastSoc ?? null; T.lastSoc = c.soc; }
+    T.last = T.cur; if (!T.cur.dirty) T.lastClean = T.cur;
+    if (c.player && !T.cur.dirty && (!T.best || lt < T.best.lt)) T.best = T.cur;
+    T.cur = this.telNew(c.player); c._telB = null;
+  }
+  // mini-sector times of a lap (s): the 20 timing points double as the marshal sectors
+  miniSecs(c, lapNo) {
+    const o = lapNo * NTP; const out = [];
+    for (let k = 0; k < NTP; k++) { const a = c.cross[o + k], b = c.cross[o + k + 1]; out.push(isNaN(a) || isNaN(b) ? null : b - a); }
+    return out;
+  }
+  // ── v26 conditional orders: rules a car carries into the race ("SC → box mediums", "wear 65% → box", "gap behind 24 s → free stop") ──
+  ruleCheck(c, ev) {
+    const lapsLeft = this.laps - (c.lap + 1);
+    for (const r of c.rules) {
+      if (r.done || c.retired || c.finished) continue;
+      let hit = false;
+      if (r.k === 'sc') hit = ev === 'sc'; else if (r.k === 'vsc') hit = ev === 'vsc';
+      else if (ev !== 'line') continue;
+      else if (r.k === 'wear') hit = c.wear >= r.v;
+      else if (r.k === 'wet') hit = this.wet * 100 >= r.v;
+      else if (r.k === 'dry') hit = this.wet * 100 <= r.v && !'SMH'.includes(c.compound);
+      else if (r.k === 'lap') hit = c.lap + 1 >= r.v;
+      else if (r.k === 'gapB') { const i = this.order.indexOf(c), b = this.order[i + 1]; const g = b && !b.retired ? this.intervalTo(b, c) : Infinity; hit = g != null && g >= r.v; }
+      else if (r.k === 'gapA') { const i = this.order.indexOf(c), a = this.order[i - 1]; const g = a ? this.intervalTo(c, a) : null; hit = g != null && g <= r.v; }
+      else if (r.k === 'hot') { const W = TYRE_WIN[c.compound]; hit = !!W && c.th.s > W[1] + (r.v || 0); }
+      if (!hit) continue;
+      if (r.a === 'box') { if (c.inPit || lapsLeft < 1) continue; const k = r.c && bestSet(c.sets, r.c) ? r.c : ('SMH'.includes(c.compound) ? this.pickDry(c, Math.max(1, lapsLeft)) : (this.wet > 0.78 && bestSet(c.sets, 'W') ? 'W' : 'I'));
+        if (!k || !bestSet(c.sets, k)) continue; c.boxRequest = k; c.manualBox = true; }
+      else if (r.a === 'mode' && MODES[r.m]) this.setMode(c.id, r.m);
+      else if (r.a === 'backoff') c.backoff = r.m !== 'off';
+      else if (r.a === 'tman') { c.autoTyre = false; c.tyreMan = true; }
+      r.done = true; r.at = c.lap + 1; c.an.rules = (c.an.rules || 0) + 1;
+      this.emit('orders', `${c.short} 조건부 지시 실행 — ${ruleText(r)}`, { cars: [c.id], player: !!c.player, important: !!c.player });
+    }
+  }
+  // ── v26 hidden numbers: the pit wall's own estimates, from the same formulas the race uses ──
+  // passing odds against the car ahead: per attempt at a passing zone, per lap (every zone, if within range), laps to pass
+  // A rival's lap target, tyre state, wear, engine mode and battery are not visible to our pit wall: for a car of another
+  // team the estimate (pace from its lap times, wear from the laps on its set, standard modes) stands in for them.
+  seenPace(x, team) {
+    if (x.team === team) return { lt: x.lapTarget + (x.th.d || 0), wear: x.wear, mode: x.mode, soc: x.soc, ot: this.otEligible(x) };
+    return { lt: this.estBase(x) + this.envPace() + compoundPace(x.compound, this.wet, this.frac, this.track) + wearDelta(this.estWear(x), this.frac), wear: this.estWear(x), mode: 'normal', soc: 50, ot: false };
+  }
+  passOdds(c, a, team) {
+    const tr = this.track; if (!c || !a || c.retired || a.retired) return null;
+    team = team ?? this.viewerTeam(); const C = this.seenPace(c, team), A = this.seenPace(a, team);
+    const ersAtt = C.soc > 5 ? (C.ot ? 0.6 : 0.25) : -0.25, ersDef = A.soc > 5 ? 0.25 : -0.2;
+    const pAdv = A.lt - C.lt;
+    const mAtt = C.mode === 'attack' ? 0.35 : C.mode === 'push' ? 0.15 : C.mode === 'save' ? -0.35 : 0, mDef = A.mode === 'attack' ? 0.3 : A.mode === 'push' ? 0.12 : A.mode === 'save' ? -0.2 : 0;
+    const tyreAdv = (A.wear - C.wear) * 0.008, spdAdv = (c.segG[0] - a.segG[0]) * 9;
+    const adv = pAdv + tyreAdv + (mAtt - mDef) * 0.3 + (ersAtt - ersDef) * 0.12 + spdAdv;
+    const x = -3.9 + 3.3 * tr.d.ovt + 2.6 * Math.max(0, adv) * (0.2 + tr.d.ovt) + 0.085 * (c.attrs.ovt - a.attrs.def) + (ersAtt - ersDef) * 0.6 + mAtt - mDef - this.wet * 0.3 + passLogitAdj(this.frac) - 0.2 * this.rub;
+    const pz = adv < 0.06 ? 0 : sigmoid(x);
+    const pnz = pAdv >= 0.6 ? sigmoid(-4.2 + 2.6 * tr.d.ovt + 1.2 * pAdv * (0.2 + tr.d.ovt) + 0.06 * (c.attrs.ovt - a.attrs.def) + (ersAtt - ersDef) * 0.5 + passLogitAdj(this.frac)) : 0;
+    const lap = 1 - Math.pow(1 - pz, tr.zones.length) * (1 - pnz);
+    return { zone: pz, lap, adv, laps: lap > 0.004 ? 1 / lap : Infinity, pace: pAdv };
+  }
+  // undercut / overcut against a rival: the two laps around the stops, on our real tyres and the rival's estimated ones
+  cutOdds(c, r) {
+    if (!c || !r || c.retired || r.retired || !'SMH'.includes(c.compound) || !'SMH'.includes(r.compound)) return null;
+    const left = this.laps - c.lap - 1; if (left < 3) return null;
+    const nc = this.pickDry(c, left); const set = nc && bestSet(c.sets, nc); if (!set) return null;
+    const rn = this.pickDry(r, left) || r.compound;
+    const tk = this.frac; const rateC = wearRate(nc, this.track, c.attrs.tyre, c.tyreEff, 'normal', tk, this.wet);
+    const cOld = this.basePace(c, c.compound) + wearDelta(c.wear, tk), cNew1 = this.basePace(c, nc) + wearDelta(set.wear, tk) + COMPOUNDS[nc].warm * (set.wear > 1 ? 0.6 : 1), cNew2 = this.basePace(c, nc) + wearDelta(set.wear + rateC, tk);
+    const rb = this.estBase(r) + this.envPace(); const rW = this.estWear(r);
+    const rOld = rb + compoundPace(r.compound, this.wet, tk, this.track) + wearDelta(rW, tk), rNew1 = rb + compoundPace(rn, this.wet, tk, this.track) + wearDelta(0, tk) + COMPOUNDS[rn].warm, rNew2 = rb + compoundPace(rn, this.wet, tk, this.track) + wearDelta(this.estRate(rn), tk);
+    return { under: (rOld - cNew1) + (rNew1 - cNew2), over: (rNew1 - cOld) + (rNew2 - cNew1), comp: nc, rComp: rn };
+  }
+  // chance per lap that a car retires (mechanical or crash), and the chance of a safety car / VSC in the laps left
+  hazardOdds(c, hidden) {   // hidden: another team's car — its engine mode, power-unit wear and temperatures are not known
+    const fr = this.frac, mode = hidden ? MODES.normal : (MODES[c.mode] || MODES.normal), wetM = 1 + this.wet * 5;
+    const puM = hidden ? 1 : 1 + Math.max(0, c.puWear - 60) / 40 * 1.5, brkM = hidden ? 1 : 1 + Math.max(0, c.sys.brkAvg - 900) / 120, h2oM = hidden ? 1 : 1 + Math.max(0, c.sys.h2o - H2O_LIMIT - 4) / 4;
+    const pMech = Math.max(0.00004, (100 - c.rel) * 0.000045) * (mode.risk > 1 ? 1.25 : 1) * puM * brkM * h2oM / fr;
+    const knowM = 1 + (1 - (c.know ?? 0.85)) * 0.8; const pCrash = 0.00022 * (1 + (20 - c.attrs.cons) / 8) * mode.risk * wetM * knowM / fr;
+    return { mech: pMech, crash: pCrash, dnf: pMech + pCrash };
+  }
+  scOdds(team) {
+    team = team ?? this.viewerTeam();
+    const left = Math.max(0, this.laps - this.leaderLap() - 1); let lam = this.debrisP * Math.min(1, Math.max(0, 0.92 - this.raceFrac())) / 0.87;
+    for (const c of this.cars) { if (c.retired || c.finished) continue; const h = this.hazardOdds(c, c.team !== team); lam += left * (h.crash * 0.88 + h.mech * 0.4); }
+    return { p: 1 - Math.exp(-lam), left };
+  }
+  // ── v25 local yellow flags (marshal sectors): slow down, no overtaking; a double yellow means be ready to stop ──
+  msOf(s) { return Math.min(N_MS - 1, Math.floor(s / this.track.L * N_MS)); }
+  flagAt(ms) { let f = null; for (const x of this.flags) if (x.ms === ms || x.ms2 === ms) { if (!f || x.type === 'YY') f = x; } return f; }
+  raiseFlag(s, type, dur, why, car) {
+    if (this.sc || this.phase !== 'racing') return; const ms = this.msOf(s);
+    const ex = this.flags.find(x => x.ms === ms); if (ex) { ex.until = Math.max(ex.until, this.t + dur); if (type === 'YY') ex.type = 'YY'; return; }
+    this.flags.push({ ms, ms2: (ms - 1 + N_MS) % N_MS, type, until: this.t + dur, why, id: car ? car.id : null }); this.flagN++;
+    this.emit('flag', `${type === 'YY' ? '더블 옐로' : '옐로'} 플래그 — 미니섹터 ${ms + 1}${type === 'YY' ? '·' + (((ms - 1 + N_MS) % N_MS) + 1) : ''} (${why})`, { important: type === 'YY', cars: car ? [car.id] : [] });
+  }
+  // a driver who does not lift enough through a double yellow is investigated (low composure, more often)
+  yellowCheck(c, fl) {
+    const key = fl.ms + ':' + Math.floor(fl.until); if (c._yy === key) return; c._yy = key;
+    if (chance(0.006 * (1 + (12 - (c.attrs.comp || 12)) / 6))) { c.penalty += RULE_PEN * 2; c.an.pens = (c.an.pens || 0) + 1; this.emit('penalty', `스튜어드: ${c.short}에게 더블 옐로 구간 감속 미흡으로 ${RULE_PEN * 2}초 페널티`, { cars: [c.id], player: c.player, important: c.player }); }
+  }
+  flatSpot(c, amt, why) {
+    if (!TYRE_WIN[c.compound]) return; const th = c.th; const was = th.fs; th.fs = Math.min(1, th.fs + amt); c.an.flatSpots = (c.an.flatSpots || 0) + 1;
+    if (c.player && (th.fs >= 0.25 && was < 0.25 || th.fs >= 0.6 && was < 0.6)) this.emit('radio', `${c.short}: "${why}! 타이어에 플랫 스팟${th.fs >= 0.6 ? ' — 진동이 심해, 오래 못 버텨' : ''}."`, { cars: [c.id], player: true, important: th.fs >= 0.6 });
+  }
+  fitTyres(c, comp, set, keep) {
+    const o = c.th; c.th = tyreThermalState(comp);
+    if (keep && o) { c.th.gr = o.gr; c.th.bl = o.bl; c.th.fs = o.fs; }   // the same set back on the car (red flag): its damage stays
+    if (c.autoTyre !== false) c.tyreMan = false;
+  }
   // ── main step ──
   step(dt) {
     if (this.phase === 'finished') return;
@@ -2803,15 +3290,25 @@ class RaceSimCore {
     if (this.rain > this.wet) this.wet += (this.rain - this.wet) * Math.min(1, dt / 45);
     else this.wet = Math.max(0, this.wet - dt * 0.0006 / Math.sqrt(this.frac) * Math.max(0, 1 - this.rain * 2));
     if (prevWet < 0.05 && this.wet >= 0.05) this.emit('weather', '빗방울이 떨어지기 시작합니다. 노면이 젖어갑니다.', { important: true });
+    // v24: surface temperature follows the sun and the rain; rubber builds lap by lap and rain washes it away
+    this.trackT += (trackTempAt(this.env, f, this.wet) - this.trackT) * Math.min(1, dt / 60);
+    if (this.wet > 0.25) this.rub *= Math.max(0, 1 - dt / 90);
+    else if (!this.sc) this.rub += (1 - this.rub) * dt / (this.lapRef * Math.max(6, this.laps * 0.35));
+    const otOff = this.wet > 0.45;
+    if (otOff !== this.otOff) { this.otOff = otOff; this.emit('sc', otOff ? '레이스 컨트롤: 노면 상태로 오버테이크 모드 사용 중지' : '레이스 컨트롤: 오버테이크 모드 사용 재개', { important: false }); }
     if (prevWet >= 0.25 && this.wet < 0.25 && this.rain < 0.02) this.emit('weather', '노면이 마르고 있습니다. 슬릭 타이어 타이밍을 노릴 때입니다.', { important: true });
     if (this.sc && this.sc.type === 'VSC' && this.t >= this.sc.endT && !this.sc.ending) {
-      this.sc.ending = true; this.emit('sc', 'VSC 종료 — 그린 플래그!', { important: true }); this.sc = null;
+      this.sc.ending = true; this.emit('sc', 'VSC 종료 — 그린 플래그!', { important: true }); this.sc = null; this._restartLap = this.leaderLap();
+      for (const c of this.cars) c.vscSlack = 0;
     }
     if (!this.sc && this.phase === 'racing' && f > 0.05 && f < 0.92 && chance(this.debrisP * dt / (this.laps * tr.profLap * 1.05))) {
       this.deploySC(chance(0.6) ? 'VSC' : 'SC', '트랙 위 파편');
     }
     if (this.sc && this._lapSc !== 'SC' && this._lapSc !== 'RED') this._lapSc = this.sc.type;
+    if (this.flags.length) { const was = this.flags.length; this.flags = this.sc ? [] : this.flags.filter(x => x.until > this.t); if (!this.sc && this.flags.length < was && !this.flags.length) this.emit('flag', '그린 — 옐로 플래그 해제', {}); }
     const active = this.cars.filter(c => !c.retired && !c.finished);
+    if (this.sc && this.sc.type === 'VSC') for (const c of active) { if (c.inPit) continue; c.vscD += dt * c.vscSlack / (1 - c.vscSlack);
+      if (c.vscD < -0.25 && !c._vscPen) { c._vscPen = true; c.penalty += RULE_PEN; c.an.pens = (c.an.pens || 0) + 1; this.emit('penalty', `스튜어드: ${c.short}에게 VSC 델타 위반으로 ${RULE_PEN}초 페널티`, { cars: [c.id], player: c.player, important: c.player }); } }
     const scOn = this.sc && this.sc.type === 'SC';
     const vscOn = this.sc && this.sc.type === 'VSC';
     const onTrack = active.filter(c => !c.inPit);
@@ -2822,8 +3319,12 @@ class RaceSimCore {
     for (const c of active) {
       if (c.inPit) continue;
       const prof = tr.vAt(c.s);
-      let vt = prof * tr.profLap / c.lapTarget * c.segG[tr.clsAt(c.s)];
+      const si = Math.floor(tr.fi(c.s)) % tr.n;
+      let vt = prof * tr.profLap / c.lapTarget * c.segG[tr.cls[si]] * this.wind[si];
       if (c.warmLeft > 0) vt *= 1 - c.warmF;
+      if (c.th.d || c.sys.fade) vt *= c.lapTarget / Math.max(30, c.lapTarget + c.th.d + c.sys.fade);   // v24/25: tyre state vs the plan, brake fade
+      if (c.sys.h2o > H2O_LIMIT && tr.cls[si] === 0) vt *= 1 - Math.min(0.04, 0.004 * (c.sys.h2o - H2O_LIMIT));   // v25: power unit derated when the coolant runs too hot
+      if (this.flags.length) { const fl = this.flagAt(this.msOf(c.s)); if (fl) { vt *= fl.type === 'YY' ? 0.9 : 0.975; if (fl.type === 'YY') this.yellowCheck(c, fl); } }
       const a = aheadOf.get(c);
       const gapM = a ? (a.s - c.s + L) % L : 1e9;
       c.gapAheadM = gapM; c.aheadId = a ? a.id : null;
@@ -2832,9 +3333,10 @@ class RaceSimCore {
       if (c.dirty && !(a && a.yieldTo === c.id)) vt *= 1 - dirtyAirLoss(tg);
       if (c._fol && (!a || c._fol.id !== a.id)) c._fol = null;   // a new car ahead: the stuck-behind count starts again
       if (c._manage > this.t && !scOn) vt *= 0.9975;               // dropped back to cool the tyres after failing to get by
+      if (c.backoff && !scOn && !c.passing && tg < 1.15) vt *= 0.996;   // v25: told to keep clean air (tyres, brakes, coolant)
       if (c.passing) vt *= 1.06;
       if (c.yieldTo) vt *= c._blueYield ? 0.93 : 0.975;   // a lapped car under blue flags lifts and moves off line
-      if (vscOn) vt = Math.min(vt, prof * 0.62);
+      if (vscOn) vt = Math.min(vt, prof * 0.62 * (1 - c.vscSlack));   // v25: each driver's margin over the VSC minimum time
       if (this.redIn && this.redIn.phase === 'in') vt = Math.min(vt, prof * 0.7, 60);   // red flag: slowly back to the pit lane
       if (scOn) {
         if (this.order[0] === c) vt = Math.min(vt, prof * 0.55, 52);
@@ -2887,6 +3389,7 @@ class RaceSimCore {
       const decS = (entryS - 450 + L) % L;
       if (!c.inPit && s0 < decS && s1 >= decS && c.lap >= 0 && this.phase === 'racing' && !this.redIn) {
         if (!c.manualBox) c.boxRequest = c.autoPit ? this.decidePit(c) : this.decidePlanned(c);
+        if (c.rules && c.rules.length) this.ruleCheck(c, 'line');
         if (c.player) this.engineerRadio(c);
       }
       // v21: sector splits and the speed trap, recorded as the car passes the boundaries (no random numbers: replays stay exact)
@@ -2908,19 +3411,26 @@ class RaceSimCore {
       if (c.lap >= 0) {
         const tpIdx = Math.floor(((c.lap + 1) + c.s / L) * NTP);
         if (tpIdx > c.lastTp) {
-          for (let k = Math.max(c.lastTp + 1, 0); k <= tpIdx && k < c.cross.length; k++) c.cross[k] = this.t;
+          const pNow = (c.lap + 1) + c.s / L, pPrev = pNow - ds / L;   // v25: interpolated inside the step (mini-sector times to the millisecond)
+          for (let k = Math.max(c.lastTp + 1, 0); k <= tpIdx && k < c.cross.length; k++) c.cross[k] = ds > 1e-6 ? prevT + dt * clamp((k / NTP - pPrev) / (pNow - pPrev), 0, 1) : this.t;
           c.lastTp = Math.min(tpIdx, c.cross.length - 1);
         }
       }
       if (this.t > 0) {
         const lapFrac = ds / L;
-        const r = wearRate(c.compound, tr, c.attrs.tyre, c.tyreEff, c.mode, this.frac, this.wet) * (c.dirty ? 1.06 : 1) * (this.sc ? 0.35 : 1);
+        // v24/25 temperatures: braking energy every step, the slower thermal states four times a second
+        this.sysStep(c, dt); c._hT = (c._hT || 0) + dt; c._hL = (c._hL || 0) + lapFrac;
+        if (c._hT >= 0.25 || c.inPit) { this.tyreHeat(c, c._hT, c._hL); this.sysHeat(c, c._hT, c._hL); c._hT = 0; c._hL = 0; }
+        this.telRec(c, s0, ds, dt);
+        const r = wearRate(c.compound, tr, c.attrs.tyre, c.tyreEff, c.mode, this.frac, this.wet) * (c.dirty ? 1.06 : 1) * (this.sc ? 0.35 : 1) * c.th.wk;
         c.wear = Math.min(100, c.wear + r * lapFrac);
         // energy store & fuel
         let socRate = ERS_MODES[c.ers].soc; if (this.sc) socRate = Math.max(socRate, 8);
         const before = c.soc;
-        c.soc = clamp(c.soc + socRate * lapFrac, 0, 100);
-        if (before > 0.5 && c.soc <= 0.5 && (c.ers === 'deploy' || c.ers === 'ot')) {
+        let dSoc = socRate * lapFrac;
+        if (dSoc < 0 && c.ers === 'ot' && c.otE > 0) { const take = Math.min(c.otE, -dSoc); c.otE -= take; dSoc += take; c.otUsed += take; }
+        c.soc = clamp(c.soc + dSoc, 0, 100);
+        if (before > 0.5 && c.soc <= 0.5 && c.otE <= 0 && (c.ers === 'deploy' || c.ers === 'ot')) {
           c.lapTarget += -ERS_MODES[c.ers].pace; // energy gone: deployment benefit lost
           if (c.player) this.emit('radio', `${c.short} 엔지니어: "배터리가 바닥났어. 충전 모드로 바꿔야 해."`, { cars: [c.id], player: true, important: true });
           this.setErs(c.id, c.autoErs ? 'harvest' : 'balanced', false);
@@ -2931,7 +3441,7 @@ class RaceSimCore {
       const latTarget = c.inPit ? 0 : c.passing || (c._unlap && c.gapAheadM < 40) ? 3.6 : c.yieldTo ? -2.4 : (c.dirty && c.gapAheadM < 25 ? -1.4 : 0);
       if (this.t > 6) c.lat += (latTarget - c.lat) * Math.min(1, dt * 1.8);
       c._ersT -= dt;
-      if (c._ersT <= 0) { c._ersT = 2 + rand(); this.manageEnergy(c); }
+      if (c._ersT <= 0) { c._ersT = 2 + rand(); this.manageEnergy(c); this.manageTyre(c); }
     }
     for (const c of active) {
       if (!c.passing || c.retired) continue;
@@ -2981,6 +3491,7 @@ class RaceSimCore {
         continue;
       }
       const a = a0; if (!a || a.inPit || a.passing || a.yieldTo) continue;
+      if (this.flags.length && (this.flagAt(this.msOf(c.s)) || this.flagAt(this.msOf(a.s)))) continue;   // v25: no overtaking under yellow
       const gapM = (a.s - c.s + L) % L;
       const lapping = this.progress(c) > this.progress(a) + 0.5;
       if (gapM > (lapping ? 110 : 60)) continue;   // blue flags reach further back than a racing move
@@ -2994,8 +3505,9 @@ class RaceSimCore {
       if (tg > 0.55) continue;
       let zoneId = -1;
       for (let z = 0; z < tr.zones.length; z++) { const d = (tr.zones[z] - c.s + L) % L; if (d < 240 || d > L - 25) { zoneId = z; break; } }
-      const ersAtt = c.soc > 5 ? (c.ers === 'ot' ? 0.6 : c.ers === 'deploy' ? 0.25 : c.ers === 'harvest' ? -0.3 : 0) : -0.25;
-      const ersDef = a.soc > 5 ? (a.ers === 'ot' ? 0.45 : a.ers === 'deploy' ? 0.25 : a.ers === 'harvest' ? -0.2 : 0) : -0.2;
+      const ersAtt = c.soc > 5 || c.otE > 0 ? (c.ers === 'ot' ? 0.6 : c.ers === 'deploy' ? 0.25 : c.ers === 'harvest' ? -0.3 : 0) : -0.25;
+      const ersDef = a.soc > 5 || a.otE > 0 ? (a.ers === 'ot' ? 0.45 : a.ers === 'deploy' ? 0.25 : a.ers === 'harvest' ? -0.2 : 0) : -0.2;
+      const thAdv = (a.th.d || 0) - (c.th.d || 0);   // v24: a rival out of its tyre window (cold after a restart, overheating, grained) is easier to pass
       // v23 opening lap: cold tyres, a bunched pack and three-wide corners — places change on who brakes latest and who gets
       // squeezed, not on race pace (real starts move each car ~1.5 places on average; Monaco far less)
       const lap1 = c.lap <= 0 && !lapping;
@@ -3005,7 +3517,7 @@ class RaceSimCore {
           const fr = c.s / L, slot = fr < 0.2 ? 1 : fr < 0.55 ? 2 : 3, kk1 = '1c' + slot;
           if (c.zoneTried[kk1] || Math.abs(fr - [0, 0.12, 0.45, 0.78][slot]) > 0.025) continue;
           c.zoneTried[kk1] = true;
-          const adv1 = (a.lapTarget - c.lapTarget) + chaos;
+          const adv1 = (a.lapTarget - c.lapTarget) + thAdv + chaos;
           if (adv1 < 0.05) continue;
           const x1 = -3.1 + 3.0 * tr.d.ovt + 2.2 * adv1 * (0.25 + tr.d.ovt) + 0.08 * (c.attrs.ovt - a.attrs.def) - this.wet * 0.3 + passLogitAdj(this.frac);
           if (chance(sigmoid(x1))) {
@@ -3018,7 +3530,7 @@ class RaceSimCore {
         if (c.zoneTried[kk]) continue;
         if (Math.abs(c.s / L - 0.5) > 0.02) continue;
         c.zoneTried[kk] = true;
-        const pAdv = a.lapTarget - c.lapTarget;
+        const pAdv = a.lapTarget - c.lapTarget + thAdv;
         if (pAdv < 0.6) continue;
         const p = sigmoid(-4.2 + 2.6 * tr.d.ovt + 1.2 * pAdv * (0.2 + tr.d.ovt) + 0.06 * (c.attrs.ovt - a.attrs.def) + (ersAtt - ersDef) * 0.5 + passLogitAdj(this.frac));
         if (chance(p)) this.startPass(c, a, false);
@@ -3027,24 +3539,25 @@ class RaceSimCore {
       const key = c.lap + ':' + zoneId;
       if (c.zoneTried[key]) continue;
       c.zoneTried[key] = true;
-      const pAdv = a.lapTarget - c.lapTarget;
+      const pAdv = a.lapTarget - c.lapTarget + thAdv;
       const mAtt = c.mode === 'attack' ? 0.35 : c.mode === 'push' ? 0.15 : c.mode === 'save' ? -0.35 : 0;
       const mDef = a.mode === 'attack' ? 0.3 : a.mode === 'push' ? 0.12 : a.mode === 'save' ? -0.2 : 0;
       const tyreAdv = (a.wear - c.wear) * 0.008;
       const spdAdv = (c.segG[0] - a.segG[0]) * 9 + (a.warmLeft > 0 ? 0.25 : 0);   // straight-line speed (power) and a rival on cold tyres
       const adv = pAdv + tyreAdv + (mAtt - mDef) * 0.3 + (ersAtt - ersDef) * 0.12 + spdAdv + chaos;
       if (adv < 0.06) continue;
-      const x = -3.9 + 3.3 * tr.d.ovt + 2.6 * adv * (0.2 + tr.d.ovt) + 0.085 * (c.attrs.ovt - a.attrs.def) + (ersAtt - ersDef) * 0.6 + mAtt - mDef - this.wet * 0.3 + passLogitAdj(this.frac) + (lap1 ? 0.45 : 0);
+      const x = -3.9 + 3.3 * tr.d.ovt + 2.6 * adv * (0.2 + tr.d.ovt) + 0.085 * (c.attrs.ovt - a.attrs.def) + (ersAtt - ersDef) * 0.6 + mAtt - mDef - this.wet * 0.3 + passLogitAdj(this.frac) + (lap1 ? 0.45 : 0) - 0.2 * this.rub;   // marbles off the line make a late move harder
       if (c.ers === 'ot') c.soc = Math.max(0, c.soc - 6);
       if (chance(sigmoid(x))) {
         const pc = 0.012 * (1 + (14 - c.attrs.comp) / 10) * (1 + (14 - a.attrs.comp) / 14) * MODES[c.mode].risk * (1 + this.wet * 1.5) * (lap1 ? 1.8 : 1);
         if (chance(pc)) { this.contact(c, a); continue; }
         this.startPass(c, a, false);
       } else {
+        a.v *= 0.985; a.an.defLoss = (a.an.defLoss || 0) + 0.12; a.an.defN = (a.an.defN || 0) + 1;   // v26: covering the inside line costs the defender
         this.noteStuck(c, a);
         if (pAdv > 0.3 && chance(0.25)) c.v *= 0.97;
         if (chance(0.02 * MODES[c.mode].risk)) {
-          c.v *= 0.6;
+          c.v *= 0.6; if (chance(0.35)) this.flatSpot(c, randf(0.06, 0.3), '추월 시도 중 락업');
           if (c.player) this.emit('player', `${iga(c.short)} 추월 시도 중 락업! 시간을 잃습니다.`, { cars: [c.id], player: true });
         }
       }
@@ -3117,12 +3630,14 @@ class RaceSimCore {
   triggerIncident(c) {
     const inc = c.incident; c.incident = null;
     if (inc.kind === 'pu') this.retire(c, pick(['파워 유닛 고장 (ICE)', 'MGU-K 고장', '에너지 저장 장치 이상']));
-    else if (inc.kind === 'mech') this.retire(c, pick(['기어박스 고장', '유압 계통 이상', '브레이크 과열', '냉각 계통 문제', '전기 계통 문제', '서스펜션 파손']));
+    else if (inc.kind === 'mech') this.retire(c, inc.why || pick(['기어박스 고장', '유압 계통 이상', '브레이크 과열', '냉각 계통 문제', '전기 계통 문제', '서스펜션 파손']));
     else if (inc.kind === 'crash') this.retire(c, (this.wet > 0.2 ? '젖은 노면에서 미끄러지며 ' : '') + pick(['벽에 충돌하는 사고', '코너에서 스핀 후 배리어 충돌 사고', '연석을 밟고 균형을 잃는 사고']));
     else if (inc.kind === 'mistake') {
       const loss = randf(0.6, 2.6);
       c.v *= 0.55; c.lapTarget += loss; c.an.mistakes++; c.an.mistakeLoss += loss;
-      if (c.player || loss > 2.0) this.emit(c.player ? 'player' : 'info', `${iga(c.short)} ${pick(['코너를 놓치며 트랙을 벗어납니다', '락업으로 브레이킹 포인트를 지나칩니다', '탈출 구간에서 휠스핀으로 시간 손실'])} (약 ${loss.toFixed(1)}초)`, { cars: [c.id], player: c.player });
+      const k = Math.floor(rand() * 3); if (k === 1) this.flatSpot(c, randf(0.08, 0.35), '락업');
+      if (k === 0 && loss > 1.4) this.raiseFlag(c.s, 'Y', randf(12, 25), `${c.code || c.short} 코스 이탈`, c);
+      if (c.player || loss > 2.0) this.emit(c.player ? 'player' : 'info', `${iga(c.short)} ${['코너를 놓치며 트랙을 벗어납니다', '락업으로 브레이킹 포인트를 지나칩니다', '탈출 구간에서 휠스핀으로 시간 손실'][k]} (약 ${loss.toFixed(1)}초)`, { cars: [c.id], player: c.player });
     } else if (inc.kind === 'puncture') {
       c.v *= 0.35; c.lapTarget += 18; c.wear = 100;
       const alt = ['M', 'H', 'S'].find(k => bestSet(c.sets, k));
@@ -3197,7 +3712,7 @@ class RaceSimCore {
           for (const why of c._penNext) { c.penalty += RULE_PEN; c.an.pens = (c.an.pens || 0) + 1; this.emit('penalty', `스튜어드: ${c.short}에게 ${jo(why, '로')} ${RULE_PEN}초 페널티 (다음 피트스톱 또는 결승선에서 적용)`, { cars: [c.id], player: c.player, important: true }); }
           c._penNext = null;
         }
-        if (c._pitIn) { const pi = c._pitIn; c.an.pits.push({ lap: pi.lap, from: pi.from, to: c.compound, wearIn: Math.round(pi.wear), newWear: Math.round(c._newWear || 0), stationary: c.lastStop, lane: this.t - pi.t, posBefore: pi.pos, posAfter: this.order.indexOf(c) + 1, sc: pi.sc }); if (pi.sc) c.an.scStops++; c._pitIn = null; }
+        if (c._pitIn) { const pi = c._pitIn; c.an.pits.push({ lap: pi.lap, from: pi.from, to: c.compound, wearIn: Math.round(pi.wear), newWear: Math.round(c._newWear || 0), stationary: c.lastStop, lane: this.t - pi.t, tin: pi.t, tout: this.t, posBefore: pi.pos, posAfter: this.order.indexOf(c) + 1, sc: pi.sc }); if (pi.sc) c.an.scStops++; c._pitIn = null; }
         for (const o of this.cars) if (o !== c) { c.ignoreUntil[o.id] = this.t + 3; o.ignoreUntil[c.id] = this.t + 3; }
       }
       return ds;
@@ -3216,7 +3731,7 @@ class RaceSimCore {
     let comp = c.pitComp && bestSet(c.sets, c.pitComp) ? c.pitComp : (['M', 'H', 'S', 'I', 'W'].find(k => bestSet(c.sets, k)));
     const set = bestSet(c.sets, comp);
     c.sets.splice(c.sets.indexOf(set), 1);
-    c.compound = comp; c.wear = set.wear; c.tyreAge = Math.round(set.laps || 0); c.stops++; c.usedCompounds.add(comp); c.stintStartLap = c.lap + 1; c.wearWarned = 0;
+    c.compound = comp; c.wear = set.wear; c.tyreAge = Math.round(set.laps || 0); c.stops++; c.usedCompounds.add(comp); c.stintStartLap = c.lap + 1; c.wearWarned = 0; this.fitTyres(c, comp, set);
     if (c.stintModes && MODES[c.stintModes[c.stops]]) c.mode = c.stintModes[c.stops];   // planned pace for the new stint (lap target recomputed below)
     c.lastStop = st; c._newWear = set.wear;
     c.warmLeft = this.track.L * 0.55; c.warmF = COMPOUNDS[comp].warm * (set.wear > 1 ? 0.6 : 1) / (0.55 * this.lapRef);
@@ -3243,8 +3758,22 @@ class RaceSimCore {
       }
       c.tyreAge++;
       c.an.damageLoss += c.damage;
+      this.telLap(c, c.lap, lt);
     }
     c.lapStartT = tCross; c._sT1 = null; c._sT2 = null; c._trap = 0;
+    // v24 / 2026 rules: Overtake Mode — within a second of the car ahead at the detection point earns extra deployment on
+    // the next lap (not in the first two laps or the lap after a restart, not when race control has disabled it)
+    { const i = this.order.indexOf(c), a = i > 0 ? this.order[i - 1] : null; let gap = null;
+      if (a && !a.retired && c.lap >= 1 && a.lineT && a.lineT.length >= c.lap) gap = tCross - a.lineT[c.lap - 1];
+      const ok = this.phase === 'racing' && !this.sc && !this.otOff && c.lap >= 2 && c.lap > this._restartLap + 1 && !c.inPit;
+      const was = c.otLap === c.lap - 1;
+      if (ok && gap != null && gap >= 0 && gap < OT_GAP) { c.otLap = c.lap; c.otE = OT_BONUS; c.otLaps++; c.an.otLaps = c.otLaps; c.otGap = gap; }
+      else { c.otE = 0; c.otGap = gap; }
+      if (was && c.otLap !== c.lap && c.ers === 'ot') this.setErs(c.id, 'deploy', false);
+      if (c.player && c.otLap === c.lap && !was && !c.autoErs) this.emit('radio', `${c.short} 엔지니어: "${a.code || a.short}와 ${gap.toFixed(2)}초 — 오버테이크 모드 사용 가능!"`, { cars: [c.id], player: true }); }
+    if (c.lap >= 1 && !this.sc && c.sys.brkAvg < 330 && this.wet < 0.3 && chance(0.025 * MODES[c.mode].risk)) this.flatSpot(c, randf(0.05, 0.25), '브레이크가 식어 락업');   // v25
+    // cold tyres lock up more easily under braking (flat spot)
+    { const W = TYRE_WIN[c.compound]; if (c.lap >= 1 && W && !this.sc && this.wet < 0.15 && c.th.s < W[0] - 12 && chance(0.012 * MODES[c.mode].risk)) this.flatSpot(c, randf(0.05, 0.22), '차가운 타이어로 락업'); }
     if (this.phase === 'racing' && c.lap >= this.laps) {
       this.phase = 'chequered';
       this.emit('finish', `체커기! ${iga(c.short)} 우승합니다!`, { cars: [c.id], important: true, player: c.player });
@@ -3253,7 +3782,7 @@ class RaceSimCore {
       c.finished = true; c.status = 'FIN'; c.finishT = tCross; this.finishOrder.push(c.id); c.v = 0;
       return;
     }
-    if (this.sc && this.sc.type === 'SC' && this.sc.ending && this.order[0] === c) { this.sc = null; this.emit('sc', '그린 플래그! 레이스 재개!', { important: true }); }
+    if (this.sc && this.sc.type === 'SC' && this.sc.ending && this.order[0] === c) { this.sc = null; this._restartLap = c.lap; this.emit('sc', '그린 플래그! 레이스 재개!', { important: true }); }
     if (this.order[0] === c && c.lap >= 1) {
       this.scHist.push(this._lapSc); this._lapSc = this.sc ? (this.sc.type === 'RED' ? 'SC' : this.sc.type) : null;
       this.cars.forEach(o => { if (!o.retired) o.posHist.push(this.order.indexOf(o) + 1); });
@@ -3272,6 +3801,17 @@ class RaceSimCore {
       say(`타이어 마모 ${w}%. 지금 들어오면 P${p.pos} 복귀${p.ahead ? `, ${p.ahead.code} 뒤 ${p.ahead.gap.toFixed(1)}초` : ''}.`);
     }
     const slick = 'SMH'.includes(c.compound);
+    // v24 tyre temperature calls (once per stint each)
+    const W = TYRE_WIN[c.compound], th = c.th; c._thW = c._thW || {}; const sk = c.stops + ':';
+    if (W && slick && this.wet < 0.15 && !this.sc && c.warmLeft <= 0) {
+      if (th.s > W[1] + 3 && !c._thW[sk + 'hot']) { c._thW[sk + 'hot'] = 1; say(`타이어 표면 ${Math.round(th.s)}도 — 작동 창(${W[0]}–${W[1]})을 넘었어. ${c.tyreMan || c.autoErs ? '코너에서 관리하면서 식힐게.' : '타이어 관리 모드로 식히자.'}`, true); }
+      if (th.gr > 0.25 && !c._thW[sk + 'gr']) { c._thW[sk + 'gr'] = 1; say(th.s < W[0] ? `앞 타이어 그레이닝. 노면이 차가워서 쉽게 안 걷힐 거야 (${Math.round(th.s)}도).` : '앞 타이어 그레이닝. 창 안에 있으니 몇 랩이면 걷힐 거야.', true); }
+      if (th.bl > 0.2 && !c._thW[sk + 'bl']) { c._thW[sk + 'bl'] = 1; say(`블리스터 발생 — 카커스 ${Math.round(th.k)}도. 페이스가 계속 떨어질 거야, 박스 앞당기는 것 고려해.`, true); }
+    }
+    // v25 brakes and coolant
+    const y = c.sys;
+    if (y.h2o > H2O_LIMIT - 1 && !c._thW['h2o' + Math.floor(this.t / 600)]) { c._thW['h2o' + Math.floor(this.t / 600)] = 1; say(`냉각수 ${Math.round(y.h2o)}도 — 한계(${H2O_LIMIT}) 근처야. 파워 유닛 출력이 깎여. 앞차와 간격을 두거나 린 모드로 식히자.`, true); }
+    if (y.brkAvg > BRK_FADE && !c._thW['brk' + Math.floor(this.t / 600)]) { c._thW['brk' + Math.floor(this.t / 600)] = 1; say(`브레이크 평균 ${Math.round(y.brkAvg)}도 — 페이드가 오고 있어. 더티 에어에서 빠지면 식을 거야.`, true); }
     if (slick && this.wet > 0.2 && !c._wetWarn) { c._wetWarn = true; this.emit('radio', `${c.short}: "노면이 너무 미끄러워! 인터 타이어가 필요해!"`, { cars: [c.id], player: true, important: true }); }
     if (!slick && this.wet < 0.15 && !c._dryWarn) { c._dryWarn = true; this.emit('radio', `${c.short}: "레코드 라인이 다 말랐어. 슬릭으로 갈 때야."`, { cars: [c.id], player: true, important: true }); }
     if (slick) c._dryWarn = false; else c._wetWarn = false;
@@ -3332,11 +3872,29 @@ class RaceSim extends RaceSimCore {
     const g = RNG.s; RNG.s = seed; let ok = false;
     try { super(opt); ok = true; } finally { if (ok) { this.seed0 = seed; this.rs = RNG.s; this.nStep = 0; } RNG.s = g; }
   }
-  step(dt) { const g = RNG.s; RNG.s = this.rs; try { super.step(dt); } finally { this.rs = RNG.s; RNG.s = g; this.nStep++; } }
+  step(dt) { if (this.track.env !== this.env) envSetTrack(this.track, this.env); const g = RNG.s; RNG.s = this.rs; try { super.step(dt); } finally { this.rs = RNG.s; RNG.s = g; this.nStep++; } }
   withRng(fn) { const g = RNG.s; RNG.s = this.rs; try { return fn(); } finally { this.rs = RNG.s; RNG.s = g; } }
 }
 
 // ── Qualifying ──
+// v24 tyre preparation: the tread temperature at the start of a flying lap — after the out-lap (one warm-up lap, or two on a
+// cold track), or after a cool-down lap on the same set — against the compound's window. A cold track needs the longer
+// preparation; on a hot one a second push of the same run goes off. Cold costs more over one lap than in a race stint.
+function qualiTyreTemp(comp, track, env, prep, after) {
+  const T = qualiTrackTemp(env || envBase(track.id));
+  return 45 + 0.9 * T + 20 * track.d.tyre + (TYRE_GEN[comp] || 0) - 4 + (prep >= 2 ? 9 : 0) + (after === 'cool' ? 5 : 0);
+}
+function qualiTyrePen(comp, track, env, prep, after, wet) {
+  const W = TYRE_WIN[comp]; if (!W || !'SMH'.includes(comp) || (wet || 0) > 0.15) return { t: null, pen: 0, W };
+  const t = qualiTyreTemp(comp, track, env, prep, after);
+  return { t, pen: 0.02 * Math.max(0, W[0] - t) + 0.02 * Math.max(0, t - W[1]), W };
+}
+// a strategist who reads the conditions picks two warm-up laps when one will not bring the tyre in
+function qualiPrepPick(comp, track, env, strat, wet) {
+  const a = qualiTyrePen(comp, track, env, 1, 'out', wet), b = qualiTyrePen(comp, track, env, 2, 'out', wet);
+  if (b.pen + 0.02 < a.pen && chance(0.45 + (strat || 12) * 0.03)) return 2;
+  return 1;
+}
 // plans[id] = { risk, wears: [w1, w2] (soft set wear for each run), prep: 0..1, know: 0..1 }
 function simulateQualiSession(entries, track, wet, plans) {
   const laps = []; const carMean = avg(entries.map(e => e.parts ? e.parts.car : 0));
@@ -3349,12 +3907,13 @@ function simulateQualiSession(entries, track, wet, plans) {
       let lap = track.d.ref + e.baseDelta + 0.35 * (1 - tRun);
       lap += wet * 7.5 * (1 + (12 - e.attrs.wet) * (WET_SKILL_K + 0.005) + (e.wetFeel || 0)) - wet * WET_CAR_COMPRESS * ((e.parts ? e.parts.car : 0) - carMean) + (wet > 0.25 ? wetDelta('I', wet) : wetDelta('S', wet));
       lap += wearDelta(wears[r]) * 1.1 - (pl.prep || 0) * 0.06 + (pl.timing || 0);
+      { const comp = pl.comp || 'S'; const pp = qualiPrepPick(comp, track, track.env, e.strat, wet); lap += qualiTyrePen(comp, track, track.env, pp, 'out', wet).pen + 0.015 * ((track.env || {}).wind || 0); }   // v24 tyre prep, wind
       const sd = 0.2 - e.attrs.cons * 0.006 + wet * 0.35;
       lap += randn() * Math.max(0.04, sd);
       const rk = { safe: [0.12, 0.03], normal: [0, 0.065], max: [-0.11, 0.14] }[risk];
       lap += rk[0];
       let valid = true, note = '';
-      const pm = rk[1] * (1.45 - e.attrs.cons * 0.03) * (1 + wet * 1.5) * (1.3 - (pl.prep || 0) * 0.4) * (1 + (1 - (pl.know ?? 0.85)) * 0.6);
+      const pm = rk[1] * (1.45 - e.attrs.cons * 0.03) * (1 + wet * 1.5) * (1.3 - (pl.prep || 0) * 0.4) * (1 + (1 - (pl.know ?? 0.85)) * 0.6) * (1 + 0.04 * Math.max(0, ((track.env || {}).wind || 0) - 5));
       if (chance(pm)) {
         if (chance(0.55)) { valid = false; note = '트랙 리밋 위반 — 랩타임 삭제'; }
         else { lap += randf(0.5, 2.2); note = '실수로 시간 손실'; }
@@ -4070,6 +4629,7 @@ function startWeekend(race) {
   const frac = laps / tr.d.laps;
   const weather = makeWeather(tr.d.rain);
   const qWet = chance(tr.d.rain * 0.7) ? randf(0.3, 0.9) : 0;
+  const env = makeEnv(race.track, weather); envSetTrack(tr, env);   // v24: the weekend's air, track temperature, humidity, wind
   const strat = staffRating(playerTeam(), 'strat');
   const trueRace = weather.events.length ? Math.min(0.95, 0.55 + weather.events[0].peak * 0.4) : 0.05;
   const noise = (20 - strat) * 0.025;
@@ -4108,7 +4668,7 @@ function startWeekend(race) {
   const errScale = stratErrScale(staffRating(pt, 'strat'));
   const tyreErr = {}; ['S', 'M', 'H'].forEach(c => tyreErr[c] = clamp(randn() * 0.18 * errScale, -0.4, 0.4));
   S.weekend = { form, wetFeel, 
-    round: race.round, track: race.track, stage: 'practice', laps, frac, weather, qWet, forecast, setup, know, tyres, qprep,
+    round: race.round, track: race.track, stage: 'practice', laps, frac, weather, qWet, forecast, setup, know, tyres, qprep, env,
     fp: { idx: 0, used: Object.fromEntries(pt.drivers.map(id => [id, 0])), times: [{}, {}, {}], best: [{}, {}, {}] },
     tyreData: { S: 0.15, M: 0.15, H: 0.15 }, tyreErr, quali: null, qualiRisk: {}, qualiTyres: {}, grid: null, penalties: [], strategy: {},
     objective: makeObjective(), result: null, aiSetup: {},
@@ -4238,7 +4798,7 @@ function practiceRun(did, prog, comp, opt = {}) {
   const e = driverEntry(did, w.track, q);
   const evo = [0.8, 0.45, 0.15][w.fp.idx];
   const fuelOff = prog === 'qsim' ? 0.15 : prog === 'long' ? 1.7 : 0.9;
-  const lap = tr.d.ref + e.baseDelta + (prog === 'long' ? e.raceAdj || 0 : 0) + evo + fuelOff + compoundPace(comp, 0) + wearDelta(startWear + 1) + randn() * 0.1;   // a long run shows race-trim pace
+  const lap = tr.d.ref + e.baseDelta + (prog === 'long' ? e.raceAdj || 0 : 0) + evo + fuelOff + compoundPace(comp, 0, 1, prog === 'long' ? tr : null) + wearDelta(startWear + 1) + randn() * 0.1;   // a long run shows race-trim pace
   wearSet(set, P.laps, did, tr);
   w.fp.used[did] = (w.fp.used[did] || 0) + P.min;
   w.know[did] = Math.min(1, w.know[did] + P.laps * 0.025);
@@ -4427,7 +4987,7 @@ function runQualiSession(stage, ids) {
       risk = e.player ? stratQualiRisk(e, rank.indexOf(e.id) + 1, cut) : aiQualiRisk(e);
     } else risk = w.qualiRisk[e.id] || 'normal';
     if (sq && wants.length > 1) wears.length = 1;   // an eight-to-twelve-minute session: one push lap per driver
-    plans[e.id] = { risk, wears, prep: e.player ? w.qprep[e.id] : 0.6, know: e.know, timing };
+    plans[e.id] = { risk, wears, prep: e.player ? w.qprep[e.id] : 0.6, know: e.know, timing, comp };
   });
   const res = simulateQualiSession(entries, tr, wet, plans);
   dcSafe(() => dcQuali(stage, entries, res));
@@ -4466,7 +5026,7 @@ class QualiLive {
       // the AI's runs: an early banker and a late run at the end of the session, as in the pre-simulated model
       const sched = auto ? [randf(0.12, 0.5), randf(0.72, 0.97)].slice(0, nRuns).map(f => f * this.len) : [];
       this.cars[e.id] = { e, id: e.id, live: isLive, auto, risk, timing, choice, sched, run: 0, nRuns, phase: 'garage', until: 0, pushLeft: 0, pushStart: 0, set: null, best: null,
-        prep: e.player ? w.qprep[e.id] : 0.6, know: e.know, lapsRun: 0, cmd: null, twoLap: false, note: '' };
+        prep: e.player ? w.qprep[e.id] : 0.6, know: e.know, lapsRun: 0, cmd: null, twoLap: false, note: '', warm2: auto ? qualiPrepPick(P.comp, P.tr, w.env, e.strat, P.wet) === 2 : false, tq: null };
     }
     this.lapT = { out: this.ref * 1.32, cool: this.ref * 1.25, in: this.ref * 1.2 };   // in = the slow lap back to the pit lane
   }
@@ -4483,7 +5043,7 @@ class QualiLive {
     const c = this.cars[id]; if (!c || c.phase !== 'garage' || this.done) return false;
     if (this.t + this.lapT.out > this.len) return false;   // would not start a lap before the flag
     const set = takeQualiSet(id, o.fresh !== false, this.comp); if (!set) return false;
-    c.risk = o.risk || c.risk; c.twoLap = !!o.two; this.leave(c, set); return true;
+    c.risk = o.risk || c.risk; c.twoLap = !!o.two; if (o.warm2 != null) c.warm2 = !!o.warm2; this.leave(c, set); return true;
   }
   // abort: on the out-lap or a cool-down the car comes in at the end of the lap; on a push lap it stops after this one
   boxNow(id) { const c = this.cars[id]; if (!c) return; if (c.phase === 'cool' || c.phase === 'out') { c.pushLeft = 0; c.phase = 'in'; } else if (c.phase === 'push') c.pushLeft = Math.min(c.pushLeft, 1); }
@@ -4491,24 +5051,27 @@ class QualiLive {
   canPushAgain(id) { const c = this.cars[id]; return !!c && (c.phase === 'in' || c.phase === 'cool') && c.lapsRun > 0 && c.until <= this.len && c.set && c.lapsRun < 3; }
   pushAgain(id) { const c = this.cars[id]; if (!this.canPushAgain(id)) return false; c.pushLeft = 1; c.phase = 'cool'; wearSet(c.set, 1, c.id, this.tr); return true; }
   leave(c, set) {
-    c.set = set; c.wear0 = set.wear; wearSet(set, c.twoLap ? 3.4 : 2.4, c.id, this.tr); set.laps = Math.round(set.laps);
-    c.phase = 'out'; c.until = this.t + this.lapT.out * (0.97 + rand() * 0.06); c.pushLeft = c.twoLap ? 2 : 1; c.lapsRun = 0; c.again = false; c.run++;
-    if (c.e.player) this.events.push({ t: this.t, id: c.id, text: `${S.drivers[c.id].short} 출격 — ${set.wear > 1 ? '중고' : '새'} ${COMPOUNDS[set.c].name}${c.twoLap ? ' · 푸시 2랩' : ''}` });
+    c.set = set; c.wear0 = set.wear; wearSet(set, (c.twoLap ? 3.4 : 2.4) + (c.warm2 ? 0.8 : 0), c.id, this.tr); set.laps = Math.round(set.laps);
+    c.phase = 'out'; c.until = this.t + (this.lapT.out + (c.warm2 ? this.lapT.cool : 0)) * (0.97 + rand() * 0.06); c.pushLeft = c.twoLap ? 2 : 1; c.lapsRun = 0; c.again = false; c.run++;
+    if (c.e.player) this.events.push({ t: this.t, id: c.id, text: `${S.drivers[c.id].short} 출격 — ${set.wear > 1 ? '중고' : '새'} ${COMPOUNDS[set.c].name}${c.warm2 ? ' · 워밍업 2랩' : ''}${c.twoLap ? ' · 푸시 2랩' : ''}` });
   }
   pushLap(c) {
     const e = c.e; const tr = this.tr; const tRun = Math.min(1, c.pushStart / this.len); const wet = this.wet;
     let lap = tr.d.ref + e.baseDelta + 0.35 * (1 - tRun);
     lap += wet * 7.5 * (1 + (12 - e.attrs.wet) * (WET_SKILL_K + 0.005) + (e.wetFeel || 0)) + (wet > 0.25 ? wetDelta('I', wet) : wetDelta('S', wet));
     const wv = (c.wear0 || 0) + c.lapsRun * 1.2; lap += wearDelta(wv) * 1.1 - (c.prep || 0) * 0.06 + (c.timing || 0);
+    // v24: tyre temperature at the start of this push lap (out-lap preparation or a cool-down lap) and the wind
+    const tq = qualiTyrePen(this.comp, tr, S.weekend.env, c.lapsRun ? 1 : (c.warm2 ? 2 : 1), c.lapsRun ? 'cool' : 'out', wet); c.tq = tq.t; lap += tq.pen + 0.015 * ((S.weekend.env || {}).wind || 0);
     lap += randn() * Math.max(0.04, 0.2 - e.attrs.cons * 0.006 + wet * 0.35);
     const rk = { safe: [0.12, 0.03], normal: [0, 0.065], max: [-0.11, 0.14] }[c.risk] || [0, 0.065]; lap += rk[0];
-    let valid = true, note = '';
+    let valid = true, note = tq.pen > 0.08 ? (tq.t < tq.W[0] ? `타이어 온도 부족 ${Math.round(tq.t)}°C +${tq.pen.toFixed(2)}초` : `타이어 과열 ${Math.round(tq.t)}°C +${tq.pen.toFixed(2)}초`) : '';
     // traffic: slow cars (out-laps, cool-downs) and other flying laps around this one — the late queue is where it bites
     const others = Object.values(this.cars).filter(o => o !== c);
     const slow = others.filter(o => o.phase === 'out' || o.phase === 'cool').length, fly = others.filter(o => o.phase === 'push' && Math.abs(o.pushStart - c.pushStart) < 25).length;
     const pImp = (1 - Math.exp(-(0.05 * slow + 0.03 * fly))) * (c.auto ? clamp(1.25 - (e.strat || 12) * 0.03, 0.55, 1.1) : 1);
     if (chance(pImp)) { const l = randf(0.15, 0.9); lap += l; note = `트래픽에 걸림 +${l.toFixed(1)}초`; }
-    const pm = rk[1] * (1.45 - e.attrs.cons * 0.03) * (1 + wet * 1.5) * (1.3 - (c.prep || 0) * 0.4) * (1 + (1 - (c.know ?? 0.85)) * 0.6);
+    const windM = 1 + 0.04 * Math.max(0, ((S.weekend.env || {}).wind || 0) - 5);
+    const pm = rk[1] * (1.45 - e.attrs.cons * 0.03) * (1 + wet * 1.5) * (1.3 - (c.prep || 0) * 0.4) * (1 + (1 - (c.know ?? 0.85)) * 0.6) * windM;
     if (chance(pm)) { if (chance(0.55)) { valid = false; note = '트랙 리밋 위반 — 랩타임 삭제'; } else { const l = randf(0.5, 2.2); lap += l; note = '실수로 시간 손실'; } }
     return { lap, valid, note };
   }
@@ -4555,7 +5118,7 @@ class QualiLive {
   }
   // hand the rest to the strategist (skip / 맡기기): our cars get the AI's late-run pattern for what time is left
   autoRest() {
-    for (const c of Object.values(this.cars)) if (c.live) { c.live = false; c.auto = true; const left = this.len - this.t; c.sched = c.run < c.nRuns ? [this.t + this.lapT.out + Math.max(0, left - this.lapT.out - this.ref * 1.6) * randf(0.2, 0.8)] : []; c.run = 0; c.nRuns = c.sched.length; c.choice = 'new'; }
+    for (const c of Object.values(this.cars)) if (c.live) { c.live = false; c.auto = true; c.warm2 = qualiPrepPick(this.comp, this.tr, S.weekend.env, c.e.strat, this.wet) === 2; const left = this.len - this.t; c.sched = c.run < c.nRuns ? [this.t + this.lapT.out + Math.max(0, left - this.lapT.out - this.ref * 1.6) * randf(0.2, 0.8)] : []; c.run = 0; c.nRuns = c.sched.length; c.choice = 'new'; }
   }
   runToEnd() { let g = 0; while (!this.done && g++ < 200000) this.step(0.5); }
 }
@@ -4595,7 +5158,7 @@ function sprintEntries() {
     return e;
   });
 }
-function sprintSimOpts() { const w = S.weekend; return { laps: w.sprint.laps, frac: w.frac, weather: w.sprint.weather, playerStrat: staffRating(playerTeam(), 'strat'), sprint: true }; }
+function sprintSimOpts() { const w = S.weekend; return { laps: w.sprint.laps, frac: w.frac, weather: w.sprint.weather, playerStrat: staffRating(playerTeam(), 'strat'), sprint: true, env: w.env }; }
 // headless sprint (staff-run weekend, tests)
 function runSprintAuto() {
   const w = S.weekend; const sim = new RaceSim(Object.assign({ track: TRACKS[w.track], entries: sprintEntries() }, sprintSimOpts()));
@@ -4649,6 +5212,10 @@ function raceEntries() {
     e.stintModes = Array.isArray(st.stintModes) ? st.stintModes.slice() : null; e.mode = (e.stintModes && MODES[e.stintModes[0]]) ? e.stintModes[0] : (MODES[st.pace] ? st.pace : 'normal');
     const cons = FUEL_FULL / TRACKS[w.track].d.laps;
     e.fuel = cons * w.laps * (1 + (st.fuelMargin ?? 0.01)) + 0.4;
+    // v25 cooling set-up: the player's choice for our cars, the engineers' best estimate for everyone else
+    e.cooling = (e.player && w.cooling && w.cooling[e.id]) || bestCooling(TRACKS[w.track], w.env, w.frac);
+    if (e.player && w.vscStyle && w.vscStyle[e.id]) e.vscStyle = w.vscStyle[e.id];
+    e.rules = e.player && w.rules && w.rules[e.id] ? JSON.parse(JSON.stringify(w.rules[e.id])) : [];
     return e;
   });
 }
@@ -4820,13 +5387,15 @@ function buildRaceReport(sim, res) {
     if (a.mistakeLoss > 2) tips.push(`실수로 약 ${a.mistakeLoss.toFixed(1)}초를 잃었습니다. 페이스 모드를 너무 공격적으로 운영했는지 확인하세요.`);
     if (r.status === 'DNF' && /고장|이상|계통|파손|과열/.test(r.reason)) tips.push(`기계 고장 리타이어. 신뢰성(현재 ${pt.car.rel.toFixed(1)}) 개발이나 파워 유닛 교체 시점을 검토하세요.`);
     if (a.liftLaps > 0.5) tips.push(`리프트 앤 코스트를 약 ${a.liftLaps.toFixed(1)}랩 했습니다. 연료를 너무 가볍게 실었을 수 있습니다.`);
+    if ((a.thLoss || 0) > 3) tips.push(`타이어가 작동 온도를 벗어나 약 ${a.thLoss.toFixed(1)}초를 잃었습니다${(a.hotLaps || 0) > 3 ? ` (과열 ${Math.round(a.hotLaps)}랩)` : ''}. 노면 온도에 맞는 컴파운드와 페이스 모드, 더티 에어에서 간격을 두는 운영을 검토하세요.`);
+    if ((a.blMax || 0) > 0.2) tips.push(`블리스터가 생겼습니다 (최대 ${Math.round(a.blMax * 100)}%). 뜨거운 노면에서 공격 모드나 앞차 바로 뒤 주행을 오래 이어가면 카커스가 과열됩니다.`);
     const weakArea = ['aero', 'power', 'mech'].map(k => ({ k, v: areaLapValue(k, w.track) * Math.max(0, Math.max(...Object.values(S.teams).map(t => t.car[k])) - pt.car[k]) })).sort((x, y) => y.v - x.v)[0];
     if (weakArea && weakArea.v > 0.15) tips.push(`이 서킷에서는 ${CAR_AREAS[weakArea.k].name} 열세가 가장 컸습니다 (최고 팀 대비 랩당 약 ${weakArea.v.toFixed(2)}초).`);
     return {
       id: did, code: d.code, name: d.kname, status: r.status, pos: r.pos, reason: r.reason, grid: a.gridPos, lap1, start, pitNet,
       paceRank: a.paceRank, passMade: a.passMade, passLost: a.passLost, mistakes: a.mistakes, mistakeLoss: a.mistakeLoss, damageLoss: a.damageLoss, penalties: a.penalties,
       pits: a.pits, stopTotal: sum(a.pits.map(p => p.stationary || 0)), medStops, topKmh: a.topKmh, fieldTop: topKmh, best: r.best, fastest: res.fastest.t,
-      medLap: medLap(did), winMed, setupQ: a.setupQ, contrib, strat, warmLoss: a.warmLoss, liftLaps: a.liftLaps, tips: tips.slice(0, 5),
+      medLap: medLap(did), winMed, setupQ: a.setupQ, contrib, strat, warmLoss: a.warmLoss, liftLaps: a.liftLaps, thLoss: a.thLoss || 0, manLaps: a.manLaps || 0, hotLaps: a.hotLaps || 0, grMax: a.grMax || 0, blMax: a.blMax || 0, fsMax: a.fsMax || 0, otLaps: a.otLaps || 0, tips: tips.slice(0, 5),
     };
   });
   const decisions = {
@@ -5043,6 +5612,8 @@ function repairWeekend() {
   ['setup', 'know', 'tyres', 'qprep', 'qualiRisk', 'qualiTyres', 'strategy', 'aiSetup', 'tyreData', 'tyreErr'].forEach(k => { w[k] = w[k] || {}; });
   ['S', 'M', 'H'].forEach(c => { if (w.tyreData[c] == null) w.tyreData[c] = 0.15; if (w.tyreErr[c] == null) w.tyreErr[c] = 0; });
   if (!Array.isArray(w.penalties)) w.penalties = [];
+  if (!w.env || typeof w.env.air !== 'number') w.env = envBase(w.track);   // saves from before v24: the circuit's usual day
+  envSetTrack(TRACKS[w.track], w.env);
   syncWeekendDrivers();
   if (w.stage === 'practice' && w.fp.idx >= 3) { w.fp.idx = 2; finalizeSetup(); w.stage = 'quali'; }
   w.fp.idx = clamp(w.fp.idx | 0, 0, 2);
@@ -5936,7 +6507,7 @@ function dcPractice(idx) {
       const quick = plan.filter(p => p[0] !== 'long'); const fastest = quick.reduce((a, p) => (COMPOUNDS[p[1]].pace || 0) < (COMPOUNDS[a[1]].pace || 0) ? p : a, quick[0]);
       for (const [prog, comp] of plan) {
         let lap1;
-        if (prog === 'long') lap1 = tr.d.ref + e.baseDelta + (e.raceAdj || 0) + evo + 1.7 + ((((w.fp.sb || [])[idx] || {})[x.team] || {}).fuel || 0) + compoundPace(comp, 0) + wearDelta(1) + dcN(r) * 0.12;   // v23: each team's own fuel load
+        if (prog === 'long') lap1 = tr.d.ref + e.baseDelta + (e.raceAdj || 0) + evo + 1.7 + ((((w.fp.sb || [])[idx] || {})[x.team] || {}).fuel || 0) + compoundPace(comp, 0, 1, tr) + wearDelta(1) + dcN(r) * 0.12;   // v23: each team's own fuel load
         else if (prog === fastest[0] && comp === fastest[1] && !runs.some(q => q._best)) lap1 = best;
         else lap1 = best + Math.max(0, (COMPOUNDS[comp].pace || 0) - (COMPOUNDS[fastest[1]].pace || 0)) + 0.15 + r() * 0.5;
         const run = dcRun(prog, comp, lap1, 0, e, tyreEff, r, tr, false);
@@ -6404,9 +6975,13 @@ const SA = (() => {
     add('stopSlowP', Math.round(me.pitSlowP * 1000) / 1000, '확률', 'game', '느린 정차 확률', `휠 너트 문제 등으로 2.5~8초 추가${frac < 0.999 ? ` (단축 레이스 ×${pitLossK(frac).toFixed(2)})` : ''} (몬테카를로에서만 사용)`, { min: 0, max: 0.3, step: 0.005 });
     for (const c of ['S', 'M', 'H']) {
       add('deg' + c, Math.round(est[c] * 1000) / 1000, '×', w ? 'estimate' : 'game', `${COMPOUNDS[c].name} 마모 배율`, w ? `연습 롱런 데이터 ${Math.round((data[c] || 0) * 100)}% 기준 팀 추정. 1 = 게임 공식` : '샌드박스: 게임 공식 그대로 (연습 데이터 없음)', { min: 0.5, max: 1.8, step: 0.01, sig: sig(c) });
-      add('pace' + c, Math.round(COMPOUNDS[c].pace * tk * 1000) / 1000, '초/랩', 'game', `${COMPOUNDS[c].name} 기본 페이스`, tk > 1.001 ? `새 소프트 대비 랩타임 차이 (전체 거리 ${COMPOUNDS[c].pace}초 × 단축 레이스 보정 ${tk.toFixed(2)})` : '새 소프트 대비 랩타임 차이', { min: -1, max: 3, step: 0.05 });
+      const thN = envTyreNote(tr, c); const thP = tr.envK && tr.envK.pace[c] ? tr.envK.pace[c] : 0;
+      add('pace' + c, Math.round((COMPOUNDS[c].pace + thP) * tk * 1000) / 1000, '초/랩', 'game', `${COMPOUNDS[c].name} 기본 페이스`, (tk > 1.001 ? `새 소프트 대비 랩타임 차이 (전체 거리 ${COMPOUNDS[c].pace}초 × 단축 레이스 보정 ${tk.toFixed(2)})` : '새 소프트 대비 랩타임 차이') + (thP > 0.005 ? ` + 이번 주말 타이어 온도 ${thP.toFixed(2)}초 (${thN ? thN.txt : ''})` : ''), { min: -1, max: 3, step: 0.05 });
       add('warm' + c, COMPOUNDS[c].warm, '초', 'game', `${COMPOUNDS[c].name} 워밍업 손실`, '피트 후 아웃랩에서 타이어가 작동 온도에 오르기 전 잃는 시간 (중고 세트는 60%)', { min: 0, max: 4, step: 0.05 });
     }
+    { const env = tr.env || envBase(tr.id);   // v24 conditions: the same for every car, so they move lap times, not the order
+      add('envAir', Math.round((envPaceAir(env) + 0.015 * env.wind) * 1000) / 1000, '초/랩', 'game', '기온·습도·바람', `기온 ${env.air}°C · 습도 ${env.hum}% (공기 밀도) · 바람 ${env.wind}m/s — 모든 차에 같은 영향`, { min: -1, max: 1, step: 0.01 });
+      add('rubber', Math.round(0.3 * tr.d.ref / 90 * 1000) / 1000, '초/랩', 'game', '러버링 최대 이득', '레이스 중 레코드 라인에 고무가 쌓이며 줄어드는 랩타임의 최대치 (세이프티카 중엔 멈추고, 비가 오면 씻겨 나감)', { min: 0, max: 1, step: 0.01 }); }
     add('fuelPerLap', Math.round(FUEL_FULL / tr.d.laps * 1000) / 1000, 'kg/랩', 'game', '연료 소모량', `풀 레이스 ${FUEL_FULL}kg ÷ ${tr.d.laps}랩 (린 93% · 리치 106.5% · 세이프티카 중 55%)`, { min: 0.3, max: 3, step: 0.01 });
     add('fuelEffect', FUEL_KG_S, '초/kg', 'game', '연료 무게 효과', '연료 1kg당 랩타임 증가', { min: 0, max: 0.08, step: 0.001 });
     add('lapSd', Math.round(Math.max(0.05, 0.32 - me.attrs.cons * 0.012) * 1000) / 1000, '초', 'game', '랩타임 편차 (σ)', `드라이버 일관성 ${me.attrs.cons} 기준. 몬테카를로에서만 사용`, { min: 0, max: 1, step: 0.01 });
@@ -6422,7 +6997,8 @@ const SA = (() => {
     add('rainProb', w ? Math.round(w.forecast.race) / 100 : Math.round(tr.d.rain * 100) / 100, '확률', w ? 'estimate' : 'game', '결승 강수 확률', w ? `팀 예보 (전략가 능력치에 따라 오차). 실제 날씨는 알 수 없음` : '트랙 기후 설정값', { min: 0, max: 1, step: 0.01 });
     add('dnfRisk', 1, '×', 'game', '고장·사고 위험 배율', '게임 엔진의 고장(신뢰성·PU 마모)·사고(일관성·모드) 확률식. 몬테카를로 순위 분포에만 사용', { min: 0, max: 3, step: 0.1 });
     const grid = ctx.grid || (w && w.grid ? w.grid.slice() : field.slice().sort((a, b) => a.baseDelta - b.baseDelta).map(e => e.id));
-    return { track: tr, trackId: tr.id, frac, P, me, field, grid, gridSource: w && w.grid ? 'quali' : 'pace', sets: ctx.sets || (w ? w.tyres : null), weekend: !!w, consFull: FUEL_FULL / tr.d.laps, lane: lp, scFirstShare: hz.firstShare };
+    const dirtyHeat = { S: dirtyHeatCost(tr, 'S', frac), M: dirtyHeatCost(tr, 'M', frac), H: dirtyHeatCost(tr, 'H', frac) };
+    return { track: tr, trackId: tr.id, frac, P, me, field, grid, dirtyHeat, gridSource: w && w.grid ? 'quali' : 'pace', sets: ctx.sets || (w ? w.tyres : null), weekend: !!w, consFull: FUEL_FULL / tr.d.laps, lane: lp, scFirstShare: hz.firstShare };
   }
   const pv = (m, k) => m.P[k].v;
   function normCdf(z) { const t = 1 / (1 + 0.2316419 * Math.abs(z)); const d = 0.3989423 * Math.exp(-z * z / 2); const p = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274)))); return z > 0 ? 1 - p : p; }
@@ -6522,7 +7098,8 @@ const SA = (() => {
       // energy management (same thresholds as the race engine's auto mode)
       const margin = (fuel - lapsLeft * m.consFull) / m.consFull;
       const fm = margin < 0.05 ? 'lean' : margin > 0.7 ? 'rich' : 'std'; const lift = margin < -0.35;
-      const parts = { base: greenLap - (pv(m, 'ref') * 1.03), ref: pv(m, 'ref') * 1.03, bias: pv(m, 'bias'), compound: compPace(m, comp, wet), tyre: wearDelta(wear + 0.5 * rate * (sc ? 0.35 : 1), fracOf(m)), fuel: fuel * pv(m, 'fuelEffect'), mode: MODES[mode].pace + FUEL_MODES[fm].pace + (lift ? 0.55 : 0), wet: wetPenalty(e, wet, carMeanOf(m)) + (e.puWear || 0) * 0.0012, start: 0, pit: 0, sc: 0, warm: 0, traffic: 0, noise: 0 };
+      const rubT = Math.max(6, 0.35 * n); const env = (m.P.envAir ? pv(m, 'envAir') : 0) - (m.P.rubber ? pv(m, 'rubber') : 0) * (1 - Math.exp(-(lap - 0.5) / rubT)) * (wet > 0.25 ? 0 : 1);
+      const parts = { base: greenLap - (pv(m, 'ref') * 1.03), ref: pv(m, 'ref') * 1.03, bias: pv(m, 'bias'), env, compound: compPace(m, comp, wet), tyre: wearDelta(wear + 0.5 * rate * (sc ? 0.35 : 1), fracOf(m)), fuel: fuel * pv(m, 'fuelEffect'), mode: MODES[mode].pace + FUEL_MODES[fm].pace + (lift ? 0.55 : 0), wet: wetPenalty(e, wet, carMeanOf(m)) + (e.puWear || 0) * 0.0012, start: 0, pit: 0, sc: 0, warm: 0, traffic: 0, noise: 0 };
       if (lap === 1 && !init) parts.start = pv(m, 'startLoss') + 0.1 * Math.max(0, (opt.grid || 1) - 1);
       if (init && lap === L0 + 1 && init.extraT) parts.pit += init.extraT;   // finishing a stop already in progress
       if (warmPending) { parts.warm = sc ? warmPending * 0.15 : warmPending; warmPending = 0; }
@@ -6534,7 +7111,7 @@ const SA = (() => {
         const pMist = 0.012 * (1 + (20 - e.attrs.cons) / 8) * (MODES[mode].risk || 1) * (1 + wet * 5) * (1 + (1 - (e.know ?? 0.85)) * 0.8) / Math.sqrt(fr);
         if (r() < pMist) parts.noise += r.range(0.6, 2.6);
       }
-      let lt = parts.ref + parts.base + parts.bias + parts.compound + parts.tyre + parts.fuel + parts.mode + parts.wet + parts.start + parts.warm + parts.noise;
+      let lt = parts.ref + parts.base + parts.bias + parts.env + parts.compound + parts.tyre + parts.fuel + parts.mode + parts.wet + parts.start + parts.warm + parts.noise;
       if (sc && sc.type === 'SC') { const f = sc.first ? SC_FIRST_LAP_FACTOR : SC_LAP_FACTOR; parts.sc = lt * (f - 1); }
       if (sc && sc.type === 'VSC') parts.sc = (sc.ev.sec || pv(m, 'vscSec')) * VSC_SLOW;
       // pit decision at the end of this lap
@@ -6640,7 +7217,7 @@ const SA = (() => {
           const gapBefore = c.t - prev.t;
           if (gapBefore < follow + 0.4) {
             // close behind: dirty air slows this car; if it would still run into the car ahead it must pass or queue
-            const natural = end + dirty;
+            const natural = end + dirty + ((m.dirtyHeat && m.dirtyHeat[row.comp]) || 0);   // v24: the tyres heat up in the wake
             if (natural < prevEnd + minGap) {
               const adv = (prev.rows[lap - 1 - off].lapTime - lt);
               const p = passProb(m, c.e, prev.e, adv);
@@ -6821,7 +7398,7 @@ const SA = (() => {
     }
     return out;
   }
-  const PART_NAMES = { pit: '피트스톱', tyre: '타이어 마모', compound: '컴파운드 차이', warm: '워밍업', fuel: '연료 무게', mode: '페이스·연료 모드', traffic: '트래픽', sc: '세이프티카', wet: '노면 상태', start: '스타트', noise: '랩 편차', bias: '엔진 보정' };
+  const PART_NAMES = { env: '기온·바람·러버', pit: '피트스톱', tyre: '타이어 마모', compound: '컴파운드 차이', warm: '워밍업', fuel: '연료 무게', mode: '페이스·연료 모드', traffic: '트래픽', sc: '세이프티카', wet: '노면 상태', start: '스타트', noise: '랩 편차', bias: '엔진 보정' };
 
   // ── Monte Carlo: common random numbers across strategies, chunked so the page stays responsive ──
   const MC_FACTORS = { stops: '피트 정차 시간', deg: '타이어 열화 계수', noise: '랩타임 편차', sc: '세이프티카·VSC·레드 플래그', rain: '날씨(비)', traffic: '트래픽·추월', dnf: '고장·사고 리타이어', opp: '상대 전략' };
@@ -9054,7 +9631,7 @@ function autoRace() {
   const entries = raceEntries();
   if (w.weather.initialWet > 0.25) entries.forEach(e => { if (e.player) { e.startCompound = w.weather.initialWet > 0.75 ? 'W' : 'I'; e.startSetId = null; e.plan = []; } });
   mediaHook('predictRace', entries);
-  const sim = new RaceSim({ track: tr, laps: w.laps, frac: w.frac, entries, weather: w.weather, playerStrat: staffRating(pt, 'strat') });
+  const sim = new RaceSim({ track: tr, laps: w.laps, frac: w.frac, entries, weather: w.weather, playerStrat: staffRating(pt, 'strat'), env: w.env });
   for (const did of pt.drivers) { const c = sim.byId[did]; if (c) { c.delegated = true; c.autoPit = true; c.autoErs = true; } }
   sim.runToEnd();
   applyRaceResult(sim);
@@ -11752,7 +12329,7 @@ function wkHead() {
     : [['FP1', st === 'practice' && fpIdx === 0, st !== 'practice' || fpIdx > 0], ['FP2', st === 'practice' && fpIdx === 1, st !== 'practice' || fpIdx > 1], ['FP3', st === 'practice' && fpIdx === 2, st !== 'practice'],
     ['예선', st === 'quali', ['prerace', 'race', 'post'].includes(st)], ['결승', st === 'prerace' || st === 'race', st === 'post'], ['결과', st === 'post', false]];
   return `<div class="wk-head"><div>${trackSVG(w.track, 90, 64)}</div><div><div class="dim" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase">라운드 ${w.round} · ${dFmt(S.date)}</div><div class="gp">${esc(tr.d.name)} 그랑프리${w.sprint ? ' <span class="chip info" style="vertical-align:middle">스프린트 주말</span>' : ''}</div><div class="muted" style="font-size:12.5px">${esc(tr.d.circuit)} · ${w.laps}랩 · ${(tr.L / 1000).toFixed(3)}km · 피트 손실 ${tr.d.pit}초</div></div>
-    <div style="font-size:12.5px"><div><span class="dim">예선 비 예보</span> <b>${w.forecast.quali}%</b>${w.sprint ? ` · <span class="dim">스프린트</span> <b>${w.sprint.forecast}%</b>` : ''} · <span class="dim">결승 비 예보</span> <b>${w.forecast.race}%</b></div><div><span class="dim">스폰서 목표</span> <b>${esc(w.objective.text)}</b> <span class="good">${fmtMoney(w.objective.bonus, 2)}</span></div></div>
+    <div style="font-size:12.5px"><div><span class="dim">예선 비 예보</span> <b>${w.forecast.quali}%</b>${w.sprint ? ` · <span class="dim">스프린트</span> <b>${w.sprint.forecast}%</b>` : ''} · <span class="dim">결승 비 예보</span> <b>${w.forecast.race}%</b></div><div><span class="dim">스폰서 목표</span> <b>${esc(w.objective.text)}</b> <span class="good">${fmtMoney(w.objective.bonus, 2)}</span></div>${wkEnvLine(w)}</div>
     <div class="steps">${steps.map(([l, on, done]) => `<span class="${on ? 'on' : done ? 'done' : ''}">${l}</span>`).join('')}</div>${w.dc && typeof dcLinkBtn === 'function' && dcSessions(w.dc).length ? dcLinkBtn(w.round, '', '세션 데이터') : ''}${typeof wkAutoHtml === 'function' ? wkAutoHtml() : ''}</div>`;
 }
 
@@ -12049,14 +12626,23 @@ function qlCtl(did) {
   if (x.phase === 'garage') {
     st += x.run ? ` · 출격 ${x.run}회 완료` : '';
     act = canGo ? `<button class="btn sm pri" data-a="qlsend" data-id="${did}" data-f="1" ${fresh ? '' : 'disabled'}>${tyreIcon(ql.comp)} 새 세트로 출격 <span class="dim">${fresh}</span></button>${ql.sq ? '' : `<button class="btn sm" data-a="qlsend" data-id="${did}" data-f="0" ${used ? '' : 'disabled'}>중고 세트로 <span class="dim">${used}</span></button>`}
-      <label class="chk sm"><input type="checkbox" data-a="qltwo" data-id="${did}" ${UI.qlTwo && UI.qlTwo[did] ? 'checked' : ''}> 푸시 2랩</label>` : '<span class="dim">남은 시간에 랩을 시작할 수 없습니다</span>';
+      <label class="chk sm"><input type="checkbox" data-a="qltwo" data-id="${did}" ${UI.qlTwo && UI.qlTwo[did] ? 'checked' : ''}> 푸시 2랩</label>${'SMH'.includes(ql.comp) && ql.wet <= 0.15 ? `<label class="chk sm" title="아웃랩을 한 바퀴 더 돌며 타이어를 데웁니다 (세션 시간 +${Math.round(ql.lapT.cool)}초, 마모 +1랩). 노면이 차가워 한 바퀴로 작동 온도에 못 미칠 때 효과가 큽니다."><input type="checkbox" data-a="qlwarm" data-id="${did}" ${qlWarm2(did) ? 'checked' : ''}> 워밍업 2랩</label>` : ''}` : '<span class="dim">남은 시간에 랩을 시작할 수 없습니다</span>';
   } else if (x.phase === 'out') { st += ` · 푸시 시작까지 ${Math.max(0, Math.ceil(x.until - ql.t))}초`; act = `<button class="btn sm" data-a="qlbox" data-id="${did}">이번 랩 끝나고 들어와</button>`; }
   else if (x.phase === 'push') { st += ` · ${Math.max(0, Math.ceil(x.until - ql.t))}초 남음${x.pushLeft > 1 ? ' · 다음 랩도 푸시' : ''}`; act = x.pushLeft > 1 ? `<button class="btn sm" data-a="qlbox" data-id="${did}">이 랩만 하고 들어와</button>` : ''; }
   else if (x.phase === 'cool' || x.phase === 'in') { st += ` · ${Math.max(0, Math.ceil(x.until - ql.t))}초`; act = ql.canPushAgain(did) && x.phase === 'in' ? `<button class="btn sm" data-a="qlagain" data-id="${did}" title="같은 세트로 한 바퀴 식히고 한 번 더 (타이어 마모 +1랩)">한 번 더 푸시</button>` : ''; }
   return `<div class="flex between"><div><b>${esc(d.kname)}</b> <span class="dim">${esc(d.code)}</span> <span class="chip ${x.phase === 'push' ? 'warn' : x.phase === 'garage' ? '' : 'info'}">${st}</span></div><div class="mono">${x.best != null ? fmtLap(x.best) : '—'}${pos ? ` <span class="dim">P${pos}</span>` : ''}</div></div>
     <div class="note">${lineTxt}${last ? ` · <span class="dim">${esc(last.text)}</span>` : ''}</div>
     ${x.live ? `<div class="ql-act">${act}<div class="seg sm" title="위험도">${[['safe', '안전'], ['normal', '표준'], ['max', '한계']].map(([k, l]) => `<button class="${x.risk === k ? 'on' : ''}" data-a="qrisk" data-id="${did}" data-r="${k}">${l}</button>`).join('')}</div></div>
-    ${x.phase === 'garage' && canGo ? `<div class="note ql-hint">트랙 <b class="${lvl[1]}">${lvl[0]}</b> (지금 ${tf.now}대 · 30초 안에 ${tf.soon}대 출격) · 지금 나가면 노면 손해 약 +${evo.toFixed(2)}초 · 남은 ${qlFmt(left)}</div>` : ''}` : '<div class="note">수석 전략가가 남은 세션을 운영합니다</div>'}`;
+    ${x.phase === 'garage' && canGo ? `<div class="note ql-hint">트랙 <b class="${lvl[1]}">${lvl[0]}</b> (지금 ${tf.now}대 · 30초 안에 ${tf.soon}대 출격) · 지금 나가면 노면 손해 약 +${evo.toFixed(2)}초 · 남은 ${qlFmt(left)}</div>${qlTyreHint(ql, did)}` : ''}` : '<div class="note">수석 전략가가 남은 세션을 운영합니다</div>'}`;
+}
+// v24: the tread temperature a flying lap would start at, one or two warm-up laps, and on the second push of a run
+function qlWarm2(did) { return UI.qlWarm && did in UI.qlWarm ? UI.qlWarm[did] : false; }
+function qlTyreHint(ql, did) {
+  const w = S.weekend; if (!'SMH'.includes(ql.comp) || ql.wet > 0.15) return '';
+  const a = qualiTyrePen(ql.comp, ql.tr, w.env, 1, 'out', ql.wet), b = qualiTyrePen(ql.comp, ql.tr, w.env, 2, 'out', ql.wet), c2 = qualiTyrePen(ql.comp, ql.tr, w.env, 1, 'cool', ql.wet);
+  const Wn = a.W; const fmt = q => `<b class="${q.pen > 0.05 ? (q.t < Wn[0] ? 'info' : 'bad') : 'good'}">${Math.round(q.t)}°</b>${q.pen > 0.01 ? ` <span class="dim">+${q.pen.toFixed(2)}초</span>` : ''}`;
+  const rec = b.pen + 0.02 < a.pen ? '<b class="warn">워밍업 2랩 추천</b>' : c2.pen > a.pen + 0.05 ? '<span class="dim">두 번째 푸시는 과열 — 한 번에 끝내기</span>' : '';
+  return `<div class="note ql-hint">노면 ${Math.round(qualiTrackTemp(w.env))}° · 푸시 시작 타이어 (창 ${Wn[0]}–${Wn[1]}°): 워밍업 1랩 ${fmt(a)} · 2랩 ${fmt(b)} · 쿨다운 후 ${fmt(c2)}${rec ? ' · ' + rec : ''}</div>`;
 }
 function qlCtlUpdate(force) {
   const now = performance.now(); if (!force && now - (QUALI.ctlT || 0) < 250) return; QUALI.ctlT = now;
@@ -12181,6 +12767,7 @@ function preraceView() {
       <p class="note" style="margin-top:6px">가볍게 출발하면 빠르지만 레이스 후반에 린 모드나 리프트 앤 코스트로 연료를 아껴야 합니다.</p>
       <label class="flex mt" style="gap:8px;font-size:12.5px"><input type="checkbox" data-a="autostrat" data-id="${did}" ${st.auto ? 'checked' : ''}> 자동 피트: 계획을 따르되 세이프티카·날씨·언더컷 상황에 맞춰 전략가가 조정</label>
       ${wet0 > 0.25 ? '<p class="warn mt" style="font-size:12.5px">노면이 젖어 있어 인터미디엇/웨트 타이어로 출발합니다.</p>' : ''}
+      ${coolingPanel(did)}
       <div class="sub-h mt">남은 타이어</div><div class="tsets">${setChips(did)}</div></details>
     </div></section>`;
   }).join('');
@@ -12196,14 +12783,14 @@ function startRace() {
   if (!sp && w.weather.initialWet > 0.25) entries.forEach(e => { if (e.player) { e.startCompound = w.weather.initialWet > 0.75 ? 'W' : 'I'; e.startSetId = null; e.plan = []; } });
   if (!sp) mediaHook('predictRace', entries);
   // the resume record: seed, starting entries and options — with the logged inputs the race replays exactly after a reload
-  const seed = ((Math.random() * 4294967296) >>> 0) || 1; const opts = sp ? sprintSimOpts() : { laps: w.laps, frac: w.frac, weather: w.weather, playerStrat: staffRating(playerTeam(), 'strat') };
-  w.raceRun = { v: 2, track: w.track, seed, opts: JSON.parse(JSON.stringify(opts)), entries: JSON.parse(JSON.stringify(entries)), log: [], n: 0 };
+  const seed = ((Math.random() * 4294967296) >>> 0) || 1; const opts = sp ? sprintSimOpts() : { laps: w.laps, frac: w.frac, weather: w.weather, playerStrat: staffRating(playerTeam(), 'strat'), env: w.env };
+  w.raceRun = { v: 3, track: w.track, seed, opts: JSON.parse(JSON.stringify(opts)), entries: JSON.parse(JSON.stringify(entries)), log: [], n: 0 };
   RACE.resuming = null; RACE._resumed = null;
   RACE.sim = new RaceSim(Object.assign({ track: tr, entries, seed }, opts)); RACE.acc = 0; RACE.savedLap = -1;
   RACE.running = true; RACE.lastSeq = 0; RACE.lastToastSeq = 0; RACE.layout = null; RACE.staticCv = null; RACE._finTop = false; RACE._finToast = false;
   // 전문가 모드: the car the player did not take is the strategist's from the start (logged, so a resumed race replays it)
   const staff = typeof staffCars === 'function' ? staffCars() : [];
-  if (staff.length) { for (const id of staff) { const c = RACE.sim.byId[id]; if (c) { c.delegated = true; c.autoPit = true; c.autoErs = true; } } if (typeof rrLog === 'function') rrLog({ cars: rrSnap(RACE.sim).cars, orders: rrSnap(RACE.sim).orders }); }
+  if (staff.length) { for (const id of staff) { const c = RACE.sim.byId[id]; if (c) { c.delegated = true; c.autoPit = true; c.autoErs = true; c.autoTyre = true; } } if (typeof rrLog === 'function') rrLog({ cars: rrSnap(RACE.sim).cars, orders: rrSnap(RACE.sim).orders }); }
   w.stage = 'race';
   saveGame();
   render();
@@ -12272,10 +12859,12 @@ function raceView() {
     const d = S.drivers[did];
     return `<div class="rd-card" id="dc-${did}">
       <div class="hd"><span class="p" data-f="pos">P–</span><div style="min-width:0;flex:1"><div class="nm">${esc(d.kname)} <span class="dim disp">${esc(d.code)}</span></div><div class="gaps" data-f="gaps">—</div></div><span data-f="tyre"></span><button class="btn sm ghost rd-live" data-a="liveopen" data-id="${did}" title="${esc(d.short)} 실시간 전략 분석">분석</button></div>
-      <div class="wear"><span class="dim lab">타이어</span><div class="bar"><i data-f="wearbar" style="width:0%"></i></div><b data-f="wear" class="mono" style="min-width:42px;text-align:right">0%</b></div>
+      <div class="wear"><span class="dim lab">타이어</span><div class="bar"><i data-f="wearbar" style="width:0%"></i></div><b data-f="wear" class="mono" style="min-width:42px;text-align:right">0%</b></div>${thermalRowMarkup(did)}${sysRowMarkup(did)}
       <div class="ctl-grid">
         <span class="dim lab">페이스</span><div class="seg" data-f="mode">${Object.entries(MODES).map(([k, m]) => `<button data-a="rmode" data-id="${did}" data-m="${k}">${m.name}</button>`).join('')}</div>
-        <span class="dim lab">ERS</span><div class="flex" style="gap:8px;min-width:0"><div class="seg" data-f="ers">${Object.entries(ERS_MODES).map(([k, m]) => `<button data-a="rers" data-id="${did}" data-m="${k}">${m.short || m.name}</button>`).join('')}</div><div class="soc"><i data-f="soc"></i></div><b class="mono" data-f="socv" style="font-size:11.5px;min-width:30px">—</b></div>
+        <span class="dim lab">ERS</span><div class="flex" style="gap:8px;min-width:0"><div class="seg" data-f="ers">${Object.entries(ERS_MODES).map(([k, m]) => `<button data-a="rers" data-id="${did}" data-m="${k}">${m.short || m.name}</button>`).join('')}</div><div class="soc"><i data-f="soc"></i></div><b class="mono" data-f="socv" style="font-size:11.5px;min-width:30px">—</b><span data-f="ot" class="ot-st"></span></div>
+        ${tyreManMarkup(did)}
+        ${opsMarkup(did)}
         <span class="dim lab">연료</span><div class="flex" style="gap:8px"><div class="seg" data-f="fuel">${Object.entries(FUEL_MODES).map(([k, m]) => `<button data-a="rfuel" data-id="${did}" data-m="${k}">${m.name}</button>`).join('')}</div><b class="mono" data-f="fuelv" style="font-size:11.5px">—</b></div>
         <span class="dim lab">박스</span><div class="flex wrap" style="gap:8px"><span class="box-btns" data-f="box">${['S', 'M', 'H', 'I', 'W'].map(c => `<button style="--tc:${COMPOUNDS[c].color}" data-a="rbox" data-id="${did}" data-c="${c}" title="${COMPOUNDS[c].name}로 피트인">${c}<sub data-f="cnt-${c}"></sub></button>`).join('')}</span>
           <label class="flex" style="gap:4px;font-size:12px"><input type="checkbox" data-a="rauto" data-id="${did}"> 자동 피트</label><label class="flex" style="gap:4px;font-size:12px"><input type="checkbox" data-a="rautoe" data-id="${did}"> 자동 ERS·연료</label></div>
@@ -12367,6 +12956,13 @@ function computeLayout(cv) {
   g.font = '600 10px "Barlow Condensed", sans-serif'; g.fillStyle = '#6c768b'; g.textAlign = 'center';
   [1, 2].forEach(k => { const ss = tr.L * k / 3; const p = tr.posOff(ss, 0); const n2 = tr.normal(ss); const q = L.toS(p.x + n2.x * 30, p.y + n2.y * 30); g.fillText('S' + (k + 1), q[0], q[1] + 3); });
   { const n2 = tr.normal(0); const q = L.toS(p0.x + n2.x * 34 * -tr.pitSide, p0.y + n2.y * 34 * -tr.pitSide); g.fillText('S1', q[0], q[1] + 3); }
+  // v24 wind: an arrow in the corner pointing where the wind blows, in the map's own orientation
+  { const e = sim.env; if (e && e.wind > 0.2) { const a = (e.dir || 0) * Math.PI / 180; const cx = (tr.bounds.minx + tr.bounds.maxx) / 2, cy = (tr.bounds.miny + tr.bounds.maxy) / 2;
+      const q0 = L.toS(cx, cy), q1 = L.toS(cx + Math.cos(a) * 100, cy + Math.sin(a) * 100); let dx = q1[0] - q0[0], dy = q1[1] - q0[1]; const l = Math.hypot(dx, dy) || 1; dx /= l; dy /= l;
+      const ox = W - 26, oy = H - 30, len = 9 + Math.min(10, e.wind * 1.6);
+      g.strokeStyle = '#8fa0bd'; g.fillStyle = '#8fa0bd'; g.lineWidth = 2; g.beginPath(); g.moveTo(ox - dx * len, oy - dy * len); g.lineTo(ox + dx * len, oy + dy * len); g.stroke();
+      g.beginPath(); g.moveTo(ox + dx * (len + 5), oy + dy * (len + 5)); g.lineTo(ox + dx * len - dy * 4.5, oy + dy * len + dx * 4.5); g.lineTo(ox + dx * len + dy * 4.5, oy + dy * len - dx * 4.5); g.closePath(); g.fill();
+      g.font = '600 10px "Barlow Condensed", sans-serif'; g.textAlign = 'center'; g.fillStyle = '#6c768b'; g.fillText(`바람 ${e.wind.toFixed(1)}m/s`, ox, H - 6); } }
   RACE.staticCv = st;
 }
 function carScreenPos(c) {
@@ -12385,6 +12981,9 @@ function drawMap() {
   g.drawImage(RACE.staticCv, 0, 0);
   g.setTransform(L.dpr, 0, 0, L.dpr, 0, 0);
   const tr = sim.track;
+  if (sim.flags && sim.flags.length) for (const f of sim.flags) for (const ms of [f.ms, f.ms2]) {   // v25 local yellows
+    const a = ms / N_MS * tr.L, b = (ms + 1) / N_MS * tr.L; g.beginPath(); for (let sm = a; sm <= b; sm += 12) { const p = tr.pos(sm); const q = L.toS(p.x, p.y); if (sm === a) g.moveTo(q[0], q[1]); else g.lineTo(q[0], q[1]); }
+    g.strokeStyle = f.type === 'YY' ? 'rgba(255,214,0,.9)' : 'rgba(255,214,0,.55)'; g.lineWidth = f.type === 'YY' ? 9 : 7; g.stroke(); }
   for (const c of sim.cars) if (c.retired) { const [x, y] = carScreenPos(c); g.strokeStyle = '#7a8296'; g.lineWidth = 1.6; g.beginPath(); g.moveTo(x - 4, y - 4); g.lineTo(x + 4, y + 4); g.moveTo(x + 4, y - 4); g.lineTo(x - 4, y + 4); g.stroke(); }
   if (sim.sc && sim.sc.type === 'SC' && sim.order[0]) {
     const l = sim.order[0]; const p = tr.posOff((l.s + 70) % tr.L, 0); const [x, y] = L.toS(p.x, p.y);
@@ -12436,8 +13035,9 @@ function updateRaceUI() {
   else if (sim.sc && sim.sc.type === 'SC') { fl.className = 'flag sc'; fl.textContent = sim.sc.ending ? 'SC IN THIS LAP' : sim.sc.red ? 'SC — 재개 준비' : 'SAFETY CAR'; }
   else if (sim.sc && sim.sc.type === 'VSC') { fl.className = 'flag vsc'; fl.textContent = 'VSC'; }
   else if (sim.phase === 'grid') { fl.className = 'flag'; fl.textContent = 'GRID'; }
+  else if (sim.flags && sim.flags.length) { const yy = sim.flags.some(f => f.type === 'YY'); fl.className = 'flag yel'; fl.textContent = `${yy ? 'DOUBLE YELLOW' : 'YELLOW'} · MS ${sim.flags.map(f => f.ms + 1).join(',')}`; }
   else { fl.className = 'flag green'; fl.textContent = 'GREEN'; }
-  el('r-weather').textContent = `${weatherLabel(sim.rain, sim.wet)} · 노면 수분 ${Math.round(sim.wet * 100)}%`;
+  el('r-weather').textContent = envLineTxt(sim);
   el('r-radar').textContent = sim.radar().text;
   const lights = el('r-lights');
   if (lights) { if (sim.phase === 'grid') { lights.hidden = false; const n = sim.lightsOn(); lights.querySelectorAll('i').forEach((x, k) => x.classList.toggle('on', k < n)); } else lights.hidden = true; }
@@ -12467,6 +13067,7 @@ function updateRaceUI() {
     f('mode').querySelectorAll('button').forEach(btn => btn.classList.toggle('on', btn.dataset.m === c.mode));
     f('ers').querySelectorAll('button').forEach(btn => btn.classList.toggle('on', btn.dataset.m === c.ers));
     f('fuel').querySelectorAll('button').forEach(btn => btn.classList.toggle('on', btn.dataset.m === c.fuelMode));
+    thermalCardUpdate(sim, c, card); sysCardUpdate(sim, c, card);
     const soc = Math.round(c.soc); f('soc').style.width = soc + '%'; f('soc').style.background = soc < 20 ? 'var(--bad)' : soc < 45 ? 'var(--warn)' : 'var(--info)'; f('socv').textContent = soc + '%';
     const fm = sim.fuelMarginLaps(c);
     f('fuelv').innerHTML = `<span class="${fm < -0.1 ? 'bad' : fm < 0.15 ? 'warn' : ''}">${fm >= 0 ? '+' : ''}${fm.toFixed(1)}랩</span>${c.lift ? ' <span class="warn">LiCo</span>' : ''}`;
@@ -12474,7 +13075,7 @@ function updateRaceUI() {
     const auto = card.querySelector('[data-a="rauto"]'); if (auto) auto.checked = !!c.autoPit;
     const ae = card.querySelector('[data-a="rautoe"]'); if (ae) ae.checked = !!c.autoErs;
     const pr = !c.retired && !c.finished && !c.inPit ? sim.predictPit(c) : null;
-    f('pred').innerHTML = c.inPit && !c.retired && (c.pitStage === 'red' || c.pitStage === 'parked') ? `<b class="bad">레드 플래그</b> · ${c.pitStage === 'red' ? '피트레인 정렬 중' : `${c._redPos || '?'}번째로 정렬`}` : c.inPit && !c.retired ? `<b class="warn">피트 진행 중</b>${c.pitStage === 'stop' ? ` · 정지 ${Math.max(0, (c.lastStop || 0) - c.pitTimer).toFixed(1)}초` : ''}` : pr ? `지금 박스 → <b>P${pr.pos}</b>${pitRangeTxt(pr)} 복귀${pr.ahead ? ` · 앞 ${esc(pr.ahead.code)} <span class="${pr.ahead.gap < 1 ? 'warn' : ''}">+${pr.ahead.gap.toFixed(1)}</span>` : ''}${pr.behind ? ` · 뒤 ${esc(pr.behind.code)} −${pr.behind.gap.toFixed(1)}` : ''} <span class="dim">(${pitLossTxt(pr)})</span>` : '';
+    f('pred').innerHTML = c.inPit && !c.retired && (c.pitStage === 'red' || c.pitStage === 'parked') ? `<b class="bad">레드 플래그</b> · ${c.pitStage === 'red' ? '피트레인 정렬 중' : `${c._redPos || '?'}번째로 정렬`}` : c.inPit && !c.retired ? `<b class="warn">피트 진행 중</b>${c.pitStage === 'stop' ? ` · 정지 ${Math.max(0, (c.lastStop || 0) - c.pitTimer).toFixed(1)}초` : ''}` : pr ? `${vtag('p')} 지금 박스 → <b>P${pr.pos}</b>${pitRangeTxt(pr)} 복귀${pr.ahead ? ` · 앞 ${esc(pr.ahead.code)} <span class="${pr.ahead.gap < 1 ? 'warn' : ''}">+${pr.ahead.gap.toFixed(1)}</span>` : ''}${pr.behind ? ` · 뒤 ${esc(pr.behind.code)} −${pr.behind.gap.toFixed(1)}` : ''} <span class="dim">(${pitLossTxt(pr)})</span>` : '';
     // projected finish and the value of stopping now (refreshed about once a second; deterministic model, shown as an estimate)
     const now = performance.now();
     if (!RACE.projCache || RACE.projSim !== sim || now - RACE.projT > 900) { RACE.projCache = {}; RACE.projT = now; RACE.projSim = sim; }
@@ -12487,8 +13088,8 @@ function updateRaceUI() {
     const la = typeof liveCached === 'function' && !sim.sprint && !c.retired && !c.finished && sim.phase === 'racing' && !c.inPit ? liveCached(did) : null;
     if (la && la.plan) {
       const b = la.best; const same = !b || b.key === la.plan.key;
-      var projHtml = `<span class="dim">실시간 분석</span> 계획대로 <b>P${la.plan.pos}</b>` + (same ? ' · <span class="good">계획이 최선</span>' : ` · 최선 <b>${esc(b.label)}</b> <b>P${b.pos}</b>`) + ` <a href="#" data-a="liveopen" data-id="${did}">비교 ›</a>`;
-    } else projHtml = c.retired || c.finished || !pj ? '' : `<span class="dim">예상 피니시</span> <b>P${pj.pos}</b>` + (pj.cmp ? ` · <span class="dim">지금 박스</span> <b>P${pj.cmp.now.pos}</b> vs <span class="dim">계획 유지</span> <b>P${pj.cmp.plan.pos}</b> <span class="${pj.cmp.gain > 0.5 ? 'good' : 'dim'}">(${pj.cmp.gain > 0 ? '박스가 ' + pj.cmp.gain.toFixed(1) + '초 유리' : '계획이 ' + (-pj.cmp.gain).toFixed(1) + '초 유리'})</span>` : '') + ` <span class="dim" title="전략가가 현재 페이스·타이어 마모·남은 피트스톱으로 계산한 추정치입니다. 전략가 능력치가 낮을수록 박스 비교의 오차가 큽니다. 추월 난이도와 사고는 반영하지 않습니다.">ⓘ 전략가 추정${pj.cmp ? ' ±' + pj.cmp.noise.toFixed(1) + '초' : ''}</span>`;
+      var projHtml = `${vtag('p')} <span class="dim">실시간 분석</span> 계획대로 <b>P${la.plan.pos}</b>` + (same ? ' · <span class="good">계획이 최선</span>' : ` · 최선 <b>${esc(b.label)}</b> <b>P${b.pos}</b>`) + ` <a href="#" data-a="liveopen" data-id="${did}">비교 ›</a>`;
+    } else projHtml = c.retired || c.finished || !pj ? '' : `${vtag('p')} <span class="dim">예상 피니시</span> <b>P${pj.pos}</b>` + (pj.cmp ? ` · <span class="dim">지금 박스</span> <b>P${pj.cmp.now.pos}</b> vs <span class="dim">계획 유지</span> <b>P${pj.cmp.plan.pos}</b> <span class="${pj.cmp.gain > 0.5 ? 'good' : 'dim'}">(${pj.cmp.gain > 0 ? '박스가 ' + pj.cmp.gain.toFixed(1) + '초 유리' : '계획이 ' + (-pj.cmp.gain).toFixed(1) + '초 유리'})</span>` : '') + ` <span class="dim" title="전략가가 현재 페이스·타이어 마모·남은 피트스톱으로 계산한 추정치입니다. 전략가 능력치가 낮을수록 박스 비교의 오차가 큽니다. 추월 난이도와 사고는 반영하지 않습니다.">ⓘ 전략가 추정${pj.cmp ? ' ±' + pj.cmp.noise.toFixed(1) + '초' : ''}</span>`;
     if (f('proj')._h !== projHtml) { f('proj').innerHTML = projHtml; f('proj')._h = projHtml; }   // only touch the DOM when the text changes (keeps the link clickable)
     const lapsLeft = sim.laps - Math.max(0, c.lap);
     const dryUsed = new Set([...c.usedCompounds].filter(x => 'SMH'.includes(x)));
@@ -12555,6 +13156,24 @@ function projOrderBlock(sim) {
   }).join('');
   return `<div class="sp-blk"><div class="sub-h">예상 최종 순위 <span class="rt2 dim">추정 · 현재 페이스·마모·남은 스톱 기준, 추월 난이도 미반영</span></div>${rows}</div>`;
 }
+// v25 the cooling set-up (brake ducts, louvres) and the VSC delta style for one car, with the forecast for each set-up
+function coolingPanel(did) {
+  const w = S.weekend; const tr = TRACKS[w.track]; w.cooling = w.cooling || {}; w.vscStyle = w.vscStyle || {};
+  const best = bestCooling(tr, w.env, w.frac); const cur = w.cooling[did] || best; const vs = w.vscStyle[did] || 'normal';
+  const fc = ['open', 'std', 'closed'].map(k => coolingForecast(tr, w.env, k, w.frac));
+  const tc = (v, lim, warn) => `<span class="${v > lim ? 'bad' : v > warn ? 'warn' : ''}">${Math.round(v)}°</span>`;
+  const rows = fc.map(f => `<tr class="${f.cool === cur ? 'me' : ''}"><td><button class="btn sm ${f.cool === cur ? 'pri' : ''}" data-a="stcool" data-id="${did}" data-v="${f.cool}">${COOLING[f.cool].name}</button>${f.cool === best ? ' <span class="chip good">추천</span>' : ''}</td><td class="r mono">${tc(f.brk, BRK_FADE, BRK_FADE - 60)} / ${tc(f.brkD, BRK_FADE, BRK_FADE - 60)}</td><td class="r mono">${tc(f.h2o, H2O_LIMIT, H2O_LIMIT - 5)} / ${tc(f.h2oD, H2O_LIMIT, H2O_LIMIT - 5)}</td><td class="r mono">${f.cost >= 0 ? '+' : '−'}${Math.abs(f.cost).toFixed(2)}s</td></tr>`).join('');
+  return `<div class="sub-h mt">냉각 세팅 <span class="dim">— 브레이크 덕트·라디에이터 루버. 레이스 중엔 바꿀 수 없음</span></div>
+    <div class="scroll-x"><table class="tbl compact"><thead><tr><th></th><th class="r" title="랩 평균 브레이크 디스크 온도 — 단독 주행 / 앞차 1초 이내. ${BRK_FADE}°를 넘으면 페이드">브레이크 평균 단독/추종</th><th class="r" title="냉각수 온도 — ${H2O_LIMIT}°를 넘으면 파워 유닛 출력이 깎이고 마모가 빨라짐">냉각수 단독/추종</th><th class="r" title="항력 + 예상 페이드·출력 제한 손실 (레이스의 1/3을 추종으로 가정)">랩당 비용</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <div class="sub-h mt">조건부 지시 <span class="dim">— ${(w.rules && w.rules[did] || []).length ? (w.rules[did].length + '개: ' + w.rules[did].map(r => esc(ruleText(r))).join(' · ')) : '없음'}</span> <button class="btn sm" data-a="rrules" data-id="${did}">편집</button></div>
+    <div class="flex wrap" style="gap:8px;margin-top:6px;font-size:12.5px"><span class="dim">VSC 델타 운영</span><div class="seg sm">${Object.entries(VSC_STYLE).map(([k, v]) => `<button class="${vs === k ? 'on' : ''}" data-a="stvsc" data-id="${did}" data-v="${k}">${v.name}</button>`).join('')}</div><span class="dim">공격적일수록 VSC 중 잃는 시간이 줄지만 델타 아래로 내려가면 5초 페널티</span></div>`;
+}
+// v24 the weekend's conditions in one line: air, the track temperature for qualifying and over the race, humidity, wind
+function wkEnvLine(w) {
+  const e = w.env; if (!e) return '';
+  const r0 = trackTempAt(e, 0, 0), r1 = trackTempAt(e, 1, 0);
+  return `<div title="노면 온도는 타이어 작동 온도를 좌우합니다. 낮이면 해가 기울며, 야간이면 열이 빠지며 레이스 동안 내려갑니다. 비가 오면 노면은 기온 가까이 식습니다."><span class="dim">기온</span> <b>${Math.round(e.air)}°</b> · <span class="dim">노면</span> 예선 <b>${Math.round(qualiTrackTemp(e))}°</b> · 결승 <b>${Math.round(r0)}→${Math.round(r1)}°</b> · <span class="dim">습도</span> <b>${Math.round(e.hum)}%</b> · <span class="dim">바람</span> <b>${windDirTxt(e, TRACKS[w.track])} ${e.wind.toFixed(1)}m/s</b>${e.night ? ' · <span class="chip">야간</span>' : ''}</div>`;
+}
 function tyreInfoPanel() {
   const w = S.weekend; const tr = TRACKS[w.track]; const did = playerTeam().drivers[0]; const d = S.drivers[did]; const tm = playerTeam();
   const mul = playerRateMul();
@@ -12562,9 +13181,10 @@ function tyreInfoPanel() {
     const r = wearRate(c, tr, d.a.tyre, tm.car.tyre, 'normal', w.frac, 0) * mul[c];
     const life = 70 / r; const conf = w.tyreData[c] || 0; const band = Math.max(0.5, life * Math.abs(w.tyreErr[c] || 0.15) * (1 - conf) + life * 0.04);
     const sm = setsSummary(w.tyres[did], c);
-    return `<tr><td>${tyreIcon(c)} ${COMPOUNDS[c].name}</td><td class="r mono">${c === 'S' ? '기준' : '+' + COMPOUNDS[c].pace.toFixed(2) + 's'}</td><td class="r mono">${life.toFixed(1)}랩 <span class="dim">±${band.toFixed(1)}</span></td><td class="r mono">${COMPOUNDS[c].warm.toFixed(1)}s</td><td class="r"><span class="${conf >= 0.6 ? 'good' : conf >= 0.3 ? 'warn' : 'bad'}">${Math.round(conf * 100)}%</span></td><td class="r">${sm.fresh}/${sm.total}</td></tr>`;
+    const th = envTyreNote(tr, c); const thP = tr.envK && tr.envK.pace[c] ? tr.envK.pace[c] : 0; const pace = COMPOUNDS[c].pace + thP - (tr.envK && tr.envK.pace.S ? tr.envK.pace.S : 0);
+    return `<tr><td>${tyreIcon(c)} ${COMPOUNDS[c].name}</td><td class="r mono">${c === 'S' ? '기준' : (pace >= 0 ? '+' : '') + pace.toFixed(2) + 's'}</td><td class="${th ? (th.kind === 'ok' ? 'good' : th.kind === 'hot' ? 'bad' : 'info') : ''}" style="font-size:11.5px">${th ? (th.kind === 'ok' ? `${Math.round(th.s)}° 창 안` : th.kind === 'hot' ? `${Math.round(th.s)}° 과열 +${thP.toFixed(2)}s` : `${Math.round(th.s)}° 부족 +${thP.toFixed(2)}s`) : '—'}</td><td class="r mono">${life.toFixed(1)}랩 <span class="dim">±${band.toFixed(1)}</span></td><td class="r mono">${COMPOUNDS[c].warm.toFixed(1)}s</td><td class="r"><span class="${conf >= 0.6 ? 'good' : conf >= 0.3 ? 'warn' : 'bad'}">${Math.round(conf * 100)}%</span></td><td class="r">${sm.fresh}/${sm.total}</td></tr>`;
   }).join('');
-  return `<section class="panel"><div class="panel-h"><h3>타이어 특성</h3><span class="rt">${esc(S.drivers[did].short)} 기준 · 이번 주말 데이터</span></div><div class="panel-b flush scroll-x"><table class="tbl compact"><thead><tr><th>컴파운드</th><th class="r">새 타이어 페이스</th><th class="r">수명(70%)</th><th class="r">예열 손실</th><th class="r">데이터</th><th class="r">새 세트</th></tr></thead><tbody>${rows}</tbody></table><p class="note" style="padding:0 14px 12px">수명 오차는 연습 주행 롱런으로 그 컴파운드 데이터를 모을수록 줄어듭니다. 예열 손실은 피트스톱 직후 아웃랩에서 잃는 시간으로, 언더컷·오버컷 판단에 중요합니다.</p></div></section>`;
+  return `<section class="panel"><div class="panel-h"><h3>타이어 특성</h3><span class="rt">${esc(S.drivers[did].short)} 기준 · 이번 주말 데이터</span></div><div class="panel-b flush scroll-x"><table class="tbl compact"><thead><tr><th>컴파운드</th><th class="r">새 타이어 페이스</th><th title="이 주말 노면 온도에서 결승 평균 페이스로 달릴 때 타이어 표면 온도와 작동 창 비교">온도 예상</th><th class="r">수명(70%)</th><th class="r">예열 손실</th><th class="r">데이터</th><th class="r">새 세트</th></tr></thead><tbody>${rows}</tbody></table><p class="note" style="padding:0 14px 12px">수명 오차는 연습 주행 롱런으로 그 컴파운드 데이터를 모을수록 줄어듭니다. 예열 손실은 피트스톱 직후 아웃랩에서 잃는 시간으로, 언더컷·오버컷 판단에 중요합니다. 온도 예상은 노면 온도 기준 표면 온도로, 창을 벗어난 만큼 페이스(와 과열 시 마모)에 반영돼 있습니다 — 레이스 중엔 페이스 모드·더티 에어·세이프티카에 따라 달라집니다.</p></div></section>`;
 }
 function pushEvents() {
   const sim = RACE.sim; const box = document.getElementById('r-events'); if (!sim || !box) return;
@@ -12575,7 +13195,7 @@ function pushEvents() {
   // screen readers: flags and anything about our cars, read out politely (the canvas map itself says nothing)
   const say = add.filter(e => e.type === 'sc' || (e.player && (e.important || ['pit', 'dnf', 'penalty', 'orders'].includes(e.type))));
   const lv = document.getElementById('r-live'); if (lv && say.length) lv.textContent = say.slice(-2).map(e => `${e.lap}랩: ${e.text}`).join(' ');
-  const tagOf = e => ({ radio: ['radio', 'RADIO'], sc: ['sc', 'FLAG'], pit: ['pit', 'PIT'], dnf: ['dnf', 'OUT'], overtake: ['ovt', 'MOVE'], fastest: ['fl', 'FAST'], weather: ['sc', 'WX'], incident: ['dnf', 'INC'], penalty: ['dnf', 'PEN'], blue: ['ovt', 'BLUE'], orders: ['radio', 'TEAM'], start: ['sc', 'START'], finish: ['sc', 'END'] }[e.type]);
+  const tagOf = e => ({ radio: ['radio', 'RADIO'], sc: ['sc', 'FLAG'], pit: ['pit', 'PIT'], dnf: ['dnf', 'OUT'], overtake: ['ovt', 'MOVE'], fastest: ['fl', 'FAST'], weather: ['sc', 'WX'], flag: ['sc', 'FLAG'], incident: ['dnf', 'INC'], penalty: ['dnf', 'PEN'], blue: ['ovt', 'BLUE'], orders: ['radio', 'TEAM'], start: ['sc', 'START'], finish: ['sc', 'END'] }[e.type]);
   const html = add.filter(e => f === 'all' || (f === 'imp' && (e.important || e.type === 'sc')) || (f === 'me' && e.player)).reverse().map(e => {
     const tg = tagOf(e);
     return `<div class="ev ${e.important ? 'imp' : ''} ${e.player ? 'p' : ''}"><span class="l">L${e.lap}</span><span>${tg ? `<span class="tag ${tg[0]}">${tg[1]}</span>` : ''}${esc(e.text)}</span></div>`;
@@ -12702,6 +13322,8 @@ const WACT = {
   qauto: () => { qualiDelegateAll(); saveGame(); render(); toast('전략가가 남은 예선을 운영했습니다'); },
   toprerace: () => weekendContinue(),
   pickstrat: d => { const w = S.weekend; const o = w.stratOpts[d.id][+d.i]; const old = w.strategy[d.id]; w.strategy[d.id] = Object.assign(planFromStrategy(o), { idx: +d.i, auto: old ? old.auto : true, fuelMargin: old ? old.fuelMargin : 0.01, stintModes: old && old.stintModes ? o.stints.map(() => old.stintModes[0]) : null, reviewed: true }); render(); },
+  stcool: d => { const w = S.weekend; w.cooling = w.cooling || {}; w.cooling[d.id] = d.v; saveGame(); render(); },
+  stvsc: d => { const w = S.weekend; w.vscStyle = w.vscStyle || {}; w.vscStyle[d.id] = d.v; saveGame(); render(); },
   stc: d => { const st = S.weekend.strategy[d.id]; st.stints[+d.k].c = d.c; st.idx = -1; st.reviewed = true; render(); },
   stl: d => {
     const w = S.weekend; const st = w.strategy[d.id]; const k = +d.k; const dd = +d.d;
@@ -12768,7 +13390,7 @@ const WACT = {
   rskip: (d) => {
     const sim = RACE.sim; if (!sim || sim.phase === 'finished' || RACE.skipping) return;
     // handing the race to the pit wall: the strategist's calls stand without the player's oversight
-    for (const did of playerTeam().drivers) { const c = sim.byId[did]; if (c) { c.delegated = true; if (!c.manualBox) { c.autoPit = true; c.autoErs = true; } } }
+    for (const did of playerTeam().drivers) { const c = sim.byId[did]; if (c) { c.delegated = true; if (!c.manualBox) { c.autoPit = true; c.autoErs = true; c.autoTyre = true; } } }
     const done = () => { if (raceVisible()) { updateRaceUI(); pushEvents(); } else updateLiveMini(); };
     if (!d) { sim.runToEnd(); sim._redModal = sim.redCount; done(); return; }   // called from code: at once
     // from the button: in slices of ~25 ms with a progress bar, so the page keeps answering (a full-length race takes a few seconds)
@@ -12788,7 +13410,7 @@ const WACT = {
   rassign: d => {
     const sim = RACE.sim; const t = playerTeam(); const v = d.v === 'both' ? 'both' : +d.v;
     S.settings.carAssign = v;
-    if (sim) for (const [i, id] of t.drivers.entries()) { const c = sim.byId[id]; if (!c || c.retired || c.finished) continue; const mine = v === 'both' || v === i; if (mine && c.delegated) { c.delegated = false; } else if (!mine) { c.delegated = true; if (!c.manualBox) { c.autoPit = true; c.autoErs = true; } } }
+    if (sim) for (const [i, id] of t.drivers.entries()) { const c = sim.byId[id]; if (!c || c.retired || c.finished) continue; const mine = v === 'both' || v === i; if (mine && c.delegated) { c.delegated = false; } else if (!mine) { c.delegated = true; if (!c.manualBox) { c.autoPit = true; c.autoErs = true; c.autoTyre = true; } } }
     if (sim) sim.emit('radio', v === 'both' ? '피트월: 두 대 모두 직접 지휘합니다.' : `피트월: ${S.drivers[t.drivers[v]].short} 담당, ${t.drivers.filter((_, i) => i !== v).map(id => S.drivers[id].short).join('')}은 전략가에게.`, { player: true });
     render();
   },
@@ -13325,6 +13947,132 @@ document.addEventListener('keydown', e => {
   if (k === 'b' || k === 'n') { const id = ids[k === 'b' ? 0 : 1]; if (id && (typeof myCars !== 'function' || myCars().includes(id))) { e.preventDefault(); WACT.rboxkey({ id }); } }
 });
 
+// ── v24 conditions and tyre temperatures on the race screens ──
+// the weather line: sky, air and track temperature (with its trend), wind, and the water on the track when there is any
+function envLineTxt(sim) {
+  const e = sim.env || {}; const T = sim.trackT; const T0 = sim._T0 ?? (sim._T0 = T);
+  const tr = T < T0 - 0.8 ? '↓' : T > T0 + 0.8 ? '↑' : '';
+  return `${weatherLabel(sim.rain, sim.wet)} · 기온 ${Math.round(e.air)}° · 노면 ${Math.round(T)}°${tr} · 바람 ${windDirTxt(e, sim.track)} ${(e.wind || 0).toFixed(1)}m/s${sim.wet > 0.02 ? ` · 노면 수분 ${Math.round(sim.wet * 100)}%` : ` · 러버 ${Math.round(sim.rub * 100)}%`}`;
+}
+// a temperature scale 40–140 °C with the compound's working window shaded, tread (●) and carcass (○) marked
+function thGauge(comp, s, k) {
+  const W = TYRE_WIN[comp] || [80, 110]; const x = v => clamp((v - 40) / 100 * 100, 0, 100).toFixed(1);
+  const cls = s > W[1] ? 'hot' : s < W[0] ? 'cold' : 'ok';
+  return `<span class="tg ${cls}" title="작동 창 ${W[0]}–${W[1]}°C · ● 표면 ${Math.round(s)}°C · ○ 카커스 ${Math.round(k)}°C"><i class="win" style="left:${x(W[0])}%;width:${(x(W[1]) - x(W[0])).toFixed(1)}%"></i><i class="mk" style="left:${x(k)}%"></i><i class="ms" style="left:${x(s)}%"></i></span>`;
+}
+// what the tyre state is costing (vs. the plan's steady state) in words
+function thStateTxt(sim, c) {
+  const th = c.th, W = TYRE_WIN[c.compound]; if (!W) return '';
+  const chips = [];
+  if (th.gr > 0.08) chips.push(`<span class="chip warn" title="차가운 노면에서 미끄러지며 트레드 표면이 뜯겨 나간 상태. 작동 창 안에서 몇 랩 달리면 걷힙니다">그레이닝 ${Math.round(th.gr * 100)}%</span>`);
+  if (th.bl > 0.05) chips.push(`<span class="chip bad" title="카커스가 너무 뜨거워 고무 안에 기포가 생긴 상태. 회복되지 않습니다">블리스터 ${Math.round(th.bl * 100)}%</span>`);
+  if (th.fs > 0.08) chips.push(`<span class="chip ${th.fs > 0.6 ? 'bad' : 'warn'}" title="락업으로 타이어 한 곳이 평평하게 닳은 상태. 진동이 심하면 타이어가 터질 수 있습니다">플랫스팟 ${Math.round(th.fs * 100)}%</span>`);
+  const d = th.d - (c.tyreMan ? 0.15 * tyreTimeK(sim.frac) : 0);
+  const word = 'SMH'.includes(c.compound) && sim.wet < 0.15 ? (th.s > W[1] ? `<span class="bad">과열</span>` : th.s < W[0] ? (c.warmLeft > 0 ? '<span class="warn">예열 중</span>' : '<span class="info">온도 부족</span>') : '<span class="good">창 안</span>') : '<span class="dim">젖은 노면</span>';
+  const cost = Math.abs(d) >= 0.02 ? ` <span class="mono ${d > 0 ? 'bad' : 'good'}" title="계획(이 조건의 평균 타이어 상태)보다 ${d > 0 ? '느린' : '빠른'} 정도">${d > 0 ? '+' : '−'}${Math.abs(d).toFixed(2)}초/랩</span>` : '';
+  return `${word}${cost}${chips.length ? ' ' + chips.join(' ') : ''}`;
+}
+function thermalRowHtml(sim, c) {
+  if (c.retired || c.finished) return '';
+  const th = c.th;
+  return `${thGauge(c.compound, th.s, th.k)}<b class="mono">${Math.round(th.s)}°</b><span class="dim mono">/${Math.round(th.k)}°</span><span class="dim mono" title="타이어 공기압 — 카커스 온도를 따라 오릅니다">${th.p.toFixed(1)}psi</span><span class="thw">${thStateTxt(sim, c)}</span>`;
+}
+// Overtake Mode: detected within a second at the line → extra deployment this lap
+function otTxt(sim, c) {
+  if (c.retired || c.finished || sim.phase !== 'racing') return '';
+  if (sim.otOff) return '<span class="dim" title="레이스 컨트롤이 노면 상태로 오버테이크 모드를 껐습니다">OT 중지</span>';
+  if (sim.otEligible(c)) return `<span class="otm" title="감지 지점에서 앞차와 ${c.otGap != null ? c.otGap.toFixed(2) : '?'}초 — 이번 랩 오버테이크 모드 사용 가능 (추가 에너지 ${Math.round(c.otE)}%)">OT ${c.otE > 0.5 ? '+' + Math.round(c.otE) : '✓'}</span>`;
+  return `<span class="dim" title="오버테이크 모드는 결승선 앞 감지 지점에서 앞차와 1초 이내일 때 다음 랩에만 쓸 수 있습니다${c.otGap != null && c.otGap >= 0 ? ` (지난 감지 ${c.otGap.toFixed(2)}초)` : ''}">OT —</span>`;
+}
+function thermalCardUpdate(sim, c, card) {
+  const f = k => card.querySelector(`[data-f="${k}"]`);
+  const th = f('thermal'); if (th) { const h = thermalRowHtml(sim, c); if (th._h !== h) { th.innerHTML = h; th._h = h; } }
+  const tm = f('tman'); if (tm) { const v = c.autoTyre === false ? (c.tyreMan ? 'on' : 'off') : 'auto'; tm.querySelectorAll('button').forEach(b => { b.classList.toggle('on', b.dataset.v === v); if (b.dataset.v === 'auto') b.textContent = c.autoTyre !== false && c.tyreMan ? '자동 · 관리 중' : '자동'; }); }
+  const ot = f('ot'); if (ot) { const h = otTxt(sim, c); if (ot._h !== h) { ot.innerHTML = h; ot._h = h; } }
+  const eb = f('ers'); if (eb) { const b = eb.querySelector('[data-m="ot"]'); if (b) { const okk = sim.otEligible(c) || c.ers === 'ot'; b.disabled = !okk; b.title = okk ? '오버테이크 모드 (이번 랩 사용 가능)' : '감지 지점에서 앞차와 1초 이내일 때만 다음 랩에 사용 가능'; } }
+}
+// the markup both race views put under the wear bar and in the control grid
+function thermalRowMarkup(did) { return `<div class="wear thrm"><span class="dim lab">온도 ${vtag('a')}</span><span class="thv" data-f="thermal"></span></div>`; }
+function tyreManMarkup(did) { return `<span class="dim lab" title="타이어 관리: 코너에서 조금 덜 밀어 표면 온도를 약 6° 낮춥니다 (랩당 약 0.15초 손해, 마모 −5%)">열관리</span><div class="seg" data-f="tman"><button data-a="rtyreman" data-id="${did}" data-v="auto">자동</button><button data-a="rtyreman" data-id="${did}" data-v="on">관리</button><button data-a="rtyreman" data-id="${did}" data-v="off">끔</button></div>`; }
+Object.assign(WACT, {
+  rtyreman: d => { const sim = RACE.sim; if (!sim) return; sim.setTyreMan(d.id, d.v); updateRaceUI(); },
+});
+
+// ── v25 car systems on the race cards: brakes, coolant, oil (our sensors), clean-air order and the VSC delta ──
+function sysRowHtml(sim, c) {
+  if (c.retired || c.finished) return '';
+  const y = c.sys; const tcol = (v, lim, warn) => v > lim ? 'bad' : v > warn ? 'warn' : '';
+  const vsc = sim.sc && sim.sc.type === 'VSC' && !c.inPit ? ` · <span title="VSC 최소 시간 대비 여유 (+면 합법, −0.25 아래로 가면 페널티)">VSC 델타 <b class="mono ${c.vscD < 0 ? 'bad' : c.vscD < 0.15 ? 'warn' : 'good'}">${c.vscD >= 0 ? '+' : ''}${c.vscD.toFixed(2)}</b></span>` : '';
+  return `<span title="브레이크 디스크 — 지금 / 랩 평균 (평균 ${BRK_FADE}° 넘으면 페이드)">브레이크 <b class="mono ${tcol(y.brkAvg, BRK_FADE, BRK_FADE - 60)}">${Math.round(y.brk)}°</b><span class="dim mono">/${Math.round(y.brkAvg)}</span></span>
+    <span title="냉각수 (${H2O_LIMIT}° 넘으면 출력 제한)">냉각수 <b class="mono ${tcol(y.h2o, H2O_LIMIT, H2O_LIMIT - 4)}">${Math.round(y.h2o)}°</b></span><span class="dim">오일 <span class="mono">${Math.round(y.oil)}°</span></span>${y.fade > 0.01 ? ` <span class="chip warn">페이드 +${y.fade.toFixed(2)}s</span>` : ''}${y.h2o > H2O_LIMIT ? ' <span class="chip bad">출력 제한</span>' : ''}<span class="dim">냉각 ${(COOLING[y.cool] || COOLING.std).name}</span>${vsc}`;
+}
+function sysCardUpdate(sim, c, card) {
+  const f = k => card.querySelector(`[data-f="${k}"]`);
+  const r = f('sys'); if (r) { const h = sysRowHtml(sim, c); if (r._h !== h) { r.innerHTML = h; r._h = h; } }
+  const bo = f('backoff'); if (bo) bo.classList.toggle('on', !!c.backoff);
+  const vs = f('vscs'); if (vs) vs.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.v === c.vscStyle));
+  const rb = f('rules'); if (rb) { const n = (c.rules || []).filter(r => !r.done).length; const txt = n ? `조건부 지시 ${n}` : '조건부 지시'; if (rb.textContent !== txt) rb.textContent = txt; rb.classList.toggle('pri', n > 0); }
+  const ll = f('live'); if (ll) { const h = liveLapTxt(sim, c); if (ll._h !== h) { ll.innerHTML = h; ll._h = h; } }
+}
+function sysRowMarkup(did) { return `<div class="wear thrm"><span class="dim lab">시스템 ${vtag('a')}</span><span class="thv" data-f="sys"></span></div><div class="wear thrm"><span class="dim lab">랩</span><span class="thv" data-f="live"></span></div>`; }
+function opsMarkup(did) { return `<span class="dim lab">운영</span><div class="flex wrap" style="gap:8px;min-width:0"><button class="btn sm tgl" data-a="rbackoff" data-id="${did}" data-f="backoff" title="앞차와 1초 넘게 간격을 둬 깨끗한 공기로 달립니다 — 타이어·브레이크·냉각수가 식지만 추격·추월은 멈춤">간격 두기</button><span class="dim" style="font-size:11.5px">VSC</span><div class="seg sm" data-f="vscs">${Object.entries(VSC_STYLE).map(([k, v]) => `<button data-a="rvscs" data-id="${did}" data-v="${k}" title="다음 VSC부터 적용">${v.name}</button>`).join('')}</div><button class="btn sm" data-a="rrules" data-id="${did}" data-f="rules" title="SC·마모·간격·비 같은 조건이 되면 자동으로 박스·모드 변경">조건부 지시</button></div>`; }
+Object.assign(WACT, {
+  rbackoff: d => { const c = RACE.sim && RACE.sim.byId[d.id]; if (!c) return; c.backoff = !c.backoff; updateRaceUI(); },
+  rvscs: d => { const c = RACE.sim && RACE.sim.byId[d.id]; if (!c || !VSC_STYLE[d.v]) return; c.vscStyle = d.v; updateRaceUI(); },
+});
+
+// ── v26 conditional orders: the editor (race: the car's live rules; before the race: the weekend's plan for that car) ──
+function rulesOf(did) {
+  const sim = RACE.sim; const w = S.weekend;
+  if (w && w.stage === 'race' && sim && sim.byId[did]) { const c = sim.byId[did]; return c.rules || (c.rules = []); }
+  w.rules = w.rules || {}; return w.rules[did] || (w.rules[did] = []);
+}
+function ruleDefault(k, did) {
+  const sim = RACE.sim; const c = sim && sim.byId[did];
+  return { wear: 65, wet: 25, dry: 15, lap: c ? Math.min(sim.laps - 1, c.lap + 6) : Math.round(S.weekend.laps / 2), gapB: Math.round(pitLossNominal(TRACKS[S.weekend.track], S.weekend.frac) + 2), gapA: 1, hot: 3 }[k] ?? null;
+}
+function rulesHtml(did) {
+  const d = S.drivers[did]; const list = rulesOf(did); const race = S.weekend.stage === 'race';
+  const rows = list.length ? list.map((r, i) => `<div class="rule-row ${r.done ? 'done' : ''}"><span class="mono dim">${i + 1}</span><span>${esc(ruleText(r))}</span>${r.done ? `<span class="chip good">실행됨 L${r.at}</span>` : '<span class="chip info">대기</span>'}<button class="btn sm ghost" data-a="rruledel" data-id="${did}" data-i="${i}" aria-label="삭제">✕</button></div>`).join('') : '<p class="dim" style="margin:6px 0">아직 지시가 없습니다.</p>';
+  const opt = (o, v) => Object.entries(o).map(([k, l]) => `<option value="${k}" ${k === v ? 'selected' : ''}>${l}</option>`).join('');
+  return `<div class="modal-h"><h3>${esc(d.kname)} — 조건부 지시</h3><button class="btn sm ghost" style="margin-left:auto" data-a="closemodal" aria-label="닫기">닫기</button></div><div class="modal-b">
+    <p class="note">조건이 맞으면 피트월이 그 랩에 바로 실행합니다 (세이프티카·VSC는 출동 즉시, 나머지는 매 랩 피트 입구 450m 전 판단 지점). 지시마다 한 번만 실행됩니다.${race ? '' : ' 레이스 시작 때 차에 실립니다.'}</p>
+    <div class="rule-list">${rows}</div>
+    <div class="rule-add"><select id="rr-k" data-c="rrk" data-id="${did}" aria-label="조건">${opt(RULE_K, 'sc')}</select><input id="rr-v" type="number" step="0.1" value="" placeholder="N" aria-label="값" style="width:76px" disabled>
+      <select id="rr-a" aria-label="행동">${opt(RULE_A, 'box')}</select><select id="rr-x" aria-label="타이어 또는 모드"><option value="">추천 타이어</option>${['S', 'M', 'H', 'I', 'W'].map(c => `<option value="${c}">${COMPOUNDS[c].name}</option>`).join('')}${Object.entries(MODES).map(([k, m]) => `<option value="m:${k}">페이스 ${m.name}</option>`).join('')}<option value="m:off">간격 두기 해제</option></select>
+      <button class="btn sm pri" data-a="rruleadd" data-id="${did}">추가</button></div>
+    <p class="note" style="margin-top:8px">예: <b>세이프티카가 나오면 박스 → 미디엄</b> · <b>뒤차와 ${ruleDefault('gapB', did)}초 이상 벌어지면 박스</b>(복귀해도 순위를 안 잃는 무료 스톱) · <b>노면 수분이 25% 이상이면 박스 → 인터미디엇</b></p></div>`;
+}
+Object.assign(CHG, {
+  rrk: el => { const v = document.getElementById('rr-v'); const def = ruleDefault(el.value, el.dataset.id); if (v) { v.disabled = def == null; v.value = def == null ? '' : def; } },
+});
+Object.assign(WACT, {
+  rrules: d => { modal(rulesHtml(d.id)); },
+  rruleadd: d => {
+    const k = (document.getElementById('rr-k') || {}).value, a = (document.getElementById('rr-a') || {}).value, x = (document.getElementById('rr-x') || {}).value || '';
+    const vEl = document.getElementById('rr-v'); const v = vEl && !vEl.disabled && vEl.value !== '' ? +vEl.value : ruleDefault(k, d.id);
+    if (!RULE_K[k] || !RULE_A[a]) return;
+    const r = { k, a, v: v == null ? null : v };
+    if (a === 'box' && x && COMPOUNDS[x]) r.c = x;
+    if ((a === 'mode' || a === 'backoff') && x.startsWith('m:')) r.m = x.slice(2);
+    if (a === 'mode' && !MODES[r.m]) { toast('페이스 모드를 골라 주세요', true); return; }
+    rulesOf(d.id).push(r); if (S.weekend.stage !== 'race') saveGame();
+    modal(rulesHtml(d.id)); if (RACE.sim) updateRaceUI();
+  },
+  rruledel: d => { const l = rulesOf(d.id); l.splice(+d.i, 1); if (S.weekend.stage !== 'race') saveGame(); modal(rulesHtml(d.id)); if (RACE.sim) updateRaceUI(); },
+});
+
+// ── v26 the value tags: where a number comes from ──
+// 실제 = our sensors and the timing screen · 추정 = what the pit wall infers about hidden values (rivals) ·
+// 예측 = a model's forecast of what will happen · 결정 = a threshold or recommendation the pit wall acts on
+const VT = { a: ['실제', '센서·타이밍으로 직접 측정한 값'], e: ['추정', '보이지 않는 값을 보이는 데이터로 추정 (상대 팀 타이어·계획 등)'], p: ['예측', '모델이 앞으로를 계산한 값 — 실제와 다를 수 있음'], d: ['결정', '피트월이 행동의 기준으로 쓰는 값·추천'] };
+function vtag(k) { const t = VT[k]; return t ? `<span class="vt vt-${k}" title="${t[1]}">${t[0]}</span>` : ''; }
+function liveLapTxt(sim, c) {
+  if (c.retired || c.finished || c.lap < 0 || sim.phase === 'grid') return '';
+  const t = sim.t - c.lapStartT; const exp = c.lapTarget + (c.th.d || 0) + (c.sys.fade || 0);
+  return `${vtag('a')} 현재 랩 <b class="mono">${fmtLap(Math.max(0, t))}</b> <span class="dim">· ${vtag('p')} 이번 랩 예상 <span class="mono">${fmtLap(exp)}</span></span>`;
+}
+
 // ───────── pitwall.js — 전문가 모드 (Strategy Analysis): the strategy room ─────────
 // Race and sprint: a multi-screen pit wall — the player lays out the screens (timing with sector colours, race trace with
 // forecast lines, pit-window slice with rejoin, tyres and stints, lap times, battles, projected order, the plan, the map,
@@ -13344,7 +14092,7 @@ function pwConf() {
   if (!Array.isArray(c.slots)) c.slots = PW_DEF.slice();
   for (let i = 0; i < 6; i++) if (!PW_WIDGETS[c.slots[i]]) c.slots[i] = PW_DEF[i];
   c.opt = c.opt || {};
-  const d = { gap: 'int', ref: 'lead', set: 'near', lset: 'near', lwin: 15 };
+  const d = { gap: 'int', ref: 'lead', set: 'near', lset: 'near', lwin: 15, telc: 0, telr: 'best', msr: 'ahead' };
   for (const k of Object.keys(d)) if (c.opt[k] == null) c.opt[k] = d[k];
   return c;
 }
@@ -13490,7 +14238,7 @@ const PW_WIDGETS = {
         // undercut threats: right behind us; chances: right ahead of us (tyre age tells who is due a stop)
         const near = others.filter(x => x.d < 0 && x.d > -4).sort((a, b) => b.d - a.d).slice(0, 2).reverse().concat(others.filter(x => x.d >= 0 && x.d < 4).sort((a, b) => a.d - b.d).slice(0, 2));
         const tip = near.map(x => `<span class="${x.d > 0 ? 'bad' : 'good'}">${x.d > 0 ? '뒤' : '앞'} ${esc(x.o.code)} ${Math.abs(x.d).toFixed(1)}s</span> <span class="dim">${COMPOUNDS[x.o.compound].short}${x.o.tyreAge}</span>`).join(' · ');
-        return `<div class="pw-win"><div class="pw-win-h"><b>${esc(me.code)}</b> <span class="dim">P${sim.order.indexOf(me) + 1} · ${COMPOUNDS[me.compound].short}${me.tyreAge}랩 · 마모 ${Math.round(me.wear)}%</span><span class="pw-win-r">지금 박스 → <b>P${pr ? pr.pos : '?'}</b>${pitRangeTxt(pr)} <span class="dim">(${pitLossTxt(pr)})</span></span></div>
+        return `<div class="pw-win"><div class="pw-win-h"><b>${esc(me.code)}</b> <span class="dim">P${sim.order.indexOf(me) + 1} · ${COMPOUNDS[me.compound].short}${me.tyreAge}랩 · 마모 ${Math.round(me.wear)}%</span><span class="pw-win-r">${vtag('p')} 지금 박스 → <b>P${pr ? pr.pos : '?'}</b>${pitRangeTxt(pr)} <span class="dim">(${pitLossTxt(pr)})</span></span></div>
           <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(me.code)} 피트 복귀 예측">${g}</svg>
           <div class="pw-win-f">${pr ? `${pr.ahead ? `복귀 시 앞 <b>${esc(pr.ahead.code)}</b> ${pr.ahead.gap.toFixed(1)}s` : '복귀 시 선두'}${pr.behind ? ` · 뒤 <b>${esc(pr.behind.code)}</b> ${pr.behind.gap.toFixed(1)}s` : ''}` : ''}${tip ? ` <span class="pw-sep">|</span> ${tip}` : ''}</div></div>`;
       }).join('');
@@ -13574,14 +14322,178 @@ const PW_WIDGETS = {
     draw(sim) {
       const mine = pwMine().map(id => sim.byId[id]).filter(c => c && !c.retired && !c.finished);
       if (!mine.length || sim.phase === 'grid') return '<div class="pw-empty">출발하면 계산합니다</div>';
-      return mine.map(me => `<div class="pw-riv"><div class="pw-win-h"><b>${esc(me.code)}</b> <span class="dim">P${sim.order.indexOf(me) + 1} 앞뒤 3대</span>${me.coverId && sim.byId[me.coverId] ? ` <span class="chip info">${esc(sim.byId[me.coverId].code)} 커버 중</span>` : ''}</div>
+      return mine.map(me => `<div class="pw-riv"><div class="pw-win-h"><b>${esc(me.code)}</b> <span class="dim">P${sim.order.indexOf(me) + 1} 앞뒤 3대</span> ${vtag('e')}${me.coverId && sim.byId[me.coverId] ? ` <span class="chip info">${esc(sim.byId[me.coverId].code)} 커버 중</span>` : ''}</div>
         <table class="pw-rt"><thead><tr><th></th><th></th><th class="r">간격</th><th>타이어</th><th>추정 계획</th><th class="r" title="이번 랩 피트인 확률">박스</th><th></th></tr></thead><tbody>${rivalRowsHtml(sim, me)}</tbody></table></div>`).join('')
         + '<div class="pw-foot">다른 팀의 계획·마모는 보이지 않습니다 — 출발 타이어·스톱 기록·타이어 사용 랩으로 추정 (≈). 커버 = 그 차가 들어가면 우리도 바로 박스</div>';
     } },
+  // v24: the tread and carcass temperatures of our cars against the working window (with a trace of the last two minutes),
+  // graining / blisters / flat spots, the cost against the plan, and thermal-camera estimates for the cars around them
+  tyretemp: { name: '타이어 온도 · 컨디션', every: 700,
+    key: sim => Math.floor(sim.t) + ':' + pwMine().join(),
+    draw(sim, W) {
+      const mine = pwMine().map(id => sim.byId[id]).filter(c => c && !c.retired && !c.finished);
+      const e = sim.env; const Tend = trackTempAt(e, 1, sim.wet);
+      const head = `<div class="pw-env"><span>기온 <b>${Math.round(e.air)}°</b></span><span>노면 <b>${Math.round(sim.trackT)}°</b> <span class="dim">→ 끝 ${Math.round(Tend)}°</span></span><span>습도 <b>${Math.round(e.hum)}%</b></span><span>바람 <b>${windDirTxt(e, sim.track)} ${e.wind.toFixed(1)}</b><span class="dim">m/s</span></span><span>러버 <b>${Math.round(sim.rub * 100)}%</b></span>${sim.otOff ? '<span class="chip warn">OT 중지</span>' : ''}</div>`;
+      if (!mine.length) return head + '<div class="pw-empty">지휘 중인 차가 없습니다</div>';
+      const wide = W >= 430;
+      const blocks = mine.map(c => {
+        const th = c.th, Wn = TYRE_WIN[c.compound] || [80, 110];
+        const H = c._thH || []; const t1 = sim.t, t0 = t1 - 120; const pts = H.filter(h => h[0] >= t0);
+        const vs = pts.flatMap(h => [h[1], h[2]]); const lo = Math.min(Wn[0] - 8, ...vs.map(v => v - 4)), hi = Math.max(Wn[1] + 8, ...vs.map(v => v + 4));
+        const sw = 300, sh = 56, y = v => (sh - 3 - (clamp(v, lo, hi) - lo) / (hi - lo) * (sh - 6)).toFixed(1), x = t => ((t - t0) / 120 * sw).toFixed(1);
+        const line = k => pts.length > 1 ? `<polyline points="${pts.map(h => x(h[0]) + ',' + y(h[k])).join(' ')}" class="${k === 1 ? 'pw-ths' : 'pw-thk'}"/>` : '';
+        const svg = `<svg viewBox="0 0 ${sw} ${sh}" preserveAspectRatio="none" class="pw-thsvg" role="img" aria-label="${esc(c.code)} 타이어 온도 최근 2분"><rect x="0" y="${y(Wn[1])}" width="${sw}" height="${(y(Wn[0]) - y(Wn[1])).toFixed(1)}" class="pw-thwin"/>${line(2)}${line(1)}</svg><div class="pw-thax"><span>${Math.round(hi)}°</span><span>${Math.round(lo)}°</span></div>`;
+        const exp = sim.track.envK && sim.track.envK.eq[c.compound];
+        const advice = !'SMH'.includes(c.compound) ? '' : th.s > Wn[1] + 1 ? (c.tyreMan ? '관리 중 — 표면이 창 안으로 내려오면 다시 밀어도 됩니다' : `관리 모드면 약 6° 낮아집니다 (${Math.round(th.s - 6)}°)`) : th.s < Wn[0] - 1 && c.warmLeft <= 0 && !sim.sc ? (th.gr > 0.1 ? '차가운 채로 미끄러지며 그레이닝 — 페이스를 올리면 걷힙니다' : '온도 부족 — 공격 모드로 열을 넣을 수 있습니다') : '창 안 — 지금 페이스 유지';
+        const bars = [['그레이닝', th.gr, 'warn'], ['블리스터', th.bl, 'bad'], ['플랫스팟', th.fs, th.fs > 0.6 ? 'bad' : 'warn']].map(([n, v, k]) => `<span class="pw-thb ${v > 0.05 ? k : ''}"><i style="width:${Math.round(v * 100)}%"></i><em>${n} ${Math.round(v * 100)}%</em></span>`).join('');
+        return `<div class="pw-th"><div class="pw-win-h"><b>${esc(c.code)}</b>${tyreIcon(c.compound)}<span class="dim">${c.tyreAge}랩 · 마모 ${Math.round(c.wear)}%</span><span class="pw-win-r">${thermalRowHtml(sim, c)}</span></div>
+          <div class="pw-thg">${svg}<div class="pw-thl"><span><i class="ln s"></i>표면</span><span><i class="ln k"></i>카커스</span><span><i class="ln w"></i>작동 창 ${Wn[0]}–${Wn[1]}°</span>${exp ? `<span class="dim">이 조건 평균 ${Math.round(exp)}°</span>` : ''}<span class="dim">최근 2분</span></div></div>
+          <div class="pw-thbs">${bars}</div><div class="pw-win-f">${advice}${c.autoTyre !== false ? ' <span class="dim">(열관리 자동)</span>' : ''}</div>${wide ? pwThRivals(sim, c) : ''}</div>`;
+      }).join('');
+      return head + blocks + '<div class="pw-foot">● 표면 / ○ 카커스 — 우리 차는 센서 값, 다른 차는 중계 열화상 카메라로 본 표면 온도 추정(±6°, 카커스·공기압은 알 수 없음)</div>';
+    } },
+  // v25 telemetry: our car's last lap against its best lap (all channels) or a rival's last lap (GPS speed only)
+  telemetry: { name: '텔레메트리', every: 900,
+    ctl: () => pwOpt('telc', 0, playerTeam().drivers.map((id, i) => [i, S.drivers[id].code])) + pwOpt('telr', 'best', [['best', '베스트 랩'], ['ahead', '앞차'], ['behind', '뒤차']]),
+    key: sim => { const o = pwConf().opt; const c = sim.byId[playerTeam().drivers[o.telc]]; return (c ? c.lapTimes.length : 0) + ':' + o.telc + o.telr + ':' + sim.order.map(x => x.id).join(); },
+    draw(sim, W, H) { return pwTelemetry(sim, W, H); } },
+  // v25 mini-sectors (the 20 timing points, also the marshal sectors): where our last lap gained or lost
+  minisec: { name: '미니섹터', every: 1000,
+    ctl: () => pwOpt('telc', 0, playerTeam().drivers.map((id, i) => [i, S.drivers[id].code])) + pwOpt('msr', 'ahead', [['ahead', '앞차'], ['behind', '뒤차'], ['field', '필드 베스트']]),
+    key: sim => { const o = pwConf().opt; return sim.cars.reduce((n, c) => n + c.lapTimes.length, 0) + ':' + o.telc + o.msr; },
+    draw(sim, W, H) { return pwMiniSec(sim, W, H); } },
+  // v25 brakes, coolant and oil of our cars with the last three minutes and the limits
+  systems: { name: '차량 시스템 · 냉각', every: 900,
+    key: sim => Math.floor(sim.t) + ':' + pwMine().join(),
+    draw(sim, W) {
+      const mine = playerTeam().drivers.map(id => sim.byId[id]).filter(c => c && !c.retired && !c.finished);
+      if (!mine.length) return '<div class="pw-empty">달리는 차가 없습니다</div>';
+      const fc = coolingForecast(sim.track, sim.env, (mine[0].sys.cool), sim.frac);
+      return mine.map(c => { const y = c.sys, H2 = (c._syH || []).filter(h => h[0] >= sim.t - 180);
+        const spark = (k, lo, hi, lim, cls) => { if (H2.length < 2) return ''; const sw = 300, sh = 34, t0 = sim.t - 180; const yy = v => (sh - 2 - (clamp(v, lo, hi) - lo) / (hi - lo) * (sh - 4)).toFixed(1);
+          return `<svg viewBox="0 0 ${sw} ${sh}" preserveAspectRatio="none" class="pw-sysv"><line x1="0" x2="${sw}" y1="${yy(lim)}" y2="${yy(lim)}" class="pw-sylim"/><polyline class="${cls}" points="${H2.map(h => ((h[0] - t0) / 180 * sw).toFixed(1) + ',' + yy(h[k])).join(' ')}"/></svg>`; };
+        return `<div class="pw-th"><div class="pw-win-h"><b>${esc(c.code)}</b><span class="dim">냉각 ${(COOLING[y.cool] || COOLING.std).name}${c.backoff ? ' · 간격 두기' : ''}</span><span class="pw-win-r">${sysRowHtml(sim, c)}</span></div>
+          <div class="pw-sysg"><div><span class="dim">브레이크 랩 평균 (페이드 ${BRK_FADE}°)</span>${spark(1, 250, 1000, BRK_FADE, 'pw-syb')}</div><div><span class="dim">냉각수 (출력 제한 ${H2O_LIMIT}°)</span>${spark(2, 80, 125, H2O_LIMIT, 'pw-syw')}</div></div></div>`; }).join('')
+        + `<div class="pw-foot">최근 3분 · 사전 예측(이 냉각 세팅): 브레이크 ${Math.round(fc.brk)}°/${Math.round(fc.brkD)}° · 냉각수 ${Math.round(fc.h2o)}°/${Math.round(fc.h2oD)}° (단독/추종) · 상대 팀의 온도는 보이지 않습니다</div>`;
+    } },
+  // v26 the numbers behind the calls: passing and defending odds, undercut / overcut, traffic, hazards, energy, pit times
+  numbers: { name: '전략 수치 · 확률', every: 1000,
+    ctl: () => pwOpt('telc', 0, playerTeam().drivers.map((id, i) => [i, S.drivers[id].code])),
+    key: sim => Math.floor(sim.t) + ':' + pwConf().opt.telc,
+    draw(sim) { return pwNumbers(sim); } },
   feed: { name: '레이스 피드 · 무전', every: 0, single: true,
     draw() { return `<div class="pw-feedh"><div class="seg sm"><button data-a="revf" data-f="all" class="${RACE.evFilter === 'all' ? 'on' : ''}">전체</button><button data-a="revf" data-f="imp" class="${RACE.evFilter === 'imp' ? 'on' : ''}">주요</button><button data-a="revf" data-f="me" class="${RACE.evFilter === 'me' ? 'on' : ''}">우리 팀</button></div></div><div class="events" id="r-events"></div>`; } },
 };
 
+// ── v26 strategy numbers ──
+function pwNumbers(sim) {
+  const o = pwConf().opt; const id = playerTeam().drivers[o.telc] || playerTeam().drivers[0]; const c = sim.byId[id];
+  if (!c || c.retired || c.finished) return '<div class="pw-empty">달리는 차가 없습니다</div>';
+  if (sim.phase !== 'racing') return '<div class="pw-empty">출발하면 계산합니다</div>';
+  const i = sim.order.indexOf(c), a = sim.order[i - 1], b = sim.order[i + 1] && !sim.order[i + 1].retired ? sim.order[i + 1] : null;
+  const pct = x => x == null ? '—' : x < 0.005 ? '<1%' : Math.round(x * 100) + '%';
+  const sec = x => (x >= 0 ? '+' : '−') + Math.abs(x).toFixed(1) + 's';
+  const row = (k, label, val, note) => `<tr><td>${vtag(k)}</td><td class="dim">${label}</td><td>${val}</td><td class="dim">${note || ''}</td></tr>`;
+  const rows = [];
+  rows.push(row('a', '현재 랩', `<b class="mono">${fmtLap(Math.max(0, sim.t - c.lapStartT))}</b>`, `마지막 ${fmtLap(c.lastLap)} · 베스트 ${fmtLap(c.bestLap)}`));
+  rows.push(row('p', '이번 랩 예상', `<span class="mono">${fmtLap(c.lapTarget + (c.th.d || 0) + (c.sys.fade || 0))}</span>`, `타이어 ${(c.th.d || 0) >= 0 ? '+' : ''}${(c.th.d || 0).toFixed(2)} · 브레이크 +${(c.sys.fade || 0).toFixed(2)}`));
+  if (a) { const ga = sim.intervalTo(c, a); const po = sim.passOdds(c, a);
+    rows.push(row('p', `앞차 ${esc(a.code)} 추월`, po ? `존당 <b>${pct(po.zone)}</b> · 랩당 <b>${pct(po.lap)}</b>` : '—', ga != null && ga > 1.2 ? `간격 ${ga.toFixed(1)}s — 1.2s 안으로 붙어야 시도` : po && isFinite(po.laps) ? `사정권이면 약 ${po.laps < 1.5 ? 1 : Math.round(po.laps)}랩 · 페이스 차 ${po.pace >= 0 ? '+' : ''}${po.pace.toFixed(2)}s/랩` : '페이스 우위 없음 — 실수·피트에 기대야 함'));
+    const cu = sim.cutOdds(c, a); if (cu && ga != null) rows.push(row('p', `언더컷 vs ${esc(a.code)}`, `<b class="${cu.under > ga ? 'good' : 'bad'}">${sec(cu.under)}</b>`, `간격 ${ga.toFixed(1)}s ${cu.under > ga ? '→ 넘을 수 있음' : '→ 부족'} · 우리 ${COMPOUNDS[cu.comp].name}, 상대 마모 ${vtag('e')} ${Math.round(sim.estWear(a))}%`)); }
+  if (b) { const gb = sim.intervalTo(b, c); const pb = sim.passOdds(b, c);
+    rows.push(row('p', `뒤차 ${esc(b.code)} 방어`, pb ? `지킬 확률 랩당 <b>${pct(1 - pb.lap)}</b>` : '—', `${gb != null ? `간격 ${gb.toFixed(1)}s · ` : ''}방어 비용 ${vtag('a')} 지금까지 ${(c.an.defLoss || 0).toFixed(1)}s (${c.an.defN || 0}회)`));
+    const cu = sim.cutOdds(c, b); if (cu && gb != null) rows.push(row('p', `오버컷 vs ${esc(b.code)}`, `<b class="${cu.over > -gb ? 'good' : 'bad'}">${sec(cu.over)}</b>`, `그 차가 먼저 박스하고 우리가 한 랩 더 탈 때 — 간격 ${gb.toFixed(1)}s ${cu.over + gb > 0 ? '지킴' : '역전당함'}`)); }
+  const pr = !c.inPit ? sim.predictPit(c) : null;
+  if (pr) { const risk = pr.ahead && pr.ahead.gap < 1.0; const ra = risk ? sim.byId[pr.ahead.id] : null;
+    rows.push(row('p', '트래픽 위험 (지금 박스)', `<b class="${risk ? 'bad' : 'good'}">${risk ? '높음' : '낮음'}</b>`, `P${pr.pos} 복귀${pr.ahead ? ` · 앞 ${esc(pr.ahead.code)} +${pr.ahead.gap.toFixed(1)}s` : ''}${ra ? ` · ${esc(ra.code)} 타이어 ${ra.tyreAge}랩` : ''}`)); }
+  const hz = sim.hazardOdds(c); const left = Math.max(0, sim.laps - c.lap - 1);
+  rows.push(row('e', '리타이어 위험 (남은 레이스)', pct(1 - Math.pow(1 - hz.dnf, left)), `고장 ${pct(1 - Math.pow(1 - hz.mech, left))} · 사고 ${pct(1 - Math.pow(1 - hz.crash, left))} — 신뢰성·PU 마모·브레이크·냉각수·모드·노면`));
+  const so = sim.scOdds();
+  rows.push(row('e', 'SC·VSC 확률 (남은 레이스)', pct(so.p), sim.sc && sim.sc.type === 'SC' ? `${vtag('p')} 재시작 예상 L${Math.min(sim.laps, sim.sc.endLap + 1)}` : `남은 ${so.left}랩 · 필드 전체의 사고·고장 위험과 파편`));
+  const T = c.tel && c.tel.last; if (T && T.full && T.mjDep != null) rows.push(row('a', '에너지 (지난 랩)', `전개 <b class="mono">${T.mjDep.toFixed(1)}</b> · 회수 <b class="mono">${T.mjHar.toFixed(1)}</b> MJ`, `배터리 ${T.soc0 != null ? Math.round(T.soc0) + '→' : ''}${Math.round(T.soc1)}% · OT 추가 사용 ${Math.round(c.otUsed || 0)}% · OT 자격 ${c.otLaps}랩`));
+  const pp = c.an.pits[c.an.pits.length - 1];
+  if (pp && !pp.red) { const lin = c.lapTimes[pp.lap - 1], lout = c.lapTimes[pp.lap];
+    rows.push(row('a', `마지막 스톱 L${pp.lap}`, `정지 <b class="mono">${(pp.stationary || 0).toFixed(2)}s</b> · 레인 <b class="mono">${(pp.lane || 0).toFixed(1)}s</b>`, `인랩 ${lin ? fmtLap(lin) : '—'} · 아웃랩 ${lout ? fmtLap(lout) : '진행 중'}${pp.tin != null ? ` · 진입 ${fmtClock(pp.tin)} / 출구 ${fmtClock(pp.tout)}` : ''}`)); }
+  const pj = RACE.projCache && RACE.projCache[id];
+  if (pj) rows.push(row('d', '피트월 판단', pj.cmp ? (pj.cmp.gain > 0.5 ? `<b class="warn">지금 박스가 ${pj.cmp.gain.toFixed(1)}s 유리</b>` : `<b>계획 유지</b>`) : '—', `예상 피니시 ${vtag('p')} P${pj.pos} (지금 P${i + 1})`));
+  const rl = (c.rules || []).filter(r => !r.done); if (rl.length) rows.push(row('d', '조건부 지시', rl.map(r => esc(ruleText(r))).join('<br>'), ''));
+  return `<table class="pw-num"><tbody>${rows.join('')}</tbody></table><div class="pw-foot">${vtag('a')} 측정 · ${vtag('e')} 보이지 않는 값 추정 · ${vtag('p')} 모델 예측 · ${vtag('d')} 판단 기준 — 확률은 레이스 엔진과 같은 식으로 계산하지만 실제 결과는 운이 섞입니다</div>`;
+}
+function fmtClock(t) { const s = Math.max(0, t); const m = Math.floor(s / 60); return `${m}:${(s - m * 60).toFixed(1).padStart(4, '0')}`; }
+// ── v25 telemetry traces ──
+function pwTelemetry(sim, W, H) {
+  const o = pwConf().opt; const id = playerTeam().drivers[o.telc] || playerTeam().drivers[0]; const c = sim.byId[id];
+  if (!c || !c.tel || !c.tel.last || !c.tel.last.full) return '<div class="pw-empty">한 바퀴를 마치면 그 랩의 텔레메트리가 그려집니다</div>';
+  const A = c.tel.lastClean || c.tel.last; const i = sim.order.indexOf(c);   // the last lap without a stop or a neutralisation
+  let B = null, bLab = '', bCol = '#8fa0bd', bFull = false;
+  if (o.telr === 'best') { B = c.tel.best && c.tel.best !== A ? c.tel.best : null; bLab = B ? `베스트 L${B.lap}` : ''; bFull = true; }
+  else { const r = sim.order[o.telr === 'ahead' ? i - 1 : i + 1]; const rl = r && r.tel && (r.tel.lastClean || r.tel.last); if (rl) { B = rl; bLab = `${r.code} L${B.lap} (GPS)`; bCol = r.color; } }
+  const nb = sim.nb, L = sim.track.L; const step = Math.max(1, Math.floor(nb / 260));
+  // elapsed time along the lap: our logger's clock (gaps filled), or for a rival the GPS speed integrated and scaled to its
+  // timed lap (the timing screen gives the lap time, so the trace ends exactly on it)
+  const tOf = T => { const out = new Float32Array(nb);
+    if (T.t) { let last = 0; for (let k = 0; k < nb; k++) { const v = T.t[k]; out[k] = isNaN(v) ? last : (last = v); } if (T.lt) out[nb - 1] = T.lt; return out; }
+    let acc = 0; for (let k = 0; k < nb; k++) { const v = T.v[k] > 5 ? T.v[k] : 50; acc += 10 / (v / 3.6); out[k] = acc; }
+    if (T.lt && acc > 0) { const f = T.lt / acc; for (let k = 0; k < nb; k++) out[k] *= f; } return out; };
+  const tA = tOf(A), tB = B ? tOf(B) : null;
+  const sw = Math.max(200, W - 12); const room = Math.max(170, H - 64); const u = room / 8.2; const lanes = [['v', '속도', 2], ['dt', 'Δ시간', 1.1], ['tb', '페달', 1.1], ['gear', '기어', 0.9], ['ers', 'ERS', 1], ['lat', '횡G', 1], ['rh', '차고', 0.8]].map(([k, n, f]) => [k, n, Math.max(16, Math.round(u * f))]);
+  const x = k => (k / (nb - 1) * sw).toFixed(1);
+  const lane = (h, lo, hi, arr, cls, stroke) => { let d = ''; for (let k = 0; k < nb; k += step) { const v = arr[k]; if (isNaN(v)) continue; d += (d ? 'L' : 'M') + x(k) + ' ' + (h - 2 - (clamp(v, lo, hi) - lo) / (hi - lo) * (h - 4)).toFixed(1); } return d ? `<path d="${d}" class="${cls}"${stroke ? ` style="stroke:${stroke}"` : ''}/>` : ''; };
+  const sec = h => [1, 2].map(k => `<line x1="${(k / 3 * sw).toFixed(1)}" x2="${(k / 3 * sw).toFixed(1)}" y1="0" y2="${h}" class="pw-tsec"/>`).join('');
+  const dts = tB ? (() => { const out = new Float32Array(nb); for (let k = 0; k < nb; k++) out[k] = tA[k] - tB[k]; return out; })() : null;
+  const dMax = dts ? Math.max(0.3, ...Array.from(dts).filter(v => !isNaN(v)).map(Math.abs)) : 1;
+  const rows = lanes.map(([k, name, h]) => {
+    let body = '';
+    if (k === 'v') body = (B ? lane(h, 60, 360, B.v, 'pw-tlb', bCol) : '') + lane(h, 60, 360, A.v, 'pw-tla');
+    else if (k === 'dt') body = dts ? `<line x1="0" x2="${sw}" y1="${h / 2}" y2="${h / 2}" class="pw-tz"/>` + lane(h, -dMax, dMax, dts, 'pw-tld') : '<text x="6" y="20" class="pw-lab">비교할 랩이 없습니다</text>';
+    else if (k === 'tb') body = lane(h, 0, 100, A.thr, 'pw-tlt') + lane(h, 0, 100, A.brk, 'pw-tlr');
+    else if (k === 'gear') body = lane(h, 9500, 12200, A.rpm, 'pw-tlrpm') + lane(h, 0.5, 8.5, A.gear, 'pw-tlg');
+    else if (k === 'ers') { let r = ''; for (let q = 0; q < nb; q += step) if (A.aero[q] === 1) r += `<rect x="${x(q)}" y="0" width="${(step / (nb - 1) * sw + 0.6).toFixed(1)}" height="${h}" class="pw-tax"/>`; body = r + `<line x1="0" x2="${sw}" y1="${h / 2}" y2="${h / 2}" class="pw-tz"/>` + lane(h, -360, 360, A.ers, 'pw-tle'); }
+    else if (k === 'lat') body = `<line x1="0" x2="${sw}" y1="${h / 2}" y2="${h / 2}" class="pw-tz"/>` + lane(h, -200, 200, A.steer, 'pw-tlst') + lane(h, -5.5, 5.5, A.lat, 'pw-tll');
+    else if (k === 'rh') body = lane(h, 5, 38, A.rh, 'pw-tlrh');
+    return `<div class="pw-tl"><span class="pw-tln">${name}</span><svg viewBox="0 0 ${sw} ${h}" preserveAspectRatio="none" style="height:${h}px">${sec(h)}${body}</svg></div>`;
+  }).join('');
+  const fin = dts ? dts[nb - 1] : null; const vmax = Math.max(...Array.from(A.v).filter(v => !isNaN(v)));
+  const legend = `<div class="pw-tleg"><span><i style="background:#fff"></i>${esc(c.code)} L${A.lap} ${fmtLap(A.lt)} ${tyreIcon(A.comp)}${A !== c.tel.last ? ' <span class="dim">(마지막 클린 랩)</span>' : ''}</span>${B ? `<span><i style="background:${bCol}"></i>${esc(bLab)}${B.lt ? ' ' + fmtLap(B.lt) : ''}</span>` : ''}${fin != null && !isNaN(fin) ? `<span class="mono ${fin > 0 ? 'bad' : 'good'}">Δ ${fin >= 0 ? '+' : ''}${fin.toFixed(3)}s</span>` : ''}<span class="dim">최고 ${Math.round(vmax)}km/h</span><span class="dim"><i class="pw-axk"></i>액티브 에어로 직선 모드</span></div>`;
+  return legend + `<div class="pw-tel">${rows}</div><div class="pw-foot">${B && !bFull ? '상대는 타이밍 GPS로 본 속도만 — 스로틀·브레이크·ERS는 우리 차 데이터입니다. ' : ''}Δ시간 + = 우리가 느림 · 페달: 초록 스로틀 / 빨강 브레이크 · 기어 위 흐린 선 = RPM · 횡G 위 노란 선 = 조향 · 세로선 = 섹터 경계 · 피트·SC 랩은 비교에서 뺌</div>`;
+}
+// the latest lap without a stop (in-lap / out-lap) or a neutralisation
+function pwCleanLap(sim, c) { const pits = new Set(c.an.pits.flatMap(p => [p.lap, p.lap + 1])); for (let l = c.lapTimes.length; l >= 2; l--) if (!pits.has(l) && !sim.scHist[l - 1]) return l; return 0; }
+// ── v25 mini-sectors: our last lap against the car ahead / behind / the field's best, sector by sector ──
+function pwMiniSec(sim, W, H) {
+  const o = pwConf().opt; const id = playerTeam().drivers[o.telc] || playerTeam().drivers[0]; const c = sim.byId[id];
+  const lapNo = c ? pwCleanLap(sim, c) : 0; if (!c || lapNo < 1) return '<div class="pw-empty">피트·세이프티카 없이 한 바퀴를 마치면 미니섹터 비교가 나옵니다</div>';
+  const mine = sim.miniSecs(c, lapNo); const i = sim.order.indexOf(c);
+  let ref = null, refLab = '';
+  if (o.msr === 'field') {
+    ref = new Array(NTP).fill(Infinity);
+    for (const x of sim.cars) for (let l = 1; l <= x.lapTimes.length; l++) { if (sim.scHist[l - 1]) continue; const m = sim.miniSecs(x, l); m.forEach((v, k) => { if (v != null && v > 0.3 && v < ref[k]) ref[k] = v; }); }
+    refLab = '레이스 미니섹터 베스트';
+  } else { const r = sim.order[o.msr === 'ahead' ? i - 1 : i + 1]; const rl = r ? pwCleanLap(sim, r) : 0; if (rl >= 1) { ref = sim.miniSecs(r, rl); refLab = `${r.code} L${rl}`; } }
+  if (!ref) return '<div class="pw-empty">비교할 차가 없습니다</div>';
+  const d = mine.map((v, k) => v != null && ref[k] != null && isFinite(ref[k]) ? v - ref[k] : null);
+  const tr = sim.track; const b = tr.bounds; const sw = Math.min(260, W * 0.5), sh = Math.min(170, Math.max(110, H - 70)); const sc = Math.min((sw - 16) / (b.maxx - b.minx), (sh - 16) / (b.maxy - b.miny));
+  const ox = (sw - (b.maxx - b.minx) * sc) / 2, oy = (sh - (b.maxy - b.miny) * sc) / 2; const P = s => { const p = tr.pos(s); return [(ox + (p.x - b.minx) * sc).toFixed(1), (sh - (oy + (p.y - b.miny) * sc)).toFixed(1)]; };
+  const col = v => v == null ? '#4a556d' : o.msr === 'field' ? (v < 0.005 ? '#b26cff' : v < 0.08 ? '#3dba5c' : '#f5c431') : (v < -0.02 ? '#3dba5c' : v > 0.02 ? '#f0443e' : '#8fa0bd');
+  let segs = ''; for (let k = 0; k < NTP; k++) { const a = k / NTP * tr.L, e = (k + 1) / NTP * tr.L; let p = ''; for (let s = a; s <= e + 0.1; s += Math.max(8, tr.L / 400)) { const q = P(Math.min(s, e)); p += (p ? 'L' : 'M') + q[0] + ' ' + q[1]; }
+    segs += `<path d="${p}" style="stroke:${col(d[k])}" class="pw-mss"><title>미니섹터 ${k + 1}: ${mine[k] != null ? mine[k].toFixed(3) + 's' : '—'}${d[k] != null ? ` (${d[k] >= 0 ? '+' : ''}${d[k].toFixed(3)})` : ''}</title></path>`; }
+  const map = `<svg viewBox="0 0 ${sw} ${sh}" width="${sw}" height="${sh}" class="pw-msmap">${segs}</svg>`;
+  const dmax = Math.max(0.05, ...d.filter(v => v != null).map(Math.abs)); const bw = 100 / NTP;
+  const bars = d.map((v, k) => { if (v == null) return ''; const h = Math.abs(v) / dmax * 27; return `<rect x="${(k * bw + bw * 0.12).toFixed(2)}" width="${(bw * 0.76).toFixed(2)}" y="${(v > 0 ? 30 : 30 - h).toFixed(2)}" height="${h.toFixed(2)}" style="fill:${col(v)}"/>`; }).join('');
+  const tot = d.reduce((a, v) => a + (v || 0), 0); const worst = d.map((v, k) => [v, k]).filter(x => x[0] != null).sort((a, b2) => b2[0] - a[0]).slice(0, 2);
+  return `<div class="pw-ms"><div>${map}</div><div class="pw-msr"><div class="pw-win-h"><b>${esc(c.code)} L${lapNo}</b><span class="dim">vs ${esc(refLab)}</span><span class="mono ${tot > 0 ? 'bad' : 'good'}">${tot >= 0 ? '+' : ''}${tot.toFixed(3)}s</span></div>
+    <svg class="pw-msbar" viewBox="0 0 100 60" preserveAspectRatio="none"><line x1="0" x2="100" y1="30" y2="30" class="pw-tz"/>${bars}</svg>
+    <div class="pw-win-f">${o.msr === 'field' ? '보라 = 레이스 베스트 · 초록 = 0.08초 이내' : '초록 = 우리가 빠름 · 빨강 = 느림'}${worst.length && worst[0][0] > 0.02 ? ` · 가장 많이 잃은 곳: ${worst.filter(x => x[0] > 0.02).map(x => `MS${x[1] + 1} +${x[0].toFixed(2)}`).join(', ')}` : ''}</div></div></div>`;
+}
+// thermal-camera view of the cars just ahead and behind: the tread temperature as broadcast footage shows it (a steady
+// per-car reading error, refreshed every few seconds), never the carcass or the pressure
+function pwThRivals(sim, me) {
+  const i = sim.order.indexOf(me); const near = [sim.order[i - 1], sim.order[i + 1]].filter(o => o && !o.retired && !o.inPit && o.team !== me.team);
+  if (!near.length || sim.phase !== 'racing') return '';
+  return `<div class="pw-thr">${near.map(o => { const Wn = TYRE_WIN[o.compound]; if (!Wn) return ''; const h = Math.sin((o.num || 1) * 12.9898 + Math.floor(sim.t / 6) * 78.233) * 43758.5453; const est = o.th.s + ((h - Math.floor(h)) * 2 - 1) * 6;
+    const st = est > Wn[1] + 3 ? '<span class="bad">과열?</span>' : est < Wn[0] - 3 ? '<span class="info">차가움?</span>' : '<span class="dim">창 안?</span>';
+    return `<span>${esc(o.code)} ${tyreIcon(o.compound)} <span class="mono">≈${Math.round(est / 2) * 2}°</span> ${st}</span>`; }).join('')}${vtag('e')}</div>`;
+}
 // ── the race view of 전문가 모드 ──
 function pitwallView() {
   const sim = RACE.sim; const t = playerTeam(); const cf = pwConf(); const L = PW_LAYOUTS[cf.layout]; const mine = pwMine();
@@ -13615,10 +14527,12 @@ function pwCarCard(did, mine) {
   return `<div class="rd-card pw-con" id="dc-${did}">
     <div class="hd"><span class="p" data-f="pos">P–</span><div style="min-width:0;flex:1"><div class="nm">${esc(d.kname)} <span class="dim disp">${esc(d.code)}</span></div><div class="gaps" data-f="gaps">—</div></div><span data-f="tyre"></span>${slot >= 0 && pwMine().length > 1 ? `<button class="btn sm ghost" data-a="rassign" data-v="${1 - slot}" title="${esc(d.short)}을 전략가에게 맡기고 다른 차만 지휘">맡기기</button>` : ''}</div>
     <div class="pw-con-b">
-      <div class="wear"><span class="dim lab">타이어</span><div class="bar"><i data-f="wearbar" style="width:0%"></i></div><b data-f="wear" class="mono" style="min-width:42px;text-align:right">0%</b></div>
+      <div class="wear"><span class="dim lab">타이어</span><div class="bar"><i data-f="wearbar" style="width:0%"></i></div><b data-f="wear" class="mono" style="min-width:42px;text-align:right">0%</b></div>${thermalRowMarkup(did)}${sysRowMarkup(did)}
       <div class="ctl-grid">
         <span class="dim lab">페이스</span><div class="seg" data-f="mode">${Object.entries(MODES).map(([k, m]) => `<button data-a="rmode" data-id="${did}" data-m="${k}">${m.name}</button>`).join('')}</div>
-        <span class="dim lab">ERS</span><div class="flex" style="gap:8px;min-width:0"><div class="seg" data-f="ers">${Object.entries(ERS_MODES).map(([k, m]) => `<button data-a="rers" data-id="${did}" data-m="${k}">${m.short || m.name}</button>`).join('')}</div><div class="soc"><i data-f="soc"></i></div><b class="mono" data-f="socv" style="font-size:11.5px;min-width:30px">—</b></div>
+        <span class="dim lab">ERS</span><div class="flex" style="gap:8px;min-width:0"><div class="seg" data-f="ers">${Object.entries(ERS_MODES).map(([k, m]) => `<button data-a="rers" data-id="${did}" data-m="${k}">${m.short || m.name}</button>`).join('')}</div><div class="soc"><i data-f="soc"></i></div><b class="mono" data-f="socv" style="font-size:11.5px;min-width:30px">—</b><span data-f="ot" class="ot-st"></span></div>
+        ${tyreManMarkup(did)}
+        ${opsMarkup(did)}
         <span class="dim lab">연료</span><div class="flex" style="gap:8px"><div class="seg" data-f="fuel">${Object.entries(FUEL_MODES).map(([k, m]) => `<button data-a="rfuel" data-id="${did}" data-m="${k}">${m.name}</button>`).join('')}</div><b class="mono" data-f="fuelv" style="font-size:11.5px">—</b></div>
         <span class="dim lab">박스</span><div class="flex wrap" style="gap:8px"><span class="box-btns" data-f="box">${['S', 'M', 'H', 'I', 'W'].map(c => `<button style="--tc:${COMPOUNDS[c].color}" data-a="rbox" data-id="${did}" data-c="${c}" title="${COMPOUNDS[c].name}로 피트인">${c}<sub data-f="cnt-${c}"></sub></button>`).join('')}</span>
           <label class="flex" style="gap:4px;font-size:12px"><input type="checkbox" data-a="rauto" data-id="${did}"> 자동 피트</label><label class="flex" style="gap:4px;font-size:12px"><input type="checkbox" data-a="rautoe" data-id="${did}"> 자동 ERS·연료</label></div>
@@ -13820,9 +14734,10 @@ CHG.pwslot = el => { const cf = pwConf(); cf.slots[+el.dataset.i] = el.value; sa
 
 // v23 live qualifying actions (WACT is defined in weekend.js, which loads before this file)
 Object.assign(WACT, {
-  qlsend: d => { const c = QUALI.state && QUALI.state.cur; if (!c || !c.ql) return; const ok = c.ql.send(d.id, { fresh: d.f === '1', two: !!(UI.qlTwo && UI.qlTwo[d.id]), risk: (c.ql.cars[d.id] || {}).risk });
+  qlsend: d => { const c = QUALI.state && QUALI.state.cur; if (!c || !c.ql) return; const ok = c.ql.send(d.id, { fresh: d.f === '1', two: !!(UI.qlTwo && UI.qlTwo[d.id]), warm2: qlWarm2(d.id), risk: (c.ql.cars[d.id] || {}).risk });
     if (!ok) toast('지금은 출격할 수 없습니다 (세트가 없거나 남은 시간이 부족합니다)', true); qlCtlUpdate(true); },
   qltwo: (d, el) => { UI.qlTwo = UI.qlTwo || {}; UI.qlTwo[d.id] = !!el.checked; },
+  qlwarm: (d, el) => { UI.qlWarm = UI.qlWarm || {}; UI.qlWarm[d.id] = !!el.checked; },
   qlbox: d => { const c = QUALI.state && QUALI.state.cur; if (c && c.ql) { c.ql.boxNow(d.id); qlCtlUpdate(true); } },
   qlagain: d => { const c = QUALI.state && QUALI.state.cur; if (c && c.ql && !c.ql.pushAgain(d.id)) toast('이번에는 한 번 더 갈 수 없습니다', true); qlCtlUpdate(true); },
   qlpause: (d, el) => { QUALI.paused = !QUALI.paused; if (el) { el.textContent = QUALI.paused ? '▶ 재개' : '❚❚ 일시정지'; el.classList.toggle('pri', QUALI.paused); } },
@@ -14342,6 +15257,7 @@ function rpTabDrv(rec, m) {
     ${kpi('최고 속도', `${rd.topKmh}km/h`, TAG_M, '', `필드 최고 ${rd.fieldTop}`)}
     ${kpi('남은 연료', P && P.drv && P.drv[id] && P.drv[id].fuelEnd != null ? P.drv[id].fuelEnd.toFixed(1) + 'kg' : '—', TAG_M, '', rd.liftLaps > 0.5 ? `리프트 앤 코스트 ${rd.liftLaps.toFixed(1)}랩` : '연료 절약 주행 없음')}
     ${kpi('타이어 예열 손실', rd.warmLoss > 0.05 ? rd.warmLoss.toFixed(1) + '초' : '—', TAG_M, '', '새 타이어 아웃랩 합계')}
+    ${rd.thLoss != null ? kpi('타이어 온도', Math.abs(rd.thLoss) > 0.3 ? `${rd.thLoss > 0 ? '+' : '−'}${Math.abs(rd.thLoss).toFixed(1)}초` : '계획대로', TAG_M, rd.thLoss > 4 ? 'bad' : '', [rd.hotLaps > 0.5 ? `과열 ${Math.round(rd.hotLaps)}랩` : '', rd.manLaps > 0.5 ? `관리 ${Math.round(rd.manLaps)}랩` : '', rd.grMax > 0.15 ? `그레이닝 ${Math.round(rd.grMax * 100)}%` : '', rd.blMax > 0.1 ? `블리스터 ${Math.round(rd.blMax * 100)}%` : '', rd.fsMax > 0.15 ? `플랫스팟 ${Math.round(rd.fsMax * 100)}%` : ''].filter(Boolean).join(' · ') || '작동 창 안에서 주행') : ''}
   </div>` : '';
   // lap time chart: us, team-mate, the winner and the car that finished just ahead
   let chart = '';
@@ -15397,10 +16313,10 @@ MOUNTS.review = bkMount; MOUNTS.book = bkMount;
 // The race runs on its own seeded random stream in fixed 0.1 s steps (sim.js / weekend.js), so the starting entries, the
 // seed and these inputs reproduce it exactly. What is logged is the resulting control state of our cars (mode, ERS, fuel,
 // box call, plan, auto flags, team orders), not the click, so a replay does not depend on what was on screen.
-const RR_CTRL = ['mode', 'ers', 'autoErs', 'fuelMode', 'boxRequest', 'manualBox', 'autoPit', 'delegated', 'coverId'];
+const RR_CTRL = ['mode', 'ers', 'autoErs', 'fuelMode', 'boxRequest', 'manualBox', 'autoPit', 'delegated', 'coverId', 'tyreMan', 'autoTyre', 'backoff', 'vscStyle'];
 function rrSnap(sim) {
   const t = playerTeam(); const cars = {};
-  for (const id of t.drivers) { const c = sim.byId[id]; if (!c) continue; const o = {}; for (const k of RR_CTRL) o[k] = c[k] ?? null; o.plan = (c.plan || []).map(p => ({ lap: p.lap, c: p.c })); cars[id] = o; }
+  for (const id of t.drivers) { const c = sim.byId[id]; if (!c) continue; const o = {}; for (const k of RR_CTRL) o[k] = c[k] ?? null; o.rules = c.rules ? JSON.parse(JSON.stringify(c.rules)) : []; o.plan = (c.plan || []).map(p => ({ lap: p.lap, c: p.c })); cars[id] = o; }
   return { cars, orders: sim.teamOrders[t.id] ? JSON.parse(JSON.stringify(sim.teamOrders[t.id])) : null };
 }
 function rrApply(sim, e) {
@@ -15408,13 +16324,15 @@ function rrApply(sim, e) {
   if (e.cars) for (const [id, o] of Object.entries(e.cars)) {
     const c = sim.byId[id]; if (!c || c.retired || c.finished) continue;
     sim.setMode(id, o.mode); sim.setErs(id, o.ers, false); sim.setFuel(id, o.fuelMode, false);
-    for (const k of ['autoErs', 'boxRequest', 'manualBox', 'autoPit', 'delegated', 'coverId']) c[k] = o[k] ?? null;
+    for (const k of ['autoErs', 'boxRequest', 'manualBox', 'autoPit', 'delegated', 'coverId', 'tyreMan', 'autoTyre', 'backoff']) c[k] = o[k] ?? null;
+    if (VSC_STYLE[o.vscStyle]) c.vscStyle = o.vscStyle;
     c.plan = o.plan.map(p => ({ lap: p.lap, c: p.c }));
+    c.rules = o.rules ? JSON.parse(JSON.stringify(o.rules)) : [];
   }
   if ('orders' in e) { const tid = playerTeam().id; if (e.orders) sim.teamOrders[tid] = JSON.parse(JSON.stringify(e.orders)); else delete sim.teamOrders[tid]; }
   if (e.dec && sim.decLog) for (const d of e.dec) sim.decLog.unshift(d);
   if (e.skip) {   // "skip to the result": the pit wall takes over, as in WACT.rskip
-    for (const did of playerTeam().drivers) { const c = sim.byId[did]; if (c) { c.delegated = true; if (!c.manualBox) { c.autoPit = true; c.autoErs = true; } } }
+    for (const did of playerTeam().drivers) { const c = sim.byId[did]; if (c) { c.delegated = true; if (!c.manualBox) { c.autoPit = true; c.autoErs = true; c.autoTyre = true; } } }
     sim.runToEnd();
   }
 }
@@ -15439,7 +16357,7 @@ function rrLog(entry) {
       return out;
     };
   };
-  for (const k of ['rmode', 'rers', 'rfuel', 'rbox', 'rauto', 'rautoe', 'rplanlap', 'rplanc', 'rplandel', 'rplanadd', 'rorder', 'rskip', 'rassign', 'rcover', 'rstay', 'rboxkey']) wrap(WACT, k);
+  for (const k of ['rmode', 'rers', 'rfuel', 'rbox', 'rauto', 'rautoe', 'rplanlap', 'rplanc', 'rplandel', 'rplanadd', 'rorder', 'rskip', 'rassign', 'rcover', 'rstay', 'rboxkey', 'rtyreman', 'rbackoff', 'rvscs', 'rruleadd', 'rruledel']) wrap(WACT, k);
   wrap(ACT, 'liveapply');
   // the red-flag tyre call changes more than controls: log the call itself
   const rs = ACT.redswap;
@@ -15452,7 +16370,7 @@ function rrLog(entry) {
 })();
 // rebuild the race from its record and replay to where it was; the race stays paused. Returns false when it cannot.
 function resumeRace() {
-  const w = S.weekend; const R = w && w.raceRun; if (!R || R.v !== 2 || !TRACKS[R.track]) return false;   // v23 changed the race engine: a race saved by an older version replays differently, so it restarts from the grid
+  const w = S.weekend; const R = w && w.raceRun; if (!R || R.v !== 3 || !TRACKS[R.track]) return false;   // v24 changed the race engine (tyre temperatures, wind): a race saved by an older version replays differently, so it restarts from the grid
   // loading runs the weekend repair twice (load, then the first render): replay once, hand the same race back the second time
   const key = R.seed + ':' + R.n + ':' + R.log.length;
   if (RACE._resumed && RACE._resumed.key === key) { RACE.sim = RACE._resumed.sim; RACE.running = false; RACE.acc = 0; return true; }
@@ -15505,16 +16423,16 @@ const GUIDE_STEPS = [
     body: () => '선택지가 붙은 메일은 답을 해야 날짜가 넘어가. 회색 배지는 일상 보고라 급하지 않아. 메일의 선택은 돈·사기·평판에 바로 반영돼.' },
   { key: 'practice', when: () => UI.view === 'weekend' && S.weekend && S.weekend.stage === 'practice',
     title: '연습 주행 (FP1~FP3)',
-    body: () => '드라이버마다 세팅 방향과 프로그램을 고르고 세션을 돌리면 <b>세팅 품질</b>과 <b>트랙 이해도</b>가 올라가 — 예선·결승 페이스에 그대로 들어가. 바쁘면 <b>자동 연습</b>을 눌러도 돼. 롱런을 돌리면 타이어 마모 추정이 정확해져서 전략 추천이 좋아져.' },
+    body: () => '드라이버마다 세팅 방향과 프로그램을 고르고 세션을 돌리면 <b>세팅 품질</b>과 <b>트랙 이해도</b>가 올라가 — 예선·결승 페이스에 그대로 들어가. 바쁘면 <b>자동 연습</b>을 눌러도 돼. 롱런을 돌리면 타이어 마모 추정이 정확해져서 전략 추천이 좋아져. 위쪽 줄의 <b>노면 온도</b>도 봐 — 타이어마다 작동 온도 창이 있어서, 뜨거운 날엔 소프트가 과열되고 차가운 날엔 하드가 온도를 못 올려.' },
   { key: 'quali', when: () => UI.view === 'weekend' && S.weekend && S.weekend.stage === 'quali',
     title: '예선 (Q1 → Q2 → Q3)',
-    body: () => '세션마다 새 타이어 세트를 쓰니까 결승에 쓸 새 세트를 남길지 같이 생각해. 하위권은 Q1에서 탈락하고 순위가 그대로 결승 그리드가 돼. <b>위임</b>하면 엔지니어가 알아서 달려.' },
+    body: () => '세션마다 새 타이어 세트를 쓰니까 결승에 쓸 새 세트를 남길지 같이 생각해. 하위권은 Q1에서 탈락하고 순위가 그대로 결승 그리드가 돼. <b>위임</b>하면 엔지니어가 알아서 달려. 노면이 차가우면 <b>워밍업 2랩</b>으로 타이어를 데워서 나가 — 차고 아래 힌트에 푸시 시작 온도가 나와.' },
   { key: 'prerace', when: () => UI.view === 'weekend' && S.weekend && S.weekend.stage === 'prerace' && !(S.weekend.sprint && S.weekend.part === 'sprint'),
     title: '결승 전략 고르기',
-    body: () => `추천 전략은 필드 ${fieldSize()}대를 전부 돌려 본 <b>예상 순위</b> 순서야(세이프티카 확률 포함). ${S.raceLen < 0.5 ? '짧은 레이스일수록 세이프티카·사고 같은 운이 커서, 0.5위 안쪽 차이는 사실상 비슷한 선택이야. ' : ''}레이스 중에도 계획은 언제든 바꿀 수 있어.` },
+    body: () => `추천 전략은 필드 ${fieldSize()}대를 전부 돌려 본 <b>예상 순위</b> 순서야(세이프티카 확률 포함). ${S.raceLen < 0.5 ? '짧은 레이스일수록 세이프티카·사고 같은 운이 커서, 0.5위 안쪽 차이는 사실상 비슷한 선택이야. ' : ''}레이스 중에도 계획은 언제든 바꿀 수 있어. <b>세부 전략 설정</b> 안에서 냉각 세팅(브레이크·냉각수 vs 항력)과 VSC 델타 운영도 정해.` },
   { key: 'race', when: () => UI.view === 'weekend' && S.weekend && S.weekend.stage === 'race', float: true,
     title: '레이스 중에 할 수 있는 것',
-    body: () => '위쪽에서 속도(1×~)를 바꾸고, 드라이버 카드에서 <b>모드</b>(푸시·세이브)와 <b>박스</b>를 정해. <b>A</b>를 누르면 일시정지하고 "지금 박스 vs 몇 랩 더"를 필드 전체로 비교하는 실시간 분석이 열려. 세이프티카가 나오면 피트 손실이 절반쯤으로 줄어.' },
+    body: () => '위쪽에서 속도(1×~)를 바꾸고, 드라이버 카드에서 <b>모드</b>(푸시·세이브)와 <b>박스</b>를 정해. <b>A</b>를 누르면 일시정지하고 "지금 박스 vs 몇 랩 더"를 필드 전체로 비교하는 실시간 분석이 열려. 세이프티카가 나오면 피트 손실이 절반쯤으로 줄어. 카드의 <b>온도</b> 줄은 타이어 표면(●)·카커스(○)와 작동 창이야 — 과열되면 <b>열관리</b>로 식히고, 앞차와 결승선 앞에서 1초 안이면 다음 랩에 <b>OT</b>(오버테이크 모드)를 쓸 수 있어. <b>조건부 지시</b>로 "SC 나오면 박스" 같은 규칙을 미리 걸어 둘 수 있고, 피트월 화면 목록에서 <b>텔레메트리·미니섹터·차량 시스템·전략 수치</b>를 골라 띄울 수 있어. 숫자 옆 태그는 실제(측정)·추정·예측·결정을 구분해.' },
   { key: 'post', when: () => UI.view === 'weekend' && S.weekend && S.weekend.stage === 'post',
     title: '레이스 보고서',
     body: () => '그리드에서 결승선까지 순위가 바뀐 이유(출발·추월·피트·SC)를 초 단위로 나눠 보여줘. 탭에서 드라이버별 등급·스틴트·라이벌 비교도 볼 수 있고, 넘어가도 왼쪽 <b>레이스 보고서</b> 메뉴나 일정에서 언제든 다시 열려.' },
