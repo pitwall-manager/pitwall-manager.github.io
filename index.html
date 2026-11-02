@@ -1325,11 +1325,39 @@ html.v-contrast .muted, html.v-contrast .dim, html.v-contrast .note { color: var
 .pw-wrap .lights i { width: 26px; height: 26px; border-radius: 50%; background: #2a0f10; box-shadow: inset 0 0 0 2px #3a1517; }
 .pw-wrap .lights i.on { background: #ff2a24; box-shadow: 0 0 18px #ff2a24; }
 /* the console */
-.pw-cars { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--line); border-top: 1px solid var(--line); }
+.pw-cars { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--line); border-top: 1px solid var(--line); max-height: 42vh; overflow-y: auto; flex: none; }
+.pw-wrap { min-height: 200px; }
+
 .pw-con { padding: 8px 10px; gap: 6px; }
 .pw-con .p { font-size: 24px; min-width: 40px; }
 .pw-con-b { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 6px 12px; align-items: start; }
-.pw-con-b .wear { grid-column: 1 / -1; }
+.pw-con-l { grid-column: 1 / -1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+/* v26.1 one car run by us: its console takes the width in three blocks (readouts · controls · forecasts) and the
+   strategist's car becomes a narrow status column instead of half the screen */
+.pw-cars.n1 { grid-template-columns: minmax(0, 1fr) minmax(190px, 250px); }
+.pw-cars.n1 .pw-con-b { grid-template-columns: minmax(200px, 0.95fr) minmax(330px, 1.25fr) minmax(170px, 0.85fr); }
+.pw-cars.n1 .pw-con-l { grid-column: auto; }
+.pw-cars .pw-staff { order: 2; }
+.pw-cars.n1 .pw-staff .hd { flex-wrap: wrap; gap: 4px 8px; }
+.pw-staff-f { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.pw-cars.n0 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+/* folded console: position, gaps, tyre and the box buttons only */
+.pw-minbox { display: none; }
+.pw-cars.min { max-height: none; overflow: visible; }
+.pw-cars.min .pw-con-b, .pw-cars.min .pw-staff > .gaps, .pw-cars.min .pw-staff-f .chip { display: none; }
+.pw-cars.min .pw-minbox { display: inline-flex; }
+.pw-cars.min .rd-card { padding: 5px 10px; gap: 4px; }
+.pw-cars.min .pw-staff-f { justify-content: flex-end; }
+.pw-staff .nm { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pw-cars.n1 .pw-staff .hd > div { flex: 1 1 110px; min-width: 0; }
+.pw-cars.n1 .pw-staff .hd > [data-f="tyre"] { flex-basis: 100%; }
+.pw-cars.n1 .pw-staff .gaps { white-space: normal; }
+.pw-cars.min .pw-staff .hd .gaps { display: none; }
+@media (max-height: 820px) {
+  .pw-con { padding: 6px 8px; gap: 4px; } .pw-con .p { font-size: 21px; }
+  .pw-con .ctl-grid { gap: 3px 8px; } .pw-con .ctl-grid .seg button { padding: 3px 7px; }
+  .pw-con .wear, .pw-con-r { font-size: 11px; }
+}
 .pw-con-r { display: flex; flex-direction: column; gap: 4px; font-size: 11.5px; min-width: 0; }
 .pw-con .ctl-grid { gap: 4px 8px; }
 .pw-staff { opacity: .92; background: repeating-linear-gradient(135deg, var(--ink-2) 0 12px, color-mix(in srgb, var(--ink-3) 70%, var(--ink-2)) 12px 24px); }
@@ -1366,8 +1394,10 @@ html.v-contrast .muted, html.v-contrast .dim, html.v-contrast .note { color: var
   .pw-wrap { display: block; }
   .pw-grid, .pw-grid.l-s6, .pw-grid.l-q4, .pw-grid.l-f4, .pw-grid.l-w3 { display: flex; flex-direction: column; }
   .pw-grid > .pw-p { height: 340px; flex: none; }
-  .pw-cars { grid-template-columns: minmax(0, 1fr); }
-  .pw-con-b { grid-template-columns: minmax(0, 1fr); }
+  .pw-cars, .pw-cars.n1, .pw-cars.n0 { grid-template-columns: minmax(0, 1fr); max-height: none; overflow: visible; }
+  .pw-con-b, .pw-cars.n1 .pw-con-b { grid-template-columns: minmax(0, 1fr); }
+  .pw-cars.n1 .pw-con-l { grid-column: 1 / -1; }
+  .pw-wrap { min-height: 0; }
   .pw-qgrid { grid-template-columns: minmax(0, 1fr); } .pw-qgrid .pw-q1 { grid-row: auto; } .pw-q1 .pw-b { min-height: 0; max-height: 520px; }
   .pw-eng-g { grid-template-columns: minmax(0, 1fr); } .pw-pvl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .pw-tools { margin-left: 0; justify-content: flex-start; }
@@ -1473,10 +1503,83 @@ html.v-contrast .muted, html.v-contrast .dim, html.v-contrast .note { color: var
 .pw-num { width: 100%; border-collapse: collapse; font-size: 11.5px; }
 .pw-num td { padding: 3px 6px; border-bottom: 1px solid color-mix(in srgb, var(--line) 50%, transparent); vertical-align: top; }
 .pw-num td:nth-child(1) { width: 38px; white-space: nowrap; } .pw-num td:nth-child(2) { white-space: nowrap; } .pw-num td:nth-child(4) { font-size: 10.5px; }
+@media (max-width: 1250px) and (min-width: 901px) { .pw-cars.n1 { grid-template-columns: minmax(0, 1fr) 200px; } }
+@media (max-width: 1100px) and (min-width: 901px) {
+  .pw-cars.n1 .pw-con-b { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); }
+  .pw-cars.n1 .pw-con-r { grid-column: 1 / -1; }
+}
+.pw-cars.n1 .pw-con-l .tg { width: 70px; }
+.pw-con .hd [data-a="rrules"] { flex: none; }
+/* v26.1 on the race screen the console sits at the bottom: race messages appear over the top of the screen instead */
+body.race-on #toast { bottom: auto; top: 64px; }
+
+/* ── v26.2 tablets and touch ── */
+.nav-tog { display: none; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 10px 0; background: none; border: 0; color: var(--fg-2); border-bottom: 1px solid var(--line); }
+.nav-tog span { display: none; }
+/* tablet landscape: the side menu is an icon rail, as in a race */
+@media (max-width: 1280px) and (min-width: 901px) {
+  #app { grid-template-columns: 60px minmax(0, 1fr); }
+  .side-team { padding: 12px 10px; justify-content: center; }
+  .side-team > div, .nav-i span, .nav-sec, .side-foot { display: none; }
+  .nav-i { justify-content: center; padding: 10px 0; }
+  .nav-tog { display: flex; }
+  #top { gap: 12px; padding: 0 14px; }
+  #top .crumb .ttl { font-size: 19px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .top-stat .v { font-size: 16px; }
+  #continue { min-width: 0; padding: 0 16px; font-size: 16px; height: 40px; }
+}
+body.race-on .nav-tog { display: flex; }
+@media (max-width: 900px) { .nav-tog, body.race-on .nav-tog { display: none; } }
+/* badges stay visible on the rail as small counters */
+.nav-i span.badge { display: inline-block; }
+@media (min-width: 901px) { body.race-on .nav-i span.badge { display: block; position: absolute; top: 3px; right: 7px; min-width: 0; padding: 0 4px; font-size: 9.5px; line-height: 14px; } }
+@media (max-width: 1280px) and (min-width: 901px) { .nav-i span.badge { display: block; position: absolute; top: 3px; right: 7px; min-width: 0; padding: 0 4px; font-size: 9.5px; line-height: 14px; } }
+/* the opened menu over the page */
+body.nav-open #side { position: fixed; left: 0; top: 0; bottom: 0; width: 230px; z-index: 70; box-shadow: 8px 0 30px #000a; }
+body.nav-open #main { grid-column: 2; grid-row: 1; }   /* the page keeps its place while the menu floats over it */
+body.nav-open #side .side-team { justify-content: flex-start; padding: 16px 14px 14px; }
+body.nav-open #side .side-team > div { display: block; }
+body.nav-open #side .nav-i span { display: inline; } body.nav-open #side .nav-i span.badge { position: static; margin-left: auto; font-size: 11px; padding: 0 6px; }
+body.nav-open #side .nav-sec { display: block; } body.nav-open #side .side-foot { display: flex; }
+body.nav-open #side .nav-i { justify-content: flex-start; padding: 8px 16px; }
+body.nav-open #side .nav-tog { justify-content: flex-start; padding: 10px 16px; } body.nav-open #side .nav-tog span { display: inline; }
+body.nav-open::after { content: ''; position: fixed; inset: 0; background: #0009; z-index: 65; }
+/* race messages: a narrow column at the top right instead of across the controls */
+body.race-on #toast { bottom: auto; top: 168px; left: auto; right: 14px; transform: none; max-width: min(360px, 60vw); align-items: flex-end; }
+@media (max-width: 900px) { body.race-on #toast { top: auto; bottom: 14px; right: 50%; transform: translateX(50%); } }
+/* touch screens: tap targets of at least ~34 px, no keyboard hints, no zoom on focus (iPad Safari zooms below 16 px) */
+@media (pointer: coarse) {
+  button, .btn, .seg button, .nav-i, a { touch-action: manipulation; }
+  .btn { min-height: 38px; }
+  .btn.sm { min-height: 34px; padding-top: 5px; padding-bottom: 5px; }
+  .seg button { min-height: 32px; }
+  .pw-con .ctl-grid .seg button, .rd-card .ctl-grid .seg button { min-height: 32px; padding: 4px 9px; }
+  .box-btns button { min-width: 36px; min-height: 36px; }
+  input[type=checkbox], input[type=radio] { width: 20px; height: 20px; }
+  label.chk, label.flex { min-height: 32px; }
+  input[type=text], input[type=number], input[type=search], select, textarea { font-size: 16px; }
+  kbd.k, .kbd-hint, .tt-btn kbd { display: none !important; }
+  .nav-i { padding-top: 11px; padding-bottom: 11px; }
+}
+.tap-tip { position: fixed; z-index: 90; background: var(--ink-4); color: var(--fg); border: 1px solid var(--line-2); border-radius: 6px; padding: 8px 11px; font-size: 13px; line-height: 1.45; box-shadow: 0 8px 24px #000a; pointer-events: none; animation: tin .15s ease-out; }
+/* the starting grid in a narrow column: code and surname only */
+.grid-slot { min-width: 0; } .grid-slot > * { min-width: 0; } .grid-slot span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.seg button { white-space: nowrap; }
+.ctl-grid > .flex { flex-wrap: wrap; row-gap: 4px; }
+
+/* short screens (tablets in landscape): the screens keep a readable height and the grid scrolls instead of squashing them */
+@media (max-height: 900px) and (min-width: 901px) {
+  .pw-wrap { overflow-y: auto; }
+  .pw-grid { min-height: 100%; height: auto; align-self: flex-start; }
+  .pw-grid.l-s6, .pw-grid.l-q4 { grid-template-rows: repeat(2, minmax(230px, 1fr)); }
+  .pw-grid.l-f4 { grid-template-rows: repeat(3, minmax(160px, 1fr)); }
+  .pw-grid.l-w3 { grid-template-rows: minmax(300px, 1fr); }
+}
+@media (max-height: 900px) and (max-width: 1250px) and (min-width: 901px) { .pw-grid.l-s6 { grid-template-rows: repeat(3, minmax(230px, 1fr)); } }
 
 </style>
 <script src="three-r128.min.js"></script>
-<script>window.PW_WEB = {"v": "26", "id": "0677cbbc0614", "at": "2026-11-02T00:38Z"};</script>
+<script>window.PW_WEB = {"v": "26.2", "id": "88b5554822b5", "at": "2026-11-02T01:02Z"};</script>
 </head><body>
 <div id="title"><div class="title-in">
 <h1 class="logo" style="margin:0">Pit<span>wall</span></h1><div class="logo-sub">모터스포츠 팀 매니저</div>
@@ -1871,7 +1974,7 @@ const REG_CYCLE = 4;            // a major regulation change every N seasons
 const SEC_PER_PT = 0.00085;     // lap-time share per car performance point (× reference lap) — v17: 0.0012 → 0.00085, the field was twice as spread out as a real grid (best to tenth ~2.5 s)
 const CAR_AREAS = {
   aero: { name: '공력', en: 'AERO', desc: '고속·중속 코너 속도. 풍동 시설과 ATR(풍동 시간 할당)의 영향을 받음', effect: '고속·중속 코너' },
-  power: { name: '파워 유닛', en: 'PU', desc: '직선 속도와 최고 속도, DRS 구간 추월. 엔진 규정으로 개발 비용이 비쌈', effect: '직선 · 최고 속도 · 추월' },
+  power: { name: '파워 유닛', en: 'PU', desc: '직선 속도와 최고 속도, 추월 구간(오버테이크 모드) 추월. 엔진 규정으로 개발 비용이 비쌈', effect: '직선 · 최고 속도 · 추월' },
   mech: { name: '섀시', en: 'CHASSIS', desc: '저속 코너, 트랙션, 연석 처리', effect: '저속 코너 · 트랙션' },
   rel: { name: '신뢰성', en: 'REL', desc: '기계 고장(리타이어) 확률과 파워 유닛 마모 속도', effect: '고장 위험 · PU 마모' },
   tyre: { name: '타이어 효율', en: 'TYRE', desc: '타이어 마모 속도. 스틴트가 길어지고 후반 페이스가 덜 떨어짐', effect: '타이어 마모 · 롱런 페이스' },
@@ -8487,7 +8590,7 @@ Object.assign(NLG, (() => {
   function nick() { return rchance(0.58) ? { nick: 'ㅇㅇ', ip: `${rpick(IPS)}.${rint(10, 250)}` } : { nick: rpick(NICKS), ip: null }; }
   // comment pools by topic; {…} come from the race facts
   const CM = {
-    live: ['{W.short} 오늘 진짜 미쳤다', { t: '세이프티카 타이밍 개꿀이었네', if: F => F.sc }, { t: 'SC 없이 끝나니까 좀 루즈했음', if: F => !F.sc }, { t: '{mover.short} 추월쇼 보려고 본 레이스', if: F => F.mover }, { t: '빗속 레이스는 언제 봐도 재밌다', if: F => F.wet }, '중계 카메라 왜 {team|은} 안 잡아줌 ㅋㅋ', '{P2.short} 조금만 더 빨랐으면 각 나왔는데', '오늘 피트월 판단 제일 좋았던 팀은 {W.team} 인정', { t: '다음 {next|은} 또 어떨지', if: F => F.next }, '새벽에 본 보람 있다', '오늘 평점 7점 줌', '{P3.short} 포디움 축하', { t: '{dnf0.short} 리타이어 너무 아깝다', if: F => F.dnf0 }, '1랩 스타트 다시 봐도 소름', '개인적으로 올해 베스트 레이스 후보', '{W.short} 마지막 스틴트 페이스 실화임?', '오늘 {gp} 트랙 상태 좋아 보이던데', '{P2.short} 피트 타이밍 한 랩만 빨랐어도', '중계진 오늘 텐션 좋더라', '이런 레이스면 매주 새벽 기상 가능', '피트레인 사고 날 뻔한 거 봤냐', '{W.team} 피트월 표정 보니 다 계산된 거였음', '오늘 추월 각 나온 데가 거의 없었음', '{laps}랩 순삭', '첫 코너에서 사고 안 난 게 신기함', '오늘 DRS 효과 꽤 컸던 듯', '레이스 끝나고 바로 하이라이트 또 봄'],
+    live: ['{W.short} 오늘 진짜 미쳤다', { t: '세이프티카 타이밍 개꿀이었네', if: F => F.sc }, { t: 'SC 없이 끝나니까 좀 루즈했음', if: F => !F.sc }, { t: '{mover.short} 추월쇼 보려고 본 레이스', if: F => F.mover }, { t: '빗속 레이스는 언제 봐도 재밌다', if: F => F.wet }, '중계 카메라 왜 {team|은} 안 잡아줌 ㅋㅋ', '{P2.short} 조금만 더 빨랐으면 각 나왔는데', '오늘 피트월 판단 제일 좋았던 팀은 {W.team} 인정', { t: '다음 {next|은} 또 어떨지', if: F => F.next }, '새벽에 본 보람 있다', '오늘 평점 7점 줌', '{P3.short} 포디움 축하', { t: '{dnf0.short} 리타이어 너무 아깝다', if: F => F.dnf0 }, '1랩 스타트 다시 봐도 소름', '개인적으로 올해 베스트 레이스 후보', '{W.short} 마지막 스틴트 페이스 실화임?', '오늘 {gp} 트랙 상태 좋아 보이던데', '{P2.short} 피트 타이밍 한 랩만 빨랐어도', '중계진 오늘 텐션 좋더라', '이런 레이스면 매주 새벽 기상 가능', '피트레인 사고 날 뻔한 거 봤냐', '{W.team} 피트월 표정 보니 다 계산된 거였음', '오늘 추월 각 나온 데가 거의 없었음', '{laps}랩 순삭', '첫 코너에서 사고 안 난 게 신기함', '오늘 오버테이크 모드 효과 꽤 컸던 듯', '레이스 끝나고 바로 하이라이트 또 봄'],
     teamGood: ['{team} 이제 진짜 올라오는 듯', '{d1.short} 폼 미쳤다', '감독 운영 칭찬해', '업그레이드 효과 보이는 듯', '이 페이스면 {target}위 목표 충분하지', '개추 박고 감', '{d1.short} 재계약 무조건 해라', '이 팀 응원하길 잘했다 ㅠ', '차가 진짜 좋아짐 섹터 기록 봐라', '드디어 투자한 보람이 있네', '{d1.short} 무전 목소리부터 신나 있더라', '이 흐름 다음 레이스까지 가자', '작년이랑 완전 다른 팀임', '{d2.short}도 서포트 잘해줬음', '피트월 판단 오늘은 칭찬해야 됨', '이 팀 굿즈 사러 간다', '감독 인터뷰도 자신감 붙었더라'],
     teamBad: ['{team} 오늘 뭐함…', '전략팀 물갈이 해라', '{d2.short} 교체 각?', '차가 느린 걸 어떡함', '감독 경질 얘기 나올 듯 ㅋㅋ', '그래도 {d1.short|은} 열심히 했음', '이 팀 팬 하는 거 수행임', '개발 방향 자체가 틀린 듯', '다음 레이스는 좀 낫겠지…', '이사회 인내심 어디까지 갈까', '스폰서 떨어져 나갈까 봐 무섭다', '{d1.short} 표정 보니까 짠하더라', '예선부터 꼬였음', '업그레이드는 언제 오냐', '팬 하기 힘들다 진짜…', '이러다 목표 순위도 날아감', '그래도 응원은 한다 ㅠ'],
     strategy: ['{x.stratRun} 말고 {x.stratPlan} 갔어야지', '언더컷 당하는 거 실시간으로 봄', '결과론이지, 그땐 맞는 판단이었음', '타이어 데이터가 부족했나', '{sl}초면 포인트 하나는 날린 거임', '전략 담당 능력치 확인해봐라 ㅋㅋ', '하드로 너무 오래 끌었음', '오버컷 노렸던 거 같은데 실패', '타이어 워밍업 생각 안 한 듯', '세이프티카 타이밍을 놓쳤음', '롱런 데이터 부족하면 이렇게 됨', '그 랩에 박스했으면 트래픽 걸렸음 그래도'],
@@ -9856,10 +9959,11 @@ function renderShell() {
   if (S.phase === 'review') nav += `<button class="nav-i weekend ${UI.view === 'review' ? 'on' : ''}" data-a="nav" data-v="review">${icon('flag')}<span>시즌 결산</span></button>`;
   for (const [sec, items] of NAV) {
     if (sec) nav += `<div class="nav-sec">${sec}</div>`;
-    for (const [v, lbl, ic] of items) nav += `<button class="nav-i ${UI.view === v ? 'on' : ''}" data-a="nav" data-v="${v}">${icon(ic)}<span>${lbl}</span>${v === 'inbox' ? inboxBadge : ''}${v === 'media' && typeof mediaBadge === 'function' ? mediaBadge() : ''}</button>`;
+    for (const [v, lbl, ic] of items) nav += `<button class="nav-i ${UI.view === v ? 'on' : ''}" data-a="nav" data-v="${v}" aria-label="${lbl}">${icon(ic)}<span>${lbl}</span>${v === 'inbox' ? inboxBadge : ''}${v === 'media' && typeof mediaBadge === 'function' ? mediaBadge() : ''}</button>`;
   }
   $('#side').innerHTML = `
     <div class="side-team">${crestSVG(t, 38)}<div style="min-width:0"><div class="tname">${esc(t.name)}</div><div class="tsub">${esc(mgrName())} · ${S.year}</div></div></div>
+    <button class="nav-tog" data-a="navtoggle" aria-label="메뉴 펼치기·접기"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>메뉴</span></button>
     <nav id="nav">${nav}</nav>
     <div class="side-foot"><button class="mode-tag" data-a="modeask" data-v="${S.mode === 'sa' ? 'tp' : 'sa'}" title="게임 모드 바꾸기 (데이터는 그대로)">${S.mode === 'sa' ? '전문가 · STRATEGY' : '일반 · TEAM PRINCIPAL'}</button><span>PITWALL · 시즌 ${S.seasonsDone + 1}</span></div>`;
   renderTop();
@@ -9904,6 +10008,7 @@ function go(view, opt) {
   $('#view').scrollTop = 0;
 }
 function render() {
+  document.body.classList.remove('nav-open');
   if (!S) { renderTitle(); return; }
   if (S.gameOver && UI.view !== 'gameover' && UI.view !== 'set' && UI.view !== 'book') UI.view = 'gameover';
   renderShell();
@@ -10192,7 +10297,7 @@ VIEWS.rd = () => {
     ${regPanel}
   </div>
   <section class="panel span2"><div class="panel-h"><h3>새 개발 프로젝트</h3><span class="rt">예상 상승폭 · 실제 효과 · 비용 · 기간</span></div><div class="panel-b">${typeof rdAutoStrip === 'function' ? rdAutoStrip() : ''}<div class="rd-grid"><div class="hd">영역</div>${Object.values(RD_SIZES).map(s => `<div class="hd">${s.name}</div>`).join('')}${cells}</div>
-    <p class="note mt">공력은 고속·중속 코너, 섀시는 저속 코너와 트랙션, 파워 유닛은 직선 속도와 DRS 구간 추월에 반영됩니다. 같은 영역 안에서는 수치가 높을수록 상승폭이 줄어듭니다(지금 ${CAR_AREAS.aero.name} ×${rdDiminish(t.car.aero).toFixed(2)}). 랩타임 효과는 서킷마다 다르니 아래 표를 참고하세요.</p></div></section>
+    <p class="note mt">공력은 고속·중속 코너, 섀시는 저속 코너와 트랙션, 파워 유닛은 직선 속도와 추월 구간(오버테이크 모드) 추월에 반영됩니다. 같은 영역 안에서는 수치가 높을수록 상승폭이 줄어듭니다(지금 ${CAR_AREAS.aero.name} ×${rdDiminish(t.car.aero).toFixed(2)}). 랩타임 효과는 서킷마다 다르니 아래 표를 참고하세요.</p></div></section>
   <section class="panel"><div class="panel-h"><h3>다가오는 서킷의 차량 페이스</h3><span class="rt">드라이버·세팅 제외, 차량만 비교</span></div><div class="panel-b flush scroll-x"><table class="tbl compact"><thead><tr><th>날짜</th><th>그랑프리</th><th class="r">공력·파워·섀시 %</th><th class="r">순위</th><th class="r">최고 차량 대비</th><th>개선 효과 큰 영역</th></tr></thead><tbody>${paceRows || '<tr><td colspan="6" class="dim">남은 레이스 없음</td></tr>'}</tbody></table></div></section>
   <section class="panel"><div class="panel-h"><h3>개발 기록</h3><span class="rt">효과는 남은 시즌 기준 추정</span></div><div class="panel-b flush scroll-x"><table class="tbl compact"><thead><tr><th>날짜</th><th>프로젝트</th><th class="r">상승</th><th class="r">현재</th><th class="r"></th><th>효과</th></tr></thead><tbody>${log || '<tr><td colspan="6" class="dim">완료된 업그레이드가 없습니다</td></tr>'}</tbody></table></div></section>
   </div>`;
@@ -10560,7 +10665,7 @@ document.addEventListener('keydown', e => {
 // ── glossary: short (Team Principal) and long (Strategy Analysis: how the model computes it, and its limits) ──
 const GLOSS = {
   aero: { term: '공력', short: '고속·중속 코너 속도. 다운포스가 클수록 빠르게 돌아나갑니다.', long: '랩타임 기여 = 서킷별 공력 비중 × (92 − 공력 점수) × 0.0012 × 기준 랩. 서킷 속도 프로필에서 시속 150~250km 구간에 주로 반영됩니다.' },
-  power: { term: '파워 유닛', short: '직선 속도와 DRS 구간 추월력.', long: '시속 250km 이상 구간에 반영되고, 추월 판정에서 직선 속도 차이로도 쓰입니다. 개발 효율은 다른 영역의 72%입니다.' },
+  power: { term: '파워 유닛', short: '직선 속도와 추월 구간(오버테이크 모드) 추월력.', long: '시속 250km 이상 구간에 반영되고, 추월 판정에서 직선 속도 차이로도 쓰입니다. 개발 효율은 다른 영역의 72%입니다.' },
   mech: { term: '섀시', short: '저속 코너와 트랙션.', long: '시속 150km 미만 구간(65%)과 공력 구간 일부(35%)에 반영됩니다.' },
   rel: { term: '신뢰성', short: '기계 고장 확률. 높을수록 리타이어가 줄어듭니다.', long: '랩당 고장 확률 = (100 − 신뢰성) × 0.000045 ÷ 레이스 길이 비율. PU 마모 60% 이상에서 최대 2.5배까지 커집니다.' },
   tyre: { term: '타이어 효율', short: '타이어 마모 속도. 높을수록 오래 씁니다.', long: '마모율에 (1.52 − 효율 × 0.0085)를 곱합니다. 드라이버의 타이어 관리 능력치와 곱해집니다.' },
@@ -10570,7 +10675,7 @@ const GLOSS = {
   delta: { term: '전략별 예상 시간', short: '같은 조건에서 각 전략으로 레이스를 끝내는 데 걸리는 시간 차이.', long: '랩마다 랩타임을 더한 결정론적 합계입니다. 같은 입력이면 항상 같은 값이 나오며, 운(세이프티카·정차 시간 변동)은 몬테카를로에서 따로 다룹니다.' },
   prob: { term: '확률과 불확실성', short: '같은 전략도 레이스마다 결과가 다릅니다. 분포로 보면 위험을 알 수 있습니다.', long: '몬테카를로는 정차 시간·타이어 열화 추정 오차·랩 편차·세이프티카·비·트래픽·리타이어를 무작위로 뽑아 수백~수천 번 계산합니다. 모든 전략이 같은 표본을 겪으므로(공통 난수) 차이는 전략에서 나옵니다. 결과는 모델과 가정 아래의 분포일 뿐 실제 확률이 아닙니다.' },
   sens: { term: '민감도 분석', short: '어떤 가정이 바뀌면 결론이 뒤집히는지 보여줍니다.', long: '파라미터를 하나씩 범위의 양 끝으로 바꿔 총 시간 변화를 계산합니다(토네이도 차트). 최선 전략이 바뀌는 값은 이분법으로 찾습니다. 상호작용(두 가정이 동시에 바뀌는 경우)은 다루지 않습니다.' },
-  traffic: { term: '트래픽', short: '느린 차 뒤에 갇혀 잃는 시간.', long: '단순 모델: 피트 후 복귀 지점에서 앞차와 0.6초+여유 안이면 추월 확률로 정체 랩 수를 계산. 필드 모델: 출전한 차 전부를 랩마다 함께 계산, 붙으면 더티 에어(랩당 약 0.35%), 추월은 게임 공식(속도 차·서킷 추월 난이도·드라이버 능력)을 DRS 구간 수만큼.' },
+  traffic: { term: '트래픽', short: '느린 차 뒤에 갇혀 잃는 시간.', long: '단순 모델: 피트 후 복귀 지점에서 앞차와 0.6초+여유 안이면 추월 확률로 정체 랩 수를 계산. 필드 모델: 출전한 차 전부를 랩마다 함께 계산, 붙으면 더티 에어(랩당 약 0.35%), 추월은 게임 공식(속도 차·서킷 추월 난이도·드라이버 능력)을 추월 구간 수만큼.' },
   sc: { term: '세이프티카 · VSC', short: '사고 수습 중 속도 제한. 피트 손실이 줄어 "저렴한 피트" 기회가 됩니다.', long: 'SC: 첫 랩 1.5배, 이후 1.72배 랩타임 (엔진 측정), 대열 간격 약 0.9초. VSC: 62% 속도 유지. 피트 손실은 서킷 속도 프로필로 계산합니다.' },
   red: { term: '레드 플래그', short: '큰 사고로 레이스를 멈추는 것. 전 차량이 무료로 타이어를 바꾸고 간격이 사라집니다.', long: '레이스 엔진: 사고 리타이어 중 약 7%(비 오면 더, 첫 랩이면 1.8배)가 방호벽 수리로 레드 플래그가 됩니다. 마른 노면 경기의 약 4%, 비 오는 경기의 약 25%. 차들은 순서대로 0.9초 간격 대열로 정렬되고(랩다운 차는 그대로), 무료 타이어 교체·손상 수리 후 세이프티카 뒤에서 재개합니다. 중단 시간은 레이스 시간에 넣지 않습니다.' },
   trace: { term: '레이스 트레이스', short: '랩마다 선두와의 간격을 그린 선. 피트스톱·세이프티카에서 간격이 어떻게 변하는지 한눈에 보입니다.', long: '필드 모델로 계산한 각 차의 누적 시간에서 그 랩 선두의 누적 시간을 뺀 값입니다. 피트 랩에 크게 떨어졌다가 상대가 피트하면 회복하는 모양이 보입니다.' },
@@ -11089,6 +11194,29 @@ function onTabStale() {
   if (!document.getElementById('stale-bar')) { const b = document.createElement('div'); b.id = 'stale-bar'; b.setAttribute('role', 'alert'); b.innerHTML = '이 탭은 저장되지 않습니다 — 다른 탭에서 더 최근에 저장됐어요. <button class="btn sm pri" data-a="reloadpage">새로고침</button>'; document.body.appendChild(b); }
 }
 Object.assign(ACT, { reloadpage: () => location.reload() });
+
+// ── v26.2 tablets and touch screens ──
+// the side menu as an icon rail on tablet widths (and during a race): the menu button opens it over the page
+Object.assign(ACT, { navtoggle: () => document.body.classList.toggle('nav-open') });
+document.addEventListener('click', e => {
+  if (!document.body.classList.contains('nav-open')) return;
+  if (!e.target.closest('#side')) { document.body.classList.remove('nav-open'); e.preventDefault(); e.stopPropagation(); }
+}, true);
+// no hover on a touch screen: a tap on a value that carries an explanation (title) and does nothing else shows it
+(() => {
+  if (typeof window === 'undefined' || !window.matchMedia || !matchMedia('(hover: none)').matches) return;
+  let tip = null, timer = 0;
+  const hide = () => { if (tip) { tip.remove(); tip = null; } clearTimeout(timer); };
+  document.addEventListener('click', e => {
+    const el = e.target.closest && e.target.closest('[title]');
+    if (!el || el.closest('button, a, input, select, textarea, label, [data-a], [data-c], #side') || !el.getAttribute('title')) { hide(); return; }
+    hide(); tip = document.createElement('div'); tip.className = 'tap-tip'; tip.textContent = el.getAttribute('title'); document.body.appendChild(tip);
+    const r = el.getBoundingClientRect(), w = Math.min(320, window.innerWidth - 24); tip.style.maxWidth = w + 'px';
+    const tw = tip.offsetWidth, th = tip.offsetHeight; let x = Math.max(12, Math.min(window.innerWidth - tw - 12, r.left + r.width / 2 - tw / 2)); let y = r.bottom + 8; if (y + th > window.innerHeight - 8) y = Math.max(8, r.top - th - 8);
+    tip.style.left = x + 'px'; tip.style.top = y + 'px'; timer = setTimeout(hide, 4500);
+  }, true);
+  document.addEventListener('scroll', hide, true);
+})();
 
 // ───────── charts.js — small SVG charts with a shared hover layer (crosshair + tooltip), no library ─────────
 // Series colours follow the entity (strategy A/B/C keep their colour everywhere); text stays in text tokens.
@@ -12148,7 +12276,7 @@ function labModelTab(m) {
       <p><b>타이어 마모</b>(%/랩) = 컴파운드 기본 × 트랙 부하 × 드라이버 타이어 관리 × 차량 타이어 효율 × 페이스 모드 × 팀 추정 배율 · 더티 에어 +6% · SC 중 35%. 마모 손실은 0–40% 구간 0.012초/%, 40–70% 0.03초/%, 70% 이후 0.15초/% (절벽).</p>
       <p><b>피트스톱</b> = 피트레인 손실(서킷 속도 프로필 + 엔진 측정 보정, SC·VSC는 트랙 속도가 느려진 만큼 감소) + 정차 시간(평균 + |정규분포| × σ, 몬테카를로에선 느린 정차 확률 포함) + 아웃랩 워밍업.</p>
       <p><b>연료</b> = 풀 레이스 ${FUEL_FULL}kg 기준 랩당 소모, 여유가 0.05랩 미만이면 린 모드, 0.7랩 초과면 리치, −0.35랩 미만이면 리프트 앤 코스트 (게임 자동 관리와 같은 규칙).</p>
-      <p><b>트래픽</b> — 단순: 피트 후 복귀 지점의 차와의 간격과 추월 확률로 정체 랩 수 계산. 필드: 출전한 차 전부를 랩마다 함께 계산, 0.6초 안에 붙으면 더티 에어, 추월은 게임의 추월 확률식(속도 차·추월 난이도·드라이버 능력)을 DRS 구간 수만큼. 결정론 계산에서는 누적 확률 50%를 넘는 랩에 추월합니다.</p>
+      <p><b>트래픽</b> — 단순: 피트 후 복귀 지점의 차와의 간격과 추월 확률로 정체 랩 수 계산. 필드: 출전한 차 전부를 랩마다 함께 계산, 0.6초 안에 붙으면 더티 에어, 추월은 게임의 추월 확률식(속도 차·추월 난이도·드라이버 능력)을 추월 구간 수만큼. 결정론 계산에서는 누적 확률 50%를 넘는 랩에 추월합니다.</p>
       <p><b>세이프티카</b> = 첫 랩 1.5배, 이후 1.72배 랩타임 (엔진 측정), 필드는 0.9초 간격 대열. VSC = 지속 시간 동안 62% 속도. 레드 플래그 = 레이스 중단 → 전 차량 무료 타이어 교체·손상 수리, 간격 초기화(0.9초 대열, 랩다운 차는 그대로), 이후 ${SA.redRestartLaps(m)}랩 세이프티카 뒤 재개. 레이스 엔진과 같은 규칙이며 마른 노면 약 4%, 비 오는 레이스 약 25% 확률로 발생합니다.</p>
     </div></section>
     <section class="panel"><div class="panel-h"><h3>레이스 엔진과 대조</h3><span class="rt">이 화면의 조건으로 직접 실행</span></div><div class="panel-b">
@@ -13071,7 +13199,7 @@ function updateRaceUI() {
     const soc = Math.round(c.soc); f('soc').style.width = soc + '%'; f('soc').style.background = soc < 20 ? 'var(--bad)' : soc < 45 ? 'var(--warn)' : 'var(--info)'; f('socv').textContent = soc + '%';
     const fm = sim.fuelMarginLaps(c);
     f('fuelv').innerHTML = `<span class="${fm < -0.1 ? 'bad' : fm < 0.15 ? 'warn' : ''}">${fm >= 0 ? '+' : ''}${fm.toFixed(1)}랩</span>${c.lift ? ' <span class="warn">LiCo</span>' : ''}`;
-    f('box').querySelectorAll('button').forEach(btn => { const k = btn.dataset.c; const n = c.sets.filter(s => s.c === k).length; btn.classList.toggle('on', c.boxRequest === k); btn.disabled = n === 0; const sub = btn.querySelector('sub'); if (sub) sub.textContent = n; });
+    card.querySelectorAll('[data-f="box"] button').forEach(btn => { const k = btn.dataset.c; const n = c.sets.filter(s => s.c === k).length; btn.classList.toggle('on', c.boxRequest === k); btn.disabled = n === 0; const sub = btn.querySelector('sub'); if (sub) sub.textContent = n; });
     const auto = card.querySelector('[data-a="rauto"]'); if (auto) auto.checked = !!c.autoPit;
     const ae = card.querySelector('[data-a="rautoe"]'); if (ae) ae.checked = !!c.autoErs;
     const pr = !c.retired && !c.finished && !c.inPit ? sim.predictPit(c) : null;
@@ -13182,9 +13310,10 @@ function tyreInfoPanel() {
     const life = 70 / r; const conf = w.tyreData[c] || 0; const band = Math.max(0.5, life * Math.abs(w.tyreErr[c] || 0.15) * (1 - conf) + life * 0.04);
     const sm = setsSummary(w.tyres[did], c);
     const th = envTyreNote(tr, c); const thP = tr.envK && tr.envK.pace[c] ? tr.envK.pace[c] : 0; const pace = COMPOUNDS[c].pace + thP - (tr.envK && tr.envK.pace.S ? tr.envK.pace.S : 0);
-    return `<tr><td>${tyreIcon(c)} ${COMPOUNDS[c].name}</td><td class="r mono">${c === 'S' ? '기준' : (pace >= 0 ? '+' : '') + pace.toFixed(2) + 's'}</td><td class="${th ? (th.kind === 'ok' ? 'good' : th.kind === 'hot' ? 'bad' : 'info') : ''}" style="font-size:11.5px">${th ? (th.kind === 'ok' ? `${Math.round(th.s)}° 창 안` : th.kind === 'hot' ? `${Math.round(th.s)}° 과열 +${thP.toFixed(2)}s` : `${Math.round(th.s)}° 부족 +${thP.toFixed(2)}s`) : '—'}</td><td class="r mono">${life.toFixed(1)}랩 <span class="dim">±${band.toFixed(1)}</span></td><td class="r mono">${COMPOUNDS[c].warm.toFixed(1)}s</td><td class="r"><span class="${conf >= 0.6 ? 'good' : conf >= 0.3 ? 'warn' : 'bad'}">${Math.round(conf * 100)}%</span></td><td class="r">${sm.fresh}/${sm.total}</td></tr>`;
+    const thTxt = th ? (th.kind === 'ok' ? `${Math.round(th.s)}° 창 안` : th.kind === 'hot' ? `${Math.round(th.s)}° 과열 +${thP.toFixed(2)}s` : `${Math.round(th.s)}° 부족 +${thP.toFixed(2)}s`) : '';
+    return `<tr><td>${tyreIcon(c)} ${COMPOUNDS[c].name}${th ? `<div class="${th.kind === 'ok' ? 'good' : th.kind === 'hot' ? 'bad' : 'info'}" style="font-size:11px;margin-top:1px" title="이 주말 노면 온도에서 결승 평균 페이스로 달릴 때 타이어 표면 온도와 작동 창 비교">${thTxt}</div>` : ''}</td><td class="r mono">${c === 'S' ? '기준' : (pace >= 0 ? '+' : '') + pace.toFixed(2) + 's'}</td><td class="r mono">${life.toFixed(1)}랩 <span class="dim">±${band.toFixed(1)}</span></td><td class="r mono">${COMPOUNDS[c].warm.toFixed(1)}s</td><td class="r"><span class="${conf >= 0.6 ? 'good' : conf >= 0.3 ? 'warn' : 'bad'}">${Math.round(conf * 100)}%</span></td><td class="r">${sm.fresh}/${sm.total}</td></tr>`;
   }).join('');
-  return `<section class="panel"><div class="panel-h"><h3>타이어 특성</h3><span class="rt">${esc(S.drivers[did].short)} 기준 · 이번 주말 데이터</span></div><div class="panel-b flush scroll-x"><table class="tbl compact"><thead><tr><th>컴파운드</th><th class="r">새 타이어 페이스</th><th title="이 주말 노면 온도에서 결승 평균 페이스로 달릴 때 타이어 표면 온도와 작동 창 비교">온도 예상</th><th class="r">수명(70%)</th><th class="r">예열 손실</th><th class="r">데이터</th><th class="r">새 세트</th></tr></thead><tbody>${rows}</tbody></table><p class="note" style="padding:0 14px 12px">수명 오차는 연습 주행 롱런으로 그 컴파운드 데이터를 모을수록 줄어듭니다. 예열 손실은 피트스톱 직후 아웃랩에서 잃는 시간으로, 언더컷·오버컷 판단에 중요합니다. 온도 예상은 노면 온도 기준 표면 온도로, 창을 벗어난 만큼 페이스(와 과열 시 마모)에 반영돼 있습니다 — 레이스 중엔 페이스 모드·더티 에어·세이프티카에 따라 달라집니다.</p></div></section>`;
+  return `<section class="panel"><div class="panel-h"><h3>타이어 특성</h3><span class="rt">${esc(S.drivers[did].short)} 기준 · 이번 주말 데이터</span></div><div class="panel-b flush scroll-x"><table class="tbl compact"><thead><tr><th>컴파운드</th><th class="r">새 타이어 페이스</th><th class="r">수명(70%)</th><th class="r">예열 손실</th><th class="r">데이터</th><th class="r">새 세트</th></tr></thead><tbody>${rows}</tbody></table><p class="note" style="padding:0 14px 12px">수명 오차는 연습 주행 롱런으로 그 컴파운드 데이터를 모을수록 줄어듭니다. 예열 손실은 피트스톱 직후 아웃랩에서 잃는 시간으로, 언더컷·오버컷 판단에 중요합니다. 온도 예상은 노면 온도 기준 표면 온도로, 창을 벗어난 만큼 페이스(와 과열 시 마모)에 반영돼 있습니다 — 레이스 중엔 페이스 모드·더티 에어·세이프티카에 따라 달라집니다.</p></div></section>`;
 }
 function pushEvents() {
   const sim = RACE.sim; const box = document.getElementById('r-events'); if (!sim || !box) return;
@@ -13544,7 +13673,7 @@ function homeBriefing() {
     const did = playerTeam().drivers[0]; const m = SA.buildModel({ track: next.track, did }); const c = SA.candidates(m, { max: 3 });
     const tr = TRACKS[next.track]; const w = S.weekend && S.weekend.track === next.track ? S.weekend : null;
     return `<section class="panel brief"><div class="panel-h"><h3>전략 브리핑 · ${esc(tr.d.name)}</h3><span class="rt"><a href="#" data-a="labopen" data-id="${did}">분석실</a></span></div><div class="panel-b">
-      <div class="brief-kpis"><div><span class="k">피트 손실</span><b>${m.P.pitLane.v.toFixed(1)}초</b><small>SC ${m.P.pitLaneSC.v.toFixed(1)}초</small></div><div><span class="k">SC/VSC 확률</span><b>${Math.round(m.P.scProb.v * 100)}%</b><small>추정</small></div><div><span class="k">비</span><b>${Math.round(m.P.rainProb.v * 100)}%</b><small>${w ? '팀 예보' : '기후'}</small></div><div><span class="k">추월 난이도</span><b>${tr.d.ovt < 0.25 ? '매우 어려움' : tr.d.ovt < 0.45 ? '어려움' : tr.d.ovt < 0.62 ? '보통' : '쉬움'}</b><small>DRS ${tr.zones.length}구간</small></div></div>
+      <div class="brief-kpis"><div><span class="k">피트 손실</span><b>${m.P.pitLane.v.toFixed(1)}초</b><small>SC ${m.P.pitLaneSC.v.toFixed(1)}초</small></div><div><span class="k">SC/VSC 확률</span><b>${Math.round(m.P.scProb.v * 100)}%</b><small>추정</small></div><div><span class="k">비</span><b>${Math.round(m.P.rainProb.v * 100)}%</b><small>${w ? '팀 예보' : '기후'}</small></div><div><span class="k">추월 난이도</span><b>${tr.d.ovt < 0.25 ? '매우 어려움' : tr.d.ovt < 0.45 ? '어려움' : tr.d.ovt < 0.62 ? '보통' : '쉬움'}</b><small>추월 구간 ${tr.zones.length}구간</small></div></div>
       <table class="tbl compact mt"><tbody>${c.map((x, i) => `<tr><td>${esc(x.name)}<div class="tyre-bar sm">${tyreSeq(x)}</div></td><td class="r mono">${i ? '+' + x.delta.toFixed(1) + '초' : '<span class="good">최선</span>'}</td></tr>`).join('')}</tbody></table>
       <p class="note" style="margin:6px 0 0">${w ? `롱런 데이터: ${['S', 'M', 'H'].map(k => `${k} ${Math.round((w.tyreData[k] || 0) * 100)}%`).join(' · ')}` : '연습 주행 전 — 마모는 게임 공식값 기준 (팀 추정 없음)'} · 자유 주행 기준 후보</p></div></section>`;
   } catch (e) { console.error(e); return ''; }
@@ -13992,7 +14121,7 @@ function thermalCardUpdate(sim, c, card) {
   const eb = f('ers'); if (eb) { const b = eb.querySelector('[data-m="ot"]'); if (b) { const okk = sim.otEligible(c) || c.ers === 'ot'; b.disabled = !okk; b.title = okk ? '오버테이크 모드 (이번 랩 사용 가능)' : '감지 지점에서 앞차와 1초 이내일 때만 다음 랩에 사용 가능'; } }
 }
 // the markup both race views put under the wear bar and in the control grid
-function thermalRowMarkup(did) { return `<div class="wear thrm"><span class="dim lab">온도 ${vtag('a')}</span><span class="thv" data-f="thermal"></span></div>`; }
+function thermalRowMarkup(did) { return `<div class="wear thrm"><span class="dim lab" title="온도·시스템·랩 줄은 우리 차 센서와 타이밍으로 측정한 값(실제)">온도</span><span class="thv" data-f="thermal"></span></div>`; }
 function tyreManMarkup(did) { return `<span class="dim lab" title="타이어 관리: 코너에서 조금 덜 밀어 표면 온도를 약 6° 낮춥니다 (랩당 약 0.15초 손해, 마모 −5%)">열관리</span><div class="seg" data-f="tman"><button data-a="rtyreman" data-id="${did}" data-v="auto">자동</button><button data-a="rtyreman" data-id="${did}" data-v="on">관리</button><button data-a="rtyreman" data-id="${did}" data-v="off">끔</button></div>`; }
 Object.assign(WACT, {
   rtyreman: d => { const sim = RACE.sim; if (!sim) return; sim.setTyreMan(d.id, d.v); updateRaceUI(); },
@@ -14004,7 +14133,7 @@ function sysRowHtml(sim, c) {
   const y = c.sys; const tcol = (v, lim, warn) => v > lim ? 'bad' : v > warn ? 'warn' : '';
   const vsc = sim.sc && sim.sc.type === 'VSC' && !c.inPit ? ` · <span title="VSC 최소 시간 대비 여유 (+면 합법, −0.25 아래로 가면 페널티)">VSC 델타 <b class="mono ${c.vscD < 0 ? 'bad' : c.vscD < 0.15 ? 'warn' : 'good'}">${c.vscD >= 0 ? '+' : ''}${c.vscD.toFixed(2)}</b></span>` : '';
   return `<span title="브레이크 디스크 — 지금 / 랩 평균 (평균 ${BRK_FADE}° 넘으면 페이드)">브레이크 <b class="mono ${tcol(y.brkAvg, BRK_FADE, BRK_FADE - 60)}">${Math.round(y.brk)}°</b><span class="dim mono">/${Math.round(y.brkAvg)}</span></span>
-    <span title="냉각수 (${H2O_LIMIT}° 넘으면 출력 제한)">냉각수 <b class="mono ${tcol(y.h2o, H2O_LIMIT, H2O_LIMIT - 4)}">${Math.round(y.h2o)}°</b></span><span class="dim">오일 <span class="mono">${Math.round(y.oil)}°</span></span>${y.fade > 0.01 ? ` <span class="chip warn">페이드 +${y.fade.toFixed(2)}s</span>` : ''}${y.h2o > H2O_LIMIT ? ' <span class="chip bad">출력 제한</span>' : ''}<span class="dim">냉각 ${(COOLING[y.cool] || COOLING.std).name}</span>${vsc}`;
+    <span title="냉각수 (${H2O_LIMIT}° 넘으면 출력 제한) · 냉각 세팅 ${(COOLING[y.cool] || COOLING.std).name}">냉각수 <b class="mono ${tcol(y.h2o, H2O_LIMIT, H2O_LIMIT - 4)}">${Math.round(y.h2o)}°</b></span><span class="dim" title="오일">오일 <span class="mono">${Math.round(y.oil)}°</span></span>${y.fade > 0.01 ? ` <span class="chip warn">페이드 +${y.fade.toFixed(2)}s</span>` : ''}${y.h2o > H2O_LIMIT ? ' <span class="chip bad">출력 제한</span>' : ''}${vsc}`;
 }
 function sysCardUpdate(sim, c, card) {
   const f = k => card.querySelector(`[data-f="${k}"]`);
@@ -14014,8 +14143,9 @@ function sysCardUpdate(sim, c, card) {
   const rb = f('rules'); if (rb) { const n = (c.rules || []).filter(r => !r.done).length; const txt = n ? `조건부 지시 ${n}` : '조건부 지시'; if (rb.textContent !== txt) rb.textContent = txt; rb.classList.toggle('pri', n > 0); }
   const ll = f('live'); if (ll) { const h = liveLapTxt(sim, c); if (ll._h !== h) { ll.innerHTML = h; ll._h = h; } }
 }
-function sysRowMarkup(did) { return `<div class="wear thrm"><span class="dim lab">시스템 ${vtag('a')}</span><span class="thv" data-f="sys"></span></div><div class="wear thrm"><span class="dim lab">랩</span><span class="thv" data-f="live"></span></div>`; }
-function opsMarkup(did) { return `<span class="dim lab">운영</span><div class="flex wrap" style="gap:8px;min-width:0"><button class="btn sm tgl" data-a="rbackoff" data-id="${did}" data-f="backoff" title="앞차와 1초 넘게 간격을 둬 깨끗한 공기로 달립니다 — 타이어·브레이크·냉각수가 식지만 추격·추월은 멈춤">간격 두기</button><span class="dim" style="font-size:11.5px">VSC</span><div class="seg sm" data-f="vscs">${Object.entries(VSC_STYLE).map(([k, v]) => `<button data-a="rvscs" data-id="${did}" data-v="${k}" title="다음 VSC부터 적용">${v.name}</button>`).join('')}</div><button class="btn sm" data-a="rrules" data-id="${did}" data-f="rules" title="SC·마모·간격·비 같은 조건이 되면 자동으로 박스·모드 변경">조건부 지시</button></div>`; }
+function sysRowMarkup(did) { return `<div class="wear thrm"><span class="dim lab">시스템</span><span class="thv" data-f="sys"></span></div><div class="wear thrm"><span class="dim lab">랩</span><span class="thv" data-f="live"></span></div>`; }
+function rulesBtn(did) { return `<button class="btn sm" data-a="rrules" data-id="${did}" data-f="rules" title="SC·마모·간격·비 같은 조건이 되면 자동으로 박스·모드 변경">조건부 지시</button>`; }
+function opsMarkup(did, noRules) { return `<span class="dim lab">운영</span><div class="flex wrap" style="gap:8px;min-width:0"><button class="btn sm tgl" data-a="rbackoff" data-id="${did}" data-f="backoff" title="앞차와 1초 넘게 간격을 둬 깨끗한 공기로 달립니다 — 타이어·브레이크·냉각수가 식지만 추격·추월은 멈춤">간격 두기</button><span class="dim" style="font-size:11.5px">VSC</span><div class="seg sm" data-f="vscs">${Object.entries(VSC_STYLE).map(([k, v]) => `<button data-a="rvscs" data-id="${did}" data-v="${k}" title="VSC 델타 ${v.name} — 다음 VSC부터 적용">${v.name.replace('적', '')}</button>`).join('')}</div>${noRules ? '' : rulesBtn(did)}</div>`; }
 Object.assign(WACT, {
   rbackoff: d => { const c = RACE.sim && RACE.sim.byId[d.id]; if (!c) return; c.backoff = !c.backoff; updateRaceUI(); },
   rvscs: d => { const c = RACE.sim && RACE.sim.byId[d.id]; if (!c || !VSC_STYLE[d.v]) return; c.vscStyle = d.v; updateRaceUI(); },
@@ -14070,7 +14200,7 @@ function vtag(k) { const t = VT[k]; return t ? `<span class="vt vt-${k}" title="
 function liveLapTxt(sim, c) {
   if (c.retired || c.finished || c.lap < 0 || sim.phase === 'grid') return '';
   const t = sim.t - c.lapStartT; const exp = c.lapTarget + (c.th.d || 0) + (c.sys.fade || 0);
-  return `${vtag('a')} 현재 랩 <b class="mono">${fmtLap(Math.max(0, t))}</b> <span class="dim">· ${vtag('p')} 이번 랩 예상 <span class="mono">${fmtLap(exp)}</span></span>`;
+  return `<span>지금 <b class="mono">${fmtLap(Math.max(0, t))}</b></span><span class="dim">${vtag('p')} 예상 <span class="mono">${fmtLap(exp)}</span></span>`;
 }
 
 // ───────── pitwall.js — 전문가 모드 (Strategy Analysis): the strategy room ─────────
@@ -14513,26 +14643,26 @@ function pitwallView() {
       <div class="pw-tools"><span class="dim pw-tl">담당</span><div class="seg sm" title="직접 지휘할 차 — 나머지는 수석 전략가(능력치 ${staffRating(t, 'strat')})가 운영">${[['both', '두 대'], [0, S.drivers[t.drivers[0]].code], [1, S.drivers[t.drivers[1]] ? S.drivers[t.drivers[1]].code : '']].filter(x => x[1]).map(([v, l]) => `<button class="${String(assign) === String(v) ? 'on' : ''}" data-a="rassign" data-v="${v}">${esc(l)}</button>`).join('')}</div>
         <span class="dim pw-tl">화면</span><div class="seg sm">${Object.entries(PW_LAYOUTS).map(([k, l]) => `<button class="${cf.layout === k ? 'on' : ''}" data-a="pwlayout" data-v="${k}">${l.name}</button>`).join('')}</div>
         <div class="seg sm" id="r-orders" title="팀 오더"><button data-a="rorder" data-o="free" class="on">자유</button><button data-a="rorder" data-o="hold">순위 유지</button><button data-a="rorder" data-o="swap">자리 교체</button></div>
-        <button class="btn sm ghost" data-a="pwclassic" title="한 화면짜리 기본 레이스 화면으로">기본 화면</button><button class="btn sm" data-a="rskip" title="남은 레이스를 수석 전략가(능력치 ${staffRating(t, 'strat')})에게 맡깁니다">결과로 건너뛰기</button></div>
+        <button class="btn sm ghost" data-a="pwconmin" title="아래 차량 콘솔을 한 줄로 접어 위 화면들을 넓게 씁니다 (박스 버튼은 남음)">${cf.conMin ? '콘솔 펴기' : '콘솔 접기'}</button><button class="btn sm ghost" data-a="pwclassic" title="한 화면짜리 기본 레이스 화면으로">기본 화면</button><button class="btn sm" data-a="rskip" title="남은 레이스를 수석 전략가(능력치 ${staffRating(t, 'strat')})에게 맡깁니다">결과로 건너뛰기</button></div>
     </div>
     <div class="pw-wrap"><div class="pw-grid l-${cf.layout}" id="pw-grid">${slots}</div>
       <div class="lights pw-lights" id="r-lights" hidden><i></i><i></i><i></i><i></i><i></i></div>
       <div class="race-over" id="r-over" hidden><div class="box"><div class="disp" style="font-size:30px;font-weight:700">체커기</div><p class="muted" id="r-over-txt"></p><button class="btn pri" data-a="rfinish">결과 보기</button></div></div></div>
-    <div class="pw-cars n${mine.length}">${cards}</div>`;
+    <div class="pw-cars n${mine.length}${cf.conMin ? ' min' : ''}">${cards}</div>`;
 }
 // our cars: the full console for a car the player runs, a status strip for the strategist's car
 function pwCarCard(did, mine) {
   const d = S.drivers[did]; const t = playerTeam(); const slot = t.drivers.indexOf(did);
-  if (!mine) return `<div class="rd-card pw-staff" id="pws-${did}"><div class="hd"><span class="p" data-f="pos">P–</span><div style="min-width:0;flex:1"><div class="nm">${esc(d.kname)} <span class="dim disp">${esc(d.code)}</span> <span class="chip">전략가 담당 · ${staffRating(t, 'strat')}</span></div><div class="gaps" data-f="gaps">—</div></div><span data-f="tyre"></span><button class="btn sm" data-a="rassign" data-v="both" title="이 차도 직접 지휘">직접 맡기</button></div><div class="gaps" data-f="info"></div></div>`;
+  if (!mine) return `<div class="rd-card pw-staff" id="pws-${did}"><div class="hd"><span class="p" data-f="pos">P–</span><div style="min-width:0;flex:1"><div class="nm">${esc(d.kname)} <span class="dim disp">${esc(d.code)}</span></div><div class="gaps" data-f="gaps">—</div></div><span data-f="tyre"></span></div><div class="pw-staff-f"><span class="chip">전략가 담당 · ${staffRating(t, 'strat')}</span><button class="btn sm" data-a="rassign" data-v="both" title="이 차도 직접 지휘">직접 맡기</button></div><div class="gaps" data-f="info"></div></div>`;
   return `<div class="rd-card pw-con" id="dc-${did}">
-    <div class="hd"><span class="p" data-f="pos">P–</span><div style="min-width:0;flex:1"><div class="nm">${esc(d.kname)} <span class="dim disp">${esc(d.code)}</span></div><div class="gaps" data-f="gaps">—</div></div><span data-f="tyre"></span>${slot >= 0 && pwMine().length > 1 ? `<button class="btn sm ghost" data-a="rassign" data-v="${1 - slot}" title="${esc(d.short)}을 전략가에게 맡기고 다른 차만 지휘">맡기기</button>` : ''}</div>
+    <div class="hd"><span class="p" data-f="pos">P–</span><div style="min-width:0;flex:1"><div class="nm">${esc(d.kname)} <span class="dim disp">${esc(d.code)}</span></div><div class="gaps" data-f="gaps">—</div></div>${rulesBtn(did)}<span class="pw-minbox"><span class="box-btns" data-f="box">${['S', 'M', 'H', 'I', 'W'].map(c => `<button style="--tc:${COMPOUNDS[c].color}" data-a="rbox" data-id="${did}" data-c="${c}" title="${COMPOUNDS[c].name}로 피트인">${c}<sub data-f="cnt-${c}"></sub></button>`).join('')}</span></span><span data-f="tyre"></span>${slot >= 0 && pwMine().length > 1 ? `<button class="btn sm ghost" data-a="rassign" data-v="${1 - slot}" title="${esc(d.short)}을 전략가에게 맡기고 다른 차만 지휘">맡기기</button>` : ''}</div>
     <div class="pw-con-b">
-      <div class="wear"><span class="dim lab">타이어</span><div class="bar"><i data-f="wearbar" style="width:0%"></i></div><b data-f="wear" class="mono" style="min-width:42px;text-align:right">0%</b></div>${thermalRowMarkup(did)}${sysRowMarkup(did)}
+      <div class="pw-con-l"><div class="wear"><span class="dim lab">타이어</span><div class="bar"><i data-f="wearbar" style="width:0%"></i></div><b data-f="wear" class="mono" style="min-width:42px;text-align:right">0%</b></div>${thermalRowMarkup(did)}${sysRowMarkup(did)}</div>
       <div class="ctl-grid">
         <span class="dim lab">페이스</span><div class="seg" data-f="mode">${Object.entries(MODES).map(([k, m]) => `<button data-a="rmode" data-id="${did}" data-m="${k}">${m.name}</button>`).join('')}</div>
         <span class="dim lab">ERS</span><div class="flex" style="gap:8px;min-width:0"><div class="seg" data-f="ers">${Object.entries(ERS_MODES).map(([k, m]) => `<button data-a="rers" data-id="${did}" data-m="${k}">${m.short || m.name}</button>`).join('')}</div><div class="soc"><i data-f="soc"></i></div><b class="mono" data-f="socv" style="font-size:11.5px;min-width:30px">—</b><span data-f="ot" class="ot-st"></span></div>
         ${tyreManMarkup(did)}
-        ${opsMarkup(did)}
+        ${opsMarkup(did, true)}
         <span class="dim lab">연료</span><div class="flex" style="gap:8px"><div class="seg" data-f="fuel">${Object.entries(FUEL_MODES).map(([k, m]) => `<button data-a="rfuel" data-id="${did}" data-m="${k}">${m.name}</button>`).join('')}</div><b class="mono" data-f="fuelv" style="font-size:11.5px">—</b></div>
         <span class="dim lab">박스</span><div class="flex wrap" style="gap:8px"><span class="box-btns" data-f="box">${['S', 'M', 'H', 'I', 'W'].map(c => `<button style="--tc:${COMPOUNDS[c].color}" data-a="rbox" data-id="${did}" data-c="${c}" title="${COMPOUNDS[c].name}로 피트인">${c}<sub data-f="cnt-${c}"></sub></button>`).join('')}</span>
           <label class="flex" style="gap:4px;font-size:12px"><input type="checkbox" data-a="rauto" data-id="${did}"> 자동 피트</label><label class="flex" style="gap:4px;font-size:12px"><input type="checkbox" data-a="rautoe" data-id="${did}"> 자동 ERS·연료</label></div>
@@ -14726,6 +14856,7 @@ Object.assign(ACT, {
   pwassign: d => { S.settings.carAssign = d.v === 'both' ? 'both' : +d.v; saveGame(); render(); },
   pwopt: d => { const o = pwConf().opt; o[d.k] = /^-?\d+$/.test(d.v) ? +d.v : d.v; document.querySelectorAll(`[data-a="pwopt"][data-k="${d.k}"]`).forEach(b => b.classList.toggle('on', b.dataset.v === String(d.v))); pwUpdate(true); },
   pwlayout: d => { pwConf().layout = d.v; saveGame(); render(); },
+  pwconmin: () => { const c = pwConf(); c.conMin = !c.conMin; saveGame(); render(); },
   pwclassic: () => { S.settings.pwClassic = !S.settings.pwClassic; saveGame(); render(); },
   pwpcomp: d => { PW.pComp = d.c; render(); },
   qdur: d => { S.settings.qDur = +d.v; document.querySelectorAll('[data-a="qdur"]').forEach(b => b.classList.toggle('on', b.dataset.v === d.v)); },
