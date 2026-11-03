@@ -1591,10 +1591,43 @@ body.race-on #toast { bottom: auto; top: 168px; left: auto; right: 14px; transfo
 .title-fs .btn svg, .fs-btn.btn svg { width: 16px; height: 16px; }
 .fs-btn.btn { display: inline-flex; align-items: center; gap: 6px; }
 body.is-fs #top { padding-top: env(safe-area-inset-top); }
+/* v27 career */
+.cr-strip { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 8px 12px; margin-bottom: 12px; border: 1px solid var(--line); border-left: 3px solid var(--team); border-radius: 6px; background: var(--ink-2); font-size: 13px; }
+.cr-lock { display: flex; align-items: center; gap: 10px; padding: 9px 12px; margin-bottom: 12px; border: 1px dashed var(--line-2); border-radius: 6px; font-size: 13px; color: var(--fg-2); }
+.cr-lock svg { width: 18px; height: 18px; flex: none; color: var(--team); }
+.cr-lock .btn { margin-left: auto; flex: none; }
+.cr-scope { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.cr-scope ul, .cr-ev { margin: 4px 0 0; padding-left: 18px; font-size: 13px; line-height: 1.6; }
+.cr-rep { display: grid; grid-template-columns: 34px 1fr 30px; align-items: center; gap: 10px; margin: 6px 0; font-size: 12.5px; }
+.cr-bar { position: relative; height: 10px; border-radius: 5px; background: var(--ink-3); border: 1px solid var(--line); }
+.cr-bar i { display: block; height: 100%; border-radius: 5px; background: var(--team); }
+.cr-bar em { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--fg-2); opacity: .7; }
+.cr-bar em::after { content: attr(data-l); position: absolute; top: 15px; left: 1px; transform: translateX(-50%); white-space: nowrap; font-size: 10.5px; color: var(--fg-3); }
+.cr-rep.marked { margin-bottom: 20px; }
+.cr-sc { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 8px; margin-top: 14px; }
+.cr-sc-y { position: relative; height: 120px; font-size: 11px; color: var(--fg-3); text-align: right; }
+.cr-sc-y span { position: absolute; right: 0; transform: translateY(50%); line-height: 1; }
+.cr-sc-p, .cr-sc-x { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 40px)); gap: 6px; }
+.cr-sc-p { position: relative; height: 120px; border-bottom: 1px solid var(--line-2); }
+.cr-sc-p em { position: absolute; left: 0; right: 0; border-top: 1px dashed var(--line); transform: translateY(50%); }
+.cr-sc-c { position: relative; height: 100%; }
+.cr-sc-c i { position: absolute; left: 0; right: 0; bottom: 0; border-radius: 3px 3px 0 0; }
+.cr-sc-c b { position: absolute; left: 0; right: 0; text-align: center; font: 600 11.5px var(--f-mono); color: var(--fg-2); }
+.cr-sc-c.none i { background: var(--line-2); }
+.cr-sc-c.none b { bottom: calc(4% + 3px); color: var(--fg-3); font-weight: 400; }
+.cr-sc-x span { text-align: center; font-size: 11px; color: var(--fg-3); padding-top: 4px; }
+.cr-sc-k { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 8px; font-size: 11.5px; color: var(--fg-3); }
+.cr-sc-k i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+.cr-offers { display: grid; gap: 10px; }
+.cr-offer { border: 1px solid var(--line); border-left: 3px solid var(--tc); border-radius: 6px; padding: 10px 12px; background: var(--ink-2); }
+.cr-offer-h { display: flex; align-items: center; gap: 10px; }
+.cr-pending { padding: 8px 10px; border-radius: 6px; background: color-mix(in srgb, var(--team) 14%, transparent); margin-bottom: 8px; font-size: 13px; }
+.cr-review { max-width: 760px; margin: 0 auto 14px; }
+@media (max-width: 700px) { .cr-scope { grid-template-columns: 1fr; } }
 
 </style>
 <script src="three-r128.min.js"></script>
-<script>window.PW_WEB = {"v": "26.4", "id": "71439847fb7c", "at": "2026-11-02T10:26Z"};</script>
+<script>window.PW_WEB = {"v": "28", "id": "ee5e212b83ec", "at": "2026-11-03T11:19Z"};</script>
 </head><body>
 <div id="title"><div class="title-in">
 <h1 class="logo" style="margin:0">Pit<span>wall</span></h1><div class="logo-sub">모터스포츠 팀 매니저</div>
@@ -1866,7 +1899,7 @@ const CUSTOM_LEVELS = {
 const CUSTOM_ID = 'cus';
 
 const PRIZE_BY_POS = [140, 131, 123, 116, 110, 104, 99, 95, 91, 88, 85, 82];   // v19: 11th and 12th places // $M per season — a large equal share keeps the back of the grid in business (v16: flatter)
-const POINTS = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1];
+// POINTS → series.js (SERIES_RULES.f1.points)
 const COST_CAP = 150;          // $M per season (v16: 165 → 150 — the leaders can no longer outspend the midfield by 2:1 on development)
 // weekend form: sd as a share of the reference lap (team-wide car-track fit, per driver) — v17 race variety
 const FORM_TEAM_SD = 0.0028, FORM_DRV_SD = 0.001;
@@ -1881,6 +1914,19 @@ const WET_SKILL_K = 0.012, WET_FEEL_TEAM = 0.05, WET_FEEL_DRV = 0.035;
 function wetLapPenalty(e, wet) { return wet * 7 * (1 + (12 - e.attrs.wet) * WET_SKILL_K + (e.wetFeel || 0)); }
 // overtaking: harder overall, and more so the shorter the race (a short race packs the same pit cycles into fewer laps)
 const PASS_LOGIT = -0.2, PASS_LEN_K = 0.5;
+// v28: each circuit's passing odds after the opening lap, as a logit offset, calibrated so a full-distance race produces
+// the on-track passes real races do there (tools/realism_gate.js · tools/pass_calib.js). The opening lap keeps its own model.
+// v28: failures and crashes per lap, scaled so a full-distance race retires about two cars (2025: 50 in 24 GPs; fewer
+// contacts since passing got harder lowered the count)
+const DNF_K = 1.35;
+const PASS_TRACK = {}, PASS_TRACK_BASE = -0.6;   // per-circuit overrides (none yet: race-to-race spread is wider than the circuit differences 4 seasons can show)
+const PASS_NOISE_K = 0.35;
+// v28 pass odds after the opening lap, per attempt (zone: a passing zone; nz: elsewhere, needs 0.6 s): a logit that starts
+// near zero for an even match and climbs with the pace advantage, steeper where the circuit is easy to pass on (ovt).
+// Even cars rarely swap (about 1 % a lap at a mid circuit), 0.6 s ≈ 20 % a lap, 1 s ≈ 50 %, 2 s is almost certain.
+function passZoneLogit(ovt, adv) { return -6.2 + 2.8 * ovt + adv * (1.2 + 4.6 * ovt); }
+function passNzLogit(ovt, pAdv) { return -6.0 + 2.0 * ovt + pAdv * (0.8 + 2.4 * ovt); }   // share of a lap's random form that counts in a pass (the rest is noise, not pace)
+function passTrackAdj(tr) { const v = tr && tr.d ? PASS_TRACK[tr.d.id] : undefined; return v == null ? PASS_TRACK_BASE : v; }
 const RACE_OPS_COST = 1.3;     // $M per race weekend
 const ATR_BY_POS = [70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125]; // aero testing allowance % (v19: 11th, 12th)
 
@@ -1971,7 +2017,7 @@ const CALENDAR_FULL = [
 // v18 sprint weekends (the real 2025 format): FP1 · sprint shoot-out (SQ1-SQ3) on Friday, a ~100 km sprint (no mandatory stop,
 // points to the top eight) and qualifying on Saturday, the grand prix on Sunday — at the venues that hosted them in 2025
 const SPRINT_VENUES = ['chn', 'mia', 'bel', 'usa', 'bra', 'qat'];
-const SPRINT_POINTS = [8, 7, 6, 5, 4, 3, 2, 1];
+// SPRINT_POINTS → series.js (SERIES_RULES.f1.points)
 const CALENDAR_SETS = {
   short: ['aus', 'jpn', 'bhr', 'mia', 'mon', 'can', 'gbr', 'bel', 'ita', 'sgp', 'bra', 'abu'],
   standard: ['aus', 'chn', 'jpn', 'bhr', 'mia', 'mon', 'can', 'esp', 'gbr', 'bel', 'ned', 'ita', 'sgp', 'usa', 'bra', 'abu'],
@@ -2026,6 +2072,50 @@ const TRACK_ELEV = {
   aus: [[0, 4], [0.4, 6], [0.7, 3]], chn: [[0, 3], [0.4, 6]],
 };
 function trackElevRange(id) { const p = TRACK_ELEV[id]; if (!p) return 0; const h = p.map(x => x[1]); return Math.round(Math.max(...h) - Math.min(...h)); }
+
+// ───────── series.js — a series' rules as data (v27) ─────────
+// The world holds several series; each one's rules live here instead of in constants spread through the code. F1 is the
+// first. The values below are the source of truth (data.js keeps no copies); code that still hard-codes an F1 rule is moved
+// here one piece at a time, each move checked by the same-seed determinism test (results must not change).
+'use strict';
+const SERIES_RULES = {
+  f1: {
+    id: 'f1', name: 'F1', kname: '포뮬러 원', kind: 'circuit', family: 'single',   // family: single-seater · endurance · rally
+    classes: [{ id: 'f1', name: 'F1' }],
+    entry: { carsPerProgram: 2, driversPerCar: 1, reserve: true },
+    weekend: {
+      practice: ['FP1', 'FP2', 'FP3'], sprintPractice: ['FP1'],
+      quali: { kind: 'knockout', stages: ['Q1', 'Q2', 'Q3'], mins: [18, 15, 12], sprintStages: ['SQ1', 'SQ2', 'SQ3'], sprintMins: [12, 10, 8] },
+    },
+    points: { race: [25, 18, 15, 12, 10, 8, 6, 4, 2, 1], sprint: [8, 7, 6, 5, 4, 3, 2, 1] },
+    tyres: { dry: ['S', 'M', 'H'], wet: ['I', 'W'], twoDryRule: true },
+    pit: { refuel: false, driverChange: false },
+    neutral: ['SC', 'VSC', 'RED'],
+    costCap: true,
+  },
+};
+const POINTS = SERIES_RULES.f1.points.race;
+const SPRINT_POINTS = SERIES_RULES.f1.points.sprint;
+function seriesOf(id) { return SERIES_RULES[id] || SERIES_RULES.f1; }
+function curSeries() { return seriesOf(typeof S !== 'undefined' && S && S.world ? S.world.series : 'f1'); }
+
+// ── the world: organisations run programmes, a programme enters one series and class ──
+// F1 teams become "one organisation + one F1 programme" (the programme keeps the team id, so every existing reference to
+// a team stays valid). Later series add programmes to the same organisations.
+function ensureWorld() {
+  if (!S) return null;
+  const W = S.world && typeof S.world === 'object' ? S.world : (S.world = {});
+  W.series = W.series || 'f1';
+  W.orgs = W.orgs || {}; W.programs = W.programs || {};
+  for (const t of Object.values(S.teams)) {
+    if (!W.programs[t.id]) W.programs[t.id] = { id: t.id, org: t.id, series: 'f1', cls: 'f1', team: t.id };
+    if (!W.orgs[t.id]) W.orgs[t.id] = { id: t.id, name: t.name, programs: [t.id] };
+    else if (!W.orgs[t.id].programs.includes(t.id)) W.orgs[t.id].programs.push(t.id);
+  }
+  return W;
+}
+function programOf(teamId) { const W = ensureWorld(); return W ? W.programs[teamId] : null; }
+function orgOf(teamId) { const p = programOf(teamId); return p ? S.world.orgs[p.org] : null; }
 
 // ───────── sim.js — track model, race engine, qualifying, setup ─────────
 'use strict';
@@ -2540,7 +2630,7 @@ class RaceSimCore {
     // running temperature (a hard still starts below its window, a soft is about ready)
     this.cars.forEach(c => { const b = TYRE_BLANKET[c.compound] || 70; const eq = tyreEqBase(c.compound, this.trackT, this.track, this.wet) + 4; c.th.s = b + 0.6 * Math.max(0, eq - b); c.th.k = b + 0.35 * Math.max(0, eq - b); c.th.p = tyrePsi(c.compound, c.th.k); });
     this.order = this.cars.slice().sort((a, b) => a.grid - b.grid);
-    this.debrisP = this.track.d.sc * 0.25;
+    this.debrisP = this.track.d.sc * 0.4;   // v28: debris, a loose part, a car in the gravel — neutralisations without a retirement
     this.emit('info', `${this.track.d.circuit} — ${this.laps}랩 레이스. 포메이션 랩을 마치고 그리드에 정렬합니다.`);
   }
 
@@ -2571,7 +2661,7 @@ class RaceSimCore {
     t += c.damage + c.puWear * 0.0012;
     t += this.envPace() + (COOLING[c.sys.cool] || COOLING.std).pace;
     const sd = 0.32 - c.attrs.cons * 0.012 + this.wet * 0.4;
-    t += randn() * Math.max(0.05, sd);
+    c.lapNoise = randn() * Math.max(0.05, sd); t += c.lapNoise;   // this lap's form (kept apart: a pass needs real pace, not one good lap)
     return t;
   }
   setMode(id, mode) { const c = this.byId[id]; if (c && MODES[mode] && c.mode !== mode) { c.lapTarget += MODES[mode].pace - MODES[c.mode].pace; c.mode = mode; } }
@@ -2597,10 +2687,10 @@ class RaceSimCore {
     const wetM = 1 + this.wet * 5;
     const puM = 1 + Math.max(0, c.puWear - 60) / 40 * 1.5;
     const brkM = 1 + Math.max(0, c.sys.brkAvg - 900) / 120, h2oM = 1 + Math.max(0, c.sys.h2o - H2O_LIMIT - 4) / 4;   // v25
-    const pMech = Math.max(0.00004, (100 - c.rel) * 0.000045) * (mode.risk > 1 ? 1.25 : 1) * puM * brkM * h2oM / fr;
+    const pMech = Math.max(0.00004, (100 - c.rel) * 0.000045) * DNF_K * (mode.risk > 1 ? 1.25 : 1) * puM * brkM * h2oM / fr;
     if (chance(pMech)) { c.incident = { s: rand() * this.track.L, kind: c.puWear > 70 && chance(0.6) ? 'pu' : 'mech', why: brkM > 1.4 && chance(0.6) ? '브레이크 과열' : h2oM > 1.4 && chance(0.6) ? '냉각 계통 문제' : null }; return; }
     const knowM = 1 + (1 - (c.know ?? 0.85)) * 0.8;
-    const pCrash = 0.00022 * (1 + (20 - c.attrs.cons) / 8) * mode.risk * wetM * firstLap * knowM / fr;
+    const pCrash = 0.00022 * DNF_K * (1 + (20 - c.attrs.cons) / 8) * mode.risk * wetM * firstLap * knowM / fr;
     if (chance(pCrash)) { c.incident = { s: rand() * this.track.L, kind: 'crash' }; return; }
     const windM = 1 + 0.04 * Math.max(0, (this.env.wind || 0) - 5);   // v24: gusts catch drivers out
     const pMist = 0.012 * (1 + (20 - c.attrs.cons) / 8) * mode.risk * wetM * knowM * windM / Math.sqrt(fr);
@@ -2617,10 +2707,11 @@ class RaceSimCore {
     if (onTrack && this.phase === 'racing' && !this.sc) {
       const r = rand(); const crash = /사고|충돌|스핀/.test(reason);
       // a heavy crash (worse in the wet and on the opening lap) can stop the race: barrier repairs need a red flag
-      const pRed = crash ? 0.07 * (1 + this.wet * 1.5) * (this.leaderLap() < 1 ? 1.8 : 1) : 0;
+      const pRed = crash ? 0.045 * (1 + this.wet * 1.5) * (this.leaderLap() < 1 ? 1.8 : 1) : 0;   // v28: 2024–25 had one or two race red flags a season
       if (crash && r < pRed && this.redFlag(`${c.short}의 사고 — 방호벽 수리`)) return;
-      if (crash ? r < 0.62 : r < 0.12) this.deploySC('SC', `${c.short}의 사고 차량 수습`);
-      else if (crash ? r < 0.88 : r < 0.4) this.deploySC('VSC', `${c.short} 차량 회수`);
+      // v28: a car stopped out on track needs marshals more often than not (2025: 20 SC and 13 VSC periods in 22 GPs)
+      if (crash ? r < 0.66 : r < 0.22) this.deploySC('SC', `${c.short}의 사고 차량 수습`);
+      else if (crash ? r < 0.9 : r < 0.55) this.deploySC('VSC', `${c.short} 차량 회수`);
       else this.raiseFlag(c.s, crash ? 'YY' : 'Y', crash ? randf(60, 110) : randf(35, 75), `${c.code || c.short} 정지 차량`, c);
     }
   }
@@ -3186,15 +3277,21 @@ class RaceSimCore {
     const now = [{ lap: lapNow, c: comp }];
     const set = bestSet(c.sets, comp); const life = slick && set ? tyreLife(comp, this.track, c.attrs.tyre, c.tyreEff, this.frac, set.wear) : 99;
     if (life * 1.05 < lapsLeft) { const rest = c.sets.filter(x => x !== set); const k2 = ['H', 'M', 'S'].find(k => rest.some(x => x.c === k)); if (k2) now.push({ lap: Math.min(this.laps - 1, lapNow + Math.floor(life * 0.9)), c: k2 }); }
-    const a = this.projectedPos(c, plan), b = this.projectedPos(c, now);
+    return this.comparePlans(c, plan, now, noiseSd);
+  }
+  // two futures for one car, as the pit wall projects them; gain > 0 means `alt` finishes ahead of `plan` (v27: also used to
+  // judge the career's race calls against the plan they replaced)
+  comparePlans(c, plan, alt, noiseSd = 0) {
+    const lapNow = Math.max(0, c.lap) + 1;
+    const a = this.projectedPos(c, plan), b = this.projectedPos(c, alt);
     // the pit wall's estimate is only as good as the strategist (deterministic per lap, so it does not flicker)
     if (noiseSd) {
       const h = Math.sin((lapNow * 12.9898 + c.num * 78.233) * 1.37) * 43758.5453; const u = (h - Math.floor(h)) * 2 - 1;
       const n = u * noiseSd * 1.7;
       const tb = b.t + n; const posB = b.order.filter(x => x.c !== c && x.t < tb).length + 1;
-      return { plan: { pos: a.pos, t: a.t, stops: plan }, now: { pos: posB, t: tb, stops: now }, gain: a.t - tb, noise: noiseSd };
+      return { plan: { pos: a.pos, t: a.t, stops: plan }, now: { pos: posB, t: tb, stops: alt }, gain: a.t - tb, noise: noiseSd };
     }
-    return { plan: { pos: a.pos, t: a.t, stops: plan }, now: { pos: b.pos, t: b.t, stops: now }, gain: a.t - b.t };
+    return { plan: { pos: a.pos, t: a.t, stops: plan }, now: { pos: b.pos, t: b.t, stops: alt }, gain: a.t - b.t };
   }
 
   // v24 tyre temperatures for one car over one step (see the model notes by tyreEqBase)
@@ -3325,7 +3422,7 @@ class RaceSimCore {
   // A rival's lap target, tyre state, wear, engine mode and battery are not visible to our pit wall: for a car of another
   // team the estimate (pace from its lap times, wear from the laps on its set, standard modes) stands in for them.
   seenPace(x, team) {
-    if (x.team === team) return { lt: x.lapTarget + (x.th.d || 0), wear: x.wear, mode: x.mode, soc: x.soc, ot: this.otEligible(x) };
+    if (x.team === team) return { lt: this.passPace(x) + (x.th.d || 0), wear: x.wear, mode: x.mode, soc: x.soc, ot: this.otEligible(x) };
     return { lt: this.estBase(x) + this.envPace() + compoundPace(x.compound, this.wet, this.frac, this.track) + wearDelta(this.estWear(x), this.frac), wear: this.estWear(x), mode: 'normal', soc: 50, ot: false };
   }
   passOdds(c, a, team) {
@@ -3336,9 +3433,9 @@ class RaceSimCore {
     const mAtt = C.mode === 'attack' ? 0.35 : C.mode === 'push' ? 0.15 : C.mode === 'save' ? -0.35 : 0, mDef = A.mode === 'attack' ? 0.3 : A.mode === 'push' ? 0.12 : A.mode === 'save' ? -0.2 : 0;
     const tyreAdv = (A.wear - C.wear) * 0.008, spdAdv = (c.segG[0] - a.segG[0]) * 9;
     const adv = pAdv + tyreAdv + (mAtt - mDef) * 0.3 + (ersAtt - ersDef) * 0.12 + spdAdv;
-    const x = -3.9 + 3.3 * tr.d.ovt + 2.6 * Math.max(0, adv) * (0.2 + tr.d.ovt) + 0.085 * (c.attrs.ovt - a.attrs.def) + (ersAtt - ersDef) * 0.6 + mAtt - mDef - this.wet * 0.3 + passLogitAdj(this.frac) - 0.2 * this.rub;
+    const x = passZoneLogit(tr.d.ovt, Math.max(0, adv)) + 0.085 * (c.attrs.ovt - a.attrs.def) + (ersAtt - ersDef) * 0.6 + mAtt - mDef - this.wet * 0.3 + passLogitAdj(this.frac) + passTrackAdj(tr) - 0.2 * this.rub;
     const pz = adv < 0.06 ? 0 : sigmoid(x);
-    const pnz = pAdv >= 0.6 ? sigmoid(-4.2 + 2.6 * tr.d.ovt + 1.2 * pAdv * (0.2 + tr.d.ovt) + 0.06 * (c.attrs.ovt - a.attrs.def) + (ersAtt - ersDef) * 0.5 + passLogitAdj(this.frac)) : 0;
+    const pnz = pAdv >= 0.6 ? sigmoid(passNzLogit(tr.d.ovt, pAdv) + 0.06 * (c.attrs.ovt - a.attrs.def) + (ersAtt - ersDef) * 0.5 + passLogitAdj(this.frac) + passTrackAdj(tr)) : 0;
     const lap = 1 - Math.pow(1 - pz, tr.zones.length) * (1 - pnz);
     return { zone: pz, lap, adv, laps: lap > 0.004 ? 1 / lap : Infinity, pace: pAdv };
   }
@@ -3358,14 +3455,14 @@ class RaceSimCore {
   hazardOdds(c, hidden) {   // hidden: another team's car — its engine mode, power-unit wear and temperatures are not known
     const fr = this.frac, mode = hidden ? MODES.normal : (MODES[c.mode] || MODES.normal), wetM = 1 + this.wet * 5;
     const puM = hidden ? 1 : 1 + Math.max(0, c.puWear - 60) / 40 * 1.5, brkM = hidden ? 1 : 1 + Math.max(0, c.sys.brkAvg - 900) / 120, h2oM = hidden ? 1 : 1 + Math.max(0, c.sys.h2o - H2O_LIMIT - 4) / 4;
-    const pMech = Math.max(0.00004, (100 - c.rel) * 0.000045) * (mode.risk > 1 ? 1.25 : 1) * puM * brkM * h2oM / fr;
-    const knowM = 1 + (1 - (c.know ?? 0.85)) * 0.8; const pCrash = 0.00022 * (1 + (20 - c.attrs.cons) / 8) * mode.risk * wetM * knowM / fr;
+    const pMech = Math.max(0.00004, (100 - c.rel) * 0.000045) * DNF_K * (mode.risk > 1 ? 1.25 : 1) * puM * brkM * h2oM / fr;
+    const knowM = 1 + (1 - (c.know ?? 0.85)) * 0.8; const pCrash = 0.00022 * DNF_K * (1 + (20 - c.attrs.cons) / 8) * mode.risk * wetM * knowM / fr;
     return { mech: pMech, crash: pCrash, dnf: pMech + pCrash };
   }
   scOdds(team) {
     team = team ?? this.viewerTeam();
     const left = Math.max(0, this.laps - this.leaderLap() - 1); let lam = this.debrisP * Math.min(1, Math.max(0, 0.92 - this.raceFrac())) / 0.87;
-    for (const c of this.cars) { if (c.retired || c.finished) continue; const h = this.hazardOdds(c, c.team !== team); lam += left * (h.crash * 0.88 + h.mech * 0.4); }
+    for (const c of this.cars) { if (c.retired || c.finished) continue; const h = this.hazardOdds(c, c.team !== team); lam += left * (h.crash * 0.9 + h.mech * 0.55); }   // the share of retirements that neutralise the race (retire())
     return { p: 1 - Math.exp(-lam), left };
   }
   // ── v25 local yellow flags (marshal sectors): slow down, no overtaking; a double yellow means be ready to stop ──
@@ -3415,12 +3512,16 @@ class RaceSimCore {
     const otOff = this.wet > 0.45;
     if (otOff !== this.otOff) { this.otOff = otOff; this.emit('sc', otOff ? '레이스 컨트롤: 노면 상태로 오버테이크 모드 사용 중지' : '레이스 컨트롤: 오버테이크 모드 사용 재개', { important: false }); }
     if (prevWet >= 0.25 && this.wet < 0.25 && this.rain < 0.02) this.emit('weather', '노면이 마르고 있습니다. 슬릭 타이어 타이밍을 노릴 때입니다.', { important: true });
+    // v28: a downpour brings out the safety car while water stands on the track and the field changes tyres (2025: Australia,
+    // Britain, Belgium) — once per downpour, more likely the heavier it is
+    if (this.rain < 0.3) this._rainSc = false;
+    else if (!this._rainSc && !this.sc && this.phase === 'racing' && this.rain > 0.7 && this.wet > 0.6) { this._rainSc = true; if (chance(0.35 + (this.rain - 0.7) * 1.5)) this.deploySC('SC', '폭우 — 고인 물과 시야'); }
     if (this.sc && this.sc.type === 'VSC' && this.t >= this.sc.endT && !this.sc.ending) {
       this.sc.ending = true; this.emit('sc', 'VSC 종료 — 그린 플래그!', { important: true }); this.sc = null; this._restartLap = this.leaderLap();
       for (const c of this.cars) c.vscSlack = 0;
     }
     if (!this.sc && this.phase === 'racing' && f > 0.05 && f < 0.92 && chance(this.debrisP * dt / (this.laps * tr.profLap * 1.05))) {
-      this.deploySC(chance(0.6) ? 'VSC' : 'SC', '트랙 위 파편');
+      this.deploySC(chance(0.5) ? 'VSC' : 'SC', '트랙 위 파편');
     }
     if (this.sc && this._lapSc !== 'SC' && this._lapSc !== 'RED') this._lapSc = this.sc.type;
     if (this.flags.length) { const was = this.flags.length; this.flags = this.sc ? [] : this.flags.filter(x => x.until > this.t); if (!this.sc && this.flags.length < was && !this.flags.length) this.emit('flag', '그린 — 옐로 플래그 해제', {}); }
@@ -3515,7 +3616,7 @@ class RaceSimCore {
         const b1 = tr.sectors[1], b2 = tr.sectors[2], bt = tr.trapS;
         if (s0 < b1 && s1 >= b1) c._sT1 = prevT + dt * (b1 - s0) / Math.max(ds, 1e-6);
         if (s0 < b2 && s1 >= b2) c._sT2 = prevT + dt * (b2 - s0) / Math.max(ds, 1e-6);
-        if (!c.inPit && s0 < bt && s1 >= bt) c._trap = c.v;
+        if (!c.inPit && s0 < bt && s1 >= bt && !(this.t - (c._slowT ?? -99) < 4)) c._trap = c.v;   // v28: no reading in the seconds after a moment (a mistake or spin is a corner event; the trap would read its aftermath)
       }
       if (s1 >= L) {
         s1 -= L;
@@ -3648,23 +3749,24 @@ class RaceSimCore {
         if (c.zoneTried[kk]) continue;
         if (Math.abs(c.s / L - 0.5) > 0.02) continue;
         c.zoneTried[kk] = true;
-        const pAdv = a.lapTarget - c.lapTarget + thAdv;
+        const pAdv = this.passPace(a) - this.passPace(c) + thAdv;
         if (pAdv < 0.6) continue;
-        const p = sigmoid(-4.2 + 2.6 * tr.d.ovt + 1.2 * pAdv * (0.2 + tr.d.ovt) + 0.06 * (c.attrs.ovt - a.attrs.def) + (ersAtt - ersDef) * 0.5 + passLogitAdj(this.frac));
+        const p = sigmoid(passNzLogit(tr.d.ovt, pAdv) + 0.06 * (c.attrs.ovt - a.attrs.def) + (ersAtt - ersDef) * 0.5 + passLogitAdj(this.frac) + passTrackAdj(tr));
         if (chance(p)) this.startPass(c, a, false);
         continue;
       }
       const key = c.lap + ':' + zoneId;
       if (c.zoneTried[key]) continue;
       c.zoneTried[key] = true;
-      const pAdv = a.lapTarget - c.lapTarget + thAdv;
+      const pAdv = this.passPace(a) - this.passPace(c) + thAdv;
       const mAtt = c.mode === 'attack' ? 0.35 : c.mode === 'push' ? 0.15 : c.mode === 'save' ? -0.35 : 0;
       const mDef = a.mode === 'attack' ? 0.3 : a.mode === 'push' ? 0.12 : a.mode === 'save' ? -0.2 : 0;
       const tyreAdv = (a.wear - c.wear) * 0.008;
       const spdAdv = (c.segG[0] - a.segG[0]) * 9 + (a.warmLeft > 0 ? 0.25 : 0);   // straight-line speed (power) and a rival on cold tyres
       const adv = pAdv + tyreAdv + (mAtt - mDef) * 0.3 + (ersAtt - ersDef) * 0.12 + spdAdv + chaos;
       if (adv < 0.06) continue;
-      const x = -3.9 + 3.3 * tr.d.ovt + 2.6 * adv * (0.2 + tr.d.ovt) + 0.085 * (c.attrs.ovt - a.attrs.def) + (ersAtt - ersDef) * 0.6 + mAtt - mDef - this.wet * 0.3 + passLogitAdj(this.frac) + (lap1 ? 0.45 : 0) - 0.2 * this.rub;   // marbles off the line make a late move harder
+      const base = lap1 ? -3.9 + 3.3 * tr.d.ovt + 2.6 * adv * (0.2 + tr.d.ovt) + 0.45 : passZoneLogit(tr.d.ovt, adv) + passTrackAdj(tr);   // the opening lap keeps its v23 start model
+      const x = base + 0.085 * (c.attrs.ovt - a.attrs.def) + (ersAtt - ersDef) * 0.6 + mAtt - mDef - this.wet * 0.3 + passLogitAdj(this.frac) - 0.2 * this.rub;   // marbles off the line make a late move harder
       if (c.ers === 'ot') c.soc = Math.max(0, c.soc - 6);
       if (chance(sigmoid(x))) {
         const pc = 0.012 * (1 + (14 - c.attrs.comp) / 10) * (1 + (14 - a.attrs.comp) / 14) * MODES[c.mode].risk * (1 + this.wet * 1.5) * (lap1 ? 1.8 : 1);
@@ -3675,7 +3777,7 @@ class RaceSimCore {
         this.noteStuck(c, a);
         if (pAdv > 0.3 && chance(0.25)) c.v *= 0.97;
         if (chance(0.02 * MODES[c.mode].risk)) {
-          c.v *= 0.6; if (chance(0.35)) this.flatSpot(c, randf(0.06, 0.3), '추월 시도 중 락업');
+          c.v *= 0.6; c._slowT = this.t; if (chance(0.35)) this.flatSpot(c, randf(0.06, 0.3), '추월 시도 중 락업');
           if (c.player) this.emit('player', `${iga(c.short)} 추월 시도 중 락업! 시간을 잃습니다.`, { cars: [c.id], player: true });
         }
       }
@@ -3717,6 +3819,9 @@ class RaceSimCore {
       this.emit('penalty', `스튜어드: ${c.short} 점프 스타트 — ${RULE_PEN}초 페널티`, { cars: [c.id], player: c.player, important: true });
     }
   }
+  // v28: the pace a pass is decided on — the car's lap target with most of this lap's random form taken out, so two evenly
+  // matched cars do not swap places back and forth on lap-to-lap noise
+  passPace(c) { return c.lapTarget - (1 - PASS_NOISE_K) * (c.lapNoise || 0); }
   startPass(c, a, yielded) { c.passing = { id: a.id, t: 9 }; a.yieldTo = c.id; c._yielded = yielded; }
   onPassComplete(c, a) {
     if (c._yielded || this.sc) return;
@@ -3724,6 +3829,7 @@ class RaceSimCore {
     const pos = Math.min(ci, ai) + 1;
     if (Math.abs(this.progress(c) - this.progress(a)) > 0.5) return;
     c.an.passMade++; a.an.passLost++;
+    if (c.lap < 1) c.an.passL1 = (c.an.passL1 || 0) + 1;   // opening-lap passes: counted apart (published counts leave lap 1 out)
     const verbs = ['추월합니다', '제치고 올라섭니다', '인사이드를 파고들어 추월!', '아웃사이드로 돌아나가며 추월!', '브레이킹 대결에서 승리하며 추월'];
     const how = c.ers === 'ot' ? ' (오버테이크 모드)' : '';
     this.emit('overtake', `${iga(c.short)} ${eulreul(a.short)} ${pick(verbs)}${how} — P${pos}`, { cars: [c.id, a.id], player: c.player || a.player, important: pos <= 3 || c.player || a.player });
@@ -3736,7 +3842,7 @@ class RaceSimCore {
       this.emit('incident', `${wagwa(c.short)} ${a.short} 접촉! 프런트 윙 손상`, { cars: [c.id, a.id], player: isP, important: true });
       this.startPass(c, a, false);
     } else if (r < 0.75) {
-      c.v *= 0.2; c.lapTarget += randf(4, 9);
+      c.v *= 0.2; c._slowT = this.t; c.lapTarget += randf(4, 9);
       this.emit('incident', `${a.short}와(과) 부딪힌 ${iga(c.short)} 스핀합니다!`, { cars: [c.id, a.id], player: isP, important: true });
     } else if (r < 0.9) this.retire(chance(0.5) ? c : a, '충돌 사고');
     else { this.retire(a, '충돌 사고'); this.retire(c, '충돌 사고'); }
@@ -3752,12 +3858,12 @@ class RaceSimCore {
     else if (inc.kind === 'crash') this.retire(c, (this.wet > 0.2 ? '젖은 노면에서 미끄러지며 ' : '') + pick(['벽에 충돌하는 사고', '코너에서 스핀 후 배리어 충돌 사고', '연석을 밟고 균형을 잃는 사고']));
     else if (inc.kind === 'mistake') {
       const loss = randf(0.6, 2.6);
-      c.v *= 0.55; c.lapTarget += loss; c.an.mistakes++; c.an.mistakeLoss += loss;
+      c.v *= 0.55; c._slowT = this.t; c.lapTarget += loss; c.an.mistakes++; c.an.mistakeLoss += loss;
       const k = Math.floor(rand() * 3); if (k === 1) this.flatSpot(c, randf(0.08, 0.35), '락업');
       if (k === 0 && loss > 1.4) this.raiseFlag(c.s, 'Y', randf(12, 25), `${c.code || c.short} 코스 이탈`, c);
       if (c.player || loss > 2.0) this.emit(c.player ? 'player' : 'info', `${iga(c.short)} ${['코너를 놓치며 트랙을 벗어납니다', '락업으로 브레이킹 포인트를 지나칩니다', '탈출 구간에서 휠스핀으로 시간 손실'][k]} (약 ${loss.toFixed(1)}초)`, { cars: [c.id], player: c.player });
     } else if (inc.kind === 'puncture') {
-      c.v *= 0.35; c.lapTarget += 18; c.wear = 100;
+      c.v *= 0.35; c._slowT = this.t; c.lapTarget += 18; c.wear = 100;
       const alt = ['M', 'H', 'S'].find(k => bestSet(c.sets, k));
       c.boxRequest = alt || null; c.manualBox = true;
       this.emit('incident', `${c.short} 펑크! 피트로 천천히 돌아옵니다.`, { cars: [c.id], player: c.player, important: true });
@@ -4163,7 +4269,7 @@ function areaGainEffect(team, area, gain) {
   }
   if (area === 'tyre') { const cur = team.car.tyre; const f0 = 1.52 - cur * 0.0085, f1 = 1.52 - (cur + gain) * 0.0085; return { kind: 'tyre', wearPct: (1 - f1 / f0) * 100 }; }
   const laps = next ? TRACKS[next].d.laps : 57; // full-distance mechanical failure odds scale out with race length
-  return { kind: 'rel', dnfPct: gain * 0.000045 * laps * 100 };
+  return { kind: 'rel', dnfPct: gain * 0.000045 * DNF_K * laps * 100 };
 }
 function fmtGainEffect(e) {
   if (e.kind === 'pace') return `랩당 −${e.next.toFixed(3)}초 (${e.nextTrack ? esc(TRACKS[e.nextTrack].d.name) : '다음 레이스'}) · 남은 시즌 평균 −${e.season.toFixed(3)}초`;
@@ -4272,7 +4378,7 @@ function newGame(opt) {
     teams: {}, drivers: {}, staff: {}, races: [], inbox: [], news: [], ledger: [],
     board: { target: 10, confidence: 62, history: [], long: null }, weekend: null, phase: 'season', seasonsDone: 0,
     history: [], gameOver: null, offers: [], msgSeq: 1, lastRaceRound: -1,
-    settings: { autoContinue: false }, mode: opt.mode === 'sa' ? 'sa' : 'tp', raceLog: [], actLog: [], guide: { on: opt.mode !== 'sa' && opt.guide !== false, done: {} },
+    settings: { autoContinue: false }, mode: opt.mode === 'sa' ? 'sa' : 'tp', raceLog: [], actLog: [], guide: { on: (opt.mode !== 'sa' || opt.start === 'strategist') && opt.guide !== false, done: {} },
   };
   // v19: your own team joins as the 12th
   const seeds = TEAM_SEED.slice(); const cus = opt.custom ? customSeed(opt.custom) : null; if (cus) { seeds.push(cus); S.playerTeam = CUSTOM_ID; }
@@ -4324,9 +4430,12 @@ function newGame(opt) {
   seasonStartSnap();
   addNews(`${S.year} 시즌 개막을 앞두고 ${teamCount()}개 팀이 신차 발표를 마쳤습니다. 시즌 개막전은 ${TRACKS[S.races[0].track].d.name} 그랑프리입니다.`);
   if (cus) addNews(`새 팀 ${cus.name}(${cus.kname})이 ${CUSTOM_LEVELS[cus.level].label}으로 그리드에 합류합니다 — 열두 번째 팀입니다.`);
+  mediaHook('ensureWorld');
   mediaHook('ensureAuto');
   if (S.mode === 'sa') mediaHook('applyAutoPreset', 'analyst');   // Strategy Analysis: the staff run the team, the player runs the strategy
+  mediaHook('careerNewGame', opt);   // v27: a career starts as a strategist (the quick start: as team principal)
   mediaHook('autoDaily');   // staff who were told to run things start on day one
+  mediaHook('careerDaily');
   return S;
 }
 function makeDriver(o) {
@@ -4684,6 +4793,7 @@ function advanceDay() {
   processOffers();
   // staff autopilots (R&D restarts, power units, contracts…) act before the next weekend can start
   mediaHook('autoDaily');
+  mediaHook('careerDaily');   // v27: the team principal answers what the player's role does not decide
   // weekend start (Friday before race)
   const r = S.races.find(x => !x.done && dAdd(x.date, -2) === S.date);
   if (r) { startWeekend(r); return 'weekend'; }
@@ -5080,7 +5190,7 @@ function takeQualiSet(did, wantNew, comp) {
   if (wantNew && fresh.length) return fresh[0];
   return used[0] || fresh[0];
 }
-function qualiStageNames() { const w = S.weekend; return w && w.sprint && w.part === 'sprint' ? ['SQ1', 'SQ2', 'SQ3'] : ['Q1', 'Q2', 'Q3']; }
+function qualiStageNames() { const w = S.weekend; const q = curSeries().weekend.quali; return (w && w.sprint && w.part === 'sprint' ? q.sprintStages : q.stages).slice(); }
 function runQualiSession(stage, ids) {
   const w = S.weekend; const tr = TRACKS[w.track];
   const all = qualiEntries(); const entries = all.filter(e => ids.includes(e.id));
@@ -5116,7 +5226,7 @@ function runQualiSession(stage, ids) {
 // pre-simulated session (simulateQualiSession: track evolution by when it starts, tyre wear, risk, mistakes) plus the
 // traffic actually on track at that moment — the late-session queue is real, so the timing call matters. The AI and the
 // strategist's cars follow their usual two-run pattern; the player's cars only move on a command.
-const QL_LEN = { Q1: 18, Q2: 15, Q3: 12, SQ1: 12, SQ2: 10, SQ3: 8 };
+const QL_LEN = (() => { const q = SERIES_RULES.f1.weekend.quali, o = {}; q.stages.forEach((k, i) => { o[k] = q.mins[i]; }); q.sprintStages.forEach((k, i) => { o[k] = q.sprintMins[i]; }); return o; })();   // session minutes (series.js)
 function qlPrep(stage, ids) {
   const w = S.weekend; const tr = TRACKS[w.track];
   const all = qualiEntries(); const entries = all.filter(e => ids.includes(e.id));
@@ -5459,6 +5569,7 @@ function applyRaceResult(sim) {
   mediaHook('recordRaceData', sim, res, report);   // lap data + the pre-race prediction, for replay, validation and records
   mediaHook('reportCapture', sim, res, report, repPre, { obj, boardDelta });   // everything the race report needs, kept on the race entry
   mediaHook('mediaAfterRace', res, report);
+  mediaHook('careerAfterRace', sim, res);   // v27: the player's decisions are judged, reputation moves, the market opens at half-season
   try { race.snap = raceSnap(pt); } catch (e) { console.error(e); }   // v20: what the season book needs from this weekend
   w.result = { res, obj, boardDelta, report };
   w.stage = 'post'; delete w.raceRun;   // the resume record is only for a race in progress
@@ -6283,9 +6394,11 @@ function seasonEnd() {
   S.review = { year: S.year, cs, ds, pos, target, verdict, fired, prize: prizeFor(pos), board: boardRes, carBefore: Object.assign({}, pt.car) };
   try { S.review.book = buildSeasonBook(S.review); S.history[S.history.length - 1].book = S.review.book; } catch (e) { console.error('season book', e); }
   mediaHook('mediaSeasonEnd', S.review);
-  if (fired) S.gameOver = { reason: `${S.year} 시즌 컨스트럭터 ${pos}위 (목표 ${target}위). 이사회 신뢰도가 바닥나 경질되었습니다.` };
+  const careerGoesOn = mediaHook('careerSeasonEnd', S.review, fired);   // v27: a sacked principal gets offers, not a game over
+  if (fired && !careerGoesOn) S.gameOver = { reason: `${S.year} 시즌 컨스트럭터 ${pos}위 (목표 ${target}위). 이사회 신뢰도가 바닥나 경질되었습니다.` };
 }
 function startNextSeason() {
+  mediaHook('careerRollover');   // v27: a move agreed last season takes effect before anything reads the player's team
   const cs = S.review.cs;
   // prize position for next season FOM & ATR
   cs.forEach((x, i) => { S.teams[x.id].prevPos = i + 1; });
@@ -6457,7 +6570,9 @@ function migrateSave() {
   if (S.weekend && S.weekend.stage === 'race' && !S.weekend.raceRun) S.weekend.stage = 'prerace';   // a race with a resume record is replayed when the weekend screen opens
   try { repairWeekend(); } catch (e) { console.error(e); }
   mediaHook('ensureMedia');
+  mediaHook('ensureWorld');
   mediaHook('ensureAuto');
+  mediaHook('ensureCareer');
 }
 let LAST_BACKUP = 0;
 // past seasons' reports are written packed: they change only at a season change or a trim (ARCH_REV), so the packing runs rarely
@@ -7013,18 +7128,18 @@ const SA = (() => {
     const lane = 2 * h / (tr.pitSpeedFor ? tr.pitSpeedFor(frac || 1) : PIT_SPEED);   // the same limiter the race engine uses for this race length
     return (laneCache[key] = { green: lane - tg, sc: lane - tsc, vsc: lane - tv });
   }
-  // neutralisations the race engine produces (sim.js retire / debris): on-track retirements — a crash brings out the SC 62% / VSC 26%,
-  // a failure SC 12% / VSC 28% — and debris (track setting × 0.25 per race, VSC 60%). The opening lap carries 3.5× the crash risk.
+  // neutralisations the race engine produces (sim.js retire / debris): on-track retirements — a crash brings out the SC 66% / VSC 24%,
+  // a failure SC 22% / VSC 33% — and debris (track setting × 0.4 per race, VSC 50%). The opening lap carries 3.5× the crash risk. (v28)
   // A running SC/VSC blocks further call-outs, so the raw sum overstates the count: SC_CAL is the engine-measured ratio (144 races).
   const SC_CAL = 0.8;
   function scHazard(field, tr, frac, n) {
     let crash = 0, mech = 0; const fr = frac || 1;
-    for (const e of field) { mech += Math.max(0.00004, (100 - e.rel) * 0.000045) * (1 + Math.max(0, (e.puWear || 0) - 60) / 40 * 1.5) / fr; crash += 0.00022 * (1 + (20 - e.attrs.cons) / 8) * (1 + (1 - (e.know ?? 0.85)) * 0.8) / fr; }
-    const k = HAZ_CAL * SC_CAL; const deb = tr.d.sc * 0.25 * SC_CAL;
-    const per = (crash * 0.88 + mech * 0.40) * k;   // later laps
-    const first = (crash * 3.5 * 0.88 + mech * 0.40) * k;
+    for (const e of field) { mech += Math.max(0.00004, (100 - e.rel) * 0.000045) * DNF_K * (1 + Math.max(0, (e.puWear || 0) - 60) / 40 * 1.5) / fr; crash += 0.00022 * DNF_K * (1 + (20 - e.attrs.cons) / 8) * (1 + (1 - (e.know ?? 0.85)) * 0.8) / fr; }
+    const k = HAZ_CAL * SC_CAL; const deb = tr.d.sc * 0.4 * SC_CAL;
+    const per = (crash * 0.9 + mech * 0.55) * k;   // later laps
+    const first = (crash * 3.5 * 0.9 + mech * 0.55) * k;
     const lam = first + per * Math.max(0, (n || 50) - 1) + deb;
-    const scN = (crash * 0.62 + mech * 0.12) * k * (Math.max(0, (n || 50) - 1) + 0) + crash * 3.5 * 0.62 * k + deb * 0.4;
+    const scN = (crash * 0.66 + mech * 0.22) * k * (Math.max(0, (n || 50) - 1) + 0) + crash * 3.5 * 0.66 * k + deb * 0.5;
     return { lam, firstShare: lam > 0 ? first / lam : 0, scShare: lam > 0 ? clamp(scN / lam, 0.2, 0.8) : 0.5 };
   }
   // future neutralisations as a few weighted scenarios: none, or one SC/VSC on the opening lap (pre-race only) or early/middle/late in what is left
@@ -7109,7 +7224,7 @@ const SA = (() => {
     add('scProb', Math.round(clamp(1 - Math.exp(-hz.lam), 0.02, 0.95) * 100) / 100, '확률', 'measured', '세이프티카/VSC 발생 확률', `레이스 엔진의 출동 원인으로 계산한 레이스당 확률 — 코스 위 리타이어(사고 → SC 62%·VSC 26%, 고장 → SC 12%·VSC 28%)와 트랙 파편(설정값 ${tr.d.sc}). 출동 중엔 다른 출동이 없으므로 엔진 측정 보정 ×${SC_CAL}. 평균 ${hz.lam.toFixed(2)}회/레이스 (첫 랩 ${Math.round(hz.firstShare * 100)}%)`, { min: 0, max: 0.97, step: 0.01 });
     add('posSd', 0.35, '초/√랩', 'measured', '순위 불확실성 (레이스 잡음)', '기대 순위 계산에 쓰는 차별 완주 시간의 흐트러짐. 실수·피트 정차 편차·랩타임 잡음·세이프티카로 시간이 남은 랩 수의 제곱근만큼 퍼진다고 보고, 레이스 엔진 결과와 순위 오차가 가장 작아지도록 맞춘 값', { min: 0, max: 4, step: 0.05 });
     add('redProb', 0.04, '확률', 'measured', '레드 플래그 확률 (마른 노면)', '레이스 엔진 400경기 측정: 마른 노면 약 4%, 비가 온 레이스는 약 6배(25%). 큰 사고 리타이어 중 일부가 방호벽 수리로 레이스를 멈춥니다.', { min: 0, max: 0.5, step: 0.01 });
-    add('scShare', Math.round(hz.scShare * 100) / 100, '비율', 'game', 'SC 대 VSC 비율', '출동 원인별 게임 규칙(파편 VSC 60%, 사고 리타이어 SC 62%, 고장 SC 12%)을 원인 비중으로 평균', { min: 0, max: 1, step: 0.05 });
+    add('scShare', Math.round(hz.scShare * 100) / 100, '비율', 'game', 'SC 대 VSC 비율', '출동 원인별 게임 규칙(파편 VSC 50%, 사고 리타이어 SC 66%, 고장 SC 22%, 폭우 SC)을 원인 비중으로 평균', { min: 0, max: 1, step: 0.05 });
     add('scLaps', Math.max(2, Math.round(4 * frac + 1)), '랩', 'game', '세이프티카 지속', '게임 규칙: 최소 2랩, 레이스 길이에 비례', { min: 1, max: 8, step: 1, int: true });
     add('vscSec', Math.round(80 * Math.max(0.6, frac)), '초', 'game', 'VSC 지속 (평균)', '게임 규칙: 50~110초 × 레이스 길이 계수', { min: 20, max: 300, step: 5 });
     add('rainProb', w ? Math.round(w.forecast.race) / 100 : Math.round(tr.d.rain * 100) / 100, '확률', w ? 'estimate' : 'game', '결승 강수 확률', w ? `팀 예보 (전략가 능력치에 따라 오차). 실제 날씨는 알 수 없음` : '트랙 기후 설정값', { min: 0, max: 1, step: 0.01 });
@@ -7306,7 +7421,7 @@ const SA = (() => {
   function passProb(m, att, def, adv) {
     const tr = m.track; const zones = Math.max(1, tr.zones.length);
     if (adv < 0.06) return 0;
-    const x = -3.9 + 3.3 * tr.d.ovt + 2.6 * adv * (0.2 + tr.d.ovt) + 0.085 * (att.attrs.ovt - def.attrs.def) + passLogitAdj(fracOf(m));
+    const x = passZoneLogit(tr.d.ovt, adv) + 0.085 * (att.attrs.ovt - def.attrs.def) + passLogitAdj(fracOf(m)) + passTrackAdj(tr);   // v28: the race's formula
     const p = sigmoid(x);
     return 1 - Math.pow(1 - p, zones);
   }
@@ -7359,7 +7474,7 @@ const SA = (() => {
     const order = fin.concat(out);
     const me = cars.find(c => c.e.id === m.me.id);
     // expected position once retirements are allowed for: each car ahead drops out with its race-engine hazard probability
-    const pDnf = e => { const fr = fracOf(m); const pm = Math.max(0.00004, (100 - e.rel) * 0.000045) * (1 + Math.max(0, (e.puWear || 0) - 60) / 40 * 1.5) / fr; const pc = 0.00022 * (1 + (20 - e.attrs.cons) / 8) * (1 + (1 - (e.know ?? 0.85)) * 0.8) / fr; return 1 - Math.pow(1 - (pm + pc) * pv(m, 'dnfRisk') * DNF_CAL, n - off + (off ? 0 : 2.5)); };
+    const pDnf = e => { const fr = fracOf(m); const pm = Math.max(0.00004, (100 - e.rel) * 0.000045) * DNF_K * (1 + Math.max(0, (e.puWear || 0) - 60) / 40 * 1.5) / fr; const pc = 0.00022 * DNF_K * (1 + (20 - e.attrs.cons) / 8) * (1 + (1 - (e.know ?? 0.85)) * 0.8) / fr; return 1 - Math.pow(1 - (pm + pc) * pv(m, 'dnfRisk') * DNF_CAL, n - off + (off ? 0 : 2.5)); };
     const myIdx = me ? order.indexOf(me) : -1;
     // expected position: every other finisher beats us with the probability that its race-noise-blurred time is lower
     // (Gaussian, sd grows with the laps still to run) and that it does not retire. sd → 0 gives the plain order minus DNFs.
@@ -7550,8 +7665,8 @@ const SA = (() => {
     if (f.dnf) {
       scn.dnf = {};
       for (const e of m.field) {
-        const pMech = Math.max(0.00004, (100 - e.rel) * 0.000045) * (1 + Math.max(0, (e.puWear || 0) - 60) / 40 * 1.5) / fracOf(m);
-        const pCrash = 0.00022 * (1 + (20 - e.attrs.cons) / 8) * (1 + (1 - (e.know ?? 0.85)) * 0.8) / fracOf(m);
+        const pMech = Math.max(0.00004, (100 - e.rel) * 0.000045) * DNF_K * (1 + Math.max(0, (e.puWear || 0) - 60) / 40 * 1.5) / fracOf(m);
+        const pCrash = 0.00022 * DNF_K * (1 + (20 - e.attrs.cons) / 8) * (1 + (1 - (e.know ?? 0.85)) * 0.8) / fracOf(m);
         const p = (pMech + pCrash) * pv(m, 'dnfRisk') * DNF_CAL;
         for (let l = 1; l <= n; l++) if (r() < p * (l === 1 ? 3.5 : 1)) { scn.dnf[e.id] = l; break; }   // the opening lap carries 3.5× the crash risk, as in the engine
       }
@@ -8778,7 +8893,7 @@ function addThread(o) {
   if (m.threads.length > 60) m.threads.length = 60;
 }
 const mpick = arr => pick(arr);
-function mgrName() { const n = String(S.manager.name || '').replace(/\s*감독$/, '').trim(); return n ? n + ' 감독' : '감독'; }   // the default name is just '감독'
+function mgrName() { const t = typeof careerAddress === 'function' ? careerAddress() : '감독'; const n = String(S.manager.name || '').replace(/\s*(감독|전략가|수석 전략가|전략 디렉터|팀 프린시펄)$/, '').trim(); return n ? n + ' ' + t : t; }   // the default name is just '감독'
 const posWord = p => p === 1 ? '우승' : p <= 3 ? `${p}위 포디움` : `${p}위`;
 
 // expectation for the player's team at a track (car pace rank → rough finishing position)
@@ -9821,6 +9936,423 @@ function autoRunRec(id) {
 }
 function autoRunAllRecs() { const done = []; for (const r of autoRecs().filter(x => x.bulk)) { const s = autoRunRec(r.id); if (s) done.push(s); } return done; }
 
+// ───────── career.js — the player is a person with a career (v27) ─────────
+// A career starts as a team's strategist. Promotions are offers, not automatic: the player takes them, turns them down, or
+// moves to another team. A role does not change the game's systems, only what the player runs; the rest is run by the
+// team (the AI team principal, through the same automation the assistant uses). Every random draw here comes from a hash of
+// the situation, never from the game's random stream, so a career never changes how races or seasons play out.
+'use strict';
+const ROLES = {
+  strategist: { name: '전략가', track: 'strat', rank: 1, cars: 1, weekend: 'practice' },
+  senior: { name: '수석 전략가', track: 'strat', rank: 2, cars: 2, weekend: 'manual' },
+  director: { name: '전략 디렉터', track: 'strat', rank: 3, cars: 2, weekend: 'manual' },
+  principal: { name: '팀 프린시펄', track: 'mgmt', rank: 4 },
+  head: { name: '모터스포츠 총괄', track: 'mgmt', rank: 5, locked: true },   // opens with the first endurance series
+};
+const ROLE_SCOPE = {
+  strategist: { mine: ['담당 차 1대의 결승 전략과 레이스 콜', '예선 런 계획'], theirs: ['다른 차의 레이스', '연습 주행(엔지니어)', '드라이버·스태프·개발·시설·예산(팀 프린시펄)'] },
+  senior: { mine: ['두 대의 결승 전략과 레이스 콜', '연습 주행 프로그램', '예선 런 계획'], theirs: ['드라이버·스태프·개발·시설·예산(팀 프린시펄)'] },
+  director: { mine: ['두 대의 결승 전략과 레이스 콜', '연습 주행 프로그램', '전략 스태프 채용'], theirs: ['드라이버·개발·시설·예산(팀 프린시펄)'] },
+  principal: { mine: ['팀 전체: 드라이버·스태프·개발·시설·예산·이사회', '원하면 레이스 콜'], theirs: ['맡긴 업무(자동화 설정)'] },
+};
+// reputation an offering team asks for, by its tier (1 = front-runner): a strategist's reputation for the strategy roles,
+// for team principal the management reputation (or a strategy director's, discounted)
+const REP_NEED = {
+  strategist: { 1: 58, 2: 46, 3: 34, 4: 18 }, senior: { 1: 68, 2: 56, 3: 44, 4: 34 },
+  director: { 1: 78, 2: 66, 3: 56, 4: 48 }, principal: { 1: 80, 2: 70, 3: 58, 4: 50 },
+};
+const CAREER_ACTS = { careeraccept: 1, careerdecline: 1 };
+
+function careerHash(key) { let h = 2166136261; const s = String(key); for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return ((h >>> 0) % 100000) / 100000; }
+// older careers (and the quick start) are team principals with nothing to unlock
+function ensureCareer() {
+  if (!S) return null;
+  let C = S.career;
+  if (!C || typeof C !== 'object') C = S.career = { v: 1, role: 'principal', legacy: true, rep: { strat: 50, mgmt: 50 } };
+  if (!ROLES[C.role] || ROLES[C.role].locked) C.role = 'principal';
+  C.rep = C.rep || { strat: 40, mgmt: 20 };
+  if (!(C.rep.strat >= 0)) C.rep.strat = 40; if (!(C.rep.mgmt >= 0)) C.rep.mgmt = 20;
+  C.team = S.playerTeam; C.since = C.since || S.date; C.races = C.races || 0;
+  C.judge = Array.isArray(C.judge) ? C.judge : []; C.history = Array.isArray(C.history) ? C.history : [];
+  C.offers = Array.isArray(C.offers) ? C.offers : []; C.cool = C.cool || {}; C.rel = C.rel || {}; C.seq = C.seq || 1;
+  if (C.car !== 0 && C.car !== 1) C.car = 1;
+  return C;
+}
+// a new game: opt.start 'strategist' (the career; the player picks nothing above the role) or the quick start as principal
+function careerNewGame(opt) {
+  const st = opt && opt.start === 'strategist';
+  S.career = { v: 1, role: st ? 'strategist' : 'principal', legacy: false, rep: st ? { strat: 30, mgmt: 10 } : { strat: 45, mgmt: 45 }, car: opt && (opt.car === 0 || opt.car === 1) ? opt.car : 1 };
+  ensureCareer(); S.career.since = S.date;
+  if (st) { careerApplyScope(); careerLog(`${S.teams[S.playerTeam].name} 전략가로 커리어 시작`); }
+  else careerLog(`${S.teams[S.playerTeam].name} 팀 프린시펄로 시작`);
+}
+function careerRole() { return S && S.career && ROLES[S.career.role] ? S.career.role : 'principal'; }
+function roleInfo(r) { return ROLES[r || careerRole()]; }
+function isPrincipal() { const r = careerRole(); return r === 'principal' || r === 'head'; }
+function careerTitle() { return roleInfo().name; }
+// what the player may do in the current role
+function roleCan(area) {
+  if (isPrincipal()) return true;
+  const rk = roleInfo().rank;
+  if (area === 'race' || area === 'quali') return true;
+  if (area === 'practice' || area === 'carAssign') return rk >= 2;
+  if (area === 'stratStaff') return rk >= 3;
+  return false;   // manage, decide, press, money: the team principal's
+}
+// the team runs what the role does not: automation set to the team's own staff, strategy-analysis screens, the car the role covers
+function careerApplyScope() {
+  const C = ensureCareer(); if (!C || isPrincipal()) return;
+  const R = roleInfo();
+  S.mode = 'sa';
+  if (typeof ensureAuto === 'function') { ensureAuto(); applyAutoPreset('analyst'); S.settings.auto.weekend = R.weekend; S.settings.auto.press = 'smart'; S.settings.auto.decisions = 'auto'; }
+  S.settings.carAssign = R.cars === 1 ? C.car : 'both';
+}
+// actions outside the role: a reason (shown as a toast), or null when allowed
+const CAREER_GATE = {
+  offer: 'manage', sendoffer: 'manage', release: 'manage', puswap: 'manage', swapres: 'manage', rdstart: 'manage', rdgo: 'manage', nextfocus: 'manage',
+  campaign: 'manage', facup: 'manage', autorec: 'manage', autoall: 'manage', autoset: 'manage', autopreset: 'manage', modeask: 'manage', modeset: 'manage',
+  pressopen: 'press', pressans: 'press', pressskip: 'press', msgact: 'decide', sprinttoggle: 'manage',
+  rassign: 'carAssign', pwassign: 'carAssign', prun: 'practice', pauto: 'practice', pautoall: 'practice', pcomp: 'practice', pnext: 'practice', hire: 'hire',
+};
+function careerGate(a, d) {
+  if (!S || isPrincipal()) return null;
+  const k = CAREER_GATE[a]; if (!k) return null;
+  if (k === 'hire') { if (roleCan('stratStaff') && d && d.role === 'strat') return null; return `채용은 팀 프린시펄이 합니다${roleCan('stratStaff') ? ' (전략 스태프는 직접 채용할 수 있어요)' : ''}`; }
+  if (roleCan(k)) return null;
+  return { manage: '이 결정은 팀 프린시펄의 일이에요', decide: '이 결정은 팀 프린시펄이 내립니다', press: '기자회견은 팀 프린시펄과 PR팀이 맡아요', practice: '연습 주행은 엔지니어가 운영해요 (수석 전략가부터 직접)', carAssign: '담당 차는 팀이 정해요 (수석 전략가부터 두 대 모두)' }[k] || '지금 역할에서는 할 수 없어요';
+}
+// inbox decisions are the team principal's: an AI principal answers them the day they arrive
+function careerAiPick(m) {
+  const acts = m.actions; const at = re => acts.findIndex(x => re.test(x.act));
+  if (m.cat === 'staff') { const i = at(/^renewStaff$/); return i >= 0 ? i : 0; }
+  if (m.cat === 'sponsor2' || m.cat === 'event') { const i = at(/^(subsponsor|evSponsor|evKeepStaff)$/); if (i >= 0) return i; const n = at(/^none$/); return n >= 0 ? n : acts.length - 1; }
+  return acts.length > 1 ? 1 : 0;   // sponsor renewal, board goals: the assistant's default
+}
+function careerDaily() {
+  const C = S && S.career; if (!C) return;
+  if (!isPrincipal()) {
+    careerApplyScope();
+    for (const m of S.inbox.filter(x => x.actions && !x.resolved && !x.career)) {
+      const i = careerAiPick(m); if (i < 0 || !m.actions[i]) continue;
+      try { doAction(m.id, i); } catch (e) { console.error(e); continue; }
+      m.principalPick = m.actions[i].label; m.stop = false;
+      if (typeof autoLog === 'function') autoLog('decision', `팀 프린시펄 결정: "${m.subject}" → ${m.actions[i].label}`, '팀 프린시펄');
+    }
+  }
+  // mid-season offers lapse after three weeks
+  for (const o of C.offers) if (o.status === 'open' && o.expires && S.date > o.expires) { o.status = 'lapsed'; careerLog(`${S.teams[o.team].name}의 ${ROLES[o.role].name} 제안이 기한을 넘겨 사라졌습니다`); }
+}
+function careerLog(text) { const C = S.career; C.log = C.log || []; C.log.unshift({ date: S.date, text }); if (C.log.length > 60) C.log.length = 60; }
+
+// ── judgement: each decision against the alternative, with the information the pit wall had at that moment ──
+// (the box-now-vs-plan projection the race card shows, with the same strategist noise), never against how the race turned out
+function careerNoise() { return (20 - staffRating(playerTeam(), 'strat')) * 0.25; }
+function careerRaceStart(sim) {
+  const w = S.weekend; if (!w || !S.career || (w.sprint && w.part === 'sprint')) { if (w) w.judge = null; return; }
+  const cars = (typeof myCars === 'function' ? myCars() : playerTeam().drivers).filter(id => sim.byId[id]);
+  const plan = {};
+  for (const id of cars) {
+    const st = w.strategy && w.strategy[id]; const opts = w.stratOpts && w.stratOpts[id];
+    if (!st || !opts || !opts.length || !(st.idx >= 0) || !opts[st.idx]) continue;
+    const best = Math.min(...opts.map(o => o.expPos).filter(v => v != null)); const ch = opts[st.idx].expPos;
+    if (ch == null || !isFinite(best)) continue;
+    plan[id] = { name: opts[st.idx].name, exp: +ch.toFixed(2), best: +best.toFixed(2), loss: +Math.max(0, ch - best).toFixed(2) };
+  }
+  w.judge = { round: w.round, cars, plan, ev: [], sc: null, scN: 0 };
+}
+// a race call (box, stay, a new plan from the live analysis) is judged as the change it makes to the car's remaining stops:
+// the plan before the call against the plan after it, projected by the pit wall at that moment. Calls revised before they
+// take effect (box, then cancel) are judged once, as the net change from where the car stood before the first of them.
+function careerSnap(sim, id) {
+  const j = S && S.weekend && S.weekend.judge; const c = sim && sim.byId[id];
+  if (!j || !c || !j.cars.includes(id) || c.retired || c.finished || c.inPit || sim.phase !== 'racing' || sim.laps - c.lap <= 2) return null;
+  return { stops: sim.expectedStops(c).map(s => ({ lap: s.lap, c: s.c })), box: c.boxRequest || null, pits: c.an.pits.length };
+}
+// the stops the engine will really make: once a car has no planned stops left, the engine adds one where its tyres or the
+// two-compound rule force it (expectedStops). Apply that same rule after the last stop of a future, so a call is judged
+// against what would really follow, not against one set run to the flag.
+function careerComplete(sim, c, stops) {
+  const out = stops.map(s => ({ lap: s.lap, c: s.c }));
+  const life = (k, set) => tyreLife(k, sim.track, c.attrs.tyre, c.tyreEff, sim.frac, set.wear);
+  for (let n = 0; n < 3 && out.length; n++) {   // each added stint may need its own stop (short races wear tyres fast)
+    const last = out[out.length - 1]; if (!'SMH'.includes(last.c)) break;
+    const lapsLeft = sim.laps - last.lap; if (lapsLeft <= 1) break;
+    const pool = c.sets.slice(); for (const s of out.slice(0, -1)) { const x = bestSet(pool, s.c); if (x) pool.splice(pool.indexOf(x), 1); }
+    const set = bestSet(pool, last.c); if (!set) break;
+    const r = wearRate(last.c, sim.track, c.attrs.tyre, c.tyreEff, 'normal', sim.frac, sim.wet);
+    const dry = new Set([...c.usedCompounds, ...out.map(s => s.c)].filter(x => 'SMH'.includes(x)));
+    const needRule = sim.ruleApplies(c) && dry.size < 2;
+    if (!(set.wear + r * lapsLeft > 88 || needRule)) break;
+    const lap = Math.min(sim.laps - 1, Math.max(last.lap + 1, last.lap + Math.floor((80 - set.wear) / r)));
+    const rest = pool.filter(x => x !== set); const left2 = sim.laps - lap;
+    const avail = ['S', 'M', 'H'].filter(k => (k !== last.c || !needRule) && bestSet(rest, k));
+    if (!avail.length) break;
+    // like the engine's pickDry: the softest compound that lasts to the flag, else the longest-lasting one
+    const L = {}; avail.forEach(k => { L[k] = life(k, bestSet(rest, k)); });
+    const k2 = avail.find(k => L[k] * 1.12 >= left2) || avail.slice().sort((p, q) => L[q] - L[p])[0];
+    out.push({ lap, c: k2 });
+  }
+  return out;
+}
+function careerJudgeChange(sim, id, snap) {
+  const j = S && S.weekend && S.weekend.judge; const c = sim && sim.byId[id]; if (!j || !c || !snap) return;
+  if (j.sc && j.sc.cars[id] && !j.sc.cars[id].done) return;   // judged with the neutralisation
+  j.open = j.open || {};
+  let o = j.open[id]; if (o && o.pits !== c.an.pits.length) o = null;   // the earlier call took effect: a new decision
+  const base = o ? o.base : snap;
+  const after = sim.expectedStops(c).map(s => ({ lap: s.lap, c: s.c }));
+  const key = x => x.map(s => s.lap + s.c).join(' ');
+  const kind = c.boxRequest && !base.box ? 'box' : !c.boxRequest && base.box ? 'stay' : c.boxRequest && base.box !== c.boxRequest ? 'comp' : 'plan';
+  const lap = Math.max(1, c.lap + 1);
+  let ev = null;
+  if (key(after) !== key(base.stops) || !!c.boxRequest !== !!base.box) {
+    const cmp = sim.comparePlans(c, careerComplete(sim, c, base.stops), careerComplete(sim, c, after), careerNoise());
+    j.seq = (j.seq || 0) + 1;
+    ev = { k: j.seq, kind, id, lap, gain: +cmp.gain.toFixed(2), loss: +Math.max(0, -cmp.gain).toFixed(2), comp: c.boxRequest || (after[0] && after[0].c) || null, from: key(base.stops), to: key(after) };
+  }
+  if (o && o.evk) { const k = j.ev.findIndex(e => e.k === o.evk); if (k >= 0) j.ev.splice(k, 1); }   // replace the revised call
+  if (ev) j.ev.push(ev);
+  j.open[id] = { base, pits: c.an.pits.length, evk: ev ? ev.k : null };
+}
+// called from the race screen's update: a neutralisation opens a decision; it is judged once it is over
+function careerRaceWatch(sim) {
+  const j = S && S.weekend && S.weekend.judge; if (!j || !sim) return;
+  const n = (sim.scCount || 0) + (sim.vscCount || 0);
+  if (sim.sc && !sim.sc.red && n !== j.scN && sim.phase === 'racing') {
+    j.scN = n; const cars = {};
+    for (const id of j.cars) { const c = sim.byId[id]; if (!c || c.retired || c.inPit || sim.laps - c.lap <= 2) continue; const cmp = sim.pitNowVsPlan(c, careerNoise()); if (cmp) cars[id] = { gain: +cmp.gain.toFixed(2), pits: c.an.pits.length, lap: Math.max(1, c.lap + 1) }; }
+    j.sc = { type: sim.sc.type, cars };
+  }
+  careerWatchMiss(sim, j);
+  if (j.sc && (!sim.sc || sim.phase !== 'racing')) {
+    for (const [id, s] of Object.entries(j.sc.cars)) {
+      if (s.done) continue; const c = sim.byId[id]; s.done = true; if (!c) continue;
+      const boxed = c.an.pits.length > s.pits;
+      j.ev.push({ kind: 'sc', id, lap: s.lap, sc: j.sc.type, boxed, gain: s.gain, loss: +Math.max(0, boxed ? -s.gain : s.gain).toFixed(2) });
+    }
+    j.sc = null;
+  }
+}
+// doing nothing is a decision too: when the pit wall shows a clear call (the track at the tyre crossover, or "box now" well
+// ahead of the plan on the race card) and two laps pass without one, the race records a missed call with what the pit wall
+// projected it would cost. A stop in those two laps (the player's, a standing order's or the auto-pit's) closes it.
+const MISS_GAIN = 8, MISS_LAPS = 2, CAREER_NEUTRAL = 78;
+function careerWatchMiss(sim, j) {
+  if (sim.phase !== 'racing' || sim.sc || j.sc) return;
+  j.mw = j.mw || {};
+  for (const id of j.cars) {
+    const c = sim.byId[id]; if (!c || c.retired || c.finished) continue;
+    const m = j.mw[id] || (j.mw[id] = { lap: -1, win: null, block: -1 });
+    if (c.lap === m.lap) continue; m.lap = c.lap;
+    const pits = c.an.pits.length;
+    if (m.win && (pits !== m.win.pits || c.inPit || c.boxRequest)) m.win = null;   // the call came
+    if (m.block === pits || c.inPit || c.boxRequest || sim.laps - c.lap <= 2) continue;
+    const slick = 'SMH'.includes(c.compound);
+    const wetNeeded = slick && sim.wet > 0.25, dryNeeded = !slick && sim.wet < 0.2;
+    let alt = null, why = null;
+    if (wetNeeded || dryNeeded) {
+      const k = wetNeeded ? (sim.wet > 0.78 && bestSet(c.sets, 'W') ? 'W' : bestSet(c.sets, 'I') ? 'I' : null) : sim.pickDry(c, sim.laps - c.lap - 1);
+      if (k) { alt = careerComplete(sim, c, [{ lap: c.lap + 1, c: k }]); why = wetNeeded ? 'wet' : 'dry'; }
+    }
+    let gain = null;
+    if (alt) gain = sim.comparePlans(c, careerComplete(sim, c, sim.expectedStops(c)), alt, careerNoise()).gain;
+    else { const cmp = sim.pitNowVsPlan(c, careerNoise()); if (cmp && cmp.gain > MISS_GAIN) { gain = cmp.gain; why = 'box'; } }
+    if (gain == null || gain <= (why === 'box' ? MISS_GAIN : 2)) { m.win = null; continue; }
+    if (!m.win) { m.win = { lap: c.lap, pits, gain, why }; continue; }
+    if (c.lap - m.win.lap >= MISS_LAPS) {
+      j.ev.push({ kind: 'miss', id, lap: m.win.lap + 1, why: m.win.why, gain: +(-m.win.gain).toFixed(2), loss: +Math.min(30, m.win.gain).toFixed(2) });
+      m.win = null; m.block = pits;   // one missed call per stint
+    }
+  }
+}
+function careerScore(j) {
+  if (!j || !j.cars.length) return null;
+  const per = j.cars.map(id => { const loss = j.ev.filter(e => e.id === id).reduce((a, e) => a + e.loss, 0); const pl = j.plan[id] ? j.plan[id].loss : 0; return clamp(100 - 5 * loss - 10 * pl, 0, 100); });
+  return Math.round(avg(per));
+}
+function careerAfterRace(sim, res) {
+  const C = S && S.career; if (!C) return;
+  const w = S.weekend; const j = w && w.judge;
+  if (j && sim) careerRaceWatch(sim);
+  const sp = !!(sim && sim.sprint);
+  if (sp) return;
+  C.races++;
+  const mine = j ? j.cars : (typeof myCars === 'function' ? myCars() : playerTeam().drivers);
+  const order = res.order;
+  const deltas = mine.map(id => { const r = order.find(x => x.id === id); const pl = j && j.plan[id]; if (!r || r.status !== 'FIN' || !pl) return 0; return clamp(pl.exp - r.pos, -3, 3); });
+  const resD = deltas.length ? avg(deltas) : 0;
+  const best = Math.min(...order.filter(x => playerTeam().drivers.includes(x.id) && x.status === 'FIN').map(x => x.pos));
+  const score = j && !(j.skipLap != null && j.skipLap < (sim ? sim.laps : 99) * 0.5) ? careerScore(j) : null;   // handed to the pit wall early: no verdict on the player
+  const R = roleInfo();
+  if (R.track === 'strat') {
+    // a passive race (trust the plan, no calls) scores 74 on average at 25% race length and 82 at 50% (measured: 18 races
+    // each, safety cars and weather included), so 78 is neutral: calls the pit wall agrees with lift the reputation,
+    // missed or costly ones lower it
+    let d = (score != null ? clamp(0.9 * (score - CAREER_NEUTRAL) / 22, -1.5, 0.9) : 0) + 0.25 * resD + (best === 1 ? 0.6 : best <= 3 ? 0.3 : 0);
+    d *= 16 / Math.max(8, S.races.length);   // a season moves reputation by the same amount whatever its length
+    d *= d > 0 ? Math.min(1, (100 - C.rep.strat) / 40) : Math.min(1, C.rep.strat / 40);
+    C.rep.strat = clamp(+(C.rep.strat + d).toFixed(2), 0, 100);
+  }
+  const race = S.races.find(r => r.round === (w ? w.round : -1));
+  C.judge.push({ year: S.year, round: race ? race.round : 0, track: race ? race.track : '', role: C.role, team: S.playerTeam, score, n: j ? j.ev.length + Object.keys(j.plan).length : 0,
+    ev: j ? j.ev.slice(0, 12) : [], plan: j ? j.plan : {}, best: isFinite(best) ? best : null, rep: +C.rep.strat.toFixed(1) });
+  if (C.judge.length > 120) C.judge.splice(0, C.judge.length - 120);
+  // halfway through the season the market opens
+  const done = S.races.filter(r => r.done).length;
+  if (done === Math.ceil(S.races.length / 2)) careerOffers('mid');
+}
+
+// ── offers ──
+// what the player weighs when an outside team calls: where it stands against the current team, and its car (no particles
+// after team names: they are English)
+function careerWhy(t, cur) {
+  const d = cur.tier - t.tier; const a = carOVR(t.car), b = carOVR(cur.car);
+  return `지금 팀보다 ${d > 0 ? d + '단계 위' : d < 0 ? -d + '단계 아래' : '같은 급'}의 팀 · 차량 ${a} (지금 팀 ${b}).`;
+}
+function careerRepFor(role) {
+  const C = S.career;
+  if (role === 'principal') return Math.max(C.rep.mgmt, roleInfo().rank >= 2 ? C.rep.strat - 6 : 0);
+  return C.rep.strat;
+}
+function careerAddOffer(o) {
+  const C = S.career;
+  if (C.offers.some(x => x.status === 'open' && x.team === o.team && x.role === o.role)) return null;
+  const off = Object.assign({ id: C.seq++, made: S.date, status: 'open' }, o);
+  C.offers.push(off);
+  const t = S.teams[o.team]; const inside = o.team === S.playerTeam;
+  msg(inside ? '이사회' : t.name, `${inside ? '내부 승진' : '영입'} 제안: ${t.name} ${ROLES[o.role].name}`,
+    `<p>${esc(jo(t.name, '이'))} ${esc(S.manager.name || '당신')}에게 <b>${ROLES[o.role].name}</b> 자리를 제안했습니다.${o.why ? ` ${esc(o.why)}` : ''}</p><p>${o.effective === 'now' ? '수락하면 다음 레이스부터 바로 맡습니다.' : '수락하면 다음 시즌부터 맡습니다.'}${o.expires ? ` 답변 기한은 ${o.expires}입니다.` : ' 시즌이 넘어가기 전에 답해야 합니다.'}</p><p><button class="btn sm pri" data-a="nav" data-v="career">커리어 화면에서 답하기</button></p>`,
+    { cat: 'career', career: true, offerId: off.id });
+  careerLog(`${t.name}에서 ${ROLES[o.role].name} 제안`);
+  return off;
+}
+function careerOffers(when, opt = {}) {
+  const C = ensureCareer(); if (!C || C.pending) return [];
+  const made = []; const R = roleInfo(); const cur = S.playerTeam; const yr = S.year;
+  const open = C.offers.filter(o => o.status === 'open');
+  const add = o => { const x = careerAddOffer(o); if (x) made.push(x); };
+  // inside the team: one step up the strategy track
+  if (!opt.fired && !(C.cool[cur] >= yr) && R.track === 'strat') {
+    const next = R.rank === 1 ? 'senior' : R.rank === 2 ? 'director' : null;
+    const need = next === 'senior' ? 42 : 60; const minRaces = next === 'senior' ? 5 : 10;
+    if (next && C.rep.strat >= need && C.races >= minRaces) add({ team: cur, role: next, kind: 'internal', effective: when === 'mid' ? 'now' : 'next', expires: when === 'mid' ? dAdd(S.date, 21) : null, why: '팀 성적과 레이스 판단을 높이 평가했습니다.' });
+  }
+  // other teams: the same role, or one step up, where the reputation is enough
+  const want = opt.fired ? ['principal', 'director', 'senior'] : R.track === 'strat' ? [C.role, R.rank === 1 ? 'senior' : R.rank === 2 ? 'director' : null].filter(Boolean) : ['principal'];
+  const pool = Object.values(S.teams).filter(t => t.id !== cur && !((C.rel[t.id] || 0) < 0));
+  const cand = [];
+  for (const t of pool) for (const role of want) {
+    if (role === 'principal' && !(opt.vacancies || []).includes(t.id) && !opt.fired) continue;   // a principal's job opens only when one leaves
+    if (!opt.fired && role === C.role && t.tier > S.teams[cur].tier) continue;   // the same job at a weaker team is no offer
+    const need = REP_NEED[role][t.tier] - (opt.fired ? 8 : 0);
+    if (careerRepFor(role) < need) continue;
+    const pick = careerHash(`${yr}|${when}|${t.id}|${role}|${C.seq}`);
+    cand.push({ t, role, score: (5 - t.tier) * 10 + ROLES[role].rank * 6 + pick * 8, pick });
+  }
+  cand.sort((a, b) => b.score - a.score);
+  const chance = when === 'mid' ? 0.35 : 0.6; let n = 0;
+  for (const c of cand) {
+    if (n >= (opt.fired ? 3 : 2)) break;
+    if (!opt.fired && c.pick > chance) continue;
+    if (made.some(m => m.team === c.t.id) || open.some(m => m.team === c.t.id)) continue;
+    add({ team: c.t.id, role: c.role, kind: (opt.vacancies || []).includes(c.t.id) ? 'vacancy' : 'external', effective: 'next', expires: when === 'mid' ? dAdd(S.date, 21) : null,
+      why: c.role === 'principal' ? '팀 프린시펄 자리가 비었습니다.' : careerWhy(c.t, S.teams[cur]) });
+    n++;
+  }
+  // nobody wants a sacked principal: the weakest team still calls
+  if (opt.fired && !made.length) {
+    const t = Object.values(S.teams).filter(x => x.id !== cur).sort((a, b) => b.tier - a.tier || b.prevPos - a.prevPos)[0];
+    add({ team: t.id, role: 'senior', kind: 'external', effective: 'next', expires: null, why: '경질 뒤에도 당신의 전략 감각을 원하는 팀이 있습니다.' });
+  }
+  return made;
+}
+function careerAccept(id) {
+  const C = ensureCareer(); const o = C.offers.find(x => x.id === +id && x.status === 'open'); if (!o) return false;
+  o.status = 'accepted'; o.decided = S.date;
+  for (const x of C.offers) if (x !== o && x.status === 'open') { x.status = 'withdrawn'; }
+  if (o.effective === 'now' && o.team === S.playerTeam) { careerSetRole(o.role); careerLog(`${ROLES[o.role].name} 제안 수락 — 바로 맡음`); }
+  else {
+    C.pending = { team: o.team, role: o.role, offer: o.id };
+    if (o.team !== S.playerTeam) C.rel[S.playerTeam] = Math.min(C.rel[S.playerTeam] || 0, -2);   // the team being left will not call for a season
+    C.mustChoose = false;
+    careerLog(`${S.teams[o.team].name} ${ROLES[o.role].name} 제안 수락 — 다음 시즌부터`);
+  }
+  if (typeof addNews === 'function') addNews(`${S.manager.name || '감독'}, ${S.teams[o.team].name} ${ROLES[o.role].name}${o.effective === 'now' ? ' 승진' : ' 행 확정 (다음 시즌)'}`);
+  return true;
+}
+function careerDecline(id) {
+  const C = ensureCareer(); const o = C.offers.find(x => x.id === +id && x.status === 'open'); if (!o) return false;
+  o.status = 'declined'; o.decided = S.date;
+  if (o.team === S.playerTeam) C.cool[o.team] = S.year + 1;   // the same chair will not be offered again until after next season
+  else C.rel[o.team] = (C.rel[o.team] || 0) - 1;
+  careerLog(`${S.teams[o.team].name} ${ROLES[o.role].name} 제안 거절`);
+  return true;
+}
+function careerSetRole(role) {
+  const C = ensureCareer();
+  C.history.push({ team: S.playerTeam, role: C.role, from: C.since, to: S.date, races: C.races, avg: careerAvg(C.judge.filter(x => x.team === S.playerTeam && x.role === C.role)) });
+  const was = C.role; C.role = role; C.since = S.date; C.races = 0;
+  if (role === 'principal' && was !== 'principal') {
+    S.mode = S.mode === 'sa' ? 'sa' : 'tp';
+    if (typeof applyAutoPreset === 'function') { applyAutoPreset('balanced'); S.settings.auto.weekend = 'manual'; S.settings.auto.press = 'manual'; }
+    S.settings.carAssign = 'both';
+    C.rep.mgmt = Math.max(C.rep.mgmt, 30);
+  }
+  careerApplyScope();
+  msg('PITWALL', `새 역할: ${ROLES[role].name}`, `<p>${esc(S.teams[S.playerTeam].name)}에서 <b>${ROLES[role].name}</b>${jo(ROLES[role].name, '을').slice(ROLES[role].name.length)} 맡습니다.</p><ul>${ROLE_SCOPE[role].mine.map(x => `<li>직접: ${esc(x)}</li>`).join('')}${ROLE_SCOPE[role].theirs.map(x => `<li>팀이: ${esc(x)}</li>`).join('')}</ul>`, { cat: 'career', career: true, stop: false });
+}
+function careerAvg(list) { const v = list.map(x => x.score).filter(x => x != null); return v.length ? Math.round(avg(v)) : null; }
+
+// ── season end: the board's verdict falls on whoever runs the team; the career goes on ──
+function careerSeasonEnd(rv, fired) {
+  const C = ensureCareer(); if (!C || !rv) return false;
+  const pr = isPrincipal();
+  if (pr) {
+    const d = rv.pos <= rv.target ? 6 + 2 * (rv.target - rv.pos) : -4 * (rv.pos - rv.target);
+    C.rep.mgmt = clamp(C.rep.mgmt + d, 0, 100);
+  }
+  // principals elsewhere: a team far below last year's place changes its principal
+  const vac = [];
+  rv.cs.forEach((x, i) => { const t = S.teams[x.id]; if (t.id === S.playerTeam) return; if (i + 1 >= (t.prevPos || 99) + 3 && careerHash(`${S.year}|fire|${t.id}`) < 0.55) vac.push(t.id); });
+  if (fired && !pr) {   // the board sacks the AI principal: the chair is open
+    vac.push(S.playerTeam); rv.fired = false; rv.aiFired = true; S.board.confidence = 50; S.board.misses = 0;
+    careerLog('팀 프린시펄이 경질되었습니다');
+    if (careerRepFor('principal') >= REP_NEED.principal[S.teams[S.playerTeam].tier] - 10 && roleInfo().rank >= 2)
+      careerAddOffer({ team: S.playerTeam, role: 'principal', kind: 'vacancy', effective: 'next', expires: null, why: '경질된 팀 프린시펄의 후임으로 당신을 원합니다.' });
+  }
+  if (vac.length) rv.vacancies = vac.slice();
+  if (fired && pr) {
+    rv.fired = true; C.mustChoose = true; C.fired = S.year;
+    careerOffers('end', { fired: true, vacancies: vac });
+  } else careerOffers('end', { vacancies: vac });
+  C.seasons = C.seasons || [];
+  C.seasons.push({ year: S.year, team: S.playerTeam, role: C.role, pos: rv.pos, target: rv.target, avg: careerAvg(C.judge.filter(x => x.year === S.year)), rep: { strat: +C.rep.strat.toFixed(1), mgmt: +C.rep.mgmt.toFixed(1) } });
+  return true;
+}
+// first thing in the season rollover: a move agreed last season takes effect, unanswered offers lapse
+function careerRollover() {
+  const C = S && S.career; if (!C) return;
+  if (C.mustChoose && !C.pending) { const first = C.offers.find(o => o.status === 'open'); if (first) careerAccept(first.id); }
+  const P = C.pending; C.pending = null; C.mustChoose = false;
+  for (const o of C.offers) if (o.status === 'open') o.status = 'lapsed';
+  for (const k of Object.keys(C.rel)) if (C.rel[k] < 0) C.rel[k]++;
+  if (!P) return;
+  if (P.team !== S.playerTeam) {
+    C.history.push({ team: S.playerTeam, role: C.role, from: C.since, to: S.date, races: C.races, avg: careerAvg(C.judge.filter(x => x.team === S.playerTeam && x.role === C.role)) });
+    const old = S.teams[S.playerTeam];
+    S.playerTeam = P.team; C.team = P.team; C.since = S.date; C.races = 0; C.role = P.role;
+    const rvCs = S.review && S.review.cs; const pos = rvCs ? rvCs.findIndex(x => x.id === P.team) + 1 : S.teams[P.team].prevPos;
+    if (S.review) S.review.pos = pos || S.review.pos;
+    S.board = { target: 10, confidence: 62, history: [], long: null, misses: 0 };
+    S.offers = (S.offers || []).filter(o => o.team !== old.id);
+    if (P.role === 'principal') { if (typeof applyAutoPreset === 'function') { applyAutoPreset('balanced'); S.settings.auto.weekend = 'manual'; S.settings.auto.press = 'manual'; } S.settings.carAssign = 'both'; C.rep.mgmt = Math.max(C.rep.mgmt, 30); }
+    careerApplyScope();
+    if (typeof addNews === 'function') addNews(`${S.manager.name || '감독'}, ${jo(old.name, '을')} 떠나 ${S.teams[P.team].name} ${jo(ROLES[P.role].name, '로')}`);
+  } else if (P.role !== C.role) careerSetRole(P.role);
+}
+// how the media and messages address the player
+function careerAddress() { return isPrincipal() ? '감독' : careerTitle(); }
+
 // ───────── ui.js — shell & management screens ─────────
 'use strict';
 
@@ -10472,7 +11004,7 @@ VIEWS.set = () => `<div class="grid g2">
 VIEWS.gameover = () => `<section class="panel" style="max-width:640px;margin:40px auto"><div class="panel-b" style="padding:28px;text-align:center"><div class="disp" style="font-size:46px;font-weight:700">경질</div><p class="muted mt">${esc(S.gameOver.reason)}</p><p>${S.history.map(h => `${h.year}: ${h.pos}위`).join(' · ')}</p>${S.history.some(h => h.book) ? `<button class="btn mt" data-a="openbook" data-y="${S.history.filter(h => h.book).pop().year}">마지막 시즌 결산 보기</button> ` : ''}<button class="btn pri mt" data-a="quit">타이틀로</button></div></section>`;
 
 // ── title / new game ──
-const NG = { step: 0, team: 'han', name: '', seasonLen: 'standard', raceLen: 0.25, mode: 'tp', sprints: true, custom: null };
+const NG = { step: 0, team: 'han', name: '', seasonLen: 'standard', raceLen: 0.25, mode: 'tp', sprints: true, custom: null, start: 'strategist' };
 // v19: your own team — the 12th on the grid (picking one of the 11 teams plays an 11-team season)
 function seedOVR(r) { return driverOVR({ a: Object.fromEntries(ATTR_KEYS.map((k, i) => [k, r[8][i]])) }); }
 function ngCustom() {
@@ -10523,25 +11055,27 @@ function renderTitle() {
     const ds = DRIVER_SEED.filter(d => d[10] === t.id).map(d => d[2]).join(' · ');
     return `<button class="tp ${NG.team === t.id ? 'on' : ''}" style="--tc:${t.color}" data-a="ngteam" data-id="${t.id}"><div class="tp-h">${crestSVG(t, 34)}<div><div class="tp-n">${esc(t.name)}</div><div class="dim" style="font-size:11.5px">${esc(t.base)}</div></div></div>
       <div class="tp-b"><div>등급<b>${tierName[t.tier]}</b></div><div>차량<b>${ovr}</b></div><div>예산<b>${fmtMoney(t.cash, 0)}</b></div><div>이사회 목표<b>${targets[i]}위 이내</b></div><div style="grid-column:span 2">드라이버<b style="font-size:13px">${esc(ds)}</b></div></div></button>`;
-  }).join('') + `<button class="tp tp-new ${custom ? 'on' : ''}" style="--tc:${custom ? tm.color : 'var(--line-2)'}" data-a="ngteam" data-id="${CUSTOM_ID}"><div class="tp-h"><span class="tp-plus" aria-hidden="true">+</span><div><div class="tp-n">나만의 팀 만들기</div><div class="dim" style="font-size:11.5px">12번째 팀 · 이름·색·전력·드라이버를 직접</div></div></div>
-      <div class="tp-b"><div style="grid-column:span 2">예: 현대 레이싱, 서울 모터스포츠 — 이 팀을 고르면 12팀 24대로 시즌을 치릅니다</div></div></button>`;
+  }).join('') + (NG.start === 'strategist' ? '' : `<button class="tp tp-new ${custom ? 'on' : ''}" style="--tc:${custom ? tm.color : 'var(--line-2)'}" data-a="ngteam" data-id="${CUSTOM_ID}"><div class="tp-h"><span class="tp-plus" aria-hidden="true">+</span><div><div class="tp-n">나만의 팀 만들기</div><div class="dim" style="font-size:11.5px">12번째 팀 · 이름·색·전력·드라이버를 직접</div></div></div>
+      <div class="tp-b"><div style="grid-column:span 2">예: 현대 레이싱, 서울 모터스포츠 — 이 팀을 고르면 12팀 24대로 시즌을 치릅니다</div></div></button>`);
   el.innerHTML = `${typeof fsBtnHtml === 'function' && fsBtnHtml() ? `<div class="title-fs">${fsBtnHtml('btn sm')}</div>` : ''}<div class="title-in">
     <div class="logo">Pit<span>wall</span></div><div class="logo-sub">모터스포츠 팀 매니저</div>${typeof webVersionLabel === 'function' && webVersionLabel() ? `<div class="logo-ver">${webVersionLabel()}</div>` : ''}
     ${hasSave() ? `<div class="title-actions"><button class="btn pri" data-a="continuegame">이어하기</button><button class="btn" data-a="showload">저장 코드로 불러오기</button></div>` : `<div class="title-actions"><button class="btn" data-a="showload">저장 코드로 불러오기</button></div>`}
     ${typeof cloudTitleHtml === 'function' ? cloudTitleHtml() : ''}
     <div id="loadbox" hidden class="setup-card"><div class="field"><label for="tloadcode">저장 코드</label><textarea id="tloadcode" rows="4" placeholder="PW1:..."></textarea></div><button class="btn mt" data-a="tload">불러오기</button></div>
     <div class="setup-card"><h3 class="disp" style="font-size:22px;text-transform:uppercase">새 커리어</h3>
-      <div class="field mt"><label>게임 모드 <span class="dim" style="text-transform:none;letter-spacing:0">— 쉬움·어려움이 아니라 플레이 목적이 다릅니다. 언제든 설정에서 바꿀 수 있고 데이터는 그대로입니다</span></label></div>
-      ${typeof modeCards === 'function' ? modeCards(NG.mode, 'ngmode') : ''}
-      <div class="grid g3 mt"><div class="field"><label for="ng-name">감독 이름</label><input type="text" id="ng-name" maxlength="16" value="${esc(NG.name)}" placeholder="감독 이름"></div>
+      <div class="field mt"><label>시작 방식</label></div>
+      <div class="mode-pick">${[['strategist', '전략가로 시작', '커리어', '한 팀의 전략가로 들어가 차 1대의 레이스를 지휘합니다. 판단 점수와 평판이 쌓이면 승진·이적 제안이 오고, 받을지 말지는 직접 고릅니다. 팀 운영은 팀 프린시펄(AI)이 맡아요.'], ['principal', '팀 프린시펄로 시작', '빠른 시작', '처음부터 팀 전체(드라이버·개발·예산·레이스)를 맡습니다. 지금까지의 플레이 방식이에요.']].map(([k, n, tag, desc]) => `<button class="mode-card ${NG.start === k ? 'on' : ''}" data-a="ngstartrole" data-v="${k}" aria-pressed="${NG.start === k}"><div class="mc-h"><b>${n}</b><span>${tag}</span></div><p>${desc}</p></button>`).join('')}</div>
+      ${NG.start === 'principal' ? `<div class="field mt"><label>게임 모드 <span class="dim" style="text-transform:none;letter-spacing:0">— 쉬움·어려움이 아니라 플레이 목적이 다릅니다. 언제든 설정에서 바꿀 수 있고 데이터는 그대로입니다</span></label></div>
+      ${typeof modeCards === 'function' ? modeCards(NG.mode, 'ngmode') : ''}` : '<p class="note mt">전략가는 전문가 모드(피트월·라이브 타이밍) 화면으로 시작해요. 팀 프린시펄이 되면 게임 모드를 고를 수 있어요.</p>'}
+      <div class="grid g3 mt"><div class="field"><label for="ng-name">이름</label><input type="text" id="ng-name" maxlength="16" value="${esc(NG.name)}" placeholder="이름"></div>
       <div class="field"><label>시즌 길이</label><div class="seg">${[['short', '12전'], ['standard', '16전'], ['full', '23전']].map(([k, l]) => `<button class="${NG.seasonLen === k ? 'on' : ''}" data-a="ngseason" data-v="${k}">${l}</button>`).join('')}</div></div>
       <div class="field"><label>레이스 길이</label><div class="seg">${[[0.25, '25%'], [0.5, '50%'], [1, '100%']].map(([k, l]) => `<button class="${NG.raceLen === k ? 'on' : ''}" data-a="ngrace" data-v="${k}">${l}</button>`).join('')}</div></div></div>
       <p class="note mt">레이스 길이를 줄이면 타이어 마모와 사고 확률도 비율에 맞게 조정되어 전략의 의미가 유지됩니다.</p>
       <label class="chk mt"><input type="checkbox" data-a="ngsprint" ${NG.sprints ? 'checked' : ''}> 스프린트 주말 포함 <span class="dim">— 상하이·마이애미·스파·오스틴·인터라고스·루사일 중 일정에 있는 라운드 (FP1 · 스프린트 예선 · 스프린트 · 예선 · 결승)</span></label>
-      <div class="field mt"><label>팀 선택</label></div>
+      <div class="field mt"><label>${NG.start === 'strategist' ? '합류할 팀' : '팀 선택'}</label></div>
       <div class="team-pick">${cards}</div>
       ${custom ? ngCustomForm() : `<p class="note mt">${TEAM_SEED.length}개 팀 · ${TEAM_SEED.length * 2}대로 시즌을 치릅니다. 모든 팀에 리저브 드라이버가 있습니다.</p>`}
-      <div class="flex mt" style="justify-content:flex-end"><button class="btn pri" style="font-size:16px;padding:10px 22px" data-a="ngstart" id="ng-start">${esc(tm.name)}의 감독으로 시작 ${icon('arrow').replace('<svg', '<svg width="16" height="16"')}</button></div>
+      <div class="flex mt" style="justify-content:flex-end"><button class="btn pri" style="font-size:16px;padding:10px 22px" data-a="ngstart" id="ng-start">${esc(tm.name)}의 ${NG.start === 'strategist' ? '전략가로' : '감독으로'} 시작 ${icon('arrow').replace('<svg', '<svg width="16" height="16"')}</button></div>
     </div>
     <p class="note mt">가상의 팀과 드라이버로 구성된 게임입니다. 서킷 레이아웃은 실제 서킷을 바탕으로 했습니다.</p>
   </div>`;
@@ -10626,14 +11160,15 @@ const ACT = {
   ngsprint: (d, el) => { NG.sprints = !!el.checked; },
   sprinttoggle: (d, el) => { S.sprintsOn = !!el.checked; applyCalendarRules(); saveGame(); render(); toast(S.sprintsOn ? '남은 일정의 스프린트 라운드를 스프린트 주말로 치릅니다' : '남은 일정에서 스프린트를 뺐습니다 (진행 중인 주말은 그대로)'); },
   ngstart: () => {
-    const name = ($('#ng-name').value || '').trim() || '감독';
+    const name = ($('#ng-name').value || '').trim() || (NG.start === 'strategist' ? '플레이어' : '감독');
     let custom = null;
     if (NG.team === CUSTOM_ID) {
       ngReadCustom(); custom = JSON.parse(JSON.stringify(ngCustom())); const errs = customErrors(custom);
       if (errs.length) { NG.name = name; NG.customErrs = errs; renderTitle(); const f = document.querySelector('.ngc'); if (f) f.scrollIntoView({ block: 'center' }); return toast(errs[0], true); }
       NG.customErrs = null;
     }
-    newGame({ managerName: name, teamId: NG.team, seasonLen: NG.seasonLen, raceLen: NG.raceLen, mode: NG.mode, sprints: NG.sprints, custom }); resetTransient(); saveGame(); UI.view = 'inbox'; UI.inboxSel = null; render(); },
+    const st = NG.start === 'strategist' && !custom ? 'strategist' : 'principal';
+    newGame({ managerName: name, teamId: NG.team, seasonLen: NG.seasonLen, raceLen: NG.raceLen, mode: st === 'strategist' ? 'sa' : NG.mode, sprints: NG.sprints, custom, start: st }); resetTransient(); saveGame(); UI.view = 'inbox'; UI.inboxSel = null; render(); },
   continuegame: () => { if (loadGame()) { resetTransient(); if (S.weekend && S.weekend.stage === 'race' && !S.weekend.raceRun) S.weekend.stage = 'prerace'; UI.view = S.weekend ? 'weekend' : 'home'; render(); } else toast('저장 데이터를 불러올 수 없습니다', true); },
   showload: () => { $('#loadbox').hidden = !$('#loadbox').hidden; },
   tload: () => { if (importCode($('#tloadcode').value)) { resetTransient(); saveGame(); UI.view = 'home'; render(); } else toast('저장 코드가 올바르지 않습니다', true); },
@@ -10646,6 +11181,9 @@ document.addEventListener('click', e => {
   const isToggle = el.tagName === 'INPUT' && (el.type === 'checkbox' || el.type === 'radio');
   if (!isToggle) e.preventDefault();
   if (el.disabled) return;
+  // v27: a career role decides what the player may do; outside it a toast says who decides instead
+  const gate = typeof careerGateUi === 'function' ? careerGateUi(a, el.dataset) : null;
+  if (gate) { if (isToggle) el.checked = !el.checked; toast(gate, true); return; }
   if (isToggle) setTimeout(() => fn(el.dataset, el, e), 0); else fn(el.dataset, el, e);
 });
 document.addEventListener('click', e => { if (e.target.id === 'modal') closeModal(); });
@@ -10687,7 +11225,7 @@ const GLOSS = {
   aero: { term: '공력', short: '고속·중속 코너 속도. 다운포스가 클수록 빠르게 돌아나갑니다.', long: '랩타임 기여 = 서킷별 공력 비중 × (92 − 공력 점수) × 0.0012 × 기준 랩. 서킷 속도 프로필에서 시속 150~250km 구간에 주로 반영됩니다.' },
   power: { term: '파워 유닛', short: '직선 속도와 추월 구간(오버테이크 모드) 추월력.', long: '시속 250km 이상 구간에 반영되고, 추월 판정에서 직선 속도 차이로도 쓰입니다. 개발 효율은 다른 영역의 72%입니다.' },
   mech: { term: '섀시', short: '저속 코너와 트랙션.', long: '시속 150km 미만 구간(65%)과 공력 구간 일부(35%)에 반영됩니다.' },
-  rel: { term: '신뢰성', short: '기계 고장 확률. 높을수록 리타이어가 줄어듭니다.', long: '랩당 고장 확률 = (100 − 신뢰성) × 0.000045 ÷ 레이스 길이 비율. PU 마모 60% 이상에서 최대 2.5배까지 커집니다.' },
+  rel: { term: '신뢰성', short: '기계 고장 확률. 높을수록 리타이어가 줄어듭니다.', long: '랩당 고장 확률 = (100 − 신뢰성) × 0.000045 × 1.35 ÷ 레이스 길이 비율. PU 마모 60% 이상에서 최대 2.5배까지 커집니다.' },
   tyre: { term: '타이어 효율', short: '타이어 마모 속도. 높을수록 오래 씁니다.', long: '마모율에 (1.52 − 효율 × 0.0085)를 곱합니다. 드라이버의 타이어 관리 능력치와 곱해집니다.' },
   deg: { term: '타이어 열화', short: '타이어를 쓸수록 느려지는 정도. 70%를 넘으면 급격히 느려집니다(절벽).', long: '마모(%)에 따른 랩타임 손실: 0–40% 구간 0.012초/%, 40–70% 0.03초/%, 70% 이후 0.15초/%. 마모율은 컴파운드·트랙 부하·드라이버·차량·페이스 모드로 정해지며, 팀은 연습 롱런 데이터로 그 배율을 추정합니다(데이터가 적을수록 오차가 큼).' },
   pitloss: { term: '피트레인 손실', short: '피트스톱 한 번에 트랙에서 잃는 시간 (정차 시간 제외).', long: '피트레인 제한 속도(시속 80km)로 지나는 시간 − 같은 구간을 트랙에서 달리는 시간 + 가감속 손실(엔진 측정). 세이프티카 중에는 트랙 차량이 55% 속도라 손실이 크게 줄어듭니다.' },
@@ -12770,7 +13308,7 @@ function updateQualiTable() {
   const tb = document.getElementById('q-tbody'); if (tb) tb.innerHTML = qualiRows();
   if (typeof pwQualiUpdate === 'function') pwQualiUpdate();
   const clk = document.getElementById('q-clock'); const q = QUALI.state;
-  if (clk && q.cur) { const len = (q.sq ? [12, 10, 8] : [18, 15, 12])[Math.max(0, q.stages.indexOf(q.cur.stage))]; const rem = q.cur.ql ? Math.max(0, q.cur.ql.len - q.cur.ql.t) : Math.max(0, len * 60 * (1 - q.cur.t)); clk.textContent = rem > 0 ? `${Math.floor(rem / 60)}:${String(Math.floor(rem % 60)).padStart(2, '0')}` : '체커기'; clk.classList.toggle('chq', rem <= 0); }
+  if (clk && q.cur) { const QD = curSeries().weekend.quali; const len = (q.sq ? QD.sprintMins : QD.mins)[Math.max(0, q.stages.indexOf(q.cur.stage))]; const rem = q.cur.ql ? Math.max(0, q.cur.ql.len - q.cur.ql.t) : Math.max(0, len * 60 * (1 - q.cur.t)); clk.textContent = rem > 0 ? `${Math.floor(rem / 60)}:${String(Math.floor(rem % 60)).padStart(2, '0')}` : '체커기'; clk.classList.toggle('chq', rem <= 0); }
 }
 function qualiView() {
   const q = ensureQuali(); const w = S.weekend; const t = playerTeam(); const c = q.cur; const sq = q.sq;
@@ -13995,7 +14533,7 @@ Object.assign(ACT, { livehintx: () => { S.ui = S.ui || {}; S.ui.liveSeen = 1; co
 // first races: point at the live analysis once the tyres start to go off (a pit window is opening)
 function liveNudge(sim) {
   S.ui = S.ui || {}; if ((S.ui.liveNudges || 0) >= 3 || sim._liveNudged || sim.phase !== 'racing' || sim.sprint) return;
-  const c = playerTeam().drivers.map(id => sim.byId[id]).find(x => x && !x.retired && !x.inPit && x.wear > 42 && sim.laps - x.lap > 3);
+  const c = (typeof myCars === 'function' ? myCars() : playerTeam().drivers).map(id => sim.byId[id]).find(x => x && !x.retired && !x.inPit && x.wear > 42 && sim.laps - x.lap > 3);   // the cars under the player's command
   if (!c) return;
   sim._liveNudged = true; S.ui.liveNudges = (S.ui.liveNudges || 0) + 1;
   toast(`${c.code} 타이어 ${Math.round(c.wear)}% — 피트 창이 열립니다. '실시간 분석'(A)으로 지금 박스 vs 몇 랩 더를 비교해 보세요`);
@@ -14724,7 +15262,7 @@ function pitwallView() {
       <div style="font-size:12px;line-height:1.3"><div id="r-weather" class="muted"></div><div id="r-radar" class="dim"></div></div>
       <div class="seg" id="r-speed">${[0, 1, 2, 4, 8, 16, 32, 64].map(s => `<button data-a="rspeed" data-s="${s}">${s ? s + '×' : '❚❚'}</button>`).join('')}</div>
       ${sim.sprint ? '' : `<button class="btn sm pri live-btn" data-a="liveopen" title="이 순간의 상태로 남은 레이스를 다시 계산해 선택지를 비교합니다 (레이스 일시정지)">${icon('lab')} 실시간 분석 <kbd class="k">A</kbd></button>`}
-      <div class="pw-tools"><span class="dim pw-tl">담당</span><div class="seg sm" title="직접 지휘할 차 — 나머지는 수석 전략가(능력치 ${staffRating(t, 'strat')})가 운영">${[['both', '두 대'], [0, S.drivers[t.drivers[0]].code], [1, S.drivers[t.drivers[1]] ? S.drivers[t.drivers[1]].code : '']].filter(x => x[1]).map(([v, l]) => `<button class="${String(assign) === String(v) ? 'on' : ''}" data-a="rassign" data-v="${v}">${esc(l)}</button>`).join('')}</div>
+      <div class="pw-tools"><span class="dim pw-tl">담당</span>${typeof roleCan === 'function' && !roleCan('carAssign') ? `<span class="chip" title="담당 차는 팀이 정합니다 — 수석 전략가부터 두 대를 함께 지휘">${esc((S.drivers[t.drivers[assign]] || {}).code || '')} · 팀 지정</span>` : `<div class="seg sm" title="직접 지휘할 차 — 나머지는 수석 전략가(능력치 ${staffRating(t, 'strat')})가 운영">${[['both', '두 대'], [0, S.drivers[t.drivers[0]].code], [1, S.drivers[t.drivers[1]] ? S.drivers[t.drivers[1]].code : '']].filter(x => x[1]).map(([v, l]) => `<button class="${String(assign) === String(v) ? 'on' : ''}" data-a="rassign" data-v="${v}">${esc(l)}</button>`).join('')}</div>`}
         <span class="dim pw-tl">화면</span><div class="seg sm">${Object.entries(PW_LAYOUTS).map(([k, l]) => `<button class="${cf.layout === k ? 'on' : ''}" data-a="pwlayout" data-v="${k}">${l.name}</button>`).join('')}</div>
         <div class="seg sm" id="r-orders" title="팀 오더"><button data-a="rorder" data-o="free" class="on">자유</button><button data-a="rorder" data-o="hold">순위 유지</button><button data-a="rorder" data-o="swap">자리 교체</button></div>
         <button class="btn sm ghost" data-a="pwconmin" title="아래 차량 콘솔을 한 줄로 접어 위 화면들을 넓게 씁니다 (박스 버튼은 남음)">${cf.conMin ? '콘솔 펴기' : '콘솔 접기'}</button><button class="btn sm ghost" data-a="pwclassic" title="한 화면짜리 기본 레이스 화면으로">기본 화면</button><button class="btn sm" data-a="rskip" title="남은 레이스를 수석 전략가(능력치 ${staffRating(t, 'strat')})에게 맡깁니다">결과로 건너뛰기</button></div>
@@ -14737,7 +15275,7 @@ function pitwallView() {
 // our cars: the full console for a car the player runs, a status strip for the strategist's car
 function pwCarCard(did, mine) {
   const d = S.drivers[did]; const t = playerTeam(); const slot = t.drivers.indexOf(did);
-  if (!mine) return `<div class="rd-card pw-staff" id="pws-${did}"><div class="hd"><span class="p" data-f="pos">P–</span><div style="min-width:0;flex:1"><div class="nm">${esc(d.kname)} <span class="dim disp">${esc(d.code)}</span></div><div class="gaps" data-f="gaps">—</div></div><span data-f="tyre"></span></div><div class="pw-staff-f"><span class="chip">전략가 담당 · ${staffRating(t, 'strat')}</span><button class="btn sm" data-a="rassign" data-v="both" title="이 차도 직접 지휘">직접 맡기</button></div><div class="gaps" data-f="info"></div></div>`;
+  if (!mine) return `<div class="rd-card pw-staff" id="pws-${did}"><div class="hd"><span class="p" data-f="pos">P–</span><div style="min-width:0;flex:1"><div class="nm">${esc(d.kname)} <span class="dim disp">${esc(d.code)}</span></div><div class="gaps" data-f="gaps">—</div></div><span data-f="tyre"></span></div><div class="pw-staff-f"><span class="chip">${typeof roleCan === 'function' && !roleCan('carAssign') ? '동료 전략가' : '전략가 담당'} · ${staffRating(t, 'strat')}</span>${typeof roleCan === 'function' && !roleCan('carAssign') ? '' : '<button class="btn sm" data-a="rassign" data-v="both" title="이 차도 직접 지휘">직접 맡기</button>'}</div><div class="gaps" data-f="info"></div></div>`;
   return `<div class="rd-card pw-con" id="dc-${did}">
     <div class="hd"><span class="p" data-f="pos">P–</span><div style="min-width:0;flex:1"><div class="nm">${esc(d.kname)} <span class="dim disp">${esc(d.code)}</span></div><div class="gaps" data-f="gaps">—</div></div>${rulesBtn(did)}<span class="pw-minbox"><span class="box-btns" data-f="box">${['S', 'M', 'H', 'I', 'W'].map(c => `<button style="--tc:${COMPOUNDS[c].color}" data-a="rbox" data-id="${did}" data-c="${c}" title="${COMPOUNDS[c].name}로 피트인">${c}<sub data-f="cnt-${c}"></sub></button>`).join('')}</span></span><span data-f="tyre"></span>${slot >= 0 && pwMine().length > 1 ? `<button class="btn sm ghost" data-a="rassign" data-v="${1 - slot}" title="${esc(d.short)}을 전략가에게 맡기고 다른 차만 지휘">맡기기</button>` : ''}</div>
     <div class="pw-con-b">
@@ -14794,7 +15332,7 @@ function pwMount() {
 // into sectors lets the timing screen light the sectors up as each car crosses them.
 function pwQState() {
   const q = QUALI.state; const c = q && q.cur; const w = S.weekend; if (!c || !w) return null;
-  const si = Math.max(0, q.stages.indexOf(c.stage)); const len = (q.sq ? [12, 10, 8] : [18, 15, 12])[si] * 60;
+  const si = Math.max(0, q.stages.indexOf(c.stage)); const QD = curSeries().weekend.quali; const len = (q.sq ? QD.sprintMins : QD.mins)[si] * 60;
   const sp = w.dc && w.dc.q ? w.dc.q[c.stage] : null; const T = c.t;
   // sector splits: the data centre's capture when the session has one; v23 live laps get theirs from the same model as they
   // are timed (car strengths by sector, a fixed per-lap draw), so the sector board means something during the session
@@ -16626,17 +17164,173 @@ function rrReady(sim, key) {
     setTimeout(() => { if (typeof toast === 'function') toast(`중단된 레이스를 그대로 이어서 불러왔습니다 — ${Math.max(1, sim.leaderLap())}랩 · 일시정지 상태`); if (typeof ensureRaceLoop === 'function') ensureRaceLoop(); }, 0);
 }
 
-// ── first-weekends guide: one short card per new screen, on by default for new Team Principal careers, off in Settings ──
+// ───────── career_ui.js — the career screen, the start choice, the role's limits on the screens (v27) ─────────
+'use strict';
+ICONS.career = '<circle cx="12" cy="7" r="3.5"/><path d="M5 21v-2a7 7 0 0 1 14 0v2M9 14l3 3 3-3"/>';
+NAV[0][1].push(['career', '커리어', 'career']);
+VIEW_TITLES.career = '커리어';
+
+// what the next step on the current track asks for (internal promotion), for the reputation bar
+function careerNextStep() {
+  const C = S.career; const R = roleInfo();
+  if (R.track !== 'strat') return null;
+  if (R.rank === 1) return { role: 'senior', rep: 42, races: 5 };
+  if (R.rank === 2) return { role: 'director', rep: 60, races: 10 };
+  return { role: 'principal', rep: REP_NEED.principal[S.teams[S.playerTeam].tier] - 10, races: 0, vacancy: true };
+}
+function careerBar(v, marks) {
+  return `<div class="cr-bar"><i style="width:${clamp(v, 0, 100)}%"></i>${(marks || []).map(m => `<em style="left:${m.v}%" title="${esc(m.l)}" data-l="${esc(m.s || '')}"></em>`).join('')}</div>`;
+}
+// HTML bars at CSS size (an SVG with a fixed viewBox scaled its text with the panel width)
+function careerScoreChart(list) {
+  const pts = list.slice(-16); if (!pts.length) return '<p class="note">아직 판단 점수가 매겨진 레이스가 없어요. 직접 지휘한 결승마다 점수가 쌓입니다.</p>';
+  const col = v => v >= 90 ? 'var(--good)' : v >= CAREER_NEUTRAL ? 'var(--info)' : v >= 50 ? 'var(--warn)' : 'var(--bad)';   // the neutral score for the reputation
+  const cols = pts.map(p => { const v = p.score; const tr = TRACKS[p.track]; const tip = `${p.year || ''} R${p.round} ${tr ? tr.d.name : ''} · ${v == null ? '판단 없음 (결과로 건너뜀)' : v + '점'}`;
+    return v == null ? `<div class="cr-sc-c none" title="${esc(tip)}"><i style="height:4%"></i><b>—</b></div>`
+      : `<div class="cr-sc-c" title="${esc(tip)}"><i style="height:${Math.max(1.5, v)}%;background:${col(v)}"></i><b style="bottom:calc(${Math.max(1.5, v)}% + 3px)">${v}</b></div>`; }).join('');
+  return `<div class="cr-sc" role="img" aria-label="최근 레이스 판단 점수 ${pts.map(p => p.score == null ? '없음' : p.score).join(', ')}">
+    <div class="cr-sc-y"><span style="bottom:100%">100</span><span style="bottom:50%">50</span><span style="bottom:0">0</span></div>
+    <div><div class="cr-sc-p" style="--n:${pts.length}"><em style="bottom:50%"></em><em style="bottom:100%"></em>${cols}</div>
+    <div class="cr-sc-x" style="--n:${pts.length}">${pts.map(p => `<span>R${p.round}</span>`).join('')}</div></div></div>
+    <div class="cr-sc-k"><span><i style="background:var(--good)"></i>90+</span><span><i style="background:var(--info)"></i>${CAREER_NEUTRAL}–89</span><span><i style="background:var(--warn)"></i>50–${CAREER_NEUTRAL - 1}</span><span><i style="background:var(--bad)"></i>50 미만</span><span>· ${CAREER_NEUTRAL}점 위면 전략 평판이 오르고, 아래면 내려가요</span></div>`;
+}
+function careerEvText(e) {
+  const nm = (S.drivers[e.id] || {}).short || e.id;
+  const verdict = e.loss > 0.05 ? `계획보다 <b class="bad">${e.loss.toFixed(1)}초 손해</b>로 예측됐던 결정` : `<b class="good">계획보다 ${Math.abs(e.gain).toFixed(1)}초 이득</b>으로 예측됐던 결정`;
+  const stops = x => x ? x.split(' ').map(t => `${t.slice(0, -1)}랩 ${(COMPOUNDS[t.slice(-1)] || {}).short || t.slice(-1)}`).join(', ') : '추가 스톱 없음';
+  const chg = e.from != null ? ` <span class="dim">(${stops(e.from)} → ${stops(e.to)})</span>` : '';
+  if (e.kind === 'box') return `${e.lap}랩 ${nm} 박스${e.comp ? ' ' + ((COMPOUNDS[e.comp] || {}).name || e.comp) : ''} — ${verdict}${chg}`;
+  if (e.kind === 'stay') return `${e.lap}랩 ${nm} 박스 취소 — ${verdict}${chg}`;
+  if (e.kind === 'plan') return `${e.lap}랩 ${nm} 전략 변경 — ${verdict}${chg}`;
+  if (e.kind === 'miss') return `${e.lap}랩 ${nm} — ${e.why === 'wet' ? '노면이 젖어 인터·웨트가 필요했는데' : e.why === 'dry' ? '노면이 말라 슬릭이 필요했는데' : `피트월이 "지금 박스"를 계획보다 ${Math.abs(e.gain).toFixed(1)}초 빠르게 봤는데`} 2랩 동안 콜이 없었음 · <b class="bad">${e.loss.toFixed(1)}초 손해</b>로 예측`;
+  if (e.kind === 'sc') return `${e.lap}랩 ${e.sc === 'VSC' ? 'VSC' : '세이프티카'} — ${nm} ${e.boxed ? '박스' : '스테이'} · ${e.loss > 0.05 ? `<b class="bad">${e.loss.toFixed(1)}초 손해</b>로 예측됐던 쪽` : '<b class="good">예측상 맞는 선택</b>'}`;
+  return '';
+}
+function careerOfferCard(o) {
+  const t = S.teams[o.team]; const inside = o.team === S.playerTeam;
+  const kind = o.kind === 'internal' ? '내부 승진' : o.kind === 'vacancy' ? '공석' : '영입';
+  return `<div class="cr-offer" style="--tc:${t.color}"><div class="cr-offer-h">${crestSVG(t, 30)}<div style="min-width:0;flex:1"><b>${esc(t.name)}</b> · ${ROLES[o.role].name}<div class="dim" style="font-size:12px">${kind} · ${o.effective === 'now' ? '수락하면 다음 레이스부터' : '다음 시즌부터'}${o.expires ? ` · 기한 ${o.expires}` : ''} · ${t.tier === 1 ? '우승 후보' : t.tier === 2 ? '중위권 상위' : t.tier === 3 ? '중위권' : '하위권'} 팀</div></div></div>
+    ${o.why ? `<p class="note" style="margin:6px 0">${esc(o.why)}</p>` : ''}
+    <p class="note" style="margin:4px 0 8px">${inside ? '거절하면 다음 시즌이 끝날 때까지 이 팀의 내부 승진 제안은 오지 않아요.' : '수락하면 지금 팀과의 관계가 끊겨 한 시즌 동안 그 팀의 제안은 오지 않고, 거절하면 이 팀의 제안이 한동안 끊겨요.'}</p>
+    <div class="flex" style="gap:8px"><button class="btn sm pri" data-a="careeraccept" data-id="${o.id}">수락</button><button class="btn sm" data-a="careerdecline" data-id="${o.id}">거절</button></div></div>`;
+}
+function careerPanelOffers() {
+  const C = S.career; const open = C.offers.filter(o => o.status === 'open');
+  const P = C.pending;
+  const pend = P ? `<div class="cr-pending"><b>다음 시즌: ${esc(S.teams[P.team].name)} ${ROLES[P.role].name}</b><span class="dim"> — 계약이 확정됐어요. 시즌이 넘어가면 옮깁니다.</span></div>` : '';
+  const must = C.mustChoose && !P ? `<p class="bad" style="margin-top:0">이사회가 계약을 해지했습니다. 아래 제안 중 하나를 골라야 다음 시즌으로 넘어갈 수 있어요.</p>` : '';
+  return `<section class="panel"><div class="panel-h"><h3>제안</h3><span class="rt">${open.length ? `${open.length}건 대기` : '대기 중인 제안 없음'}</span></div><div class="panel-b">${must}${pend}
+    ${open.length ? `<div class="cr-offers">${open.map(careerOfferCard).join('')}</div>` : `<p class="note" style="margin:0">${P ? '' : '제안은 시즌 중반(이적 시장)과 시즌 끝, 그리고 자리가 비었을 때 와요. 평판이 오를수록 더 강한 팀에서 연락이 옵니다.'}</p>`}
+    ${S.phase === 'review' && (P || !C.mustChoose) && S.review && S.review.fired ? '<button class="btn pri mt" data-a="nextseason">다음 시즌 시작</button>' : ''}</div></section>`;
+}
+VIEWS.career = () => {
+  const C = ensureCareer(); const R = roleInfo(); const t = playerTeam(); const sc = ROLE_SCOPE[C.role] || ROLE_SCOPE.principal;
+  const next = careerNextStep();
+  const repS = C.rep.strat, repM = C.rep.mgmt;
+  const marksS = R.track === 'strat' ? [{ v: 42, l: '수석 전략가 내부 승진', s: '수석 42' }, { v: 60, l: '전략 디렉터 내부 승진', s: '디렉터 60' }] : [];
+  const nextTxt = next ? (next.vacancy ? `다음: <b>팀 프린시펄</b> — 자리가 비면(경질·이적) 평판 ${next.rep} 안팎에서 제안이 와요` : `다음: <b>${ROLES[next.role].name}</b> 내부 승진 — 평판 ${next.rep} 이상 · 이 역할로 레이스 ${next.races}회 이상 (지금 ${repS.toFixed(0)} · ${C.races}회)`) : '경영 트랙: 이사회 목표 달성이 경영 평판을 올립니다. 더 강한 팀의 프린시펄 자리는 공석이 생길 때 와요.';
+  const yrJ = C.judge.filter(x => x.year === S.year); const avgY = careerAvg(yrJ);
+  const last = C.judge.slice().reverse().find(x => x.score != null);
+  const lastHtml = last ? `<div class="sub-h mt">최근 판단 — ${esc(TRACKS[last.track] ? TRACKS[last.track].d.name : '')} ${last.score}점</div>
+    <ul class="cr-ev">${Object.entries(last.plan || {}).map(([id, p]) => `<li>레이스 전 전략 ${esc((S.drivers[id] || {}).short || id)}: ${esc(p.name)} — 예상 ${p.exp}위${p.loss > 0.05 ? ` (최선안보다 <b class="bad">${p.loss.toFixed(1)}계단</b> 뒤)` : ' (<b class="good">최선안</b>)'}</li>`).join('')}${(last.ev || []).map(e => `<li>${careerEvText(e)}</li>`).join('') || '<li class="dim">레이스 중 직접 내린 판단 없음 — 계획대로 진행</li>'}</ul>` : '';
+  const stints = C.history.concat([{ team: S.playerTeam, role: C.role, from: C.since, to: null, races: C.races, avg: careerAvg(C.judge.filter(x => x.team === S.playerTeam && x.role === C.role)) }]);
+  const hist = `<table class="tbl compact"><thead><tr><th>팀</th><th>역할</th><th>기간</th><th class="r">레이스</th><th class="r">평균 판단</th></tr></thead><tbody>${stints.slice().reverse().map(h => { const tm = S.teams[h.team]; return `<tr><td>${tm ? teamBar(tm) + esc(tm.name) : '—'}</td><td>${ROLES[h.role] ? ROLES[h.role].name : h.role}</td><td class="mono dim">${String(h.from || '').slice(0, 7)} – ${h.to ? String(h.to).slice(0, 7) : '현재'}</td><td class="r">${h.races || 0}</td><td class="r">${h.avg == null ? '—' : h.avg}</td></tr>`; }).join('')}</tbody></table>`;
+  const seasons = (C.seasons || []).length ? `<table class="tbl compact mt"><thead><tr><th>시즌</th><th>팀</th><th>역할</th><th class="r">팀 순위</th><th class="r">평균 판단</th><th class="r">평판</th></tr></thead><tbody>${C.seasons.slice().reverse().map(x => `<tr><td>${x.year}</td><td>${esc(S.teams[x.team] ? S.teams[x.team].short : x.team)}</td><td>${ROLES[x.role] ? ROLES[x.role].name : x.role}</td><td class="r">${x.pos}위 <span class="dim">/ 목표 ${x.target}</span></td><td class="r">${x.avg == null ? '—' : x.avg}</td><td class="r mono">${x.rep.strat.toFixed(0)} · ${x.rep.mgmt.toFixed(0)}</td></tr>`).join('')}</tbody></table>` : '';
+  return `<div class="grid g2">
+    <section class="panel"><div class="panel-h"><h3>${esc(S.manager.name || '')} · ${R.name}</h3><span class="rt">${teamBar(t)}${esc(t.name)} · ${String(C.since).slice(0, 7)}부터 · 레이스 ${C.races}회</span></div><div class="panel-b">
+      <div class="cr-scope"><div><div class="sub-h" style="margin-top:0">직접 하는 것</div><ul>${sc.mine.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div><div><div class="sub-h" style="margin-top:0">팀이 하는 것</div><ul class="dim">${sc.theirs.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div></div>
+      ${!isPrincipal() && C.role === 'strategist' ? `<p class="note">담당 차: <b>${esc((S.drivers[playerTeam().drivers[C.car]] || {}).kname || '—')}</b> (${C.car + 1}번 차). 다른 차와 팀 운영은 팀 프린시펄(AI)이 맡아요.</p>` : ''}
+      <div class="sub-h mt">평판</div>
+      <div class="cr-rep${marksS.length ? ' marked' : ''}"><span>전략</span>${careerBar(repS, marksS)}<b class="mono">${repS.toFixed(0)}</b></div>
+      <div class="cr-rep"><span>경영</span>${careerBar(repM, [])}<b class="mono">${repM.toFixed(0)}</b></div>
+      <p class="note">${nextTxt}</p>
+    </div></section>
+    ${careerPanelOffers()}
+    <section class="panel span2"><div class="panel-h"><h3>판단 점수</h3><span class="rt">${avgY == null ? '이번 시즌 아직 없음' : `이번 시즌 평균 <b>${avgY}</b>점 · ${yrJ.filter(x => x.score != null).length}레이스`}</span></div><div class="panel-b">
+      ${careerScoreChart(C.judge)}
+      <p class="note">결과가 아니라 <b>결정한 순간 피트월이 본 예측</b>으로 매깁니다. 박스·스테이·전략 변경은 콜 직전 계획과 콜 뒤 계획의 예측을 비교하고, 세이프티카는 그때의 "지금 박스 vs 계획"과, 레이스 전 전략은 예상 순위 최선안과 비교해요. 노면이 바뀌었거나 피트월이 "지금 박스"를 8초 넘게 앞선다고 볼 때 2랩 동안 콜이 없으면 <b>놓친 콜</b>로 기록돼요. 100점에서 예측 손해 1초당 5점, 전략 최선안과의 차이 1계단당 10점을 뺍니다. 결과로 건너뛴 레이스는 점수가 없어요.</p>
+      ${lastHtml}</div></section>
+    <section class="panel span2"><div class="panel-h"><h3>경력</h3></div><div class="panel-b flush scroll-x">${hist}${seasons}</div></section>
+    ${(C.log || []).length ? `<section class="panel span2"><div class="panel-h"><h3>기록</h3></div><div class="panel-b"><div class="ev-list">${C.log.slice(0, 14).map(x => `<div class="ev-i"><span class="dim mono">${x.date}</span> ${esc(x.text)}</div>`).join('')}</div></div></section>` : ''}
+  </div>`;
+};
+
+// management screens in a strategy role: readable, with a line on who decides
+const CAREER_MGMT_VIEWS = { market: '이적시장', rd: '차량 개발', fac: '시설', fin: '재정', staff: '스태프', drivers: '드라이버' };
+for (const v of Object.keys(CAREER_MGMT_VIEWS)) {
+  const f = VIEWS[v]; if (!f) continue;
+  VIEWS[v] = () => { const html = f(); if (!S || !S.career || isPrincipal()) return html;
+    const staffNote = v === 'staff' && roleCan('stratStaff') ? ' 전략 스태프는 직접 채용할 수 있어요.' : '';
+    return `<div class="cr-lock">${icon('career')}<span><b>${careerTitle()}</b>${jo(careerTitle(), '은').slice(careerTitle().length)} ${CAREER_MGMT_VIEWS[v]} 결정을 하지 않아요 — 팀 프린시펄(AI)이 정하고, 여기서는 볼 수 있어요.${staffNote}</span><button class="btn sm ghost" data-a="nav" data-v="career">커리어</button></div>` + html; };
+}
+// home: one line on the career
+{
+  const f = VIEWS.home;
+  VIEWS.home = () => {
+    const html = f(); if (!S || !S.career) return html;
+    const C = S.career; const open = C.offers.filter(o => o.status === 'open').length; const R = roleInfo();
+    if (C.legacy && isPrincipal() && !open) return html;
+    return `<div class="cr-strip"><span class="chip">${R.name}</span><span>전략 평판 <b>${C.rep.strat.toFixed(0)}</b> · 경영 평판 <b>${C.rep.mgmt.toFixed(0)}</b></span>${open ? `<span class="chip warn">제안 ${open}건</span>` : ''}${C.pending ? `<span class="chip info">다음 시즌 ${esc(S.teams[C.pending.team].short)} ${ROLES[C.pending.role].name}</span>` : ''}<button class="btn sm ghost" style="margin-left:auto" data-a="nav" data-v="career">커리어</button></div>` + html;
+  };
+}
+// the season review: offers first
+{
+  const f = VIEWS.review;
+  VIEWS.review = () => { const html = f(); if (!S || !S.career) return html; const C = S.career; const open = C.offers.filter(o => o.status === 'open').length;
+    if (!open && !C.pending && !C.mustChoose) return html;
+    return `<div class="cr-review">${careerPanelOffers()}</div>` + html; };
+}
+
+Object.assign(ACT, {
+  careeraccept: d => { if (careerAccept(d.id)) { saveGame(); render(); toast('제안을 수락했어요'); } },
+  careerdecline: d => { if (careerDecline(d.id)) { saveGame(); render(); toast('제안을 거절했어요'); } },
+  ngstartrole: d => { NG.name = $('#ng-name').value; if (typeof ngReadCustom === 'function') ngReadCustom(); NG.start = d.v; if (d.v === 'strategist' && NG.team === CUSTOM_ID) NG.team = 'han'; renderTitle(); },
+});
+// the role's limits, in front of every action (a toast says who decides instead)
+function careerGateUi(a, d) {
+  if (!S || !S.career) return null;
+  if ((a === 'nextseason' || (a === 'continue' && S.phase === 'review')) && S.career.mustChoose && !S.career.pending) return '제안 중 하나를 골라야 다음 시즌으로 넘어갈 수 있어요';
+  return careerGate(a, d);
+}
+
+// ── race hooks: the judge sees the start, each box call, each neutralisation, an early hand-over ──
+if (typeof startRace === 'function') {
+  const f = startRace;
+  startRace = function () { const r = f.apply(this, arguments); try { if (RACE.sim) careerRaceStart(RACE.sim); saveGame(); } catch (e) { console.error(e); } return r; };
+}
+if (typeof updateRaceUI === 'function') {
+  const f = updateRaceUI;
+  updateRaceUI = function () { try { if (RACE.sim && S && S.weekend && S.weekend.judge) careerRaceWatch(RACE.sim); } catch (e) { console.error(e); } return f.apply(this, arguments); };
+}
+// every race call that changes a car's stops goes through the judge: before → the call → after
+function careerWrapCall(tbl, k) {
+  const f = tbl[k]; if (!f) return;
+  tbl[k] = (d, el) => {
+    let snap = null; const sim = RACE.sim; const id = d && d.id;
+    try { if (sim && id && S.weekend && S.weekend.judge) snap = careerSnap(sim, id); } catch (e) { console.error(e); }
+    const r = f(d, el);
+    try { if (snap) careerJudgeChange(sim, id, snap); } catch (e) { console.error(e); }
+    return r;
+  };
+}
+for (const k of ['rbox', 'rboxkey', 'rstay', 'rplanlap', 'rplanc', 'rplandel', 'rplanadd']) careerWrapCall(WACT, k);   // plan edits before a stop merge into one call
+careerWrapCall(ACT, 'liveapply');
+{
+  const f = WACT.rskip;
+  if (f) WACT.rskip = (d, el) => { try { const sim = RACE.sim; const j = S.weekend && S.weekend.judge; if (sim && j && j.skipLap == null) j.skipLap = Math.max(0, sim.leaderLap()); } catch (e) { console.error(e); } return f(d, el); };
+}
+
+// ── first-weekends guide: one short card per new screen, on by default for new careers (team principal or strategist), off in Settings ──
 // S.guide = { on, done: { key: 1 } }. Older saves have no S.guide and stay quiet.
 const GUIDE_STEPS = [
-  { key: 'welcome', when: () => !S.weekend && !S.races.some(r => r.done) && ['home', 'inbox'].includes(UI.view),   // a new career opens in the inbox
-    title: '감독 첫날 — 게임은 이렇게 흘러가',
-    body: () => `오른쪽 위 <b>계속</b>(Space)을 누르면 날짜가 넘어가. 답이 필요한 메일이나 레이스 주말이 오면 알아서 멈춰. 이사회 목표는 <b>컨스트럭터 ${S.board.target}위 이내</b> — 홈의 이사회 패널에서 신뢰도를 보면 돼. 귀찮은 일은 <b>자동화</b>(저장 · 설정)에 맡길 수 있어.`,
-    go: ['inbox', '받은편지함 보기'] },
-  { key: 'inbox', when: () => UI.view === 'inbox',
+  { key: 'welcome', when: () => !S.weekend && !S.races.some(r => r.done) && ['home', 'inbox', 'career'].includes(UI.view),   // a new career opens in the inbox
+    title: () => gStrat() ? '전략가 첫날 — 이렇게 흘러가' : '감독 첫날 — 게임은 이렇게 흘러가',
+    body: () => gStrat() ? `너는 <b>${esc(playerTeam().name)}</b>의 ${esc(careerTitle())}야. 메일·개발·재정·드라이버 같은 팀 운영은 <b>팀 프린시펄(AI)</b>이 하고, 너는 <b>${esc(myCars().map(id => S.drivers[id].kname).join('·'))}</b> 차의 예선과 결승 전략·레이스 콜을 맡아. 오른쪽 위 <b>계속</b>(Space)을 누르면 날짜가 넘어가고 레이스 주말에 멈춰. 레이스마다 <b>판단 점수</b>가 매겨지고 평판이 쌓이면 승진이나 다른 팀 제안이 와 — 받을지 말지는 네가 골라.` : `오른쪽 위 <b>계속</b>(Space)을 누르면 날짜가 넘어가. 답이 필요한 메일이나 레이스 주말이 오면 알아서 멈춰. 이사회 목표는 <b>컨스트럭터 ${S.board.target}위 이내</b> — 홈의 이사회 패널에서 신뢰도를 보면 돼. 귀찮은 일은 <b>자동화</b>(저장 · 설정)에 맡길 수 있어.`,
+    go: () => gStrat() ? ['career', '커리어 보기'] : ['inbox', '받은편지함 보기'] },
+  { key: 'inbox', can: 'decide', when: () => UI.view === 'inbox',
     title: '받은편지함',
     body: () => '선택지가 붙은 메일은 답을 해야 날짜가 넘어가. 회색 배지는 일상 보고라 급하지 않아. 메일의 선택은 돈·사기·평판에 바로 반영돼.' },
-  { key: 'practice', when: () => UI.view === 'weekend' && S.weekend && S.weekend.stage === 'practice',
+  { key: 'practice', can: 'practice', when: () => UI.view === 'weekend' && S.weekend && S.weekend.stage === 'practice',
     title: '연습 주행 (FP1~FP3)',
     body: () => '드라이버마다 세팅 방향과 프로그램을 고르고 세션을 돌리면 <b>세팅 품질</b>과 <b>트랙 이해도</b>가 올라가 — 예선·결승 페이스에 그대로 들어가. 바쁘면 <b>자동 연습</b>을 눌러도 돼. 롱런을 돌리면 타이어 마모 추정이 정확해져서 전략 추천이 좋아져. 위쪽 줄의 <b>노면 온도</b>도 봐 — 타이어마다 작동 온도 창이 있어서, 뜨거운 날엔 소프트가 과열되고 차가운 날엔 하드가 온도를 못 올려.' },
   { key: 'quali', when: () => UI.view === 'weekend' && S.weekend && S.weekend.stage === 'quali',
@@ -16644,27 +17338,31 @@ const GUIDE_STEPS = [
     body: () => '세션마다 새 타이어 세트를 쓰니까 결승에 쓸 새 세트를 남길지 같이 생각해. 하위권은 Q1에서 탈락하고 순위가 그대로 결승 그리드가 돼. <b>위임</b>하면 엔지니어가 알아서 달려. 노면이 차가우면 <b>워밍업 2랩</b>으로 타이어를 데워서 나가 — 차고 아래 힌트에 푸시 시작 온도가 나와.' },
   { key: 'prerace', when: () => UI.view === 'weekend' && S.weekend && S.weekend.stage === 'prerace' && !(S.weekend.sprint && S.weekend.part === 'sprint'),
     title: '결승 전략 고르기',
-    body: () => `추천 전략은 필드 ${fieldSize()}대를 전부 돌려 본 <b>예상 순위</b> 순서야(세이프티카 확률 포함). ${S.raceLen < 0.5 ? '짧은 레이스일수록 세이프티카·사고 같은 운이 커서, 0.5위 안쪽 차이는 사실상 비슷한 선택이야. ' : ''}레이스 중에도 계획은 언제든 바꿀 수 있어. <b>세부 전략 설정</b> 안에서 냉각 세팅(브레이크·냉각수 vs 항력)과 VSC 델타 운영도 정해.` },
+    body: () => `추천 전략은 필드 ${fieldSize()}대를 전부 돌려 본 <b>예상 순위</b> 순서야(세이프티카 확률 포함). ${S.raceLen < 0.5 ? '짧은 레이스일수록 세이프티카·사고 같은 운이 커서, 0.5위 안쪽 차이는 사실상 비슷한 선택이야. ' : ''}레이스 중에도 계획은 언제든 바꿀 수 있어. <b>세부 전략 설정</b> 안에서 냉각 세팅(브레이크·냉각수 vs 항력)과 VSC 델타 운영도 정해.${gStrat() ? ' 고른 전략은 <b>판단 점수</b>에 들어가 — 지금 보이는 예상 순위의 최선안과 비교해.' : ''}` },
   { key: 'race', when: () => UI.view === 'weekend' && S.weekend && S.weekend.stage === 'race', float: true,
     title: '레이스 중에 할 수 있는 것',
-    body: () => '<b>이 카드를 읽는 동안 레이스는 멈춰 있어.</b> 위쪽에서 속도(1×~)를 바꾸고, 드라이버 카드에서 <b>모드</b>(푸시·세이브)와 <b>박스</b>를 정해. <b>A</b>를 누르면 일시정지하고 "지금 박스 vs 몇 랩 더"를 필드 전체로 비교하는 실시간 분석이 열려. 세이프티카가 나오면 피트 손실이 절반쯤으로 줄어. 카드의 <b>온도</b> 줄은 타이어 표면(●)·카커스(○)와 작동 창이야 — 과열되면 <b>열관리</b>로 식히고, 앞차와 결승선 앞에서 1초 안이면 다음 랩에 <b>OT</b>(오버테이크 모드)를 쓸 수 있어. <b>조건부 지시</b>로 "SC 나오면 박스" 같은 규칙을 미리 걸어 둘 수 있고, 피트월 화면 목록에서 <b>텔레메트리·미니섹터·차량 시스템·전략 수치</b>를 골라 띄울 수 있어. 숫자 옆 태그는 실제(측정)·추정·예측·결정을 구분해.' },
+    body: () => '<b>이 카드를 읽는 동안 레이스는 멈춰 있어.</b> 위쪽에서 속도(1×~)를 바꾸고, 드라이버 카드에서 <b>모드</b>(푸시·세이브)와 <b>박스</b>를 정해. <b>A</b>를 누르면 일시정지하고 "지금 박스 vs 몇 랩 더"를 필드 전체로 비교하는 실시간 분석이 열려. 세이프티카가 나오면 피트 손실이 절반쯤으로 줄어. 카드의 <b>온도</b> 줄은 타이어 표면(●)·카커스(○)와 작동 창이야 — 과열되면 <b>열관리</b>로 식히고, 앞차와 결승선 앞에서 1초 안이면 다음 랩에 <b>OT</b>(오버테이크 모드)를 쓸 수 있어. <b>조건부 지시</b>로 "SC 나오면 박스" 같은 규칙을 미리 걸어 둘 수 있고, 피트월 화면 목록에서 <b>텔레메트리·미니섹터·차량 시스템·전략 수치</b>를 골라 띄울 수 있어. 숫자 옆 태그는 실제(측정)·추정·예측·결정을 구분해.' + (gStrat() ? ' 박스·스테이·전략 변경 콜은 <b>그 순간 피트월 예측</b>과 비교해 점수가 매겨져 — 결과가 아니라 결정을 봐. 세이프티카나 비처럼 콜이 필요한 순간에 가만히 있는 것도 판단으로 쳐.' : '') },
   { key: 'post', when: () => UI.view === 'weekend' && S.weekend && S.weekend.stage === 'post',
     title: '레이스 보고서',
     body: () => '그리드에서 결승선까지 순위가 바뀐 이유(출발·추월·피트·SC)를 초 단위로 나눠 보여줘. 탭에서 드라이버별 등급·스틴트·라이벌 비교도 볼 수 있고, 넘어가도 왼쪽 <b>레이스 보고서</b> 메뉴나 일정에서 언제든 다시 열려.' },
   { key: 'between', when: () => UI.view === 'home' && S.races.some(r => r.done) && !S.weekend,
     title: '레이스 사이에 챙길 것',
-    body: () => `<b>차량 개발</b>(예산 상한 $${COST_CAP}M 안에서 파츠 R&D), <b>재정</b>(스폰서·마케팅 캠페인), <b>드라이버</b>(사기·계약)를 봐. 매주 하나씩만 챙겨도 충분하고, 나머지는 자동화에 맡겨도 돼.`,
-    go: ['rd', '차량 개발 보기'] },
+    body: () => gStrat() ? '<b>커리어</b>에서 지난 레이스의 판단 점수와 평판, 들어온 제안을 확인해. 개발·재정·드라이버 화면은 볼 수 있지만 결정은 팀 프린시펄이 해. 시즌 중반(이적 시장)과 시즌 끝에 제안이 오고, 수석 전략가가 되면 두 대와 연습 주행을 직접 맡아.' : `<b>차량 개발</b>(예산 상한 $${COST_CAP}M 안에서 파츠 R&D), <b>재정</b>(스폰서·마케팅 캠페인), <b>드라이버</b>(사기·계약)를 봐. 매주 하나씩만 챙겨도 충분하고, 나머지는 자동화에 맡겨도 돼.`,
+    go: () => gStrat() ? ['career', '커리어 보기'] : ['rd', '차량 개발 보기'] },
 ];
+// a strategy role (v27 career): the cards speak to the job, and steps outside it are skipped
+function gStrat() { return !!(S && S.career && typeof isPrincipal === 'function' && !isPrincipal()); }
+function gApplies(g) { return !g.can || typeof roleCan !== 'function' || roleCan(g.can); }
+function gVal(x) { return typeof x === 'function' ? x() : x; }
 function guideStep() {
   if (!S || !S.guide || !S.guide.on || S.gameOver) return null;
   const done = S.guide.done || (S.guide.done = {});
-  return GUIDE_STEPS.find(g => !done[g.key] && (() => { try { return g.when(); } catch (e) { return false; } })()) || null;
+  return GUIDE_STEPS.find(g => !done[g.key] && gApplies(g) && (() => { try { return g.when(); } catch (e) { return false; } })()) || null;
 }
 function guideCardHtml(g) {
-  const left = GUIDE_STEPS.filter(x => !S.guide.done[x.key]).length;
-  return `<section class="guide-card${g.float ? ' float' : ''}" role="note" aria-label="초보자 가이드"><div class="guide-k">가이드 · ${GUIDE_STEPS.length - left + 1}/${GUIDE_STEPS.length}</div><div class="guide-t">${esc(g.title)}</div><p>${g.body()}</p>
-    <div class="guide-a">${g.go ? `<button class="btn sm" data-a="guidego" data-k="${g.key}" data-v="${g.go[0]}">${esc(g.go[1])}</button>` : ''}<button class="btn sm pri" data-a="guideok" data-k="${g.key}">알겠어</button><button class="btn sm ghost" data-a="guideoff">가이드 끄기</button></div></section>`;
+  const steps = GUIDE_STEPS.filter(gApplies); const left = steps.filter(x => !S.guide.done[x.key]).length; const go = gVal(g.go);
+  return `<section class="guide-card${g.float ? ' float' : ''}" role="note" aria-label="초보자 가이드"><div class="guide-k">가이드 · ${steps.length - left + 1}/${steps.length}</div><div class="guide-t">${esc(gVal(g.title))}</div><p>${g.body()}</p>
+    <div class="guide-a">${go ? `<button class="btn sm" data-a="guidego" data-k="${g.key}" data-v="${go[0]}">${esc(go[1])}</button>` : ''}<button class="btn sm pri" data-a="guideok" data-k="${g.key}">알겠어</button><button class="btn sm ghost" data-a="guideoff">가이드 끄기</button></div></section>`;
 }
 // called by render(): inline at the top of the view, or floating over the race screen
 function guideInject(v) {
