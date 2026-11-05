@@ -1634,9 +1634,11 @@ body.is-fs #top { padding-top: env(safe-area-inset-top); }
 .cr-review { max-width: 760px; margin: 0 auto 14px; }
 @media (max-width: 700px) { .cr-scope { grid-template-columns: 1fr; } }
 
+/* v30 Monte Carlo pick */
+.tbl tr.mc-pick td { background: color-mix(in srgb, var(--good) 9%, transparent); }
+
 </style>
-<script src="three-r128.min.js"></script>
-<script>window.PW_WEB = {"v": "29", "id": "c24c82f48bd6", "at": "2026-11-03T16:07Z"};</script>
+<script>window.PW_WEB = {"v": "30", "id": "2c3c66542728", "at": "2026-11-05T03:47Z"}; window.PW_THREE = "three-r128.min.js";</script>
 </head><body>
 <div id="title"><div class="title-in">
 <h1 class="logo" style="margin:0">Pit<span>wall</span></h1><div class="logo-sub">모터스포츠 팀 매니저</div>
@@ -7317,6 +7319,11 @@ const SA = (() => {
     add('lapSd', Math.round(Math.max(0.05, 0.32 - me.attrs.cons * 0.012) * 1000) / 1000, '초', 'game', '랩타임 편차 (σ)', `드라이버 일관성 ${me.attrs.cons} 기준. 몬테카를로에서만 사용`, { min: 0, max: 1, step: 0.01 });
     add('dirtyAir', Math.round(tr.d.ref * 1.03 * 0.0035 * 1000) / 1000, '초/랩', 'game', '더티 에어 손실', '앞차 1초 이내에서 랩당 약 0.35% 느려지고(0.55초보다 가까우면 최대 0.65% — 엔진 v18) 타이어 마모 +6% (게임 엔진 규칙)', { min: 0, max: 1.5, step: 0.01 });
     add('followGap', 0.6, '초', 'assume', '추월 시도 간격', '이 간격 안에 붙어야 추월을 시도한다고 가정 (게임 엔진은 0.55초 안팎)', { min: 0.2, max: 2, step: 0.05 });
+    // v30 (tools/validate_model.js pace): with every car given the plan it actually raced, the engine's cars that stopped twice
+    // finished 1.5 s (25% races, ±0.6), 0.5 s (50%, ±0.9) and 0.6 s (100%, ±3.4) further back per extra stop than the field
+    // model put them — the engine's failed attacks, defending and tyre-cooling drop-backs on fresh tyres that the model's
+    // queueing rule leaves out. One constant fits all three within their noise
+    add('stopField', 1.2, '초', 'measured', '피트 후 트래픽 비용', '피트 스톱 한 번마다 필드에서 추가로 잃는 시간 — 새 타이어로 앞차를 따라잡아 공격·방어하고, 막히면 타이어를 식히려 물러나는 손실 (레이스 엔진 측정, 그린 스톱만)', { min: 0, max: 5, step: 0.1 });
     const hz = scHazard(field, tr, frac, raceLaps);
     add('scProb', Math.round(clamp(1 - Math.exp(-hz.lam), 0.02, 0.95) * 100) / 100, '확률', 'measured', '세이프티카/VSC 발생 확률', `레이스 엔진의 출동 원인으로 계산한 레이스당 확률 — 코스 위 리타이어(사고 → SC 62%·VSC 26%, 고장 → SC 12%·VSC 28%)와 트랙 파편(설정값 ${tr.d.sc}). 출동 중엔 다른 출동이 없으므로 엔진 측정 보정 ×${SC_CAL}. 평균 ${hz.lam.toFixed(2)}회/레이스 (첫 랩 ${Math.round(hz.firstShare * 100)}%)`, { min: 0, max: 0.97, step: 0.01 });
     add('posSd', 0.35, '초/√랩', 'measured', '순위 불확실성 (레이스 잡음)', '기대 순위 계산에 쓰는 차별 완주 시간의 흐트러짐. 실수·피트 정차 편차·랩타임 잡음·세이프티카로 시간이 남은 랩 수의 제곱근만큼 퍼진다고 보고, 레이스 엔진 결과와 순위 오차가 가장 작아지도록 맞춘 값', { min: 0, max: 4, step: 0.05 });
@@ -7331,6 +7338,7 @@ const SA = (() => {
     return { track: tr, trackId: tr.id, frac, P, me, field, grid, dirtyHeat, gridSource: w && w.grid ? 'quali' : 'pace', sets: ctx.sets || (w ? w.tyres : null), weekend: !!w, consFull: FUEL_FULL / tr.d.laps, lane: lp, scFirstShare: hz.firstShare };
   }
   const pv = (m, k) => m.P[k].v;
+  const SLOW_STOP_MEAN = 5.25;   // a slow stop adds 2.5–8 s (sim.js pitStop), × the short-race pit scaling
   function normCdf(z) { const t = 1 / (1 + 0.2316419 * Math.abs(z)); const d = 0.3989423 * Math.exp(-z * z / 2); const p = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274)))); return z > 0 ? 1 - p : p; }
   function laps(m) { return pv(m, 'laps'); }
   function fracOf(m) { return laps(m) / m.track.d.laps; }
@@ -7423,7 +7431,10 @@ const SA = (() => {
     const degMul = c => (scn.degMul && scn.degMul[c]) || 1;
     for (let lap = L0 + 1; lap <= n; lap++) {
       const sc = scAt(scn, lap); const wet = wp ? wp[lap - 1].wet : 0;
-      const rate = wearPerLap(m, e, comp, mode, wet, degMul(comp));
+      // v30: rubber laid down on the line also eases wear (the engine takes up to 5% off as it builds: sim.js thermal wear) —
+      // the model had the lap-time half of it only and ran ~1.5% more wear into each stop at full distance
+      const rubF = wet > 0.25 ? 0 : 1 - Math.exp(-(lap - 0.5) / Math.max(6, 0.35 * n));
+      const rate = wearPerLap(m, e, comp, mode, wet, degMul(comp)) * (1 - 0.05 * rubF);
       const lapsLeft = n - lap + 1;
       // energy management (same thresholds as the race engine's auto mode)
       const margin = (fuel - lapsLeft * m.consFull) / m.consFull;
@@ -7467,7 +7478,7 @@ const SA = (() => {
       if (pit) {
         const lane = pit.free ? 0 : sc && sc.type === 'SC' ? pv(m, 'pitLaneSC') : sc && sc.type === 'VSC' ? pv(m, 'pitLaneVSC') : pv(m, 'pitLane');
         const isMe = e.id === m.me.id;
-        stationary = pit.free ? 0 : scn.stops && scn.stops[stopIdx] != null ? scn.stops[stopIdx] : isMe ? pv(m, 'stopMean') + 0.798 * pv(m, 'stopSd') : (scn.stopsFor ? scn.stopsFor(e) : e.pitMean + 0.798 * e.pitSd);   // expected value of mean + |N(0,σ)|
+        stationary = pit.free ? 0 : scn.stops && scn.stops[stopIdx] != null ? scn.stops[stopIdx] : isMe ? pv(m, 'stopMean') + 0.798 * pv(m, 'stopSd') + pv(m, 'stopSlowP') * SLOW_STOP_MEAN * pitLossK(fr) : (scn.stopsFor ? scn.stopsFor(e) : e.pitMean + 0.798 * e.pitSd + e.pitSlowP * SLOW_STOP_MEAN * pitLossK(fr));   // expected value: mean + |N(0,σ)| + the occasional slow stop (v30: that last part was MC-only)
         stopIdx++;
         parts.pit += lane / 2 + stationary; pendingPit = { out: lane / 2 };
       }
@@ -7530,7 +7541,7 @@ const SA = (() => {
       const solo = runCar(m, e, st, Object.assign({}, scn, { noise: r ? rng(Math.floor(r() * 1e9)) : null, stops: scn.stopsById ? scn.stopsById[e.id] : (e.id === m.me.id ? scn.stops : null), extra: scn.extraById ? scn.extraById[e.id] || 0 : 0 }), { grid, init });
       return { e, st, grid, solo, t: init ? init.t : gridOffset(grid), lapT: [], pos: [], stuck: 0, passAcc: 0, dnf: !solo.finished && solo.rows.length < n - off ? off + solo.rows.length : null, rows: solo.rows };
     });
-    const minGap = 0.25; const follow = pv(m, 'followGap'); const dirty = pv(m, 'dirtyAir'); const pr = scn.passRng || null;
+    const minGap = 0.25; const follow = pv(m, 'followGap'); const dirty = pv(m, 'dirtyAir'); const pr = scn.passRng || null; const sf = m.P.stopField ? pv(m, 'stopField') : 0;
     for (let lap = off + 1; lap <= n; lap++) {
       const sc = scAt(scn, lap);
       const alive = cars.filter(c => !(c.dnf && lap > c.dnf));
@@ -7553,12 +7564,13 @@ const SA = (() => {
               const p = passProb(m, c.e, prev.e, adv);
               let passed;
               if (pr) passed = pr() < p; else { c.passAcc += p; passed = c.passAcc >= 0.5; }
-              if (passed) { c.passAcc = 0; end = Math.min(natural, prevEnd - 0.1); }
+              if (passed) { c.passAcc = 0; end = Math.min(natural, prevEnd - 0.1); c.nPass = (c.nPass || 0) + 1; prev.nLost = (prev.nLost || 0) + 1; }
               else { end = prevEnd + minGap; c.stuck++; (c.blockers = c.blockers || {})[prev.e.id] = (c.blockers[prev.e.id] || 0) + 1; }
             } else { end = natural; (c.dirtyBehind = c.dirtyBehind || {})[prev.e.id] = (c.dirtyBehind[prev.e.id] || 0) + 1; }
             trafficLoss = end - (c.t + lt);
           } else c.passAcc = 0;
         }
+        if (row.pit && !row.sc && sf) { end += sf; trafficLoss += sf; }   // the fight back through the field after a green stop
         c.lapT.push(end - c.t); (c.cumT = c.cumT || []).push(end); c.trafficLoss = (c.trafficLoss || 0) + Math.max(0, trafficLoss); c.lastTraffic = Math.max(0, trafficLoss);
         if (c.e.id === m.me.id || opt.keepAll) { row.parts.traffic = Math.max(0, trafficLoss); }
         c.t = end; if (end >= prevEnd) { prevEnd = end; prev = c; }
@@ -7683,7 +7695,7 @@ const SA = (() => {
   // ── strategy candidates: sequences × lap allocations, optimised with the engine itself (free air, dry) ──
   function candidates(m, opt = {}) {
     const n = laps(m); const e = m.me;
-    const seqs = [['M', 'H'], ['H', 'M'], ['S', 'H'], ['S', 'M'], ['M', 'S'], ['H', 'S'], ['S', 'M', 'M'], ['M', 'H', 'M'], ['S', 'H', 'S'], ['S', 'M', 'S'], ['M', 'M', 'H'], ['S', 'S', 'M'], ['S', 'H', 'H'], ['M', 'H', 'H'], ['S', 'M', 'M', 'S'], ['S', 'S', 'M', 'S']];
+    const seqs = [['M', 'H'], ['H', 'M'], ['S', 'H'], ['S', 'M'], ['M', 'S'], ['H', 'S'], ['S', 'M', 'M'], ['M', 'H', 'M'], ['S', 'H', 'S'], ['S', 'M', 'S'], ['M', 'M', 'H'], ['S', 'S', 'M'], ['S', 'H', 'H'], ['M', 'H', 'H'], ['M', 'S', 'S'], ['S', 'M', 'M', 'S'], ['S', 'S', 'M', 'S'], ['M', 'S', 'S', 'S']];   // v30: M-S-S and M-S-S-S added — an exhaustive search (tools/exhaustive.js) found them the quickest 2- and 3-stop orders at every race length, 0.4–0.55 s ahead of the best listed one
     const out = [];
     for (const seq of seqs) {
       if (seq.length - 1 > (opt.maxStops ?? 3)) continue;
@@ -7827,7 +7839,33 @@ const SA = (() => {
       infl.push({ k, label: { deg: '타이어 열화 계수', stops: '피트 정차 시간', sc: '세이프티카·VSC 발생', scLap: '세이프티카 시점', red: '레드 플래그', rain: '비 (강도×지속)', dnf: '우리 차 리타이어' }[k], cA, cD });
     }
     infl.sort((a, b) => Math.abs(b.cD ?? b.cA ?? 0) - Math.abs(a.cD ?? a.cA ?? 0));
-    return { stats, beat, infl, done, N, seed, factors: f, aborted, ms, draws };
+    const rk = rankMC(stats, m.field ? m.field.length : 20);
+    return { stats, beat, infl, done, N, seed, factors: f, aborted, ms, draws, best: rk.order[0], order: rk.order, rankBy: rk.rankBy, excluded: rk.excluded };
+  }
+  // v30: what a team races for. With the field model every run gives a place (a retirement is last): rank by expected points,
+  // then expected place. Free air has no places, so it cannot weigh a retirement against seconds: there the pick is the
+  // fastest (mean of finished runs) among the plans that retire no more than 3 points more often than the most reliable one,
+  // and a quicker plan left out for that reason is named. The mean time of the finished runs alone flattered a plan that
+  // retires more often (external review, 2026-11).
+  function rankMC(stats, nF) {
+    const field = stats.some(x => x.pos && x.pos.some(p => p != null));
+    for (const x of stats) {
+      x.dnfP = x.n ? x.dnf / x.n : 0;
+      if (field) {
+        const ps = x.pos.map(p => p == null ? nF : p);
+        x.expPos = avg(ps); x.expPts = avg(ps.map(p => POINTS[p - 1] || 0));
+        x.pPts = avg(ps.map(p => p <= 10 ? 1 : 0)); x.pPod = avg(ps.map(p => p <= 3 ? 1 : 0)); x.pWin = avg(ps.map(p => p === 1 ? 1 : 0));
+      }
+    }
+    if (field) {
+      const order = stats.map((x, i) => i).sort((i, j) => (stats[j].expPts - stats[i].expPts) || (stats[i].expPos - stats[j].expPos) || (stats[i].dnfP - stats[j].dnfP));
+      return { order, rankBy: 'points', excluded: [] };
+    }
+    const minD = Math.min(...stats.map(x => x.dnfP)); const ok = x => x.dnfP <= minD + 0.03;
+    const mt = x => isFinite(x.mean) ? x.mean : Infinity;
+    const order = stats.map((x, i) => i).sort((i, j) => (ok(stats[j]) - ok(stats[i])) || (mt(stats[i]) - mt(stats[j])));
+    const excluded = stats.map((x, i) => i).filter(i => !ok(stats[i]) && mt(stats[i]) < mt(stats[order[0]]));
+    return { order, rankBy: 'time', excluded };
   }
 
   // ── sensitivity: one-at-a-time ± changes, strategy ranking flips and break-even values ──
@@ -8323,7 +8361,7 @@ const SA = (() => {
     return '# 예제 데이터 — PITWALL 전략 엔진이 만든 가상 랩 데이터입니다 (실제 측정값 아님)\n' + lines.join('\n');
   }
 
-  return { scHazard, scScenarios, expPosSc, rainScenarios, expPosRain, expPosRobust, liveSnapshot, liveOptions, liveOptionsAsync, hindsight, stintsFromPits, eventsFromLaps, redRestartLaps, rng, SRC, ENGINE_CAL, calFor, entryFor, buildModel, laps, normStrategy, stratLabel, validate, runCar, runField, evaluate, candidates, compare, explainLap, PART_NAMES, monteCarlo, MC_FACTORS, sensitivity, SENS_KEYS, withParam, undercut, metrics, cleanPairs, fitLapModel, predictFit, parseCSV, parseTime, guessMapping, importLaps, replayObserved, exampleCSV, defaultPlans, fieldProfile, lanePhysics, gridOffset, wearPerLap, quantile };
+  return { rankMC, scHazard, scScenarios, expPosSc, rainScenarios, expPosRain, expPosRobust, liveSnapshot, liveOptions, liveOptionsAsync, hindsight, stintsFromPits, eventsFromLaps, redRestartLaps, rng, SRC, ENGINE_CAL, calFor, entryFor, buildModel, laps, normStrategy, stratLabel, validate, runCar, runField, evaluate, candidates, compare, explainLap, PART_NAMES, monteCarlo, MC_FACTORS, sensitivity, SENS_KEYS, withParam, undercut, metrics, cleanPairs, fitLapModel, predictFit, parseCSV, parseTime, guessMapping, importLaps, replayObserved, exampleCSV, defaultPlans, fieldProfile, lanePhysics, gridOffset, wearPerLap, quantile };
 })();
 
 // ── game integration: the prediction made when the lights go out, and what the race actually did ──
@@ -12649,7 +12687,7 @@ function labSetup(m) {
   const drvOpts = Object.values(S.teams).map(t => `<optgroup label="${esc(t.name)}">${t.drivers.map(id => `<option value="${id}" ${id === ctx.did ? 'selected' : ''}>${esc(S.drivers[id].kname)}${t.id === pt.id ? ' ★' : ''}</option>`).join('')}</optgroup>`).join('');
   const scRows = L.scn.sc.map((e, i) => `<div class="sc-row"><span class="chip ${e.type === 'RED' ? 'bad' : 'warn'}">${e.type === 'RED' ? '레드 플래그' : e.type}</span><label>랩 <input type="number" min="1" max="${n}" value="${e.lap}" data-c="labsc" data-i="${i}" data-f="lap"></label>${e.type === 'SC' ? `<label>지속 <input type="number" min="1" max="8" value="${e.laps || m.P.scLaps.v}" data-c="labsc" data-i="${i}" data-f="laps">랩</label>` : e.type === 'VSC' ? `<label>지속 <input type="number" min="20" max="300" step="5" value="${e.sec || m.P.vscSec.v}" data-c="labsc" data-i="${i}" data-f="sec">초</label>` : '<span class="note" style="margin:0">게임 레이스 엔진에는 없는 분석용 시나리오</span>'}<button class="btn sm ghost" data-a="labscdel" data-i="${i}">삭제</button></div>`).join('');
   const r = L.scn.rain || { on: false, from: Math.round(n * 0.4), to: Math.round(n * 0.7), peak: 0.6 };
-  const groups = [['트랙 · 차량', ['laps', 'ref', 'bias', 'startLoss']], ['타이어', ['degS', 'degM', 'degH', 'paceS', 'paceM', 'paceH', 'warmS', 'warmM', 'warmH']], ['연료', ['fuelPerLap', 'fuelEffect']], ['피트스톱', ['pitLane', 'pitLaneSC', 'pitLaneVSC', 'stopMean', 'stopSd', 'stopSlowP']], ['트래픽', ['dirtyAir', 'followGap']], ['레이스 상황 (몬테카를로)', ['scProb', 'scShare', 'scLaps', 'vscSec', 'redProb', 'rainProb', 'dnfRisk', 'lapSd', 'posSd']]];
+  const groups = [['트랙 · 차량', ['laps', 'ref', 'bias', 'startLoss']], ['타이어', ['degS', 'degM', 'degH', 'paceS', 'paceM', 'paceH', 'warmS', 'warmM', 'warmH']], ['연료', ['fuelPerLap', 'fuelEffect']], ['피트스톱', ['pitLane', 'pitLaneSC', 'pitLaneVSC', 'stopMean', 'stopSd', 'stopSlowP']], ['트래픽', ['dirtyAir', 'followGap', 'stopField']], ['레이스 상황 (몬테카를로)', ['scProb', 'scShare', 'scLaps', 'vscSec', 'redProb', 'rainProb', 'dnfRisk', 'lapSd', 'posSd']]];
   const prow = k => { const p = m.P[k]; if (!p) return ''; const changed = Math.abs(p.v - p.v0) > 1e-9; return `<tr><td><span class="tip" data-tip="${esc(p.note)}">${esc(p.label)}</span>${p.sig ? `<div class="note" style="margin:0">불확실성 ±${Math.round(p.sig * 100)}% (1σ)</div>` : ''}</td><td class="r"><input type="number" class="pin" value="${+p.v.toFixed(4)}" step="${p.step || 0.01}" ${p.min != null ? `min="${p.min}"` : ''} ${p.max != null ? `max="${p.max}"` : ''} data-c="labparam" data-k="${k}" aria-label="${esc(p.label)}"></td><td class="dim">${esc(p.unit)}</td><td>${srcChip(p)}</td><td>${changed ? `<button class="btn sm ghost" data-a="labpreset" data-k="${k}" title="기본값 ${+p.v0.toFixed(4)}">되돌리기</button>` : ''}</td></tr>`; };
   const w = S.weekend && S.weekend.track === m.trackId ? S.weekend : null;
   const dataQ = w ? ['S', 'M', 'H'].map(c => `${COMPOUNDS[c].name} ${Math.round((w.tyreData[c] || 0) * 100)}%`).join(' · ') : null;
@@ -12803,7 +12841,7 @@ function labMC(m) {
   const factors = Object.entries(SA.MC_FACTORS).filter(([k]) => field || !['traffic', 'opp'].includes(k)).map(([k, l]) => `<label class="chk"><input type="checkbox" data-c="labmcf" data-k="${k}" ${L.mc.factors[k] ? 'checked' : ''}> ${l}</label>`).join('');
   let res = '';
   if (r) {
-    const st = r.stats; const best = Math.min(...st.map(s => s.mean));
+    const st = r.stats; const best = Math.min(...st.map(s => s.mean)); const pick = r.best ?? 0;   // v30: the recommended plan by expected points (field) or the median with retirements counted (free air)
     // paired differences against strategy A on the same scenarios — the decision-relevant view (absolute totals are dominated by SC/rain, which hit every strategy alike)
     const paired = st.map((s, i) => s.times.map((x, k) => x - st[0].times[k]).filter(isFinite));
     const pq = a => { const t = a.slice().sort((x, y) => x - y); return { p10: SA.quantile(t, 0.1), p50: SA.quantile(t, 0.5), p90: SA.quantile(t, 0.9) }; };
@@ -12815,7 +12853,8 @@ function labMC(m) {
       : histChart({ series: st.map((s, i) => ({ name: `${evs[i] ? evs[i].k : i} ${s.name}`, color: SERIES[i], values: s.times })), xFmt: v => fmtRT(v), xLabel: '총 레이스 시간', tipRange: (a, b) => `${fmtRT(a)} ~ ${fmtRT(b)}` });
     res = `<section class="panel span2"><div class="panel-h"><h3>결과 분포 — ${r.done}회${r.aborted ? ' (중단됨)' : ''}</h3><span class="rt">${(r.ms / 1000).toFixed(1)}초 · 시드 ${r.seed}${stale ? ' · <span class="warn">조건이 바뀌었습니다 — 다시 실행하세요</span>' : ''} <button class="btn sm ghost" data-a="labmcexport" title="시뮬레이션마다 전략별 총 시간·순위와 뽑힌 무작위 조건">CSV</button></span></div><div class="panel-b">
       ${chart}
-      <div class="scroll-x mt"><table class="tbl compact"><thead><tr><th>전략</th><th class="r">평균</th><th class="r">표준편차</th><th class="r">P10</th><th class="r">중앙값</th><th class="r">P90</th>${st.length > 1 ? `<th class="r"><span class="tip" data-tip="같은 시나리오에서 ${kA}와의 시간 차이. 중앙값 (P10 ~ P90)">${kA} 대비</span></th>` : ''}<th class="r">리타이어</th>${field ? '<th class="r">평균 순위</th>' : ''}</tr></thead><tbody>${st.map((s, i) => `<tr><td><i class="st-key" style="--sc:${SERIES[i]}"></i>${esc(evs[i] ? evs[i].k : '')} ${esc(s.name)}</td><td class="r mono">${fmtRT(s.mean)} <span class="dim">${s.mean - best > 0.05 ? fmtDS(s.mean - best) : ''}</span></td><td class="r mono">${s.sd.toFixed(1)}초</td><td class="r mono">${fmtRT(s.p10)}</td><td class="r mono">${fmtRT(s.p50)}</td><td class="r mono">${fmtRT(s.p90)}</td>${st.length > 1 ? `<td class="r mono">${i ? `${fmtDS(pStats[i].p50)} <span class="dim">(${fmtDS(pStats[i].p10)} ~ ${fmtDS(pStats[i].p90)})</span>` : '<span class="dim">기준</span>'}</td>` : ''}<td class="r">${(s.dnf / Math.max(1, s.n) * 100).toFixed(1)}%</td>${field ? `<td class="r">${s.meanPos ? 'P' + s.meanPos.toFixed(1) : '—'}</td>` : ''}</tr>`).join('')}</tbody></table></div></div></section>
+      <div class="scroll-x mt"><table class="tbl compact"><thead><tr><th>전략</th><th class="r">평균</th><th class="r">표준편차</th><th class="r">P10</th><th class="r">중앙값</th><th class="r">P90</th>${st.length > 1 ? `<th class="r"><span class="tip" data-tip="같은 시나리오에서 ${kA}와의 시간 차이. 중앙값 (P10 ~ P90)">${kA} 대비</span></th>` : ''}<th class="r">리타이어</th>${field ? '<th class="r"><span class="tip" data-tip="리타이어는 최하위로 넣은 평균">기대 순위</span></th><th class="r">기대 포인트</th><th class="r">포인트 확률</th><th class="r">포디움</th>' : ''}</tr></thead><tbody>${st.map((s, i) => `<tr class="${st.length > 1 && i === pick ? 'mc-pick' : ''}"><td><i class="st-key" style="--sc:${SERIES[i]}"></i>${esc(evs[i] ? evs[i].k : '')} ${esc(s.name)}${st.length > 1 && i === pick ? ' <span class="chip good">추천</span>' : ''}</td><td class="r mono">${fmtRT(s.mean)} <span class="dim">${s.mean - best > 0.05 ? fmtDS(s.mean - best) : ''}</span></td><td class="r mono">${s.sd.toFixed(1)}초</td><td class="r mono">${fmtRT(s.p10)}</td><td class="r mono">${fmtRT(s.p50)}</td><td class="r mono">${fmtRT(s.p90)}</td>${st.length > 1 ? `<td class="r mono">${i ? `${fmtDS(pStats[i].p50)} <span class="dim">(${fmtDS(pStats[i].p10)} ~ ${fmtDS(pStats[i].p90)})</span>` : '<span class="dim">기준</span>'}</td>` : ''}<td class="r">${(s.dnf / Math.max(1, s.n) * 100).toFixed(1)}%</td>${field ? `<td class="r">${s.expPos != null ? 'P' + s.expPos.toFixed(1) : '—'}</td><td class="r mono"><b>${s.expPts != null ? s.expPts.toFixed(2) : '—'}</b></td><td class="r">${s.pPts != null ? Math.round(s.pPts * 100) + '%' : '—'}</td><td class="r">${s.pPod != null ? Math.round(s.pPod * 100) + '%' : '—'}</td>` : ''}</tr>`).join('')}</tbody></table></div>
+      <p class="note mt">${st.length > 1 ? `<b>추천: ${esc(evs[pick] ? evs[pick].k : '')} ${esc(st[pick].name)}</b> — ${r.rankBy === 'points' ? `기대 포인트가 가장 높은 전략 (리타이어는 0점·최하위로 포함). 평균 시간은 완주한 경우만의 값이라 리타이어가 잦은 전략을 실제보다 좋아 보이게 할 수 있어 기준에서 뺐습니다.` : `완주한 경우의 평균 시간이 가장 빠른 전략 — 단, 가장 안정적인 전략보다 리타이어 확률이 3%p 넘게 높은 전략은 뺐습니다${(r.excluded || []).length ? ` (더 빠르지만 제외: ${r.excluded.map(i => esc(evs[i] ? evs[i].k : i)).join(', ')})` : ''}. 자유 주행엔 순위가 없어 리타이어를 몇 초와 맞바꿀 수 없으니, 순위·포인트로 보려면 교통 모델을 '필드'로 바꾸세요.`}` : ''}</p></div></section>
       <section class="panel"><div class="panel-h"><h3>맞대결 승률</h3><span class="rt">같은 시나리오에서 행 전략이 열 전략보다 빠를 확률</span></div><div class="panel-b flush"><table class="tbl compact"><thead><tr><th></th>${st.map((s, j) => `<th class="r">${esc(evs[j] ? evs[j].k : j)}</th>`).join('')}</tr></thead><tbody>${st.map((s, i) => `<tr><td><b>${esc(evs[i] ? evs[i].k : i)}</b></td>${st.map((x, j) => i === j ? '<td class="r dim">—</td>' : `<td class="r"><b class="${r.beat[i][j] > 0.6 ? 'good' : r.beat[i][j] < 0.4 ? 'bad' : ''}">${r.beat[i][j] == null ? '—' : Math.round(r.beat[i][j] * 100) + '%'}</b></td>`).join('')}</tr>`).join('')}</tbody></table>
         <p class="note" style="padding:8px 12px">공통 난수: 모든 전략이 같은 세이프티카·날씨·정차 시간 표본을 겪으므로 차이가 운이 아니라 전략에서 나옵니다.</p></div></section>
       <section class="panel"><div class="panel-h"><h3>결과를 가장 크게 흔든 변수</h3><span class="rt">상관계수 · ${st.length > 1 ? `${evs[0].k}−${evs[1].k} 시간 차이 기준` : `${evs[0].k} 총 시간 기준`}</span></div><div class="panel-b">${r.infl.length ? r.infl.map(x => { const v = x.cD ?? x.cA ?? 0; return `<div class="infl"><span>${esc(x.label)}</span><span class="infl-bar"><i class="${v < 0 ? 'neg' : 'pos'}" style="width:${Math.abs(v) * 100}%"></i></span><b class="mono">${v.toFixed(2)}</b></div>`; }).join('') : '<p class="note">변동 요인이 꺼져 있습니다.</p>'}
@@ -13603,7 +13642,7 @@ function preraceView() {
     return `<section class="panel"><div class="panel-h"><h3>${esc(d.kname)} · P${w.grid.indexOf(did) + 1}</h3><span class="rt">${gl('tyre', '타이어 관리')} ${attrSpan(d.a.tyre)}</span></div><div class="panel-b">
       ${top}
       <details class="strat-adv" ${keepOpen('stadv-' + did, S.mode === 'sa' || st.idx < 0)}><summary class="sub-h" style="cursor:pointer">세부 전략 설정 <span class="dim">— 후보 · 스틴트 · 연료 · 자동 피트</span></summary>
-      <div class="sub-h mt">추천 전략 <span class="dim">— 예상 순위(트래픽·추월 포함 필드 모델) 순 · 초는 빈 트랙 기준 시간 차 · 타이어 데이터가 부족하면 빗나갈 수 있음</span></div>${opts}
+      <div class="sub-h mt">추천 전략 <span class="dim">— 완주했을 때의 예상 순위(트래픽·추월·세이프티카 경우 포함 필드 모델) 순 · 초는 빈 트랙 기준 시간 차 · 리타이어 위험은 전략과 상관없어 빠져 있음 · 타이어 데이터가 부족하면 빗나갈 수 있음</span></div>${opts}
       <div class="sub-h mt">전략 편집 <span class="rt2">${ev.total !== w.laps ? `<span class="bad">합계 ${ev.total}랩 / ${w.laps}랩</span>` : `<span class="dim">합계 ${w.laps}랩</span>`} · 추천 대비 <b class="${ev.delta > 3 ? 'warn' : ''}">${ev.delta >= 0 ? '+' : ''}${ev.delta.toFixed(1)}s</b></span></div>
       ${stintRows}
       <div class="flex wrap mt" style="gap:6px"><button class="btn sm" data-a="stadd" data-id="${did}">스틴트 추가</button>${dryUsed.size < 2 ? '<span class="chip bad">드라이 컴파운드 2종 필요</span>' : ''}</div>
@@ -14056,12 +14095,10 @@ function pushEvents() {
 function ensureThree() {
   if (typeof THREE !== 'undefined') return Promise.resolve();
   if (RACE._threeP) return RACE._threeP;
-  RACE._threeP = new Promise((res, rej) => {
-    const sc = document.createElement('script');
-    sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
-    sc.onload = () => res(); sc.onerror = () => { RACE._threeP = null; rej(); };
-    document.head.appendChild(sc);
-  });
+  // the site's own copy first (v30: it is no longer in the page head), then the CDN copy
+  const load = src => new Promise((res, rej) => { const sc = document.createElement('script'); sc.src = src; sc.onload = () => typeof THREE !== 'undefined' ? res() : rej(); sc.onerror = () => { sc.remove(); rej(); }; document.head.appendChild(sc); });
+  const cdn = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+  RACE._threeP = (window.PW_THREE ? load(window.PW_THREE).catch(() => load(cdn)) : load(cdn)).catch(e => { RACE._threeP = null; throw e; });
   return RACE._threeP;
 }
 
