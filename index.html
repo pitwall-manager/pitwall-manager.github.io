@@ -2035,7 +2035,7 @@ button.sp:hover { border-color: var(--sc); transform: translateY(-1px); }
 .es-t.click { cursor: pointer; } .es-t.click:hover { background: var(--ink-4); }
 
 </style>
-<script>window.PW_WEB = {"v": "41", "id": "c70046e8948a", "at": "2026-11-10T06:05Z"}; window.PW_THREE = "three-r128.min.js";</script>
+<script>window.PW_WEB = {"v": "42", "id": "69f5a73c4792", "at": "2026-11-12T10:55Z"}; window.PW_THREE = "three-r128.min.js";</script>
 </head><body>
 <div id="title"><div class="title-in">
 <h1 class="logo" style="margin:0">Pit<span>wall</span></h1><div class="logo-sub">모터스포츠 팀 매니저</div>
@@ -4328,7 +4328,11 @@ class RaceSimCore {
   // v28: the pace a pass is decided on — the car's lap target with most of this lap's random form taken out, so two evenly
   // matched cars do not swap places back and forth on lap-to-lap noise
   passPace(c) { return c.lapTarget - (1 - PASS_NOISE_K) * (c.lapNoise || 0); }
-  passDone(c, a) { return (this.progress(c) - this.progress(a)) * this.track.L > 9; }   // v38: a hook (endsim.js judges it on the track, cars laps apart)
+  // v42 a pass is done when the car is past on the track. Until v41 this was judged on race progress, which a car lapping
+  // another is already a lap ahead on — so a blue-flag pass ended the moment it began, the lapped car stopped yielding
+  // after a single step, and the leader sat behind it for a lap or more (median 88 s behind a backmarker in a full F1 race).
+  // On the track it is the same test for cars on the same lap, and a lapped car racing to unlap itself can now complete it.
+  passDone(c, a) { const L = this.track.L; const d = (c.s - a.s + L) % L; return d > 9 && d < L / 2; }
   startPass(c, a, yielded) { c.passing = { id: a.id, t: 9 }; a.yieldTo = c.id; c._yielded = yielded; }
   onPassComplete(c, a) {
     if (c._yielded || this.sc) return;
@@ -11812,14 +11816,19 @@ class EnduranceSim extends RaceSim {
     for (const c of active) {
       const a = aheadOf.get(c);
       if (!a || c.inPit || a.inPit || a.cls === c.cls || ES_CLS[c.cls].rank === ES_CLS[a.cls].rank) { same.set(c, a); continue; }
+      // v42 a car of a slower class behind one of a faster class (a damaged car, a Bronze stint, cold tyres, a car laps
+      // down): an ordinary race — it passes on pace, and a car it is lapping gets the blue flag. Until v41 it could never pass.
+      if (ES_CLS[c.cls].rank > ES_CLS[a.cls].rank) { same.set(c, a); continue; }
       same.set(c, null);
-      if (ES_CLS[c.cls].rank > ES_CLS[a.cls].rank || c.passing || a.yieldTo || a.passing) continue;
+      if (c.passing || a.yieldTo || a.passing) continue;
       const gapM = (a.s - c.s + L) % L; if (gapM > 70) continue;
       this.classTraffic(c, a, gapM);
     }
     super.overtakeAttempts(active, same, scOn, vscOn);
   }
-  passDone(c, a) { const L = this.track.L; const d = (c.s - a.s + L) % L; return d > 9 && d < L / 2; }   // past it on the track (the cars are often laps apart)
+  // v42 a blue flag is for a car being caught: across classes a quicker car that is a lap down (it lost time in the pits)
+  // is not shown one by a slower class's car behind it — they simply race
+  blueFlag(c, a, tg) { if (c.cls !== a.cls && this.passPace(c) >= this.passPace(a)) return; super.blueFlag(c, a, tg); }
   classTraffic(c, a, gapM) {
     const tr = this.track, L = tr.L; const si = Math.floor(tr.fi(c.s)) % tr.n;
     let zone = false; for (const z of tr.zones) { const d = (z - c.s + L) % L; if (d < 260) { zone = true; break; } }
@@ -11829,10 +11838,16 @@ class EnduranceSim extends RaceSim {
     // fast on the straights, so it waits for a braking zone (real LMP3s lose much of their time in GT3 traffic)
     const dk = END_CLS[a.cls].k / END_CLS[c.cls].k - 1;
     rate *= clamp(dk / 0.09, 0.22, 1.2) * (dA.cat === 'B' ? 0.75 : 1) * (1 + (dC.attrs.ovt - 12) * 0.03);
+    // v42 held up for long behind the same car (an LMP3 on a GT3 that is as quick on the straights: until v41 one in ten
+    // waited a minute or more, the worst four): race control's blue flags get firmer — after ~20 s the slower car moves
+    // over and lifts properly, and the move comes at the next straight
+    const H = c._ctHeld && c._ctHeld.id === a.id && this.t - c._ctHeld.last < 16 ? c._ctHeld : (c._ctHeld = { id: a.id, t0: this.t });
+    H.last = this.t; const held = clamp((this.t - H.t0 - 20) / 15, 0, 1);   // (a move that failed keeps the count: up to 16 s between calls)
+    if (held > 0) rate = Math.max(rate, (zone || straight ? 1.2 : 0.35) * held);
     if (gapM < 25 && chance(1 - Math.exp(-rate * (this._dt || 0.25)))) {
       const pc = 0.00011 * (dA.cat === 'B' ? 1.7 : 1) * (dC.cat === 'B' ? 1.4 : 1) * MODES[c.mode].risk * (1 + this.wet * 1.5) * (zone || straight ? 0.6 : 1.4);   // a few class-traffic contacts a race
       if (chance(pc)) { c.an.mcContact = (c.an.mcContact || 0) + 1; this.contact(c, a); return; }
-      this.startPass(c, a, true); c.passing.k = 1.0; c.passing.yk = dA.cat === 'B' ? 0.975 : 0.986;   // the car being caught lifts and moves off line (an amateur more) a._blueYield = false; a.an.mcLet = (a.an.mcLet || 0) + 1; c.an.mcPass = (c.an.mcPass || 0) + 1;
+      this.startPass(c, a, true); c.passing.k = held > 0 ? 1.02 : 1.0; c.passing.yk = held > 0 ? 0.955 : dA.cat === 'B' ? 0.975 : 0.986; if (held > 0) c.passing.t = 12;   // the car being caught lifts and moves off line (an amateur more) a._blueYield = false; a.an.mcLet = (a.an.mcLet || 0) + 1; c.an.mcPass = (c.an.mcPass || 0) + 1;
     }
   }
   // ── the engineers' pit calls: fuel (a stop when the tank will not do another lap), a cheap stop under a caution once the
@@ -12932,12 +12947,12 @@ function elmsStaffHire(role, id) {
 // computeLapTarget: car + driver, fuel weight, tyre wear; the engineers' fuel and stop rules of EnduranceSim.esPlan /
 // decidePit), plus two things measured on the engine (tools/test_elms_plan.js keeps them honest):
 //   EP_TRAFFIC — what a green lap loses to the other classes, lap noise and small mistakes, as a share of the lap
-//                (12 races, 6 circuits: LMP2 1.05%, LMP3 0.47%, LMGT3 0.52%)
+//                (12 races, 6 circuits; v42: LMP2 0.85%, Pro-Am 0.87%, LMP3 0.34%, LMGT3 0.43%)
 //   EP_LANE    — the in-lap and out-lap beyond the stationary time: the circuit's pit-lane loss + 0.5 s (measured: in-lap + out-lap − two green laps − the stop, median of 4 classes)
 // It is a green-flag race: no neutralisations, no rain, no damage. A caution moves the stops, so the plan is a list of
 // stints (driver, tyres) the car takes in order, not a list of laps.
 'use strict';
-const EP_TRAFFIC = { lmp2: 0.0105, lmp2pa: 0.0105, lmp3: 0.0047, gt3: 0.0052 };
+const EP_TRAFFIC = { lmp2: 0.0085, lmp2pa: 0.0087, lmp3: 0.0034, gt3: 0.0043 };   // v42 re-measured after the backmarker fix (was 1.05 / 1.05 / 0.47 / 0.52%)
 const EP_LANE = 0.5;
 
 // our car as the race engine will see it on Sunday (the same entry elmsEntries hands to the race)
