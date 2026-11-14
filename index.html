@@ -162,8 +162,8 @@ table.mini th { color: var(--fg-3); font-weight: 600; font-size: 11px; }
 /* buttons */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 7px 14px; border-radius: 4px; border: 1px solid var(--line-2); background: var(--ink-3); color: var(--fg); font-size: 13px; font-weight: 500; white-space: nowrap; transition: background .12s, border-color .12s; }
 .btn:hover { background: var(--ink-4); border-color: #3d475d; }
-.btn.pri { background: var(--team); color: var(--team-ink); border-color: transparent; font-weight: 600; }
-.btn.pri:hover { filter: brightness(1.08); }
+.btn.pri, .btn.primary { background: var(--team); color: var(--team-ink); border-color: transparent; font-weight: 600; }
+.btn.pri:hover, .btn.primary:hover { filter: brightness(1.08); }   /* v44: the ELMS screens' main buttons (class "primary") were never styled */
 .btn.ghost { background: transparent; }
 .btn.sm { padding: 4px 9px; font-size: 12px; }
 .btn.danger { border-color: color-mix(in srgb, var(--bad) 50%, transparent); color: var(--bad); }
@@ -622,7 +622,7 @@ body.race-on .nav-i { justify-content: center; padding: 10px 0; }
 .gp-title { font-size: 19px; font-weight: 600; line-height: 1.4; }
 .gp-tag { color: var(--fg-2); font-weight: 500; }
 .gp-meta { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; color: var(--fg-3); padding: 8px 0 10px; border-bottom: 1px solid var(--line); }
-.gp-meta .sp { flex: 1; }
+.gp-meta .sp { flex: 1; background: none; border: 0; padding: 0; border-radius: 0; display: block; }   /* v44: the series picker's .sp box no longer leaks in */
 .gp-meta .gc-n { color: var(--fg); }
 .gp-body { padding: 16px 0 6px; font-size: 14.5px; line-height: 1.75; }
 .gp-body p { margin: 0 0 12px; }
@@ -2034,8 +2034,31 @@ button.sp:hover { border-color: var(--sc); transform: translateY(-1px); }
 .erp-strip .ep-gr .ep-gt { overflow: visible; }
 .es-t.click { cursor: pointer; } .es-t.click:hover { background: var(--ink-4); }
 
+/* ── v44 the ELMS season book, records (elms_book_ui.js) and media (elms_media_ui.js) ── */
+.ebk-plate { position: relative; aspect-ratio: 4 / 3; border-radius: 8px; overflow: hidden; display: grid; place-items: center; background:
+  repeating-linear-gradient(135deg, color-mix(in srgb, var(--tc) 22%, transparent) 0 14px, transparent 14px 28px), linear-gradient(160deg, color-mix(in srgb, var(--tc) 55%, var(--ink-3)), var(--ink-3)); border: 1px solid color-mix(in srgb, var(--tc) 45%, var(--line)); }
+.ebk-no { font-family: var(--f-display); font-weight: 800; font-size: 96px; line-height: 1; color: #fff; text-shadow: 0 4px 24px rgba(0,0,0,.45); background: rgba(0,0,0,.28); border-radius: 10px; padding: 6px 18px; min-width: 120px; text-align: center; }
+.ebk-cls { position: absolute; top: 10px; left: 12px; font-size: 11px; font-weight: 700; letter-spacing: .12em; color: #fff; background: rgba(0,0,0,.35); padding: 2px 7px; border-radius: 3px; }
+.ebk-yr { position: absolute; bottom: 10px; right: 12px; font-family: var(--f-display); font-weight: 700; font-size: 18px; color: rgba(255,255,255,.85); }
+.ebk-decide { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 14px; align-items: start; }
+.ebk-decide > div > .panel { margin: 0; }
+.ebk-pts { margin-left: auto; font-size: 11px; font-weight: 700; color: var(--fg); font-family: var(--f-display); } .ebk-pts.dim { color: var(--fg-3); }
+.ebk-grid { font-size: 10.5px; line-height: 1.25; color: var(--fg-3); margin-left: 2px; align-self: center; white-space: nowrap; }
+.bk-cell.click { cursor: pointer; } .bk-cell.click:hover { border-color: var(--line-2); background: var(--ink-4); } .bk-cell.click:focus-visible { outline: 2px solid var(--team); outline-offset: 1px; }
+.ebk-cat { font-size: 15px; min-width: 34px; height: 34px; display: inline-grid; place-items: center; border-radius: 6px; }
+.ebk-ar .ar-row { grid-template-columns: 92px 34px minmax(0, 1fr) 0; }
+.ebk-share { height: 4px; background: var(--ink-4); } .ebk-share i { display: block; height: 100%; }
+.ebk-champs { grid-template-columns: repeat(4, minmax(0, 1fr)); } .ebk-champs .bk-chn { font-size: 19px; }
+.ema-fig { margin: 12px 0; background: var(--ink-3); border: 1px solid var(--line); border-radius: 6px; padding: 8px; }
+.ema-fig svg { display: block; width: 100%; height: auto; max-height: 260px; }
+.ema-fig figcaption { font-size: 12px; color: var(--fg-2); margin-top: 6px; }
+.ema-head { margin-top: 10px; border: 1px solid var(--line); border-radius: 6px; }
+@media (max-width: 1100px) { .ebk-champs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 900px) { .ebk-decide { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 620px) { .ebk-champs { grid-template-columns: minmax(0, 1fr); } .ebk-no { font-size: 64px; } }
+
 </style>
-<script>window.PW_WEB = {"v": "42", "id": "69f5a73c4792", "at": "2026-11-12T10:55Z"}; window.PW_THREE = "three-r128.min.js";</script>
+<script>window.PW_WEB = {"v": "44", "id": "28333071dec2", "at": "2026-11-14T19:08Z"}; window.PW_THREE = "three-r128.min.js";</script>
 </head><body>
 <div id="title"><div class="title-in">
 <h1 class="logo" style="margin:0">Pit<span>wall</span></h1><div class="logo-sub">모터스포츠 팀 매니저</div>
@@ -4580,9 +4603,9 @@ class RaceSimCore {
       const c = f.c; const dryUsed = new Set([...c.usedCompounds].filter(x => 'SMH'.includes(x)));
       const ruleBroken = this.ruleApplies(c) && dryUsed.size < 2;
       out.push({ id: c.id, team: c.team, pos: 0, laps: f.laps, time: f.t, gap: i === 0 ? 0 : f.t - winnerT, lapsDown: winnerLaps - f.laps,
-        status: ruleBroken ? 'DSQ' : 'FIN', reason: ruleBroken ? '의무 컴파운드 규정 위반' : '', best: c.bestLap, stops: c.stops, grid: c.gridPos, penalty: c.penalty, led: c.lapsLed, tyres: [...c.usedCompounds].join('') });
+        status: ruleBroken ? 'DSQ' : 'FIN', reason: ruleBroken ? '의무 컴파운드 규정 위반' : '', best: Number.isFinite(c.bestLap) ? c.bestLap : null, stops: c.stops, grid: c.gridPos, penalty: c.penalty, led: c.lapsLed, tyres: [...c.usedCompounds].join('') });
     });
-    ret.forEach(c => out.push({ id: c.id, team: c.team, pos: 0, laps: Math.max(0, c.lap), time: 0, gap: 0, lapsDown: 0, status: 'DNF', reason: c.dnfReason, best: c.bestLap, stops: c.stops, grid: c.gridPos, penalty: 0, led: c.lapsLed, tyres: [...c.usedCompounds].join('') }));
+    ret.forEach(c => out.push({ id: c.id, team: c.team, pos: 0, laps: Math.max(0, c.lap), time: 0, gap: 0, lapsDown: 0, status: 'DNF', reason: c.dnfReason, best: Number.isFinite(c.bestLap) ? c.bestLap : null, stops: c.stops, grid: c.gridPos, penalty: 0, led: c.lapsLed, tyres: [...c.usedCompounds].join('') }));
     const cls = out.filter(r => r.status === 'FIN'), dsq = out.filter(r => r.status === 'DSQ'), dnf = out.filter(r => r.status === 'DNF');
     const ordered = cls.concat(dnf, dsq);
     ordered.forEach((r, i) => { r.pos = i + 1; r.points = r.status !== 'FIN' ? 0 : this.sprint ? (SPRINT_POINTS[i] || 0) : i < 10 ? POINTS[i] : 0; });
@@ -4910,7 +4933,7 @@ function newGame(opt) {
     const [id, kname, short, en, code, nat, age, num, at, pot, team, salary, cEnd] = r;
     const d = makeDriver({ id, kname, short, en, code, nat, age: Math.min(41, age + dy), num, pot, team, salary, contractEnd: cEnd + dy, a: Object.fromEntries(ATTR_KEYS.map((k, i) => [k, at[i]])) });
     S.drivers[id] = d;
-    if (team) S.teams[team].drivers.push(id);
+    if (team) { S.teams[team].drivers.push(id); d.role = 'race'; }   // v42 (was left null until the first load put it right)
   });
   // reserve drivers: one per team (v19; older versions had them for the top three only)
   for (const [tid, did] of Object.entries(RESERVE_SEED)) { const d = S.drivers[did], t = S.teams[tid]; if (!d || !t || d.team) continue; d.team = tid; d.role = 'reserve'; t.reserve = did; }
@@ -11135,7 +11158,28 @@ const W_TEAM_SUFFIX = [['Racing', '레이싱'], ['Motorsport', '모터스포츠'
 function wRand() { const W = S.world; let t = (W.rs = (W.rs + 0x6D2B79F5) >>> 0); t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }
 function wNorm() { let u = 0; while (u === 0) u = wRand(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * wRand()); }
 function wPick(a) { return a[Math.floor(wRand() * a.length)]; }
-function wName() { return `${wPick(STAFF_FIRST)} ${wPick(STAFF_LAST)}`; }
+// v43 the world's people: a name already in use is drawn again. The first draw is the world's own stream, as it always
+// was (the world — every crew, rating and car — stays the one the engine was calibrated on); only a clash draws again,
+// from a stream of its own, out of 60 × 60 names. 30 × 30 gave a few hundred world drivers a dozen shared names in ELMS
+// alone, and a driver's profile, track knowledge and reports go by name.
+const W_FIRST = STAFF_FIRST.concat(['아드리안', '베아트리체', '크리스티안', '도미닉', '에밀리아', '펠릭스', '가브리엘', '하나', '이반', '야스민', '카이', '라우라', '마티아스', '나오미', '오렐리앙', '파울라', '쿠엔틴', '로사', '세바스티안', '테레사', '우고', '비비안', '빌럼', '산드라', '요나스', '조이', '마테오', '리아', '스테판', '이사벨']);
+const W_LAST = STAFF_LAST.concat(['아르노', '브루너', '카발로', '드브리스', '에릭손', '폰세카', '갈로', '하우스만', '이바노프', '얀선', '코왈스키', '라르센', '모레티', '닐센', '올리베이라', '파커', '퀸', '로세티', '실바', '타나카', '울리히', '반담', '월시', '자비에르', '영', '지글러', '벨몬트', '카사스', '도널드', '에반스']);
+function wNameTaken() {
+  const W = S && S.world; if (!W) return null; if (W._names) return W._names;
+  const T = new Set(); for (const p of Object.values(W.programs || {})) for (const cr of p.crews || []) for (const n of cr.drivers || []) T.add(n);
+  for (const d of Object.values(S.drivers || {})) if (d && d.kname) T.add(d.kname);
+  Object.defineProperty(W, '_names', { value: T, enumerable: false, writable: true, configurable: true });   // not saved: rebuilt from the world on load
+  return T;
+}
+function wName() {
+  const T = wNameTaken(); let n = `${wPick(STAFF_FIRST)} ${wPick(STAFF_LAST)}`;
+  if (T && T.has(n)) {
+    let h = 2166136261; for (const ch of n + '|' + T.size) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; }
+    const r = () => (h = (Math.imul(h, 1664525) + 1013904223) >>> 0) / 4294967296;
+    for (let k = 0; k < 80; k++) { const m = `${W_FIRST[Math.floor(r() * W_FIRST.length)]} ${W_LAST[Math.floor(r() * W_LAST.length)]}`; if (!T.has(m)) { n = m; break; } }
+  }
+  if (T) T.add(n); return n;
+}
 
 // a template date (2026) moved to another year on the same weekday, nearest to the same day of the month
 function wShiftDate(md, year) {
@@ -12086,9 +12130,12 @@ function elmsJoin(p, from, fromLabel) {
   for (const x of Object.values(W.programs)) if (x.series === 'elms' && !x.closed) for (const cr of x.crews) endCrew(cr, x.cls);
   p.player = true;
   const list = Object.values(W.programs).filter(x => x.series === 'elms' && !x.closed);
+  const prev = S.elms && S.elms.prog !== p.id ? S.elms : null;   // v44 a move between ELMS entries keeps the manager's race reports and press (the new team's fans start at 50)
   S.elms = { prog: p.id, car: 0, cash: 0, prep: { rel: 0, pit: 0 }, know: {}, results: [], target: elmsTarget(p, list), season: year, wk: null, since: year, from: from || null };
   elmsLedger('예산', ELMS_ECON.budget[p.cls], `${year} 시즌 운영 예산 (구단주)`);
+  if (prev) { if (prev.reps) { S.elms.reps = prev.reps; S.elms.repKeys = prev.repKeys || []; } if (prev.media) S.elms.media = Object.assign(prev.media, { fans: 50, fanHist: [], fanLog: [], unread: 0 }); if (prev.dknow) S.elms.dknow = prev.dknow; }
   elmsSeasonFees(); if (typeof elmsStaffInit === 'function') elmsStaffInit(p);   // v40: the entry's key staff, paid for the season
+  if (typeof elmsMediaJoin === 'function') mediaSafe(elmsMediaJoin, fromLabel || (from ? `F1 ${from}` : ''));
   msg('구단주', `${p.kname}에 온 걸 환영해`, `<p>${fromLabel ? `${esc(fromLabel)}에서 옮겨 온 걸 환영해. ` : from ? `F1 ${esc(from)}에서 옮겨 온 걸 환영해. ` : ''}${year} ELMS 시즌 ${END_CLS_NAME[p.cls]} 클래스에 #${p.crews[0].no}로 나가. 목표는 클래스 <b>${S.elms.target}위 이내</b>야.</p><p>라운드마다 연습에서 무엇을 다듬을지 정하고, 클래스 예선을 거쳐 4시간 레이스를 직접 지휘해. 돈은 라운드 비용과 매달 운영비로 나가고, 남는 돈으로 차 준비와 피트 크루 훈련에 투자할 수 있어.</p>`, { cat: 'elms', stop: false });
 }
 function elmsProg() { return S.world.programs[S.elms.prog]; }
@@ -12116,7 +12163,7 @@ function elmsContinue() {
 }
 
 // ── the weekend (v39: elms_week.js — FP1, the Bronze test, FP2, class qualifying live, then the race) ──
-function elmsStartWeekend(ev) { ewStart(ev); }
+function elmsStartWeekend(ev) { ewStart(ev); if (typeof elmsMediaWeekendStart === 'function') mediaSafe(elmsMediaWeekendStart, ev); }   // v44 the preview (elms_media.js)
 function elmsWeekendEv() { return S.elms.wk ? S.world.cal.find(e => e.id === S.elms.wk.ev) : null; }
 // a weekend saved by v38 or before (one practice focus) starts over in the new format while it is still before the race
 function elmsWeekendMigrate() { const wk = S.elms && S.elms.wk; if (wk && wk.v !== 2 && (wk.stage === 'practice' || wk.stage === 'quali')) { const ev = elmsWeekendEv(); const d = S.date; if (ev) { ewStart(ev); S.date = d; } } }
@@ -12164,6 +12211,7 @@ function elmsEsFinish(ev, sim, ai, meId) {
   if (rec.pos === 1) wNews(`${me.name} #${me.no}, ${ev.kname} ${END_CLS_NAME[me.cls]} 우승`, 'elms', true);
   if (typeof elmsRepCapture === 'function') try { rec.rep = !!elmsRepCapture(ev, sim, ai, meId, out, aiOut); } catch (e) { console.error('elms report', e); }   // v41 the race report (elms_report.js)
   if (S.elms.wk) elmsRaceDone({ rec });
+  if (rec.rep && typeof elmsMediaAfterRace === 'function') mediaSafe(elmsMediaAfterRace, ev, elmsRep(S.year, ev.id));   // v44 the press, the drivers, the fans (elms_media.js)
   return { out, ai: aiOut, rec, row, aiRow };
 }
 function elmsEndWeekend() { if (typeof ewKeepKnowledge === 'function') ewKeepKnowledge(); S.elms.wk = null; S.date = dAdd(S.date, 1); }
@@ -12175,7 +12223,11 @@ function elmsBuyPrep(kind) {
 }
 // the season's end: the class standing against the owner's target, then the next season
 function elmsStanding() { const p = elmsProg(); const st = wStandings('elms', p.cls); const k = st.findIndex(x => x.prog === p.id && x.no === elmsCrew().no); return { pos: k + 1, n: st.length, pts: k >= 0 ? st[k].pts : 0 }; }
-function elmsSeasonEnd() {
+// v44 the season book (elms_book.js) is written once the season's verdict is in
+function elmsSeasonEnd() { elmsSeasonEnd0(); const R = S.elms.review; if (R && typeof elmsBuildBook === 'function') { try { R.book = elmsBuildBook(R); } catch (e) { console.error('elms book', e); } }
+  if (S.gameOver && R && R.book) { const h = S.history[S.history.length - 1]; if (h && h.series === 'elms' && h.year === R.year) h.book = R.book; }
+  if (typeof elmsMediaSeasonEnd === 'function') mediaSafe(elmsMediaSeasonEnd, R); }
+function elmsSeasonEnd0() {
   const st = elmsStanding(); const tgt = S.elms.target; const ok = st.pos && st.pos <= tgt;
   S.elms.review = { year: S.year, pos: st.pos, n: st.n, pts: st.pts, target: tgt, ok, cash: S.elms.cash, results: S.elms.results.slice(), conf: S.board.confidence };
   S.board.confidence = Math.max(0, Math.min(100, S.board.confidence + (ok ? 15 : -20) + (S.elms.cash < 0 ? -15 : 0)));
@@ -12194,9 +12246,10 @@ function elmsNextSeason() {
   if (C && C.mustChoose && !C.pending) { const f = (C.offers || []).find(o => o.status === 'open'); if (f) moveAccept(f.id); }
   const P = C && C.pending;
   const R = S.elms.review; const p = elmsProg();
-  S.history.push({ year: R.year, series: 'elms', cls: p.cls, prog: p.id, pos: R.pos, pts: R.pts, target: R.target });
+  S.history.push({ year: R.year, series: 'elms', cls: p.cls, prog: p.id, pos: R.pos, pts: R.pts, target: R.target, book: R.book || null });
   const year = S.year + 1; S.year = year; S.date = `${year}-02-15`;
   worldRollover(year);
+  for (const x of Object.values(S.world.programs)) if (x.series === 'elms' && !x.closed) for (const cr of x.crews) endCrew(cr, x.cls);   // v42 entries new this year get their drivers' categories now (the owner's target and the class rankings count them)
   if (C) for (const o of C.offers || []) if (o.status === 'open') o.status = 'lapsed';
   // v40: a move agreed at the season's end: F1, or another ELMS entry
   if (P && P.series === 'f1') return careerToF1(P);
@@ -12248,6 +12301,7 @@ function elmsSign(slot, mid) {
   else { cr.drivers.push(m.name); cr.cats.push(m.cat); cr.rats.push(m.rat); fees.push(m.fee); }
   S.elms.market.list = S.elms.market.list.filter(x => x.id !== mid);
   if (out) S.elms.market.list.push({ id: 'r' + Date.now() % 1e6 + '_' + slot, name: out.name, cat: out.cat, rat: out.rat, fee: out.fee, age: 30 });
+  if (typeof elmsMediaSigning === 'function') mediaSafe(elmsMediaSigning, m.name, m.cat, out ? out.name : null);
   return null;
 }
 // the season's driver money, at its start: every driver's fee for six rounds
@@ -12717,6 +12771,7 @@ function ewQualiFinish(ql) {
   wk.quali = res; wk.grid = grid; wk.qDriver = me ? me.j : null; wk.qLaps = me ? me.laps : []; wk.qEvents = ql.events.slice(0, 30); wk.qRed = !!ql.redDone;
   if (me && me.setsUsed) me.setsUsed.forEach((u, i) => { const s = wk.sets.find(x => x.id === u.id); if (!s) return; const n = (i + 1 < me.setsUsed.length ? me.setsUsed[i + 1].from : me.laps.length) - u.from + 2; s.laps = Math.max(1, n); s.wear = Math.min(100, n * 2.5); });
   wk.stage = 'race'; S.date = dAdd(S.date, 1);
+  if (typeof elmsMediaAfterQuali === 'function') mediaSafe(elmsMediaAfterQuali, elmsWeekendEv(), ql.cls, mine);   // v44 (elms_media.js)
   return res;
 }
 // the weekend in numbers, kept with the round's result
@@ -12939,6 +12994,7 @@ function elmsStaffHire(role, id) {
   if (cost) elmsLedger('스태프', -cost, `${ES_STAFF[role].name} ${m.name} 영입 — 남은 ${Math.round(left * 6)}라운드 연봉`);
   if (out) elmsLedger('스태프', -out, `${ES_STAFF[role].name} ${old.name} 계약 해지 위약금`);
   S0[role] = m; S.elms.staffMkt.list = S.elms.staffMkt.list.filter(x => x !== m);
+  if (typeof elmsMediaStaff === 'function') mediaSafe(elmsMediaStaff, role, m.name, m.rating);
   return null;
 }
 
@@ -13142,6 +13198,412 @@ function erpGreen(rep, l0, l1) {
 const ERP_CAUT = { F: 'FCY', V: 'VSC', S: 'SC', R: '레드' };
 // the stops under a neutralisation: the time they saved against a green-flag stop (the lap lost to the pit lane at racing speed)
 function erpCautStops(rep) { return rep.stops.filter(s => s.u); }
+
+// ───────── elms_book.js — v44 the ELMS season book: the year as a story, built from the season's own records ─────────
+// Sources: the round records (S.elms.results), the race reports (elms_report.js: laps, stints, stops, cautions, the
+// engineers' race), the world's calendar (every class result and its points, so the championship can be replayed round by
+// round) and the ledger. Built when the season ends (elmsSeasonEnd), kept with the season in S.history (book) so past years
+// reopen from the records page. Everything in it is a count or a sum of what happened; the words are templates over them.
+'use strict';
+const EB_V = 1;
+// the class's rounds of a year, in order, with every entry's points
+function ebRounds(year, cls) {
+  return S.world.cal.filter(e => e.series === 'elms' && e.done && e.res && String(e.date).slice(0, 4) === String(year)).sort((a, b) => (a.date < b.date ? -1 : 1))
+    .map(e => ({ ev: e, rows: e.res[cls] || [] }));
+}
+// cumulative points of every entry after each round (the championship replayed), and each entry's place after each round
+function ebChampionship(year, cls) {
+  const R = ebRounds(year, cls); const keys = new Map();
+  for (const r of R) for (const x of r.rows) { const k = x.prog + '#' + x.no; if (!keys.has(k)) keys.set(k, { k, prog: x.prog, no: x.no, pts: [], wins: 0, best: 99 }); }
+  const sum = new Map([...keys.keys()].map(k => [k, 0])); const wins = new Map(), best = new Map();
+  for (const r of R) {
+    for (const x of r.rows) { const k = x.prog + '#' + x.no; sum.set(k, sum.get(k) + (x.pts || 0)); if (x.pos === 1) wins.set(k, (wins.get(k) || 0) + 1); if (x.pos) best.set(k, Math.min(best.get(k) || 99, x.pos)); }
+    for (const [k, e] of keys) e.pts.push(sum.get(k));
+    // the order after this round, as the standings sort it (points, wins, best finish)
+    const ord = [...keys.values()].sort((a, b) => sum.get(b.k) - sum.get(a.k) || (wins.get(b.k) || 0) - (wins.get(a.k) || 0) || (best.get(a.k) || 99) - (best.get(b.k) || 99));
+    ord.forEach((e, i) => { (e.place = e.place || []).push(i + 1); });
+  }
+  return { rounds: R, entries: [...keys.values()] };
+}
+function ebName(prog, no) { const p = S.world.programs[prog]; return p ? (p.kname || p.name) : String(prog); }
+function ebHex(c) {   // the world's privateer colours are hsl(): the book keeps hex (the charts and the tiles take it as is)
+  const m = /^hsl\((\d+)\s+(\d+)%\s+(\d+)%\)$/.exec(String(c)); if (!m) return c;
+  const h = +m[1] / 360, s = +m[2] / 100, l = +m[3] / 100; const q = l < 0.5 ? l * (1 + s) : l + s - l * s, p = 2 * l - q;
+  const f = t => { t = (t + 1) % 1; const v = t < 1 / 6 ? p + (q - p) * 6 * t : t < 1 / 2 ? q : t < 2 / 3 ? p + (q - p) * (2 / 3 - t) * 6 : p; return Math.round(v * 255).toString(16).padStart(2, '0'); };
+  return '#' + f(h + 1 / 3) + f(h) + f(h - 1 / 3);
+}
+function ebColor(prog) { const p = S.world.programs[prog]; return p ? ebHex(p.color) : '#888'; }
+function ebLap(t) { if (!(t > 0)) return '—'; const m = Math.floor(t / 60); return `${m}:${(t - m * 60).toFixed(3).padStart(6, '0')}`; }
+// one round of ours, as the book and the records keep it (r: a row of S.elms.results; me: our championship entry)
+function ebRoundRow(r, i, year, me) {
+  const rp = elmsRep(year, r.ev); const ev = S.world.cal.find(e => e.id === r.ev) || {}; const tid = (rp && rp.tid) || END_VENUE[ev.venue] || null;
+  let fs = null, ls = null;   // the shortest stop (stationary seconds) and the longest stint (minutes, the driver)
+  if (rp) { for (const s of rp.stops) if (s.st > 0 && (fs == null || s.st < fs)) fs = s.st;
+    for (const x of erpStints(rp)) { const mn = Math.round((x.t1 - x.t0) / 60); if (!ls || mn > ls[0]) ls = [mn, (rp.crew[x.d] || {}).n || '']; } }
+  return { round: i + 1, ev: r.ev, name: r.name, tid, cls: rp ? rp.cls : null, pos: r.pos || 0, out: r.out || null, grid: r.grid || null, aiPos: r.aiPos || 0, pts: r.pts || 0, pole: !!r.pole, minFail: !!r.minFail && (r.pos || 0) > 0, laps: r.laps || 0,
+    km: tid && r.laps ? Math.round(r.laps * endTrack(tid).L / 1000) : 0, caut: rp ? rp.caut.length : null, red: rp ? rp.caut.some(c => c.k === 'RED') : false, plan: !!(rp && rp.plan), planOff: !!(rp && rp.plan && rp.plan.off),
+    cpos: me && me.place ? me.place[i] : null, rep: !!rp, best: rp ? rp.best : null, bestRank: rp ? rp.bestRank : null, stops: rp ? rp.stops.length : null, fs, ls };
+}
+// the book of the season that just ended (R = S.elms.review)
+function elmsBuildBook(R) {
+  const p = elmsProg(); const cr = elmsCrew(); const cls = p.cls; const year = R.year; const myK = p.id + '#' + cr.no;
+  const CH = ebChampionship(year, cls); const me = CH.entries.find(e => e.k === myK);
+  const res = R.results || [];
+  const reps = res.map(r => elmsRep(year, r.ev)).filter(Boolean);
+  // ── the rounds ──
+  const rounds = res.map((r, i) => ebRoundRow(r, i, year, me));
+  // ── the numbers ──
+  const fin = rounds.filter(r => r.pos > 0);
+  const stops = reps.flatMap(x => x.stops); const stat = stops.map(s => s.st).filter(v => v > 0);
+  const green = stops.filter(s => !s.u && s.st > 0);
+  const st = {
+    starts: rounds.length, wins: fin.filter(r => r.pos === 1).length, podiums: fin.filter(r => r.pos <= 3).length, poles: rounds.filter(r => r.pole).length,
+    best: fin.length ? Math.min(...fin.map(r => r.pos)) : null, dnf: rounds.filter(r => !r.pos).length, pointsFinishes: rounds.filter(r => r.pts > 0).length, pts: R.pts,
+    laps: rounds.reduce((a, r) => a + (r.laps || 0), 0), km: rounds.reduce((a, r) => a + (r.km || 0), 0),
+    stops: stops.length, avgStop: green.length ? Math.round(green.reduce((a, s) => a + s.st, 0) / green.length * 10) / 10 : null, fastStop: stat.length ? Math.min(...stat) : null,
+    cautStops: stops.filter(s => s.u).length, cautions: reps.reduce((a, x) => a + x.caut.length, 0), reds: reps.filter(x => x.caut.some(c => c.k === 'RED')).length,
+    better: res.filter(r => (r.pos || 99) < (r.aiPos || 99)).length, worse: res.filter(r => (r.pos || 99) > (r.aiPos || 99)).length,
+    planRaces: rounds.filter(r => r.plan).length, gained: fin.filter(r => r.grid).reduce((a, r) => a + (r.grid - r.pos), 0), minFails: rounds.filter(r => r.minFail).length,
+    fastestLaps: rounds.filter(r => r.bestRank === 1).length,
+  };
+  // ── the championship ──
+  const top = CH.entries.slice().sort((a, b) => (b.pts[b.pts.length - 1] || 0) - (a.pts[a.pts.length - 1] || 0));
+  const pick = top.slice(0, 3); if (me && !pick.includes(me)) pick.push(me);
+  const series = pick.map(e => ({ k: e.k, name: ebName(e.prog, e.no) + ' #' + e.no, color: ebColor(e.prog), me: e.k === myK, pts: e.pts }));
+  const winner = top[0] ? { name: ebName(top[0].prog, top[0].no), no: top[0].no, pts: top[0].pts[top[0].pts.length - 1], me: top[0].k === myK } : null;
+  const gapTo = (k) => { const a = top.find(e => e.k === k); return a ? (a.pts[a.pts.length - 1] || 0) - (me ? me.pts[me.pts.length - 1] : 0) : null; };
+  // ── the crew: from the reports (who drove, how long, how quick), the weekend's knowledge ──
+  const drv = new Map();
+  for (const x of reps) x.crew.forEach((c, j) => { const d = drv.get(c.n) || { n: c.n, cat: c.cat, rat: c.rat, mins: 0, laps: 0, stints: 0, best: null, rounds: 0, green: [], know: [] }; d.rounds++;
+    d.mins += x.drive[j] || 0; if (x.lap) { x.lap.d.forEach((dd, k) => { if (dd === j) d.laps++; });
+      const g = []; const pit = new Set(); x.stops.forEach(s => { pit.add(s.lap); pit.add(s.lap + 1); });
+      x.lap.lt.forEach((t, k) => { if (x.lap.d[k] === j && !x.lap.sc[k] && !pit.has(k + 1) && k > 0 && t > 0 && (!x.best || t < x.best * 1.12)) g.push(t / (x.clsBest || x.best || t)); });
+      if (g.length >= 5) { g.sort((a, b) => a - b); d.green.push(g[Math.floor(g.length / 2)]); } }
+    const bl = x.lap ? Math.min(...x.lap.lt.filter((t, k) => x.lap.d[k] === j && t > 0)) : null; if (bl && isFinite(bl)) d.best = d.best ? Math.min(d.best, bl) : bl;
+    d.stints += erpStints(x).filter(s => s.d === j).length;
+    if (x.wk && x.wk.know && x.wk.know[j] != null) d.know.push(x.wk.know[j]);
+    drv.set(c.n, d); });
+  const repN = reps.length;
+  const drivers = [...drv.values()].map(d => ({ n: d.n, cat: d.cat, rat: d.rat, mins: d.mins, hours: Math.round(d.mins / 6) / 10, laps: d.laps, stints: d.stints, rounds: d.rounds,
+    pace: d.green.length ? Math.round((d.green.reduce((a, v) => a + v, 0) / d.green.length - 1) * 1000) / 10 : null,   // % off the class's best lap of each race, median green lap
+    know: d.know.length ? Math.round(d.know.reduce((a, v) => a + v, 0) / d.know.length) : null })).sort((a, b) => b.mins - a.mins);
+  // ── the weekends and the pit wall ──
+  const wks = res.map(r => r.wkSum).filter(Boolean); const avg = k => wks.length ? Math.round(wks.reduce((a, w) => a + (w[k] || 0), 0) / wks.length) : null;
+  const ops = { setup: avg('q'), fuel: avg('fuel'), tyre: avg('tyre'), pit: avg('pit'), runs: wks.reduce((a, w) => a + (w.runs || 0), 0), wkLaps: wks.reduce((a, w) => a + (w.laps || 0), 0),
+    slow: stops.filter(s => s.st > (s.L ? 4 + s.L / END_CLS[cls].rate : 0) + (s.ty ? 16.5 : 0) + 5.5).length, staff: S.elms.staff ? Object.fromEntries(Object.entries(S.elms.staff).map(([k, x]) => [k, { n: x.name, r: x.rating }])) : null };
+  // ── the money: the season's ledger by kind ──
+  const led = S.ledger.filter(l => String(l.date).slice(0, 4) === String(year)); const byCat = {};
+  for (const l of led) byCat[l.cat] = Math.round(((byCat[l.cat] || 0) + l.amount) * 1000) / 1000;
+  const money = { end: Math.round(S.elms.cash * 1000) / 1000, inc: Object.entries(byCat).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]), exp: Object.entries(byCat).filter(x => x[1] < 0).sort((a, b) => a[1] - b[1]),
+    net: Math.round(led.reduce((a, l) => a + l.amount, 0) * 1000) / 1000 };
+  // ── the moments ──
+  const M = [];
+  rounds.forEach((r, i) => {
+    if (r.pos === 1) M.push({ round: r.round, kind: 'win', text: `${r.name} 클래스 우승${r.grid && r.grid > 1 ? ` — P${r.grid}에서 출발` : ''}` });
+    else if (r.pos && r.pos <= 3) M.push({ round: r.round, kind: 'podium', text: `${r.name} P${r.pos} 포디움` });
+    if (r.pole) M.push({ round: r.round, kind: 'pole', text: `${r.name} 클래스 폴 포지션 (+1점)` });
+    if (r.pos && r.grid && r.grid - r.pos >= 4) M.push({ round: r.round, kind: 'charge', text: `${r.name} P${r.grid} → P${r.pos}, ${r.grid - r.pos}계단 상승` });
+    if (r.pos && r.aiPos && r.aiPos - r.pos >= 3) M.push({ round: r.round, kind: 'climb', text: `${r.name} 엔지니어 레이스(P${r.aiPos})보다 ${r.aiPos - r.pos}계단 앞 — 피트월 콜이 만든 차이` });
+    if (!r.pos) M.push({ round: r.round, kind: 'dnf', text: `${r.name} 완주 못 함${r.out ? ' — ' + r.out : ''}` });
+    if (r.minFail) M.push({ round: r.round, kind: 'minfail', text: `${r.name} 40분 규정 위반 — 레이스 포인트 없음` });
+    if (r.red) M.push({ round: r.round, kind: 'red', text: `${r.name} 레드 플래그` });
+    if (r.bestRank === 1) M.push({ round: r.round, kind: 'fl', text: `${r.name} 클래스 가장 빠른 랩 ${ebLap(r.best)}` });
+    if (r.cpos === 1 && (i === 0 || rounds[i - 1].cpos !== 1)) M.push({ round: r.round, kind: 'lead', text: `챔피언십 선두에 올라섬` });
+  });
+  if (st.pointsFinishes && !rounds.slice(0, -1).some(r => r.pts > 0) && rounds[rounds.length - 1].pts > 0) M.push({ round: rounds.length, kind: 'points', text: '마지막 라운드에서 시즌 첫 포인트' });
+  // ── the awards ──
+  const A = [];
+  const bestRace = fin.slice().sort((a, b) => a.pos - b.pos || ((b.grid || 0) - b.pos) - ((a.grid || 0) - a.pos))[0];
+  if (bestRace) A.push({ k: '올해의 레이스', v: `${bestRace.name} P${bestRace.pos}`, s: bestRace.grid ? `P${bestRace.grid}에서 출발` : '' });
+  const climb = fin.filter(r => r.grid).sort((a, b) => (b.grid - b.pos) - (a.grid - a.pos))[0];
+  if (climb && climb.grid - climb.pos > 0) A.push({ k: '최고의 추격', v: `${climb.name} +${climb.grid - climb.pos}`, s: `P${climb.grid} → P${climb.pos}` });
+  const call = res.filter(r => r.pos && r.aiPos).sort((a, b) => (b.aiPos - b.pos) - (a.aiPos - a.pos))[0];
+  if (call && call.aiPos - call.pos > 0) A.push({ k: '피트월의 한 수', v: `${call.name} +${call.aiPos - call.pos}`, s: `엔지니어였다면 P${call.aiPos}` });
+  let fs = null; for (const x of reps) for (const s of x.stops) if (s.st > 0 && (!fs || s.st < fs.st)) fs = { st: s.st, name: x.name, lap: s.lap, ty: s.ty, L: s.L, u: s.u };
+  if (fs) A.push({ k: '가장 짧은 정차', v: `${fs.st.toFixed(1)}초`, s: `${fs.name} ${fs.lap}랩 · ${fs.L ? fs.L + 'L 급유' : '급유 없음'}${fs.ty ? ' · 타이어' : ''}${fs.u ? ' · 중립화 중' : ''}` });
+  const iron = drivers[0]; if (iron) A.push({ k: '가장 오래 몬 드라이버', v: `${iron.n}`, s: `${iron.hours}시간 · ${iron.laps}랩` });
+  const quick = drivers.filter(d => d.pace != null).sort((a, b) => a.pace - b.pace)[0]; if (quick) A.push({ k: '가장 빠른 드라이버', v: `${quick.n}`, s: `녹색 랩 중앙값 클래스 베스트 +${quick.pace}%` });
+  const worst = rounds.find(r => !r.pos || r.minFail); if (worst) A.push({ k: '아쉬운 순간', v: `${worst.name}`, s: worst.minFail ? '40분 규정 위반' : (worst.out || '리타이어') });
+  // ── the story ──
+  const prevH = (S.history || []).filter(h => h.series === 'elms' && h.year < year).slice(-1)[0];
+  const prev = prevH && prevH.cls === cls ? prevH.pos : null;
+  const champ = R.pos === 1;
+  const headline = champ ? `${year} ${END_CLS_NAME[cls]} 챔피언` : R.ok ? (st.wins ? `목표 달성, ${st.wins}승의 시즌` : `목표 달성 — 클래스 ${R.pos}위`) : R.fired ? `구단주와 결별한 시즌` : st.wins ? `${st.wins}승에도 목표 미달` : `목표에 ${R.pos - R.target}계단 못 미친 시즌`;
+  const story = [];
+  story.push(`${jo(`${p.kname || p.name} #${cr.no}`, '은')} ${END_CLS_NAME[cls]} ${R.n}대 중 ${R.pos}위로 ${year} 시즌을 마쳤다(목표 ${R.target}위 이내, ${R.pts}점).`);
+  if (winner && !winner.me) story.push(`챔피언은 ${winner.name} #${winner.no}(${winner.pts}점)${me ? `, 우리와 ${(winner.pts - (me.pts[me.pts.length - 1] || 0))}점 차` : ''}.`);
+  if (st.wins || st.podiums) story.push(`${st.starts}전 ${st.wins}승 · 포디움 ${st.podiums}회${st.poles ? ` · 폴 ${st.poles}회` : ''}.`);
+  if (st.better || st.worse) story.push(`같은 시드의 엔지니어 레이스와 비교하면 ${st.better}번 앞서고 ${st.worse}번 뒤졌다.`);
+  if (st.dnf) story.push(`완주 못 한 레이스 ${st.dnf}번.`);
+  const verdict = R.fired ? '구단주와 결별' : R.ok ? '목표 달성' : '목표 미달';
+  // ── the fans and the press (elms_media.js): the mood before and after each round, the loudest posts, the headlines ──
+  const MD = S.elms.media; let fans = null;
+  if (MD && Array.isArray(MD.fanHist)) {
+    const inYear = x => String(x.date).slice(0, 4) === String(year);
+    const hist = MD.fanHist.filter(inYear); const first = hist[0];
+    const posts = (MD.posts || []).filter(x => inYear(x) && !x.team && !x.driver).sort((a, b) => b.likes - a.likes).slice(0, 3).map(x => ({ h: x.handle, t: x.text, tone: x.tone, l: x.likes }));
+    const arts = (MD.articles || []).filter(a => inYear(a) && a.mine && a.tag === '레이스');
+    const byRound = ev => arts.find(a => a.ev === ev);
+    const fin2 = rounds.slice().sort((a, b) => (a.pos || 99) - (b.pos || 99)); const bestA = fin2.length ? byRound(fin2[0].ev) : null; const worstA = fin2.length > 1 ? byRound(fin2[fin2.length - 1].ev) : null;
+    fans = { start: first ? Math.round((first.v - (first.d || 0)) * 10) / 10 : MD.fans, end: MD.fans, curve: rounds.map(r => { const h = hist.find(x => x.ev === r.ev); return h ? h.v : null; }), posts,
+      best: bestA ? { t: bestA.title, o: bestA.outlet, tone: bestA.tone, round: fin2[0].round, name: fin2[0].name } : null,
+      worst: worstA && worstA !== bestA && worstA.tone !== 'pos' ? { t: worstA.title, o: worstA.outlet, tone: worstA.tone, round: fin2[fin2.length - 1].round, name: fin2[fin2.length - 1].name } : null,
+      swings: (MD.fanLog || []).filter(inYear).slice().sort((a, b) => Math.abs(b.d) - Math.abs(a.d)).slice(0, 4).map(x => ({ d: x.d, why: x.why })), articles: (MD.articles || []).filter(inYear).length };
+  }
+  // ── the other classes' champions ──
+  const champs = Object.keys(END_CLS).map(k => { const c = wStandings('elms', k)[0]; return c ? { cls: k, name: ebName(c.prog, c.no), no: c.no, pts: c.pts, color: ebColor(c.prog), me: k === cls && c.prog === p.id && c.no === cr.no } : null; }).filter(Boolean);
+  // our car against the class (the programme's strength, the crew)
+  const list = Object.values(S.world.programs).filter(x => x.series === 'elms' && !x.closed);
+  const car = typeof elmsCarRank === 'function' ? elmsCarRank(p, list, cr.no) : null;
+  return { v: EB_V, year, cls, team: { prog: p.id, no: cr.no, name: p.kname || p.name, color: ebHex(p.color) }, pos: R.pos, n: R.n, pts: R.pts, target: R.target, ok: !!R.ok, fired: !!R.fired, prev,
+    headline, story, verdict, stats: st, rounds, series, posAfter: me ? me.place : [], winner, gapLeader: winner && !winner.me && me ? winner.pts - (me.pts[me.pts.length - 1] || 0) : 0,
+    carRank: car ? car.rank : null, carN: car ? car.n : null, drivers, repN, ops, money, moments: M, awards: A, fans, champs,
+    std: top.slice(0, 12).map((e, i) => ({ pos: i + 1, name: ebName(e.prog, e.no), no: e.no, color: ebColor(e.prog), pts: e.pts[e.pts.length - 1] || 0, me: e.k === myK, prog: e.prog })) };
+}
+// the book of a past (or this) season
+function elmsBook(year) {
+  if (S.elms && S.elms.review && S.elms.review.year === year && S.elms.review.book) return S.elms.review.book;
+  const h = (S.history || []).filter(x => x.series === 'elms' && x.year === year && x.book).slice(-1)[0]; return h ? h.book : null;
+}
+
+// ── v44 the records: every ELMS season the manager has run (the books, the season under way), the F1 years before ──
+// Built on demand from the books (S.history) and this season's results; nothing is stored twice.
+function elmsLiveRounds() {
+  if (!S.elms || !S.elms.results || !S.elms.results.length || S.elms.review) return null;
+  const p = elmsProg(); const cr = elmsCrew(); const CH = ebChampionship(S.year, p.cls); const me = CH.entries.find(e => e.k === p.id + '#' + cr.no);
+  const st = elmsStanding();
+  return { year: S.year, cls: p.cls, team: p.kname || p.name, pos: st.pos, pts: st.pts, target: S.elms.target, rows: S.elms.results.map((r, i) => ebRoundRow(r, i, S.year, me)) };
+}
+function ebF1Name(id) { const t = (S.teams && S.teams[id]) || (typeof TEAM_SEED !== 'undefined' ? TEAM_SEED.find(x => x.id === id) : null); return t ? t.kname || t.name : String(id || 'F1'); }
+function elmsRecords() {
+  const H = S.history || [];
+  const books = H.filter(h => h.series === 'elms' && h.book).map(h => h.book);
+  const R = S.elms && S.elms.review; if (R && R.book && !books.some(b => b.year === R.book.year && b.team.prog === R.book.team.prog)) books.push(R.book);
+  const live = S.series === 'elms' ? elmsLiveRounds() : null;
+  // the seasons, oldest first: F1 (constructors' place), ELMS (class place against the owner's target), this one under way
+  const seasons = H.map(h => h.series === 'elms' ? { year: h.year, series: 'elms', name: h.book ? h.book.team.name : ebName(h.prog), cls: h.cls, pos: h.pos, pts: h.pts, target: h.target, ok: h.pos > 0 && h.pos <= h.target, book: !!h.book, champ: h.pos === 1 }
+    : { year: h.year, series: 'f1', name: ebF1Name(h.team), pos: h.pos, pts: h.pts, target: null, ok: null, book: !!h.book, champ: h.pos === 1 });
+  if (R && !H.some(h => h.series === 'elms' && h.year === R.year)) seasons.push({ year: R.year, series: 'elms', name: R.book ? R.book.team.name : emTeamName(), cls: elmsProg().cls, pos: R.pos, pts: R.pts, target: R.target, ok: !!R.ok, book: !!R.book, champ: R.pos === 1, review: true });
+  if (live) seasons.push({ year: live.year, series: 'elms', name: live.team, cls: live.cls, pos: live.pos, pts: live.pts, target: live.target, ok: null, book: false, live: true, rounds: live.rows.length });
+  seasons.sort((a, b) => a.year - b.year || (a.series === 'f1' ? -1 : 1));
+  // every ELMS round raced
+  const rows = books.flatMap(b => b.rounds.map(r => Object.assign({ year: b.year, cls: r.cls || b.cls, team: b.team.name }, r))).concat(live ? live.rows.map(r => Object.assign({ year: live.year, cls: r.cls || live.cls, team: live.team }, r)) : []);
+  const fin = rows.filter(r => r.pos > 0);
+  const tot = { seasons: books.length + (live ? 1 : 0), titles: books.filter(b => b.pos === 1).length, starts: rows.length, wins: fin.filter(r => r.pos === 1).length, podiums: fin.filter(r => r.pos <= 3).length, poles: rows.filter(r => r.pole).length,
+    pts: rows.reduce((a, r) => a + (r.pts || 0), 0), laps: rows.reduce((a, r) => a + (r.laps || 0), 0), km: rows.reduce((a, r) => a + (r.km || 0), 0), dnf: rows.filter(r => !r.pos).length,
+    better: rows.filter(r => (r.pos || 99) < (r.aiPos || 99)).length, worse: rows.filter(r => (r.pos || 99) > (r.aiPos || 99)).length, f1: seasons.filter(x => x.series === 'f1').length, ok: books.filter(b => b.ok).length };
+  // personal bests (the first time a mark was set wins a tie)
+  const at = r => r ? { year: r.year, name: r.name, round: r.round, ev: r.ev } : null;
+  const maxBy = (a, f) => a.reduce((m, x) => (f(x) != null && (m == null || f(x) > f(m)) ? x : m), null);
+  const minBy = (a, f) => a.reduce((m, x) => (f(x) != null && (m == null || f(x) < f(m)) ? x : m), null);
+  const bestFin = minBy(fin, r => r.pos); const climb = maxBy(fin.filter(r => r.grid), r => r.grid - r.pos); const call = maxBy(fin.filter(r => r.aiPos), r => r.aiPos - r.pos);
+  const stop = minBy(rows.filter(r => r.fs > 0), r => r.fs); const stint = maxBy(rows.filter(r => r.ls), r => r.ls[0]);
+  const bestSeason = minBy(books, b => b.pos); const ptsSeason = maxBy(books, b => b.pts); const winSeason = maxBy(books.filter(b => b.stats.wins), b => b.stats.wins);
+  const pb = {
+    finish: bestFin ? Object.assign({ v: bestFin.pos, n: fin.filter(r => r.pos === bestFin.pos).length }, at(bestFin)) : null,
+    climb: climb && climb.grid - climb.pos > 0 ? Object.assign({ v: climb.grid - climb.pos, from: climb.grid, to: climb.pos }, at(climb)) : null,
+    call: call && call.aiPos - call.pos > 0 ? Object.assign({ v: call.aiPos - call.pos, ai: call.aiPos, pos: call.pos }, at(call)) : null,
+    stop: stop ? Object.assign({ v: stop.fs }, at(stop)) : null,
+    stint: stint ? Object.assign({ v: stint.ls[0], who: stint.ls[1] }, at(stint)) : null,
+    season: bestSeason ? { v: bestSeason.pos, year: bestSeason.year, cls: bestSeason.cls, n: bestSeason.n } : null,
+    pts: ptsSeason ? { v: ptsSeason.pts, year: ptsSeason.year, cls: ptsSeason.cls } : null,
+    wins: winSeason ? { v: winSeason.stats.wins, year: winSeason.year, cls: winSeason.cls } : null,
+  };
+  // the circuits: starts, wins, the best and average finish, the best lap in each class
+  const tracks = {};
+  for (const r of rows) { if (!r.tid) continue; const t = tracks[r.tid] || (tracks[r.tid] = { tid: r.tid, name: END_TRACKS[r.tid] ? END_TRACKS[r.tid].kname : r.tid, starts: 0, wins: 0, pod: 0, best: null, sum: 0, n: 0, laps: {} });
+    t.starts++; if (r.pos === 1) t.wins++; if (r.pos && r.pos <= 3) t.pod++; if (r.pos) { t.sum += r.pos; t.n++; if (!t.best || r.pos < t.best.pos) t.best = { pos: r.pos, year: r.year }; }
+    if (r.best > 0 && r.cls) { const L = t.laps[r.cls]; if (!L || r.best < L.t) t.laps[r.cls] = { t: r.best, year: r.year }; } }
+  const circuits = Object.values(tracks).map(t => Object.assign(t, { avg: t.n ? Math.round(t.sum / t.n * 10) / 10 : null })).sort((a, b) => b.starts - a.starts || (a.best ? a.best.pos : 99) - (b.best ? b.best.pos : 99));
+  return { seasons, tot, pb, circuits, rows: rows.length, books: books.map(b => ({ year: b.year, cls: b.cls, name: b.team.name, pos: b.pos })) };
+}
+function emTeamName() { const p = elmsProg(); return p.kname || p.name; }
+
+// ───────── elms_media.js — v44 the ELMS press, SNS and fan board: written from what happened, nothing made up ─────────
+// Every piece is filled from the game's own record at the moment it is written: the weekend (class standings, our target,
+// the circuit), qualifying (the class grid), the race report (elms_report.js: result, grid, stints, stops, neutralisations,
+// the engineers' race, best laps), the season review, the moves. Templates give the words; the facts come from the record.
+// The fans' mood moves with results against the owner's target (shown on the media page; it pays nothing and changes nothing).
+// The media draw from their own random stream (emRand): writing a headline never moves the world's dice.
+'use strict';
+const EM_OUTLETS = {
+  ew: { name: '엔듀런스 위클리', kind: '내구 레이스 전문지' }, ld: { name: '르망 데일리', kind: '종합 일간' }, sr: { name: '스포츠카 리포트', kind: '분석' },
+  pj: { name: '피트레인 저널', kind: '패독 소식' }, km: { name: '코리아 모터뉴스', kind: '국내 매체' },
+};
+const EM_CLS_SHORT = { lmp2: 'LMP2', lmp2pa: 'LMP2 프로암', lmp3: 'LMP3', gt3: 'LMGT3' };
+const EM_NICKS = ['스틴트장인', '연료계산러', '야간스틴트', '브론즈의희망', '피트레인관전러', '르망덕후', '풀코스옐로', '교대타이밍', '랩다운', '타이어세트', '프로암러', '체커기'];
+const EM_HANDLES = ['endurance_kr', 'stint_counter', 'fcy_watcher', 'bronze_believer', 'pitlane_kim', 'lemans_road', 'fuel_window', 'four_hours_flat', 'lmp_nerd', 'gt3_daily'];
+const EM_MAX = { articles: 60, posts: 120, threads: 50 };
+function ensureElmsMedia() {
+  const E = S.elms; if (!E.media || typeof E.media !== 'object') E.media = {};
+  const m = E.media; for (const k of ['articles', 'posts', 'threads', 'fanLog', 'fanHist']) if (!Array.isArray(m[k])) m[k] = [];
+  if (typeof m.fans !== 'number' || !isFinite(m.fans)) m.fans = 50; if (!(m.seq > 0)) m.seq = 1; if (typeof m.unread !== 'number') m.unread = 0;
+  return m;
+}
+function emRand(seed) { let a = (seed >>> 0) || 1; return () => { a = (a + 0x6D2B79F5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+function emPick(r, a) { return a[Math.floor(r() * a.length)]; }
+function emSeq() { return ensureElmsMedia().seq++; }
+function emArticle(o) { const m = ensureElmsMedia(); m.articles.unshift(Object.assign({ id: emSeq(), date: S.date, year: S.year, tone: 'neu', mine: false, outlet: 'ew' }, o)); if (m.articles.length > EM_MAX.articles) m.articles.length = EM_MAX.articles; if (o.mine) m.unread++; return m.articles[0]; }
+function emPost(o) { const m = ensureElmsMedia(); const r = emRand(m.seq * 7919 + 13); m.posts.unshift(Object.assign({ id: emSeq(), date: S.date, likes: Math.round((o.reach || 1) * (40 + r() * 900)), rt: Math.round((o.reach || 1) * (3 + r() * 120)) }, o)); if (m.posts.length > EM_MAX.posts) m.posts.length = EM_MAX.posts; }
+function emThread(o) { const m = ensureElmsMedia(); const r = emRand(m.seq * 104729 + 7); m.threads.unshift(Object.assign({ id: emSeq(), date: S.date, views: 200 + Math.floor(r() * 5000), nick: emPick(r, EM_NICKS) }, o)); if (m.threads.length > EM_MAX.threads) m.threads.length = EM_MAX.threads; }
+// the fans' mood (0–100): a move is damped near the ends, so a run of results moves it less each time
+function emFans(delta, why, ev) {
+  const m = ensureElmsMedia(); if (!delta) return 0;
+  const room = delta > 0 ? Math.min(1, (100 - m.fans) / 45) : Math.min(1, m.fans / 45); delta *= Math.max(0.1, room);
+  const before = m.fans; m.fans = clamp(Math.round((m.fans + delta) * 10) / 10, 0, 100);
+  m.fanLog.unshift({ date: S.date, d: Math.round((m.fans - before) * 10) / 10, why }); if (m.fanLog.length > 30) m.fanLog.length = 30;
+  m.fanHist.push({ date: S.date, v: m.fans, d: Math.round((m.fans - before) * 10) / 10, ev: ev || null }); if (m.fanHist.length > 60) m.fanHist.shift();
+  return m.fans - before;
+}
+function emFanWord(v) { return v >= 80 ? '열광' : v >= 65 ? '기대' : v >= 45 ? '보통' : v >= 30 ? '실망' : '분노'; }
+function emTeam() { const p = elmsProg(); return p.kname || p.name; }
+function emCls(cls) { return EM_CLS_SHORT[cls] || END_CLS_NAME[cls] || cls; }
+function emPname(prog, no) { const p = S.world.programs[prog]; return (p ? p.kname || p.name : String(prog)) + (no != null ? ` #${no}` : ''); }
+function emLap(t) { if (!(t > 0)) return '—'; const m = Math.floor(t / 60); return `${m}:${(t - m * 60).toFixed(3).padStart(6, '0')}`; }
+function emTid(ev) { return END_VENUE[ev.venue] || 'bcn'; }
+function emSur(n) { return String(n || '').trim().split(/\s+/).pop(); }
+function emTgt(t) { return t === 1 ? '챔피언' : `${t}위 이내`; }
+const EM_CAUT = { SC: '세이프티카', FCY: 'FCY', VSC: 'VSC', RED: '레드 플래그' };
+function emCautTxt(caut) { const n = {}; for (const c of caut) n[c.k] = (n[c.k] || 0) + 1; return ['FCY', 'SC', 'VSC', 'RED'].filter(k => n[k]).map(k => `${EM_CAUT[k]} ${n[k]}번`).join(', '); }
+// ── the weekend: a preview (the standings, the target, the circuit, our crew) ──
+function elmsMediaWeekendStart(ev) {
+  const p = elmsProg(); const cr = elmsCrew(); const st = wStandings('elms', p.cls); const me = elmsStanding(); const r = emRand(S.year * 1000 + (ev.round || 0) * 37 + 1);
+  const lead = st[0]; const done = S.elms.results.length; const tid = emTid(ev); const T = END_TRACKS[tid] || {}; const tgt = S.elms.target;
+  const last = S.elms.results[S.elms.results.length - 1]; const leadMe = !!(done && lead && lead.prog === p.id && lead.no === cr.no);
+  const title = done === 0 ? `${S.year} 시즌 개막 — ${ev.kname}, ${emTeam()}의 첫 판` : leadMe ? `${jo(emTeam(), '이')} 선두로 ${ev.kname}에 간다` : me.pos && me.pos <= tgt ? `${ev.kname} 프리뷰 — ${emTeam()}, ${me.pos}위 지키기` : `${ev.kname} 프리뷰 — ${emTeam()}, 목표권까지 ${Math.max(1, me.pos - tgt)}계단`;
+  const body = [
+    `${S.year} ELMS ${ev.round}라운드 ${jo(ev.kname, '이')} 이번 주말 ${ev.venue || ''}에서 열린다. 한 바퀴 ${T.km ? T.km.toFixed(3) + 'km' : '—'}, 클래스마다 15분 예선 뒤 ${ev.hours || 4}시간 레이스.`,
+    done ? `${emCls(p.cls)} 챔피언십은 ${lead ? `${emPname(lead.prog, lead.no)}${leadMe ? '(우리)' : ''}가 ${lead.pts}점으로 앞서 있다` : '아직 혼전이다'}. ${jo(emTeam(), '은')} ${me.pos ? `${me.pos}위(${me.pts}점)` : '아직 점수가 없고'}${me.pos && me.pos <= tgt ? `로 구단주의 목표(${emTgt(tgt)}) 안에 있다` : `, 구단주의 목표는 ${emTgt(tgt)}`}.${last ? ` 지난 라운드 ${last.name}에서는 ${last.pos ? `P${last.pos}` : '리타이어'}.` : ''}`
+      : tgt === 1 ? `${jo(emTeam(), '은')} 구단주에게 클래스 챔피언이라는 목표를 받았다. 이 클래스에서 가장 강한 차로 꼽힌다는 뜻이다.` : `${jo(emTeam(), '은')} 구단주에게 클래스 ${tgt}위 이내라는 목표를 받았다.`,
+    `#${cr.no}의 드라이버는 ${cr.drivers.map((n, i) => `${n}(${cr.cats[i]})`).join(', ')}. ${emPick(r, ['금요일 두 번의 프랙티스에서 세팅과 롱런 데이터를 얼마나 모으느냐가 일요일을 가른다.', '연료 한 탱크로 몇 랩을 가느냐, 피트에서 몇 초를 아끼느냐가 4시간 레이스의 순위를 만든다.', '내구 레이스는 빠른 한 랩보다 실수 없는 4시간이 먼저다.'])}`,
+  ];
+  emArticle({ outlet: emPick(r, ['ew', 'ld', 'sr']), tag: '프리뷰', title, body, tid, mine: true, ev: ev.id });
+  emPost({ handle: 'team', team: true, text: `${ev.kname} 위크엔드 시작! #${cr.no} ${cr.drivers.map(emSur).join(' · ')} 출격 준비 끝 🏁`, tone: 'neu', reach: 1 });
+}
+// ── qualifying: the class grid ──
+function elmsMediaAfterQuali(ev, cls, grid) {
+  if (!ev || !grid || !grid.length) return; const r = emRand(S.year * 1000 + (ev.round || 0) * 37 + 2);
+  const pole = grid[0]; const me = grid.find(x => x.me); const tid = emTid(ev);
+  const title = pole.me ? `${emTeam()}, ${ev.kname} ${emCls(cls)} 폴 포지션` : `${ev.kname} ${emCls(cls)} 폴은 ${pole.name}${me ? ` — ${emTeam()} P${me.pos}` : ''}`;
+  const body = [`${ev.kname} ${emCls(cls)} 예선에서 ${pole.name}${pole.drv ? `(${pole.drv})` : ''}가 ${pole.t ? jo(emLap(pole.t), '로') : '가장 빠른 기록으로'} 폴을 가져갔다(+1점).`];
+  if (me && me.pos === 1) body.push(`${grid[1] && grid[1].t && me.t ? `2위 ${grid[1].name}보다 ${(grid[1].t - me.t).toFixed(3)}초 빨랐다. ` : ''}${emPick(r, ['일요일 첫 스틴트를 클래스 맨 앞에서 시작한다.', '폴 포인트 1점을 먼저 챙겼다.'])}`);
+  else if (me) body.push(`${jo(emTeam(), '은')} ${me.drv ? `${jo(me.drv, '이')} 몰아 ` : ''}${me.t ? jo(emLap(me.t), '로') : '기록 없이'} ${grid.length}대 중 ${me.pos}번째${me.pos > 1 && pole.t && me.t ? `, 폴과 ${(me.t - pole.t).toFixed(3)}초 차` : ''}. ${me.pos <= 3 ? emPick(r, ['앞쪽에서 출발하는 만큼 첫 스틴트에서 트래픽을 덜 만난다.', '첫 스틴트를 깨끗한 공기 속에서 시작한다.']) : emPick(r, ['4시간은 길다. 그리드는 출발점일 뿐이다.', '피트 전략과 중립화 타이밍으로 만회할 시간은 충분하다.'])}`);
+  if (cls === 'lmp2pa' || cls === 'gt3') body.push(`${emCls(cls)}에서는 브론즈 드라이버만 예선을 달린다.`);
+  emArticle({ outlet: emPick(r, ['ew', 'pj']), tag: '예선', title, body, tid, mine: !!me, tone: me && me.pos <= 3 ? 'pos' : 'neu', ev: ev.id });
+  if (me && me.drv) { const q = me.pos === 1 ? [`폴!!! 팀이 만들어 준 차 최고였어요 🙌 내일 ${ev.hours || 4}시간 잘 달려볼게요`, `${ev.kname} 폴 포지션! 타이어 한 세트로 딱 맞췄어요`, '폴은 1점, 진짜는 내일. 그래도 기분은 최고 🙌']
+      : me.pos <= 3 ? [`P${me.pos}에서 출발합니다. 내일이 진짜 승부!`, `앞줄 근처 P${me.pos}. 첫 스틴트 깔끔하게 넘겨줄게요`, `P${me.pos}. 폴까지 조금 모자랐지만 레이스 페이스는 좋아요`]
+      : [`P${me.pos}. 랩이 완벽하진 않았지만 레이스 페이스는 자신 있어요.`, `P${me.pos}에서 시작. 4시간이면 충분히 올라갈 수 있어요`, `예선은 아쉬움 (P${me.pos}). 트래픽 계산 잘 해볼게요`];
+    emPost({ handle: me.drv, driver: true, cat: me.cat, text: emPick(r, q), tone: me.pos <= 3 ? 'pos' : 'neu', reach: 0.7 }); }
+}
+// ── the race: the report, the class round-up, the drivers, the fans, the board, the mood ──
+function elmsMediaAfterRace(ev, rep) {
+  if (!ev || !rep) return; const m = ensureElmsMedia(); const r = emRand(S.year * 1000 + (ev.round || 0) * 37 + 3);
+  const cls = rep.cls; const win = rep.res && rep.res[0]; const tgt = S.elms.target || 5; const st = elmsStanding();
+  const L = rep.lap; const pos = rep.pos; const grid = rep.grid; const ai = rep.ai || {};
+  const eng = L && L.eng && L.eng.length ? L.eng[L.eng.length - 1] : null;
+  const tone = !pos ? 'neg' : pos <= tgt ? 'pos' : pos > tgt + 3 ? 'neg' : 'neu';
+  const climb = pos && grid ? grid - pos : 0; const cs = rep.stops.filter(s => s.u).length; const nC = rep.caut.length; const red = rep.caut.some(c => c.k === 'RED');
+  const title = !pos ? `${ev.kname}: ${emTeam()} #${rep.no} 리타이어${rep.out ? ` — ${rep.out}` : ''}`
+    : pos === 1 ? `${emTeam()}, ${ev.kname} ${emCls(cls)} 우승${grid > 1 ? ` — P${grid}에서 정상까지` : ''}`
+    : pos <= 3 ? `${emTeam()} ${ev.kname} P${pos} 포디움${climb >= 3 ? ` — ${climb}계단 추격` : ''}`
+    : climb >= 4 ? `${emTeam()}, P${grid}에서 P${pos}까지 — ${ev.kname}의 추격전` : pos <= tgt ? `${emTeam()} ${ev.kname} P${pos}, 목표권 유지` : `${emTeam()} ${ev.kname} P${pos} — 목표(${emTgt(tgt)})에 못 미쳐`;
+  const p1 = !pos ? `${ev.kname}에서 ${jo(emTeam(), '은')} ${rep.laps}랩 만에 레이스를 마감했다${rep.out ? ` (${rep.out})` : ''}. ${emCls(cls)} 우승은 ${win ? `${win.n} #${win.no}` : '—'}.`
+    : `${ev.kname} ${emCls(cls)}에서 ${jo(emTeam(), '이')} ${pos === 1 && grid === 1 ? '폴 포지션에서 출발해 끝까지 지키고 우승했다' : pos === 1 ? `P${grid || '—'}에서 출발해 우승했다` : `${grid ? `P${grid}에서 출발해 ` : ''}P${pos}로 체커기를 받았다`}(${rep.laps}랩${rep.pts ? `, ${rep.pts}점` : ''}). ${win && win.id !== rep.id ? `우승은 ${win.n} #${win.no}(${win.laps}랩).` : rep.res && rep.res[1] ? (() => { const x = rep.res[1]; const nm = `${x.n} #${x.no}`; return x.down ? `2위 ${jo(nm, '은')} ${x.down}랩 뒤.` : x.gap != null ? `2위 ${jo(nm, '과')}는 ${x.gap.toFixed(1)}초 차.` : `2위는 ${nm}.`; })() : ''}`;
+  const p2 = [];
+  if (nC) p2.push(`레이스에는 중립화가 ${nC}번(${emCautTxt(rep.caut)}) 있었고, ${cs ? `팀은 중립화 중에 ${cs}번 피트에 들어갔다` : '팀은 중립화 중에 피트에 들어가지 않았다'}.`);
+  else p2.push('중립화 없이 끝까지 녹색 깃발로 진행됐다.');
+  if (rep.stops.length) p2.push(`피트 스톱 ${rep.stops.length}번, 가장 짧은 정차 ${Math.min(...rep.stops.map(s => s.st)).toFixed(1)}초.`);
+  if (rep.bestRank) p2.push(`베스트 랩 ${jo(emLap(rep.best), '은')} 클래스 ${rep.bestRank === 1 ? '최고' : rep.bestRank + '번째'}.`);
+  if (rep.plan) p2.push(rep.plan.off ? '주말에 짠 스틴트 계획은 레이스 도중 엔지니어 판단으로 넘어갔다.' : '팀은 주말에 짠 스틴트 계획대로 드라이버를 교대했다.');
+  const p3 = ai.pos || ai.laps ? `같은 레이스(같은 시드)를 엔지니어 판단만으로 돌린 결과는 ${ai.pos ? 'P' + ai.pos : '리타이어'} — ${(pos || 99) < (ai.pos || 99) ? '피트월의 판단이 순위를 끌어올렸다' : (pos || 99) > (ai.pos || 99) ? '이번에는 엔지니어 쪽이 나았다' : '판단의 차이가 순위를 바꾸진 않았다'}${eng != null && rep.laps === ai.laps && Math.abs(eng) >= 1 ? `(체커 때 ${Math.abs(eng).toFixed(0)}초 ${eng > 0 ? '앞' : '뒤'})` : ''}.` : '';
+  const p4 = st.pos ? `챔피언십에서 ${jo(emTeam(), '은')} ${st.pos}위(${st.pts}점)${st.pos <= tgt ? ` — 목표(${emTgt(tgt)}) 안` : ` — 목표(${emTgt(tgt)})까지 ${st.pos - tgt}계단`}.` : '';
+  emArticle({ outlet: emPick(r, ['ew', 'ld', 'sr', 'km']), tag: '레이스', title, body: [p1, p2.join(' '), p3, p4].filter(Boolean), tid: rep.tid, mine: true, tone, ev: ev.id, rep: true });
+  // the round-up of every class (the world's result)
+  const wev = S.world.cal.find(e => e.id === ev.id); if (wev && wev.res) {
+    const wins = ['lmp2', 'lmp2pa', 'lmp3', 'gt3'].map(c => { const w = (wev.res[c] || []).find(x => x.pos === 1); return w ? `${emCls(c)} ${emPname(w.prog, w.no)}` : null; }).filter(Boolean);
+    if (wins.length) emArticle({ outlet: emPick(r, ['ld', 'pj']), tag: '결과', title: `${ev.kname} — 클래스별 우승 정리`, body: [`클래스별 우승: ${wins.join(' · ')}.`, red ? `레이스는 레드 플래그로 한때 멈췄다(중립화 ${emCautTxt(rep.caut)}).` : nC >= 8 ? `중립화가 ${nC}번(${emCautTxt(rep.caut)}) 나온 어수선한 레이스였다.` : nC ? `중립화는 ${emCautTxt(rep.caut)}.` : '레이스는 끝까지 녹색 깃발.'], tid: rep.tid, mine: false, tone: 'neu', ev: ev.id });
+  }
+  // the drivers: each one's own day (no two say the same thing)
+  const drive = rep.drive || []; const said = new Set();
+  rep.crew.forEach((c, j) => { const mins = drive[j] || 0; const rr = emRand(m.seq * 31 + j + S.year);
+    const pool = !pos ? [`힘든 하루. ${mins}분 동안 최선을 다했는데 아쉽네요. 다음 라운드에서 돌려받겠습니다.`, '오늘은 운이 없었어요. 팀 모두 수고했어요.', '이런 날도 있죠. 데이터 다시 보고 돌아올게요.']
+      : pos === 1 ? [`우승!!! ${mins}분 동안 차가 완벽했어요. 피트 크루 최고 🏆`, '믿기지 않아요. 크루, 엔지니어, 동료 드라이버들 다 고마워요!', `오늘 ${mins}분 운전, 한 랩 한 랩 아껴 탔어요. 이 맛에 내구 레이스 합니다 🍾`]
+      : pos <= 3 ? [`포디움! ${mins}분 동안 깔끔하게 몰았어요 🍾`, `P${pos}. 팀 전체가 잘 해낸 레이스였어요.`, '시상대는 언제나 좋아요. 다음엔 한 칸 더 위로!']
+      : pos <= tgt ? [`P${pos}. ${mins}분 운전, 내 스틴트는 만족스러웠어요. 포인트 챙겨서 다행`, '탄탄한 레이스. 다음엔 포디움을 노려요.', '큰 실수 없이 4시간 완주. 쌓아 가는 시즌이에요.']
+      : [`P${pos}. 트래픽이 정말 힘들었어요. 더 빨라져서 돌아올게요.`, '오늘은 페이스가 부족했어요. 데이터 보면서 다시 준비합니다.', '원하던 결과는 아니지만 배운 게 많아요.'];
+    const left = pool.map((t, k) => k).filter(k => !said.has(k)); const k = emPick(rr, left.length ? left : pool.map((t, i) => i)); said.add(k); const text = pool[k];
+    emPost({ handle: c.n, driver: true, cat: c.cat, text, tone, reach: c.cat === 'P' ? 1.4 : c.cat === 'G' ? 1 : 0.6 }); });
+  emPost({ handle: 'team', team: true, text: pos ? `${ev.kname} ${emCls(cls)} P${pos}${rep.pts ? ` · ${rep.pts}점` : ''} — ${rep.crew.map(c => emSur(c.n)).join(' / ')} 수고했어! ${pos <= 3 ? '🏆' : '🏁'}` : `${ev.kname} — 오늘은 완주하지 못했습니다. 응원해 주셔서 감사합니다.`, tone, reach: 1.2 });
+  // the fans: by how it went against what was expected (the target, the engineers' race, the grid, the neutralisations)
+  const fan = [];
+  if (pos === 1) fan.push(['우승이다!!!!! 4시간 내내 심장 터지는 줄', 1], [`${emTeam()} 피트월 오늘 완벽`, 1]);
+  else if (pos && pos <= 3) fan.push(['포디움 ㄷㄷ 이 팀 올해 뭔가 된다', 1], ['마지막 스틴트 진짜 손에 땀 쥠', 1]);
+  if (pos && ai.pos && pos < ai.pos) fan.push([`엔지니어 시뮬보다 ${ai.pos - pos}계단 위 ㅋㅋ 감독 콜 미쳤다`, 1]);
+  if (pos && ai.pos && pos > ai.pos) fan.push([`솔직히 오늘은 엔지니어한테 맡겼으면 P${ai.pos}이었음…`, -1]);
+  if (cs) fan.push(['중립화 타이밍에 피트 들어간 거 신의 한 수', 1]);
+  if (nC && !cs) fan.push(['FCY 나왔을 때 왜 안 들어갔냐 진짜', -1]);
+  if (!pos) fan.push(['리타이어라니… 포인트 날아갔다', -1], ['다음 라운드 반등 가자', 1]);
+  if (pos > tgt + 2) fan.push([`목표가 ${emTgt(tgt)}인데 P${pos}… 이러다 구단주 열받는다`, -1]);
+  if (climb >= 4) fan.push([`P${grid}에서 P${pos}!! 추격전 레전드`, 1]);
+  if (!fan.length) fan.push([pos <= tgt ? `P${pos} 무난무난. 포인트 챙긴 게 어디야` : `P${pos}… 다음엔 더 위로`, pos <= tgt ? 1 : -1]);
+  fan.slice(0, 3).forEach(([t, s], k) => emPost({ handle: emPick(emRand(m.seq * 17 + k), EM_HANDLES), text: t, tone: s > 0 ? 'pos' : 'neg', reach: 0.5 }));
+  // the board: the result as a summary thread, and one that argues the calls
+  const sumBody = [`${ev.kname} 결과 정리`, `${emCls(cls)} 우승 ${win ? `${win.n} #${win.no}` : '—'}`, `${emTeam()} #${rep.no} ${pos ? `P${pos} (그리드 P${grid || '—'})` : 'DNF'}`, `중립화 ${nC}번${nC ? ` (${emCautTxt(rep.caut)})` : ''} · 우리 피트 ${rep.stops.length}번 (중립화 중 ${cs})`, rep.bestRank ? `베스트 랩 ${emLap(rep.best)} (클래스 ${rep.bestRank}위)` : ''].filter(Boolean).join('\n');
+  emThread({ tag: '정보', title: `${ev.kname} ${emCls(cls)} 결과 정리`, body: sumBody, cm: emCmts(r, pos, tgt, cs, nC, ai.pos), replies: 8 + Math.floor(r() * 40), ev: ev.id });
+  const vsEng = pos && ai.pos && pos !== ai.pos;
+  const key = cs ? '중립화 때 피트 타이밍' : rep.bestRank === 1 ? '클래스 최고 랩 페이스' : rep.plan && !rep.plan.off ? '계획대로 간 스틴트 교대' : '실수 없는 4시간';
+  const argue = vsEng ? (pos < ai.pos ? `오늘 피트월 콜 분석해봄\n엔지니어 시뮬 P${ai.pos} → 실제 P${pos}\n${cs ? '중립화 때 피트 들어간 게 컸음' : rep.plan && !rep.plan.off ? '스틴트 계획이 먹힌 듯' : '피트 타이밍이 좋았음'}` : `오늘 전략 아쉬운 점\n엔지니어였으면 P${ai.pos}, 실제는 P${pos}\n${nC && !cs ? '중립화 한 번도 안 쓴 게 제일 아까움' : '피트 타이밍이 계속 반 박자씩 어긋남'}`)
+    : !pos ? `${ev.kname} 리타이어 정리\n${rep.laps}랩에서 멈춤${rep.out ? ` (${rep.out})` : ''}\n포인트 0 — 챔피언십 ${st.pos ? st.pos + '위' : '—'}`
+    : pos === 1 ? `${grid === 1 ? '폴투윈' : `P${grid || '—'}에서 우승`} 복기\n결정적이었던 건 ${key}\n피트 ${rep.stops.length}번 · 중립화 ${nC}번`
+    : pos <= tgt ? `P${pos} 복기\n${climb > 0 ? `그리드보다 ${climb}계단 올라옴` : climb < 0 ? `그리드보다 ${-climb}계단 내려감` : '그리드 그대로'}\n${rep.bestRank && rep.bestRank <= 3 ? `베스트 랩 클래스 ${rep.bestRank}위면 페이스는 있었음` : '페이스는 아직 부족함'}`
+    : `P${pos}… 뭐가 문제였나\n${rep.bestRank && rep.bestRank > 5 ? `베스트 랩 클래스 ${rep.bestRank}위 — 그냥 느렸음` : '페이스는 나쁘지 않았는데 시간을 잃음'}\n${cls.startsWith('lmp') ? 'GT3 트래픽' : '프로토타입에 길 비켜주다'} 손해 컸던 듯`;
+  emThread({ tag: '분석', title: vsEng ? (pos < ai.pos ? '오늘 감독 콜 정리 (엔지니어 대비)' : '오늘 전략 이거 맞냐') : pos === 1 ? `${ev.kname} 우승 복기` : '오늘 레이스 복기', body: argue, cm: emCmts(emRand(m.seq * 3 + 1), pos, tgt, cs, nC, ai.pos), replies: 5 + Math.floor(r() * 30), hot: !!(vsEng && Math.abs(pos - ai.pos) >= 3), ev: ev.id });
+  // the mood: the place against the target, a podium, a win, a retirement, against the engineers
+  const d = !pos ? -6 : (tgt - pos) * 1.5 + (pos <= 3 ? 4 : 0) + (pos === 1 ? 5 : 0) + (ai.pos && pos < ai.pos ? 1.5 : 0) - (ai.pos && pos > ai.pos ? 1 : 0);
+  emFans(Math.round(d * 10) / 10, `${ev.kname} ${pos ? 'P' + pos : 'DNF'}`, ev.id);
+}
+function emCmts(r, pos, tgt, cs, nC, aiPos) {
+  const pool = ['ㄹㅇㅋㅋ', '정리 감사', '개추', '4시간 다 본 사람 손', '스틴트 교대 타이밍 좋았음', '다음 라운드 기대', '피트 크루 오늘 빨랐다', '트래픽 운이 없었음', '엔지니어 시뮬 얘기 그만 좀 ㅋㅋ'];
+  if (pos && pos <= 3) pool.push('포디움 축하!!', '올해 진짜 챔피언 노려도 될 듯');
+  if (!pos) pool.push('리타이어 너무 아깝다', '신뢰성부터 잡아야 함');
+  if (nC && cs) pool.push('FCY 타이밍 완벽했다');
+  if (nC && !cs) pool.push('중립화 때 안 들어간 건 이해 안 됨');
+  if (aiPos && pos && pos < aiPos) pool.push('감독 일 잘하네');
+  if (pos > tgt) pool.push('목표 순위 위험하다');
+  const n = Math.min(pool.length, 3 + Math.floor(r() * 4)); const out = []; const left = pool.slice();
+  for (let k = 0; k < n; k++) { const t = left.splice(Math.floor(r() * left.length), 1)[0]; out.push({ nick: r() < 0.5 ? 'ㅇㅇ' : emPick(r, EM_NICKS), text: t, up: Math.floor(r() * 40) }); }
+  return out;
+}
+// ── the season's end: the verdict, the calls ──
+function elmsMediaSeasonEnd(R) {
+  if (!R) return; const r = emRand(R.year * 7 + 99); const b = R.book; const cls = elmsProg().cls;
+  const title = R.pos === 1 ? `${emTeam()}, ${R.year} ${emCls(cls)} 챔피언` : R.fired ? `${jo(emTeam(), '이')} 감독과 결별 — 클래스 ${R.pos}위` : R.ok ? `${emTeam()} 시즌 목표 달성 — 클래스 ${R.pos}위` : `${emTeam()} ${R.year} 시즌 ${R.pos}위 — 목표 ${R.target}위 미달`;
+  const body = [`${emTeam()}의 ${R.year} 시즌이 클래스 ${R.pos}위(${R.pts}점)로 끝났다. 구단주의 목표는 ${R.target}위 이내였다.`,
+    b ? `${b.stats.starts}전 ${b.stats.wins}승, 포디움 ${b.stats.podiums}번${b.stats.poles ? `, 폴 ${b.stats.poles}번` : ''}${b.stats.dnf ? `, 리타이어 ${b.stats.dnf}번` : ''}. 같은 레이스를 엔지니어 판단으로 돌린 결과보다 ${b.stats.better}번 앞서고 ${b.stats.worse}번 뒤졌다.` : '',
+    R.fired ? '구단주는 새 시즌을 다른 사람과 함께하기로 했다.' : R.ok ? emPick(r, ['구단주는 결과에 만족감을 드러냈다.', '내년 예산에는 목표 달성 보너스가 붙는다.']) : emPick(r, ['구단주의 신뢰는 한풀 꺾였다.', '내년에는 더 분명한 결과가 필요하다.'])].filter(Boolean);
+  emArticle({ outlet: emPick(r, ['ew', 'ld', 'km']), tag: '시즌 결산', title, body, mine: true, tone: R.ok ? 'pos' : 'neg' });
+  const offers = (S.career && S.career.offers || []).filter(o => o.status === 'open').slice(0, 3);
+  if (offers.length && typeof moveOfferTitle === 'function') emArticle({ outlet: 'pj', tag: '루머', title: `${emTeam()} 감독에게 ${offers.length}곳에서 러브콜`, body: [`패독 소식통에 따르면 ${offers.map(o => moveOfferTitle(o)).join(', ')} 자리가 시즌 뒤 감독에게 제안됐다.`, '본인은 말을 아꼈다.'], mine: true, tone: 'neu' });
+  emPost({ handle: 'team', team: true, text: `${R.year} 시즌 끝! 클래스 ${R.pos}위. 한 시즌 응원해 주셔서 감사합니다 🙏`, tone: R.ok ? 'pos' : 'neu', reach: 1.2 });
+  emThread({ tag: '잡담', title: `${R.year} ${emTeam()} 시즌 평가 해보자`, body: `최종 ${R.pos}위 / 목표 ${R.target}위${b ? `\n${b.stats.wins}승 · 포디움 ${b.stats.podiums} · 엔지니어 대비 ${b.stats.better}승 ${b.stats.worse}패` : ''}`, cm: emCmts(r, R.pos, R.target, 0, 0, 0), replies: 20 + Math.floor(r() * 60), hot: R.pos === 1 || !!R.fired });
+  emFans(R.pos === 1 ? 10 : R.ok ? 6 : -6, `${R.year} 시즌 ${R.pos === 1 ? '챔피언' : R.ok ? '목표 달성' : '목표 미달'}`);
+}
+// ── the market: a driver signed, a staff member hired ──
+function elmsMediaSigning(name, cat, out) {
+  const r = emRand(ensureElmsMedia().seq * 11 + 5); const cn = END_CAT[cat] ? END_CAT[cat].name : cat;
+  emArticle({ outlet: emPick(r, ['pj', 'ew']), tag: '이적', title: `${jo(emTeam(), '이')} ${cn} ${jo(name, '을')} 영입`, body: [`${jo(emTeam(), '이')} ${cn} 드라이버 ${jo(name, '을')} 데려왔다${out ? ` — ${jo(out, '이')} 자리를 내준다` : ''}.`, `${emCls(elmsProg().cls)} 크루는 이제 ${elmsCrew().drivers.join(', ')}.`], mine: true, tone: 'neu' });
+  emPost({ handle: name, driver: true, cat, text: `${emTeam()} 합류! 빨리 차에 타고 싶어요 🙌`, tone: 'pos', reach: 0.8 });
+}
+function elmsMediaStaff(role, name, rating) {
+  const rn = ES_STAFF[role] ? ES_STAFF[role].name : role;
+  emArticle({ outlet: 'pj', tag: '팀', title: `${emTeam()}, 새 ${rn} ${name}`, body: [`${jo(emTeam(), '이')} 새 ${jo(rn, '로')} ${jo(name, '을')} 데려왔다(능력 ${rating}).`], mine: true, tone: 'neu' });
+}
+// ── a new job: the manager arrives (from F1, or from another ELMS entry) ──
+function elmsMediaJoin(fromLabel) {
+  const p = elmsProg(); const r = emRand(S.year * 13 + 7); const who = (S.manager && S.manager.name) || '새 감독';
+  emArticle({ outlet: emPick(r, ['pj', 'ew', 'km']), tag: '이적', title: `${who} 감독, ${fromLabel ? `${fromLabel} 떠나 ` : ''}${emTeam()} 지휘봉`, body: [`${jo(emTeam(), '이')} ${S.year} 시즌 ${emCls(p.cls)} 프로그램을 ${who} 감독에게 맡겼다${fromLabel ? ` — ${fromLabel}에서 옮겨 왔다` : ''}.`, `구단주가 내건 목표는 클래스 ${emTgt(S.elms.target)}.`], mine: true, tone: 'neu' });
+  emPost({ handle: 'team', team: true, text: `${who} 감독을 새로 맞았습니다. ${S.year} 시즌 함께 달려요! 🏁`, tone: 'pos', reach: 1 });
+}
 
 // ───────── ui.js — shell & management screens ─────────
 'use strict';
@@ -13989,7 +14451,11 @@ const ACT = {
   showload: () => { $('#loadbox').hidden = !$('#loadbox').hidden; },
   tload: () => { if (importCode($('#tloadcode').value)) { resetTransient(); saveGame(); UI.view = 'home'; render(); } else toast('저장 코드가 올바르지 않습니다', true); },
 };
-function resetTransient() { stopRaceLoop(); if (typeof View3D !== 'undefined') View3D.stop(); RACE.sim = null; RACE.running = false; QUALI.state = null; closeModal(); }
+function resetTransient() { stopRaceLoop(); if (typeof View3D !== 'undefined') View3D.stop(); RACE.sim = null; RACE.running = false; RACE.resuming = null; QUALI.state = null; closeModal();   // (resuming: a replay in slices would otherwise hand its old race to the new game)
+  // v42 the ELMS race and quali live state too: a save loaded (or a new game) while one was in memory used to come back to
+  // the old career's race — its event object belonged to the previous game, so the flag wrote the result nowhere and crashed
+  if (typeof ER !== 'undefined') { if (ER.raf) cancelAnimationFrame(ER.raf); Object.assign(ER, { sim: null, ai: null, running: false, raf: 0, ev: null, result: null, busy: null }); }
+  if (typeof EQ !== 'undefined') { if (EQ.raf) cancelAnimationFrame(EQ.raf); Object.assign(EQ, { ql: null, running: false, raf: 0, plan: null }); } }
 
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-a]'); if (!el) return;
@@ -20639,7 +21105,7 @@ function elmsRenderShell() {
   let nav = '';
   if (S.elms.wk) nav += `<button class="nav-i weekend ${UI.view === 'eweek' || UI.view === 'endrace' ? 'on' : ''}" data-a="nav" data-v="${UI.view === 'endrace' ? 'endrace' : 'eweek'}">${icon('flag')}<span>레이스 위크엔드</span></button>`;
   if (S.phase === 'review') nav += `<button class="nav-i weekend ${UI.view === 'ereview' ? 'on' : ''}" data-a="nav" data-v="ereview">${icon('flag')}<span>시즌 결산</span></button>`;
-  for (const [sec, items] of ELMS_NAV) { if (sec) nav += `<div class="nav-sec">${sec}</div>`; for (const [v, lbl, ic] of items) nav += `<button class="nav-i ${UI.view === v ? 'on' : ''}" data-a="nav" data-v="${v}" aria-label="${lbl}">${icon(ic)}<span>${lbl}</span>${v === 'inbox' ? badge : ''}</button>`; }
+  for (const [sec, items] of ELMS_NAV) { if (sec) nav += `<div class="nav-sec">${sec}</div>`; for (const [v, lbl, ic] of items) nav += `<button class="nav-i ${UI.view === v ? 'on' : ''}" data-a="nav" data-v="${v}" aria-label="${lbl}">${icon(ic)}<span>${lbl}</span>${v === 'inbox' ? badge : v === 'emedia' && S.elms.media && S.elms.media.unread ? `<span class="badge mute">${S.elms.media.unread}</span>` : ''}</button>`; }
   $('#side').innerHTML = `<div class="side-team">${crestSVG(t, 38)}<div style="min-width:0"><div class="tname">${esc(t.name)}</div><div class="tsub">ELMS ${END_CLS_NAME[elmsProg().cls]} · ${S.year}</div></div></div>
     <button class="nav-tog" data-a="navtoggle" aria-label="메뉴 펼치기·접기"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>메뉴</span></button>
     <nav id="nav">${nav}</nav><div class="side-foot"><span>PITWALL · ELMS</span></div>`;
@@ -20722,7 +21188,7 @@ VIEWS.ehome = () => {
     <section class="panel"><div class="panel-h"><h3>${esc(p.kname)} #${cr.no}</h3><span class="rt">${endClsChip(cls)}</span></div><div class="kpis endkpis"><div class="kpi"><div class="k">클래스 순위</div><div class="v">${st.pos ? 'P' + st.pos : '—'}<span class="dim" style="font-size:14px"> / ${st.n || '—'}</span></div><div class="s">${st.pts}점 · 목표 ${S.elms.target}위 이내</div></div><div class="kpi"><div class="k">차 + 크루 페이스</div><div class="v">${rank}위</div><div class="s">클래스 ${cr0.n}대 중</div></div></div><div class="panel-b">${elmsCrewHtml(cr)}</div></section>
     <section class="panel"><div class="panel-h"><h3>${END_CLS_NAME[cls]} 순위</h3><button class="btn sm ghost" style="margin-left:auto" data-a="nav" data-v="estd">전체</button></div><div class="panel-b flush">${top ? `<table class="tbl compact"><tbody>${top}</tbody></table>` : '<div class="empty">첫 레이스가 끝나면 생겨</div>'}</div></section>
     <section class="panel"><div class="panel-h"><h3>최근 결과</h3></div><div class="panel-b"><ul class="wlist">${res || '<li class="dim">아직 레이스가 없어</li>'}</ul></div></section>
-    ${elmsCareerHtml()}
+    ${typeof elmsMediaHomePanel === 'function' ? elmsMediaHomePanel() : ''}${elmsCareerHtml()}
   </div>`;
 };
 // ── crew, car, money, calendar, standings ──
@@ -20863,7 +21329,7 @@ function elmsDoneHtml(r) {
   return `<div class="disp" style="font-size:34px;font-weight:700">${r.pos ? 'P' + r.pos : '<span class="bad">DNF</span>'}</div><p class="dim" style="margin:2px 0 10px">${r.out ? esc(r.out) + ' · ' : ''}예선 P${r.grid || '—'} · 엔지니어였다면 ${r.aiPos ? 'P' + r.aiPos : 'DNF'}</p>
     <div class="kpis endkpis"><div class="kpi"><div class="k">포인트</div><div class="v">${r.pts}</div><div class="s">${r.pole ? '폴 +1 포함' : r.minFail ? '<span class="bad">40분 규정 위반</span>' : '이번 라운드'}</div></div><div class="kpi"><div class="k">클래스 순위</div><div class="v" style="font-size:18px">${mv}</div><div class="s">챔피언십</div></div></div>
     ${r.money != null ? `<p class="mt">이번 라운드 돈: <b class="${r.money < 0 ? 'bad' : 'good'}">${elmsMoney(r.money, true)}</b> <span class="dim">(운영비·상금·스폰서)</span></p>` : ''}
-    <div class="flex wrap mt" style="gap:8px"><button class="btn primary" data-a="eweekdone">위크엔드 마치기</button>${typeof elmsRep === 'function' && elmsRep(S.year, r.ev) ? `<button class="btn" data-a="erepopen" data-y="${S.year}" data-ev="${r.ev}">레이스 보고서</button>` : ''}</div>`;
+    <div class="flex wrap mt" style="gap:8px"><button class="btn primary" data-a="eweekdone">위크엔드 마치기</button>${typeof elmsRep === 'function' && elmsRep(S.year, r.ev) ? `<button class="btn" data-a="erepopen" data-y="${S.year}" data-ev="${r.ev}">레이스 보고서</button>` : ''}</div>${typeof elmsMediaRaceHead === 'function' ? elmsMediaRaceHead(r.ev) : ''}`;
 }
 VIEWS.ereview = () => {
   const R = S.elms.review; if (!R) return '<div class="empty">시즌 결산은 시즌이 끝나면 나와</div>';
@@ -21525,6 +21991,313 @@ Object.assign(ACT, {
 VIEW_TITLES.ereps = '레이스 보고서';
 { const sec = ELMS_NAV.find(x => x[0] === '시즌'); if (sec && !sec[1].some(x => x[0] === 'ereps')) sec[1].splice(1, 0, ['ereps', '레이스 보고서', 'report']); }
 
+// ───────── elms_book_ui.js — v44 the ELMS season book and the records page ─────────
+// The book (elms_book.js: elmsBuildBook) laid out the way the F1 one is (season_book.js: the bk-* blocks and lineChart2):
+// the headline, the numbers, the six rounds, the moments, the championship fight, the crew, the pit wall, the fans and the
+// press, the awards, the money and the class. At the season's end it is the review screen (the owner's verdict and the
+// calls from other teams stay at the top); past seasons reopen from 기록. The records page gathers every season.
+'use strict';
+const EBK_KIND = { win: ['우승', 'win'], podium: ['포디움', 'pod'], pole: ['폴', 'pole'], charge: ['대역전', 'pod'], climb: ['피트월 콜', 'pts'], dnf: ['리타이어', 'neg'], minfail: ['규정 위반', 'neg'],
+  red: ['레드 플래그', 'upg'], fl: ['클래스 최고 랩', 'pole'], lead: ['챔피언십 선두', 'title'], points: ['포인트', 'pts'] };
+function ebkPos(r, small) { return r.pos ? bkPos({ st: 'FIN', pos: r.pos, pts: r.pts }, small) : bkPos({ st: 'DNF', why: r.out || '리타이어' }, small); }
+function ebkCls(c) { return END_CLS_NAME[c] || c; }
+// ── the headline of the year ──
+function ebkHero(b, live) {
+  const t = b.team; const champ = b.pos === 1;
+  const chips = [`<span class="chip ${b.ok ? 'good' : 'bad'}">${esc(b.verdict)}</span>`, `<span class="chip">목표 ${b.target}위 이내</span>`,
+    b.prev ? `<span class="chip">작년 ${b.prev}위 → 올해 ${b.pos}위</span>` : '', champ ? '<span class="chip good">클래스 챔피언</span>' : '',
+    b.carRank ? `<span class="chip" title="차 + 크루 페이스로 매긴 클래스 순위 (시즌 끝 기준)">차·크루 페이스 ${b.carRank}위 / ${b.carN}</span>` : ''].join('');
+  return `<section class="bk-hero bk-reveal" style="--tc:${t.color};--tc2:#111">
+    <div class="bk-hero-in"><div class="bk-hero-txt">
+      <div class="bk-kicker">${b.year} ELMS 시즌 결산 · ${esc(t.name)} #${t.no} · ${ebkCls(b.cls)}</div>
+      <h2 class="bk-headline">${esc(b.headline)}</h2>
+      <p class="bk-story">${b.story.map(esc).join(' ')}</p>
+      <div class="flex wrap" style="gap:6px;margin-top:12px">${chips}</div>
+    </div>
+    <div class="bk-hero-pos"><div class="bk-p">P<span data-count="${b.pos}">${b.pos}</span></div><div class="bk-pl">${ebkCls(b.cls)} · ${b.n}대 중</div>${b.prev ? `<div class="bk-pd">${bkDelta(b.prev, b.pos, '', true)} 작년 대비</div>` : ''}<div class="bk-pts"><b data-count="${b.pts}">${b.pts}</b> 포인트</div></div>
+    <div class="bk-hero-ph"><div class="ebk-plate" style="--tc:${t.color}"><span class="ebk-cls">${esc(ebkCls(b.cls))}</span><span class="ebk-no">${t.no}</span><span class="ebk-yr">${b.year}</span></div></div></div></section>`;
+}
+function ebkTiles(b) {
+  const s = b.stats;
+  return `<div class="bk-tiles bk-reveal">
+    ${bkTile('우승', s.wins, s.wins ? `포디움 중 ${Math.round(s.wins / Math.max(1, s.podiums) * 100)}%` : `${s.starts}전`, s.wins)}
+    ${bkTile('포디움', s.podiums, `포인트 완주 ${s.pointsFinishes}/${s.starts}`, s.podiums)}
+    ${bkTile('폴 포지션', s.poles, s.fastestLaps ? `클래스 최고 랩 ${s.fastestLaps}번` : '', s.poles)}
+    ${bkTile('최고 성적', s.best ? 'P' + s.best : '—', s.gained ? `그리드 대비 ${s.gained > 0 ? '+' : ''}${s.gained}계단` : '')}
+    ${bkTile('리타이어', s.dnf, `완주율 ${s.starts ? Math.round((1 - s.dnf / s.starts) * 100) : 0}%${s.minFails ? ` · 40분 위반 ${s.minFails}` : ''}`, s.dnf)}
+    ${bkTile('엔지니어 대비', `${s.better}<small>승</small> ${s.worse}<small>패</small>`, '같은 레이스를 엔지니어 판단으로 돌린 결과와', null, true)}
+    ${bkTile('달린 거리', `${s.km.toLocaleString()}<small>km</small>`, `${s.laps.toLocaleString()}랩`, null, true)}
+    ${bkTile('피트 스톱', s.stops, s.avgStop ? `녹색 정차 평균 ${s.avgStop}초` : '', s.stops)}
+  </div>`;
+}
+// live: the owner's verdict, the money for next year, the calls from other teams — the season's decisions, up top
+function ebkDecide(b) {
+  const R = S.elms.review; const p = elmsProg(); const dc = R.conf != null ? S.board.confidence - R.conf : null;
+  const nextBudget = ELMS_ECON.budget[p.cls] + (R.ok ? 0.3 : 0) + Math.min(0, R.cash);
+  const offers = typeof moveOffersPanel === 'function' ? moveOffersPanel() : '';
+  return `<div class="ebk-decide bk-reveal"><section class="panel"><div class="panel-h"><h3>구단주의 판단</h3><span class="rt">${R.ok ? '<span class="chip good">목표 달성</span>' : '<span class="chip bad">목표 미달</span>'}</span></div>
+    <div class="kpis"><div class="kpi"><div class="k">구단주 신뢰</div><div class="v">${S.board.confidence}</div><div class="s">${dc == null ? '0~100' : dc >= 0 ? `<span class="good">▲${dc}</span>` : `<span class="bad">▼${-dc}</span>`} · 15 아래면 해고</div></div>
+      <div class="kpi"><div class="k">남은 자금</div><div class="v ${R.cash < 0 ? 'bad' : ''}">${elmsMoney(R.cash)}</div><div class="s">${R.cash < 0 ? '적자는 다음 시즌 예산에서 빠져' : '남은 돈은 구단주에게'}</div></div>
+      ${S.gameOver ? '' : `<div class="kpi"><div class="k">다음 시즌 예산</div><div class="v">${elmsMoney(nextBudget)}</div><div class="s">${R.ok ? '목표 달성 보너스 포함' : '기본 예산'}${R.cash < 0 ? ' · 적자 차감' : ''}</div></div>`}</div>
+    <div class="panel-b">${S.gameOver ? `<p class="bad">${esc(S.gameOver.reason)}</p><button class="btn primary mt" data-a="nav" data-v="gameover">계속</button>` : `<p class="note" style="margin-top:0">다음 시즌에는 스폰서와 드라이버 시장이 새로 열려.</p><button class="btn primary" data-a="continue">다음 시즌</button>`}</div></section>
+    ${offers ? `<div>${offers}</div>` : ''}</div>`;
+}
+// ── the six rounds at a glance ──
+function ebkStrip(b) {
+  const cells = b.rounds.map(r => {
+    const tags = [r.pole ? '<i class="t pole">POLE</i>' : '', r.bestRank === 1 ? '<i class="t fl">FL</i>' : '', r.red ? '<i class="t red">적기</i>' : r.caut ? `<i class="t sc">중립 ${r.caut}</i>` : '', r.plan ? `<i class="t spr" title="${r.planOff ? '도중에 엔지니어가 넘겨받음' : '계획대로 교대'}">계획${r.planOff ? '*' : ''}</i>` : '', r.minFail ? '<i class="t red">40분</i>' : ''].join('');
+    const tip = `R${r.round} ${r.name}: ${r.pos ? 'P' + r.pos : 'DNF' + (r.out ? ' (' + r.out + ')' : '')}${r.grid ? ` · 그리드 P${r.grid}` : ''}${r.aiPos ? ` · 엔지니어였다면 P${r.aiPos}` : ''}${r.pts ? ` · ${r.pts}점` : ''}${r.cpos ? ` · 이후 클래스 ${r.cpos}위` : ''}${r.rep ? ' — 누르면 레이스 보고서' : ''}`;
+    const cls = r.pos === 1 ? 'win' : r.pos && r.pos <= 3 ? 'pod' : r.pts > 0 ? 'pts' : '';
+    const vs = r.pos && r.aiPos ? (r.aiPos > r.pos ? `<span class="good">▲${r.aiPos - r.pos}</span>` : r.aiPos < r.pos ? `<span class="bad">▼${r.pos - r.aiPos}</span>` : '<span class="dim">=</span>') : '';
+    return `<div class="bk-cell ${cls}${r.rep ? ' click' : ''}" ${r.rep ? `data-a="erepopen" data-y="${b.year}" data-ev="${esc(r.ev)}" role="button" tabindex="0"` : ''} title="${esc(tip)}"><div class="bk-rn">R${r.round}<span class="ebk-pts ${r.pts ? '' : 'dim'}">${r.pts ? '+' + r.pts : '0'}점</span></div><div class="bk-tn">${esc(r.name)}</div>
+      <div class="bk-res">${ebkPos(r)}<span class="ebk-grid">${r.grid ? `P${r.grid}→` : ''}<br>${vs ? `엔지 ${vs}` : ''}</span></div><div class="bk-tags">${tags}</div></div>`;
+  }).join('');
+  return `<section class="panel bk-reveal"><div class="panel-h"><h3>시즌 레이스</h3><span class="rt">${b.rounds.length}라운드 · 칸을 누르면 레이스 보고서</span></div><div class="panel-b"><div class="bk-strip">${cells}</div>
+    <div class="bk-legend"><span>${bkPos({ st: 'FIN', pos: 1, pts: 25 }, true)} 우승</span><span>${bkPos({ st: 'FIN', pos: 3, pts: 15 }, true)} 포디움</span><span>${bkPos({ st: 'FIN', pos: 8, pts: 4 }, true)} 포인트</span><span>${bkPos({ st: 'DNF' }, true)} 리타이어</span><span>P5→ 그리드 · 엔지 ▲ 엔지니어 레이스보다 앞</span></div></div></section>`;
+}
+function ebkTimeline(b) {
+  if (!b.moments.length) return `<section class="panel bk-reveal"><div class="panel-h"><h3>시즌 타임라인</h3></div><div class="panel-b"><p class="note">기록할 만한 순간이 없었던 조용한 시즌이야.</p></div></section>`;
+  const items = b.moments.map(m => { const k = EBK_KIND[m.kind] || [m.kind, 'pts'];
+    return `<li class="bk-m ${k[1]}"><span class="bk-dot"></span><div class="bk-when">R${m.round}</div><div><span class="bk-kind">${k[0]}</span><div class="bk-mt">${esc(m.text)}</div></div></li>`; }).join('');
+  return `<section class="panel bk-reveal"><div class="panel-h"><h3>시즌 타임라인</h3><span class="rt">올해의 순간 ${b.moments.length}개</span></div><div class="panel-b"><ol class="bk-tl">${items}</ol></div></section>`;
+}
+function ebkChamp(b) {
+  if (!b.rounds.length || typeof lineChart2 !== 'function' || !b.series.length) return '';
+  const xs = b.rounds.map(r => r.round); const nm = Object.fromEntries(b.rounds.map(r => [r.round, r.name]));
+  const seen = new Set(); const pts = lineChart2({ series: b.series.map(s => { const dup = seen.has(s.color); seen.add(s.color); return { name: s.name + (s.me ? ' (우리)' : ''), color: s.color, width: s.me ? 3 : 2, dash: dup ? '6 4' : null, pts: s.pts.map((v, i) => ({ x: xs[i], y: v })) }; }), h: 230, xInt: true, yFmt: v => String(Math.round(v)), yLabel: '누적 포인트', xFmt: v => 'R' + v, tipX: v => `R${v} ${nm[v] || ''}`, aria: '클래스 누적 포인트' });
+  const pa = b.posAfter.filter(x => x != null);
+  const pos = pa.length ? lineChart2({ series: [{ name: b.team.name, color: b.team.color, width: 3, pts: b.posAfter.map((p, i) => ({ x: xs[i], y: -p })) }], h: 160, xInt: true, yInt: true, yMax: -1, yMin: -b.n, yLabel: '클래스 순위', yFmt: v => `${-v}위`, xFmt: v => 'R' + v, tipX: v => `R${v} ${nm[v] || ''}`, aria: '라운드별 클래스 순위' }) : '';
+  return `<section class="panel bk-reveal"><div class="panel-h"><h3>챔피언십 레이스</h3><span class="rt">${b.winner && !b.winner.me ? `챔피언과 ${b.gapLeader}점 차` : b.winner && b.winner.me ? '챔피언' : ''}</span></div><div class="panel-b">${pts}
+    ${pos ? `<div class="sub-h mt">라운드별 우리 순위 <span class="dim">— 최고 ${Math.min(...pa)}위 · 최저 ${Math.max(...pa)}위</span></div>${pos}` : ''}</div></section>`;
+}
+// ── the crew: who drove how long, how quick against the class ──
+function ebkCrew(b) {
+  if (!b.drivers.length) return '';
+  const tot = b.drivers.reduce((a, d) => a + d.mins, 0) || 1;
+  const cards = b.drivers.map(d => `<div class="bk-drv"><div class="bk-drv-h" style="--tc:${b.team.color}"><span class="wcat c${d.cat} ebk-cat">${d.cat}</span><div><div class="bk-dn">${esc(d.n)}</div><div class="dim">${esc(END_CAT[d.cat] ? END_CAT[d.cat].name : d.cat)} · 능력 ${d.rat}</div></div>
+      <div class="bk-ovr"><div class="dim">운전</div><div class="disp">${d.hours}<small style="font-size:14px">h</small></div><div class="dim" style="font-size:11px">팀의 ${Math.round(d.mins / tot * 100)}%</div></div></div>
+    <div class="ebk-share"><i style="width:${(d.mins / tot * 100).toFixed(0)}%;background:${b.team.color}"></i></div>
+    <div class="bk-drv-s"><div><b>${d.rounds}</b><span>라운드</span></div><div><b>${d.stints}</b><span>스틴트</span></div><div><b>${d.laps}</b><span>랩</span></div>
+      <div><b>${d.pace != null ? '+' + d.pace + '%' : '—'}</b><span>클래스 베스트 대비</span></div><div><b>${d.know != null ? d.know + '%' : '—'}</b><span>서킷 이해도</span></div><div><b>${d.rounds ? Math.round(d.mins / d.rounds) : 0}분</b><span>레이스당</span></div></div></div>`).join('');
+  return `<section class="panel bk-reveal"><div class="panel-h"><h3>크루</h3><span class="rt">이번 시즌 #${b.team.no}를 몬 드라이버${b.repN != null && b.repN < b.rounds.length ? ` · 레이스 보고서가 있는 ${b.repN}라운드 기준` : ''}</span></div><div class="panel-b"><div class="bk-drvs">${cards}</div>
+    <p class="note mt">페이스 = 중립화·피트 랩을 뺀 녹색 랩 중앙값이 그 레이스 클래스 최고 랩보다 몇 % 느렸나(레이스 평균). 서킷 이해도 = 주말이 끝났을 때.</p></div></section>`;
+}
+// ── the pit wall: the stops, the weekends, the people ──
+function ebkOps(b) {
+  const s = b.stats, o = b.ops;
+  const kpi = (k, v, sub) => `<div><div class="dim">${k}</div><div class="disp bk-big">${v}</div>${sub ? `<div class="note" style="margin:0">${sub}</div>` : ''}</div>`;
+  const bar = (lab, v) => v == null ? '' : `<div class="ar-row"><span>${lab}</span><span class="mono dim">${v}</span><span class="ar-bar"><i class="up" style="width:${clamp(v, 0, 100)}%"></i></span><span class="mono"></span></div>`;
+  const staff = o.staff ? Object.entries(o.staff).map(([k, x]) => `<span class="chip">${esc(ES_STAFF[k] ? ES_STAFF[k].name : k)} ${esc(x.n)} <b>${x.r}</b></span>`).join('') : '';
+  return `<section class="panel bk-reveal"><div class="panel-h"><h3>피트월</h3><span class="rt">정차·주말 준비·사람</span></div><div class="panel-b">
+    <div class="bk-car-kpi">${kpi('피트 스톱', `${s.stops}번`, s.avgStop ? `녹색 정차 평균 ${s.avgStop}초 · 최단 ${s.fastStop != null ? s.fastStop.toFixed(1) + '초' : '—'}` : '')}
+      ${kpi('중립화 활용', `${s.cautStops}<small style="font-size:16px"> / ${s.cautions}</small>`, '중립화 중 정차 / 시즌 중립화 수')}
+      ${kpi('스틴트 계획', `${s.planRaces}레이스`, o.slow ? `계획 대비 5초 넘게 늦은 정차 ${o.slow}번` : '느린 정차 없음')}</div>
+    <div class="grid g2 mt" style="gap:16px"><div><div class="sub-h">주말 준비 <span class="dim">라운드 평균 · 0~100</span></div><div class="ar ebk-ar">${bar('세팅', o.setup)}${bar('연료 데이터', o.fuel)}${bar('타이어 데이터', o.tyre)}${bar('피트 연습', o.pit)}</div>
+      <p class="note">연습 주행 ${o.runs}번 · ${o.wkLaps}랩</p></div>
+      <div><div class="sub-h">핵심 스태프 (시즌 끝)</div><div class="flex wrap" style="gap:6px">${staff || '<span class="dim">—</span>'}</div></div></div></div></section>`;
+}
+function ebkFans(b) {
+  const f = b.fans; if (!f) return '';
+  const curve = f.curve.filter(v => v != null).length >= 2 && typeof lineChart2 === 'function' ? lineChart2({ series: [{ name: '팬 여론', color: b.team.color, width: 3, pts: b.rounds.map((r, i) => ({ x: r.round, y: f.curve[i] })).filter(p => p.y != null) }], h: 150, xInt: true, yMin: 0, yMax: 100, yFmt: v => String(Math.round(v)), yLabel: '팬 여론 (레이스 직후)', xFmt: v => 'R' + v, aria: '라운드별 팬 여론' }) : '';
+  const posts = f.posts.map(p => `<div class="bk-post t-${p.tone}"><div class="bk-ph">@${esc(p.h || 'fan')}</div><div class="bk-pt">${esc(p.t)}</div><div class="bk-pl">♥ ${p.l >= 1000 ? (p.l / 1000).toFixed(1) + 'K' : p.l}</div></div>`).join('');
+  const head = (a, lab) => a ? `<div class="bk-head t-${a.tone}"><div class="dim">${lab} · ${esc((EM_OUTLETS[a.o] || {}).name || '')} · R${a.round} ${esc(a.name)}</div><div class="bk-ht">“${esc(a.t)}”</div></div>` : '';
+  const sw = f.swings.map(x => `<li><span class="${x.d > 0 ? 'good' : 'bad'}">${x.d > 0 ? '+' : ''}${x.d}</span> ${esc(x.why)}</li>`).join('');
+  return `<section class="panel bk-reveal"><div class="panel-h"><h3>팬과 미디어</h3><span class="rt">팬 여론 0~100 · 기사 ${f.articles}건</span></div><div class="panel-b">
+    <div class="bk-fan-kpi"><div><div class="dim">개막</div><div class="disp bk-big">${f.start ?? '—'}</div></div><div class="bk-arrow">→</div><div><div class="dim">시즌 끝</div><div class="disp bk-big">${f.end ?? '—'}</div></div><div>${bkDelta(f.start, f.end)}</div><div class="bk-mood">${esc(emFanWord(f.end))}</div></div>
+    ${curve}
+    ${posts ? `<div class="sub-h mt">가장 많이 공감받은 팬 반응</div><div class="bk-posts">${posts}</div>` : ''}
+    ${f.best || f.worst ? `<div class="sub-h mt">올해의 헤드라인</div><div class="bk-heads">${head(f.best, '최고의 기사')}${head(f.worst, '가장 아픈 기사')}</div>` : ''}
+    ${sw ? `<div class="sub-h mt">팬심이 크게 움직인 순간</div><ul class="bk-sw">${sw}</ul>` : ''}</div></section>`;
+}
+function ebkAwards(b) {
+  if (!b.awards.length) return '';
+  const ic = { '올해의 레이스': '★', '최고의 추격': '»', '피트월의 한 수': '◆', '가장 짧은 정차': '⏱', '가장 오래 몬 드라이버': '⧗', '가장 빠른 드라이버': '⚡', '아쉬운 순간': '✕' };
+  const cards = b.awards.map((a, i) => `<div class="bk-aw ${i === 0 ? 'gold' : a.k === '아쉬운 순간' ? 'pain' : ''}"><div class="bk-awi" aria-hidden="true">${ic[a.k] || '•'}</div><div class="dim">${esc(a.k)}</div><div class="bk-awm">${esc(a.v)}</div>${a.s ? `<div class="note" style="margin:2px 0 0">${esc(a.s)}</div>` : ''}</div>`).join('');
+  return `<section class="panel bk-reveal"><div class="panel-h"><h3>올해의 순간</h3></div><div class="panel-b"><div class="bk-aws">${cards}</div></div></section>`;
+}
+function ebkMoney(b) {
+  const m = b.money; const cats = m.inc.concat(m.exp); if (!cats.length) return '';
+  const mx = Math.max(0.001, ...cats.map(c => Math.abs(c[1])));
+  const inc = m.inc.reduce((a, c) => a + c[1], 0), exp = m.exp.reduce((a, c) => a + c[1], 0);
+  const bars = cats.map(([c, v]) => `<div class="mn-row"><span>${esc(c)}</span><span class="mn-bar"><i class="${v >= 0 ? 'in' : 'out'}" style="width:${(Math.abs(v) / mx * 100).toFixed(0)}%"></i></span><span class="mono ${v >= 0 ? 'good' : 'bad'}">${elmsMoney(v, true)}</span></div>`).join('');
+  return `<section class="panel bk-reveal"><div class="panel-h"><h3>재정</h3><span class="rt">$M · 이 시즌 장부</span></div><div class="panel-b">
+    <div class="bk-car-kpi"><div><div class="dim">수입</div><div class="disp bk-big good">${elmsMoney(inc)}</div></div><div><div class="dim">지출</div><div class="disp bk-big bad">${elmsMoney(-exp)}</div></div><div><div class="dim">시즌 끝 잔고</div><div class="disp bk-big ${m.end < 0 ? 'bad' : ''}">${elmsMoney(m.end)}</div></div></div>
+    <div class="sub-h mt">돈의 흐름</div><div class="mn">${bars}</div></div></section>`;
+}
+function ebkLeague(b) {
+  const rows = b.std.map(x => `<tr class="${x.me ? 'me' : ''}"><td style="width:40px"><span class="pos">${x.pos}</span></td><td><span class="tbar" style="background:${x.color}"></span>${esc(x.name)} <span class="dim">#${x.no}</span></td><td class="r"><b>${x.pts}</b></td></tr>`).join('');
+  const ch = (b.champs || []).map(c => `<div class="bk-ch"><div class="dim">${esc(ebkCls(c.cls))} 챔피언</div><div class="bk-chn">${esc(c.name)} <span class="dim" style="font-size:16px">#${c.no}</span></div><div class="dim">${c.pts}점${c.me ? ' · 우리' : ''}</div></div>`).join('');
+  return `<section class="panel bk-reveal"><div class="panel-h"><h3>리그 결산</h3></div><div class="panel-b">${ch ? `<div class="bk-champs ebk-champs">${ch}</div>` : ''}
+    <div class="sub-h mt">${esc(ebkCls(b.cls))} 최종 순위</div><div class="scroll-x"><table class="tbl compact"><tbody>${rows}</tbody></table></div></div></section>`;
+}
+function ebookHtml(b, live) {
+  if (!b) return '<div class="empty">시즌 결산 자료가 없어</div>';
+  return `<div class="bk ebk ${live ? 'live' : ''}" data-year="${b.year}">${ebkHero(b, live)}${live ? ebkDecide(b) : ''}${ebkTiles(b)}${ebkStrip(b)}
+    <div class="bk-grid">${ebkTimeline(b)}${ebkChamp(b)}</div>
+    ${ebkCrew(b)}${ebkOps(b)}
+    <div class="bk-grid">${ebkFans(b)}${ebkAwards(b)}</div>
+    ${ebkMoney(b)}${ebkLeague(b)}
+    <section class="panel bk-reveal bk-next"><div class="panel-b">${live ? (S.gameOver ? '<button class="btn primary" data-a="nav" data-v="gameover">계속</button>' : '<button class="btn primary" data-a="continue">다음 시즌</button>') : ''} <button class="btn" data-a="nav" data-v="erecords">기록 보기</button></div></section></div>`;
+}
+// the review at the season's end: the book (a season that ended before v44 builds it now — the season is still in memory)
+const ereviewV43 = VIEWS.ereview;
+VIEWS.ereview = () => {
+  const R = S.elms.review; if (!R) return ereviewV43();
+  if (!R.book && typeof elmsBuildBook === 'function') { try { R.book = elmsBuildBook(R); } catch (e) { console.error('elms book', e); } }
+  return R.book ? ebookHtml(R.book, true) : ereviewV43();
+};
+VIEWS.ebook = () => { const b = elmsBook(UI.ebookYear); return b ? ebookHtml(b, false) : '<div class="empty">그 시즌의 결산 자료가 없어 (v44 이후 끝난 시즌부터 저장돼)</div>'; };
+function ebkMount() {
+  const v = document.getElementById('view'); if (!v) return;
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const els = [...v.querySelectorAll('[data-count]')];
+  if (!reduce) { const t0 = performance.now(); const dur = 1100; const targets = els.map(el => ({ el, to: +el.dataset.count, html: el.innerHTML })).filter(x => isFinite(x.to) && String(x.html).trim() === String(x.to));
+    const tick = now => { const k = Math.min(1, (now - t0) / dur); const e = 1 - Math.pow(1 - k, 3); for (const x of targets) x.el.textContent = Math.round(x.to * e); if (k < 1) requestAnimationFrame(tick); }; if (targets.length) requestAnimationFrame(tick); }
+  if (reduce || UI.view !== 'ereview') return; const b = S.elms.review && S.elms.review.book; if (!b) return;
+  const party = b.pos === 1 || b.stats.wins > 0 || (b.ok && b.prev && b.pos < b.prev); const key = `e${b.year}:${b.team.prog}`;
+  if (!party || UI.bkParty === key || typeof bkConfetti !== 'function') return; UI.bkParty = key; bkConfetti(b.team.color, '#ffffff', b.pos === 1 || b.stats.wins >= 2 ? 220 : 120);
+}
+MOUNTS.ereview = ebkMount; MOUNTS.ebook = ebkMount;
+
+// ── the records: every season, the career totals, the personal bests, the circuits ──
+VIEWS.erecords = () => {
+  const X = elmsRecords(); const t = X.tot; const pb = X.pb;
+  const tiles = `<div class="bk-tiles bk-reveal">${bkTile('ELMS 시즌', t.seasons, t.f1 ? `F1 ${t.f1}시즌 별도` : `목표 달성 ${t.ok}번`)}${bkTile('클래스 타이틀', t.titles, '')}${bkTile('출전', t.starts, `리타이어 ${t.dnf}`)}${bkTile('우승', t.wins, `포디움 ${t.podiums}`, t.wins)}
+    ${bkTile('폴', t.poles, '', t.poles)}${bkTile('포인트', t.pts, '', t.pts)}${bkTile('달린 거리', `${t.km.toLocaleString()}<small>km</small>`, `${t.laps.toLocaleString()}랩`, null, true)}${bkTile('엔지니어 대비', `${t.better}<small>승</small> ${t.worse}<small>패</small>`, `무승부 ${Math.max(0, t.starts - t.better - t.worse)}`, null, true)}</div>`;
+  const seasons = X.seasons.slice().reverse().map(x => { const open = x.series === 'elms' && x.book && !x.live;
+    const res = x.live ? `<span class="chip info">진행 중 · ${x.rounds}라운드</span> P${x.pos || '—'}` : x.series === 'f1' ? `컨스트럭터 P${x.pos}` : `<b>P${x.pos}</b>${x.target ? ` <span class="${x.ok ? 'good' : 'bad'}">${x.ok ? '목표 달성' : `목표 ${x.target}위 미달`}</span>` : ''}`;
+    return `<tr${open ? ` class="click" data-a="ebookopen" data-y="${x.year}" title="시즌 결산 열기"` : ''}><td class="mono">${x.year}</td><td><span class="chip ${x.series === 'f1' ? '' : 'info'}">${x.series === 'f1' ? 'F1' : 'ELMS'}</span></td><td>${esc(x.name)}${x.cls ? ` <span class="dim">${esc(ebkCls(x.cls))}</span>` : ''}${x.champ ? ' <span class="chip good">챔피언</span>' : ''}</td><td class="r">${res}</td><td class="r mono">${x.pts ?? '—'}</td><td class="r">${open ? '<span class="dim">결산 ›</span>' : ''}</td></tr>`; }).join('');
+  const card = (ic, k, v, sub, cls = '') => `<div class="bk-aw ${cls}"><div class="bk-awi" aria-hidden="true">${ic}</div><div class="dim">${k}</div><div class="bk-awm">${v}</div>${sub ? `<div class="note" style="margin:2px 0 0">${sub}</div>` : ''}</div>`;
+  const where = x => x ? `${x.year} ${esc(x.name || '')}` : '';
+  const pbs = [pb.finish ? card('★', '최고 성적', `P${pb.finish.v}${pb.finish.n > 1 ? ` <small>×${pb.finish.n}</small>` : ''}`, `처음: ${where(pb.finish)}`, pb.finish.v === 1 ? 'gold' : '') : '',
+    pb.climb ? card('»', '최대 추격', `+${pb.climb.v}계단`, `P${pb.climb.from} → P${pb.climb.to} · ${where(pb.climb)}`) : '',
+    pb.call ? card('◆', '피트월 최고의 콜', `+${pb.call.v}계단`, `엔지니어 P${pb.call.ai} → 실제 P${pb.call.pos} · ${where(pb.call)}`) : '',
+    pb.stop ? card('⏱', '가장 짧은 정차', `${pb.stop.v.toFixed(1)}초`, `정지 시간 · ${where(pb.stop)}`) : '',
+    pb.stint ? card('⧗', '가장 긴 스틴트', `${pb.stint.v}분`, `${esc(pb.stint.who)} · ${where(pb.stint)}`) : '',
+    pb.season ? card('⚑', '최고 시즌', `P${pb.season.v}`, `${pb.season.year} ${esc(ebkCls(pb.season.cls))} · ${pb.season.n}대 중`) : '',
+    pb.pts ? card('Σ', '시즌 최다 포인트', `${pb.pts.v}점`, `${pb.pts.year} ${esc(ebkCls(pb.pts.cls))}`) : '',
+    pb.wins ? card('♛', '시즌 최다 우승', `${pb.wins.v}승`, `${pb.wins.year} ${esc(ebkCls(pb.wins.cls))}`) : ''].join('');
+  const circ = X.circuits.map(c => `<tr><td><b>${esc(c.name)}</b></td><td class="r">${c.starts}</td><td class="r">${c.wins || ''}</td><td class="r">${c.pod || ''}</td><td class="r">${c.best ? `P${c.best.pos} <span class="dim">${c.best.year}</span>` : 'DNF'}</td><td class="r mono">${c.avg != null ? 'P' + c.avg : '—'}</td>
+    <td>${Object.entries(c.laps).map(([k, L]) => `<span class="chip">${esc(ebkCls(k))} <b class="mono">${ebLap(L.t)}</b> <span class="dim">${L.year}</span></span>`).join(' ') || '<span class="dim">—</span>'}</td></tr>`).join('');
+  return `<div class="bk ebk">${tiles}
+    <section class="panel bk-reveal"><div class="panel-h"><h3>시즌 기록</h3><span class="rt">ELMS 시즌은 눌러서 결산 보기</span></div><div class="panel-b flush scroll-x"><table class="tbl compact"><thead><tr><th>연도</th><th>시리즈</th><th>팀</th><th class="r">결과</th><th class="r">포인트</th><th></th></tr></thead><tbody>${seasons || '<tr><td colspan="6" class="empty">첫 시즌이 끝나면 쌓여</td></tr>'}</tbody></table></div></section>
+    <section class="panel bk-reveal"><div class="panel-h"><h3>개인 기록</h3><span class="rt">ELMS 레이스 ${X.rows}개에서</span></div><div class="panel-b">${pbs ? `<div class="bk-aws">${pbs}</div>` : '<p class="note">첫 레이스를 마치면 기록이 생겨.</p>'}</div></section>
+    <section class="panel bk-reveal"><div class="panel-h"><h3>서킷별 기록</h3><span class="rt">베스트 랩은 클래스마다</span></div><div class="panel-b flush scroll-x">${circ ? `<table class="tbl compact"><thead><tr><th>서킷</th><th class="r">출전</th><th class="r">우승</th><th class="r">포디움</th><th class="r">최고</th><th class="r">평균</th><th>베스트 랩</th></tr></thead><tbody>${circ}</tbody></table>` : '<div class="empty">아직 기록이 없어</div>'}</div></section>
+    <p class="note">기록은 v44부터 끝난 시즌의 결산 자료와 이번 시즌 결과로 만들어. 그 전에 끝난 시즌은 순위만 남아 있어 개인 기록·서킷 기록에는 들어가지 않아.</p></div>`;
+};
+Object.assign(VIEW_TITLES, { ebook: '시즌 결산', erecords: '기록' });
+Object.assign(ACT, { ebookopen: d => { UI.ebookYear = +d.y; go('ebook'); } });
+{ const sec = ELMS_NAV.find(x => x[0] === '시즌'); if (sec && !sec[1].some(x => x[0] === 'erecords')) sec[1].splice(sec[1].findIndex(x => x[0] === 'world'), 0, ['erecords', '기록', 'book']); }
+
+// ───────── elms_media_ui.js — v44 the ELMS media centre: the press, SNS, the fan board, the fans' mood ─────────
+// The pieces are written by elms_media.js when things happen (the weekend, qualifying, the race, the season's end, a
+// signing); this file lays them out with the F1 media centre's blocks (.art, .post, .gall) and the circuit's outline in
+// place of a photo. Nothing here invents a fact: every line on screen is stored with the piece.
+'use strict';
+const EM_OUTLET_COL = { ew: '#0b6b4f', ld: '#c8202a', sr: '#1e4fa8', pj: '#111', km: '#0a5aa8' };
+function emOutlet(k) { return EM_OUTLETS[k] || { name: '패독 소식', kind: '종합' }; }
+function emTeamCol() { const p = elmsProg(); return hexOf(p.color); }
+function emArticleHtml(a) {
+  const o = emOutlet(a.outlet); const r = vrand(a.id * 131 + 7);
+  const time = `${String(7 + Math.floor(r() * 15)).padStart(2, '0')}:${String(Math.floor(r() * 60)).padStart(2, '0')}`;
+  const T = a.tid && END_TRACKS[a.tid];
+  const fig = a.tid ? `<figure class="ema-fig" style="--team:${a.mine ? emTeamCol() : '#8892a6'}">${elmsTrackSvg(a.tid, 640, 250)}<figcaption>${esc(T ? T.kname : '')}${T ? ` · ${T.km.toFixed(3)}km` : ''} — 서킷 레이아웃</figcaption></figure>` : '';
+  const paras = (Array.isArray(a.body) ? a.body : [String(a.body || '')]).flatMap(p => String(p).split('\n')).filter(Boolean);
+  return `<article class="art">
+    <div class="art-mast" style="--oc:${EM_OUTLET_COL[a.outlet] || '#333'}"><b>${esc(o.name)}</b><span>${esc(o.kind)} · 내구 레이스</span></div>
+    <div class="art-cat"><span class="chip">${esc(a.tag)}</span>${a.mine ? ' <span class="chip team">우리 팀</span>' : ''}</div>
+    <h2>${esc(a.title)}</h2>
+    <div class="art-by">${esc(vpick(r, REPORTERS))} 기자 · 입력 ${dFmt(a.date, false)} ${time}</div>
+    ${fig}
+    <div class="art-body">${paras.map(p => `<p>${esc(p)}</p>`).join('')}</div>
+    ${a.rep && a.ev && typeof elmsRep === 'function' && elmsRep(a.year || S.year, a.ev) ? `<div class="art-foot"><button class="btn sm" data-a="erepopen" data-y="${a.year || S.year}" data-ev="${esc(a.ev)}">레이스 보고서 열기</button></div>` : ''}
+  </article>`;
+}
+function emNewsTab(m) {
+  const f = UI.emFilter || 'all'; const list = m.articles.filter(a => f === 'all' || a.mine);
+  if (!UI.emArt || !m.articles.find(a => a.id === UI.emArt)) UI.emArt = list[0] ? list[0].id : null;
+  const sel = m.articles.find(a => a.id === UI.emArt);
+  const rows = list.map(a => `<button class="msg-i ${sel && a.id === sel.id ? 'on' : ''}" data-a="emart" data-id="${a.id}"><div class="mf"><span>${toneDot(a.tone)}${esc(emOutlet(a.outlet).name)} <span class="chip">${esc(a.tag)}</span>${a.mine ? ' <span class="chip team">우리 팀</span>' : ''}</span><span>${dShort(a.date)}</span></div><div class="ms">${esc(a.title)}</div></button>`).join('');
+  const brief = (S.news || []).filter(n => !n.series || n.series === 'elms').slice(0, 10).map(n => `<div class="feed-i"><span class="d">${dShort(n.date)}</span><span>${esc(n.text)}</span></div>`).join('');
+  const seg = `<div class="seg">${[['all', '전체'], ['mine', '우리 팀']].map(([k, l]) => `<button class="${f === k ? 'on' : ''}" data-a="emfilter" data-f="${k}">${l}</button>`).join('')}</div>`;
+  return `<div class="media-news"><section class="panel"><div class="panel-h"><h3>헤드라인</h3><span class="rt">${seg}</span></div><div class="inbox-list">${rows || '<div class="empty">아직 기사가 없어 — 레이스 위크엔드가 시작되면 나와</div>'}</div></section>
+    <div class="grid" style="align-content:start"><section class="panel">${sel ? emArticleHtml(sel) : '<div class="empty">기사를 골라</div>'}</section>${brief ? `<section class="panel"><div class="panel-h"><h3>패독 단신</h3></div><div class="feed">${brief}</div></section>` : ''}</div></div>`;
+}
+function emSnsTab(m) {
+  const f = UI.emFilter || 'all'; const col = emTeamCol();
+  const list = m.posts.filter(p => f === 'all' || p.team || p.driver).slice(0, 60);
+  const fmtN = n => n >= 1000 ? (n / 1000).toFixed(1) + 'K' : String(n);
+  const team = emTeam(); const no = elmsCrew().no;
+  const cards = list.map(p => { const r = vrand(p.id * 977); const ago = vpick(r, ['방금', '4분', '12분', '33분', '1시간', '2시간', '5시간']);
+    const name = p.team ? team : p.handle; const at = p.team ? `@team${no}_official` : p.driver ? `#${no} 드라이버` : '@' + p.handle;
+    const av = p.team ? '#' + elmsCrew().no : String(p.handle || '?').slice(0, 1).toUpperCase();
+    return `<div class="post"><div class="av" style="--tc:${p.team || p.driver ? col : '#5b6475'}">${esc(av)}</div><div style="min-width:0"><div class="ph"><b>${esc(name)}</b>${p.team || p.driver ? ' <span class="verified" title="공식 계정">✔</span>' : ''}${p.cat ? ` <span class="wcat c${p.cat}">${p.cat}</span>` : ''} <span class="dim">${esc(at)} · ${dShort(p.date)} ${ago}</span></div><div class="ptx">${esc(p.text)}</div><div class="pm"><span>💬 ${fmtN(Math.round(p.rt * 0.6 + 3))}</span><span>⟲ ${fmtN(p.rt)}</span><span>♥ ${fmtN(p.likes)}</span></div></div></div>`; }).join('');
+  const fans = m.posts.filter(p => !p.team && !p.driver); const pos = fans.filter(p => p.tone === 'pos').length, neg = fans.filter(p => p.tone === 'neg').length;
+  const seg = `<div class="seg">${[['all', '전체'], ['mine', '팀·드라이버']].map(([k, l]) => `<button class="${f === k ? 'on' : ''}" data-a="emfilter" data-f="${k}">${l}</button>`).join('')}</div>`;
+  return `<section class="panel"><div class="panel-h"><h3>SNS</h3><span class="rt"><span class="dim">팬 반응 긍정 ${pos} · 부정 ${neg}</span> ${seg}</span></div><div class="posts">${cards || '<div class="empty">게시물이 없어</div>'}</div></section>`;
+}
+function emCommTab(m) {
+  if (UI.emThread) { const th = m.threads.find(x => x.id === UI.emThread); if (th) return emThreadHtml(th, m); UI.emThread = null; }
+  const today = S.date;
+  const rows = m.threads.map(th => { const mt = threadMeta(th);
+    return `<tr class="click" data-a="emthr" data-id="${th.id}"><td class="gno hide-m">${mt.no}</td><td class="gtag">${esc(th.tag)}</td><td class="gtit">${th.hot ? '<span class="g-hot">개념</span>' : ''}${esc(th.title)} <span class="g-rep">[${th.replies}]</span></td><td class="gwr">${esc(mt.nick)}${mt.ip ? `<span class="g-ip">(${mt.ip})</span>` : ''}</td><td class="gdt">${th.date === today ? mt.time : dShort(th.date)}</td><td class="gnum hide-m">${(th.views || 0).toLocaleString()}</td><td class="gnum hide-m">${mt.up}</td></tr>`; }).join('');
+  return `<section class="panel gall"><div class="gall-head"><b>내구레이스 갤러리</b><span class="dim">가상 리그 팬 커뮤니티 · 글을 누르면 본문과 댓글이 열려</span></div>
+    <div class="scroll-x"><table class="gall-tbl"><thead><tr><th class="hide-m">번호</th><th>말머리</th><th>제목</th><th>글쓴이</th><th>작성일</th><th class="hide-m">조회</th><th class="hide-m">추천</th></tr></thead><tbody>${rows || '<tr><td colspan="7" class="empty">게시글이 없어 — 첫 레이스가 끝나면 올라와</td></tr>'}</tbody></table></div></section>`;
+}
+function emThreadHtml(th, m) {
+  const mt = threadMeta(th); const r = vrand(th.id * 17); let hh = parseInt(mt.time, 10), mm = parseInt(mt.time.slice(3), 10);
+  const cm = (th.cm || []).map(x => { mm += 1 + Math.floor(r() * 9); if (mm >= 60) { hh = (hh + 1) % 24; mm -= 60; } const anon = x.nick === 'ㅇㅇ'; const ip = anon ? `${vpick(r, ['118', '211', '175', '121', '223', '39'])}.${Math.floor(r() * 250)}` : null;
+    return `<div class="gc"><span class="gc-n">${esc(x.nick)}${ip ? `<span class="g-ip">(${ip})</span>` : ''}</span><span class="gc-t">${esc(x.text)}</span><span class="gc-d">${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}</span></div>`; }).join('');
+  const idx = m.threads.indexOf(th);
+  const near = m.threads.slice(Math.max(0, idx - 3), idx + 4).filter(x => x !== th).map(x => `<button class="feed-i click-row" data-a="emthr" data-id="${x.id}"><span class="d">${esc(x.tag)}</span><span>${esc(x.title)} <span class="g-rep">[${x.replies}]</span></span></button>`).join('');
+  return `<section class="panel gall"><div class="gall-head"><b>내구레이스 갤러리</b><button class="btn sm ghost" data-a="emback" style="margin-left:auto">목록</button></div>
+    <div class="gpost"><div class="gp-title"><span class="gp-tag">[${esc(th.tag)}]</span> ${esc(th.title)}</div>
+      <div class="gp-meta"><span class="gc-n">${esc(mt.nick)}${mt.ip ? `<span class="g-ip">(${mt.ip})</span>` : ''}</span><span>${dFmt(th.date, false).replace(/년 |월 /g, '.').replace('일', '')} ${mt.time}</span><span class="sp"></span><span>조회 ${(th.views || 0).toLocaleString()}</span><span>추천 ${mt.up}</span><span>댓글 ${th.replies}</span></div>
+      <div class="gp-body">${String(th.body || '').split('\n').map(l => `<p>${esc(l)}</p>`).join('')}</div>
+      <div class="gp-cmts"><div class="gp-ch">전체 댓글 <b>${th.replies}</b>개 <span class="dim">· 추천순 ${(th.cm || []).length}개 표시</span></div>${cm}</div></div>
+    ${near ? `<div class="feed-sec">다른 글</div><div class="feed">${near}</div>` : ''}</section>`;
+}
+function emFansTab(m) {
+  const col = emTeamCol();
+  const H = m.fanHist.slice(-30);
+  const chart = H.length >= 2 && typeof lineChart2 === 'function' ? lineChart2({ series: [{ name: '팬 여론', color: col, width: 3, pts: H.map((h, i) => ({ x: i + 1, y: h.v })) }], h: 200, xInt: true, yMin: 0, yMax: 100, yFmt: v => String(Math.round(v)), yLabel: '팬 여론', xFmt: v => (H[v - 1] ? dShort(H[v - 1].date) : ''), tipX: v => (H[v - 1] ? `${dShort(H[v - 1].date)}` : ''), aria: '팬 여론 추이' }) : '<p class="note">레이스가 끝날 때마다 추이가 쌓여.</p>';
+  const log = m.fanLog.slice(0, 20).map(x => `<div class="flex between" style="font-size:12.5px;padding:4px 0;border-bottom:1px solid var(--line)"><span><span class="dim">${dShort(x.date)}</span> ${esc(x.why)}</span><b class="${x.d > 0 ? 'good' : x.d < 0 ? 'bad' : 'dim'}">${x.d > 0 ? '+' : ''}${x.d}</b></div>`).join('');
+  return `<div class="grid g-main-side"><section class="panel"><div class="panel-h"><h3>팬 여론 추이</h3><span class="rt dim">0–100 · 레이스와 시즌 끝마다</span></div><div class="panel-b">${chart}
+      <p class="note">팬 여론은 레이스 결과가 구단주의 목표 순위보다 위인지 아래인지(1계단에 ±1.5), 포디움(+4)·우승(+5 더), 리타이어(−6), 엔지니어 레이스보다 앞섰는지(+1.5) 뒤졌는지(−1), 시즌 목표 달성 여부(±6)로 움직여. 이미 아주 높거나 낮으면 같은 일에도 덜 움직여.</p>
+      <p class="note">ELMS에서 팬 여론은 <b>기록일 뿐</b>이야 — 돈·스폰서·구단주 신뢰에는 영향을 주지 않아.</p></div></section>
+    <section class="panel"><div class="panel-h"><h3>최근 변화</h3></div><div class="panel-b">${log || '<p class="note">아직 변화가 없어.</p>'}</div></section></div>`;
+}
+VIEWS.emedia = () => {
+  const m = ensureElmsMedia(); const tab = UI.emTab || 'news';
+  if (tab === 'news' && m.unread) { m.unread = 0; setTimeout(() => { const b = document.querySelector('.nav-i[data-v=emedia] .badge'); if (b) b.remove(); }, 0); }
+  const tabs = [['news', '뉴스'], ['sns', 'SNS'], ['comm', '커뮤니티'], ['fans', '팬 여론']];
+  const col = m.fans >= 65 ? 'var(--good)' : m.fans >= 45 ? 'var(--fg)' : m.fans >= 30 ? 'var(--warn)' : 'var(--bad)';
+  const last = m.fanLog[0];
+  const head = `<div class="media-head"><div><div class="dim" style="font-size:11px;letter-spacing:.12em">팬 여론</div><div class="flex" style="align-items:baseline;gap:8px"><span class="disp" style="font-size:34px;font-weight:700;color:${col}">${Math.round(m.fans)}</span><span class="muted">${emFanWord(m.fans)}</span></div></div>
+    ${m.fanHist.length >= 3 ? `<div class="hide-m">${sparkline(m.fanHist.slice(-24).map(h => h.v), 180, 44, col)}</div>` : ''}
+    <div class="mh-main" style="flex:1;min-width:200px"><div class="note" style="margin:0">${last ? `최근: ${esc(last.why)} <b class="${last.d > 0 ? 'good' : last.d < 0 ? 'bad' : ''}">${last.d > 0 ? '+' : ''}${last.d}</b> · ` : ''}기사 ${m.articles.length} · SNS ${m.posts.length} · 게시글 ${m.threads.length}</div></div></div>`;
+  const bar = `<div class="tabs">${tabs.map(([k, l]) => `<button class="${tab === k ? 'on' : ''}" data-a="emtab" data-t="${k}">${l}</button>`).join('')}</div>`;
+  const body = tab === 'news' ? emNewsTab(m) : tab === 'sns' ? emSnsTab(m) : tab === 'comm' ? emCommTab(m) : emFansTab(m);
+  return head + bar + body;
+};
+// the home page's corner: the latest headlines and the mood
+function elmsMediaHomePanel() {
+  const m = S.elms.media; if (!m || !m.articles.length) return '';
+  const rows = m.articles.slice(0, 3).map(a => `<button class="feed-i click-row" data-a="emart" data-id="${a.id}"><span class="d">${dShort(a.date)}</span><span>${toneDot(a.tone)}<b>${esc(a.title)}</b> <span class="dim">${esc(emOutlet(a.outlet).name)}</span></span></button>`).join('');
+  return `<section class="panel"><div class="panel-h"><h3>미디어</h3><span class="rt">팬 여론 <b>${Math.round(m.fans)}</b> <span class="dim">${emFanWord(m.fans)}</span></span></div><div class="feed">${rows}</div></section>`;
+}
+// the round's own headline, for the weekend's result card
+function elmsMediaRaceHead(ev) { const m = S.elms.media; const a = m && m.articles.find(x => x.ev === ev && x.tag === '레이스'); return a ? `<button class="feed-i click-row ema-head" data-a="emart" data-id="${a.id}"><span class="d">${esc(emOutlet(a.outlet).name)}</span><span>“${esc(a.title)}”</span></button>` : ''; }
+Object.assign(VIEW_TITLES, { emedia: '미디어' });
+Object.assign(ACT, {
+  emtab: d => { UI.emTab = d.t; UI.emThread = null; render(); },
+  emfilter: d => { UI.emFilter = d.f; UI.emArt = null; render(); },
+  emart: d => { UI.emTab = 'news'; UI.emArt = +d.id; UI.emFilter = 'all'; if (UI.view !== 'emedia') go('emedia'); else render(); },
+  emthr: d => { UI.emTab = 'comm'; UI.emThread = +d.id; if (UI.view !== 'emedia') go('emedia'); else { render(); $('#view').scrollTop = 0; } },
+  emback: () => { UI.emThread = null; render(); },
+});
+{ const sec = ELMS_NAV.find(x => x[0] === '시즌'); if (sec && !sec[1].some(x => x[0] === 'emedia')) { const k = sec[1].findIndex(x => x[0] === 'ereps'); sec[1].splice(k >= 0 ? k + 1 : 1, 0, ['emedia', '미디어', 'media']); } }
+
 // ───────── moves_ui.js — v40 the calls at an ELMS season's end: other ELMS entries and F1 ─────────
 'use strict';
 function moveOffersPanel() {
@@ -21732,7 +22505,7 @@ const ER_WIDGETS = {
 // ── the race: start, the clock, the engineers' race beside it ──
 function erStart() {
   const wk = S.elms.wk; const ev = elmsWeekendEv(); if (!wk || wk.stage !== 'race' || !ev) return;
-  if (ER.sim && ER.ev && ER.ev.id === ev.id && !ER.result) return go('erace');   // still in memory: straight back to the pit wall
+  if (ER.sim && ER.ev === ev && !ER.result) return go('erace');   // still in memory (this game's own event): straight back to the pit wall
   if (wk.erRun && wk.erRun.ev === ev.id) return erResume();   // v40: a race under way when the page went comes back where it was
   const tid = END_VENUE[ev.venue] || 'bcn'; const ents = elmsEntries(); const me = elmsMyEntryId(); const seed = Math.floor(wRand() * 4294967295) || 1;
   W_LIVE = ev.id; wk.before = { pos: elmsStanding().pos, cash: S.elms.cash }; wk.seed = seed;
@@ -21763,8 +22536,10 @@ function erResume() {
   const log = R.log.slice().sort((a, b) => a.n - b.n); let li = 0; const target = R.n || 0;
   const due = () => { while (li < log.length && log[li].n <= ER.sim.nStep) erApply(ER.sim, log[li++]); };
   ER.replaying = true; ER.busy = { p: 0, txt: '레이스 복원 중' }; due(); go('erace');
+  const sim0 = ER.sim;
   const slice = () => {
-    if (!ER.sim) return; const t0 = performance.now();
+    if (!ER.sim || ER.sim !== sim0 || !ER.busy) return;   // v42 a save loaded or a new race started while this ran: stop, do not touch the new one
+    const t0 = performance.now();
     while (ER.sim.nStep < target && ER.sim.phase !== 'finished' && performance.now() - t0 < 40) { erStepBoth(1); due(); }
     ER.busy.p = target ? ER.sim.nStep / target : 1; const el = document.getElementById('er-busy-p'); if (el) el.style.width = (ER.busy.p * 100).toFixed(1) + '%';
     if (ER.sim.nStep < target && ER.sim.phase !== 'finished') return setTimeout(slice, 0);
@@ -21800,7 +22575,8 @@ function erRunOut(handOver) {
   if (handOver && me) erAct({ a: 'hand' });   // the engineers' running from here: their pit calls, and the pace, fuel and tyre settings their own car has now
   ER.running = false; ER.busy = { p: 0 }; render();
   const go1 = () => {
-    if (!ER.sim) return; const t0 = performance.now();
+    if (!ER.sim || ER.sim !== s || !ER.busy) return;   // v42 the race this was running is gone (a save loaded, a new game): stop
+    const t0 = performance.now();
     while (performance.now() - t0 < 40) { if (s.phase !== 'finished') erStepBoth(40); else if (ER.ai.phase !== 'finished') for (let i = 0; i < 40 && ER.ai.phase !== 'finished'; i++) ER.ai.step(0.25); else break; }
     const p = Math.min(1, (s.t + ER.ai.t) / (2 * s.endT)); ER.busy.p = p; const el = document.getElementById('er-busy-p'); if (el) el.style.width = (p * 100).toFixed(1) + '%';
     if (s.phase === 'finished' && ER.ai.phase === 'finished') { ER.busy = null; erFinish(); return; }
@@ -21812,7 +22588,8 @@ function erRunOut(handOver) {
 function erFinish() {
   if (!ER.sim || ER.result) return;
   if (ER.ai.phase !== 'finished') return erRunOut(false);
-  const me = erMe(); const F = elmsEsFinish(ER.ev, ER.sim, ER.ai, me.id); const { out, ai, rec, row, aiRow } = F; if (S.elms.wk) delete S.elms.wk.erRun;
+  const me = erMe(); const ev = S.world.cal.find(e => e.id === ER.ev.id) || ER.ev; ER.ev = ev;   // v42 this game's own event object
+  const F = elmsEsFinish(ev, ER.sim, ER.ai, me.id); const { out, ai, rec, row, aiRow } = F; if (S.elms.wk) delete S.elms.wk.erRun;
   ER.result = { out, ai, rec, row, aiRow, cls: me.cls, me: me.id, stops: me.esStops.slice(), drive: ER.sim.esDrive(me).map(x => Math.round(x / 60)), crew: me.crew.map(d => ({ name: d.name, cat: d.cat })),
     laps: erClassLapPos(ER.sim, me.cls), lapTimes: me.lapTimes.slice(), bands: erBands(ER.sim), best: me.bestLap, cautions: out.cautions };
   saveGame(); render();
@@ -21842,7 +22619,8 @@ function erAdvice(c, eng) {
 // ── the screen ──
 VIEW_TITLES.erace = 'ELMS 레이스 지휘';
 VIEWS.erace = () => {
-  if (!ER.sim) return '<div class="empty">진행 중인 레이스가 없어</div>';
+  if (!ER.sim) { const wk = S.elms && S.elms.wk; const back = wk && wk.stage === 'race';   // v42 not a dead end: back to the race (or where it was)
+    return `<div class="empty">진행 중인 레이스가 없어${back ? `<div class="mt"><button class="btn primary" data-a="erace">${wk.erRun ? '레이스 이어가기' : '레이스 화면으로'}</button></div>` : '<div class="mt"><button class="btn" data-a="nav" data-v="eweek">위크엔드로</button></div>'}</div>`; }
   if (ER.result) return erResultHtml();
   const s = ER.sim, c = erMe(); const cf = erConf(); const L = PW_LAYOUTS[cf.layout]; const used = {};
   const slots = cf.slots.slice(0, L.n).map((k, i) => { const w = ER_WIDGETS[k]; const dup = w.single && used[k]; used[k] = 1;
